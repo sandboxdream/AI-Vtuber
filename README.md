@@ -15,7 +15,7 @@ pip install ChatterBot bilibili-api-python edge-tts
 ```
 此外，还需要[下载并安装mpv](https://mpv.io/installation/)。在Windows操作系统上，也需要将 `mpv.exe` 添加到环境变量中。对于其他操作系统，请将其路径添加到系统 `PATH` 环境变量中。
 
-如果ChatterBot安装报错，请前往https://github.com/RaSan147/ChatterBot_update安装新版本。下载下来输入`python setup.py install`即可
+如果ChatterBot安装报错，请前往 https://github.com/RaSan147/ChatterBot_update 安装新版本。下载下来输入`python setup.py install`即可
 
 ### 配置
 1. 打开 `main.py` 文件并修改 `database_uri` 变量的值以指定用于存储对话历史的SQLite数据库文件的路径。
