@@ -15,6 +15,8 @@ pip install ChatterBot bilibili-api-python edge-tts
 ```
 此外，还需要[下载并安装mpv](https://mpv.io/installation/)。在Windows操作系统上，也需要将 `mpv.exe` 添加到环境变量中。对于其他操作系统，请将其路径添加到系统 `PATH` 环境变量中。
 
+如果ChatterBot安装报错，请前往 https://github.com/RaSan147/ChatterBot_update 安装新版本。下载下来输入`python setup.py install`即可
+
 ### 配置
 1. 打开 `main.py` 文件并修改 `database_uri` 变量的值以指定用于存储对话历史的SQLite数据库文件的路径。
 
@@ -27,6 +29,20 @@ python main.py
 3. 按下`Enter`键开始监听弹幕流。
 
 当有观众发送弹幕消息时，机器人将自动生成回复并将其转换为语音。声音文件将被保存并立即播放。
+
+### 常见问题
+1. 提示缺少en-core-web-sm，打开终端输入
+```bash
+python -m spacy download en_core_web_sm
+```
+2. 报错：no module named ‘spacy’解决办法
+```bash
+pip install spacy
+```
+
+### TODO
+- [ ] 优化ChatterBot
+  - [ ] 重写ChatterBot
 
 ### 许可证
 MIT许可证。详情请参阅LICENSE文件。
