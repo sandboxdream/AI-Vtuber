@@ -7,6 +7,12 @@ bot = ChatBot(
     database_uri='sqlite:///db.sqlite3'  # 数据库URI，数据库用于存储对话历史
 )
 
+#版权信息，就别删了吧
+print("--------------------")
+print("作者：Xzai")
+print("QQ：2744601427")
+print("--------------------")
+
 room_id = int(input("请输入直播间编号: "))  # 输入直播间编号
 room = live.LiveDanmaku(room_id)  # 连接弹幕服务器
 
