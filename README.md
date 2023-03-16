@@ -30,5 +30,14 @@ python main.py
 
 当有观众发送弹幕消息时，机器人将自动生成回复并将其转换为语音。声音文件将被保存并立即播放。
 
+### 常见问题
+1.提示缺少en-core-web-sm  
+到[这里](https://github.com/explosion/spacy-models/releases?q=en_core_web_sm&expanded=true/) 下载到本地进行安装，下载的文件格式应该为en_core_web_sm-X.X.X.tar.gz
+下载到本地任意一个文件夹，文件夹左上角打开终端输入
+```bash
+pip install en_core_web_sm-X.X.X.tar.gz
+```
+xxx为你下载的文件版本名称自行替换，待补充。
+
 ### 许可证
 MIT许可证。详情请参阅LICENSE文件。
