@@ -11,7 +11,7 @@ AI Vtuber是一个由ChatterBot驱动的虚拟主播，可以在Bilibili直播�
 ### 安装依赖
 在命令行中使用以下命令安装所需库：
 ```bash
-pip install ChatterBot bilibili-api-python
+pip install ChatterBot bilibili-api-python edge-tts
 ```
 此外，还需要[下载并安装mpv](https://mpv.io/installation/)。在Windows操作系统上，也需要将 `mpv.exe` 添加到环境变量中。对于其他操作系统，请将其路径添加到系统 `PATH` 环境变量中。
 
