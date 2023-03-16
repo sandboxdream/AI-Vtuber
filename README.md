@@ -36,6 +36,9 @@ python main.py
 ```bash
 python -m spacy download en_core_web_sm
 ```
+### TODO
+- [ ] 优化ChatterBot
+  - [ ] 重写ChatterBot
 
 ### 许可证
 MIT许可证。详情请参阅LICENSE文件。
