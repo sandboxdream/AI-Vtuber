@@ -31,7 +31,7 @@ python main.py
 当有观众发送弹幕消息时，机器人将自动生成回复并将其转换为语音。声音文件将被保存并立即播放。
 
 ### 常见问题
-1.提示缺少en-core-web-sm  
+1. 提示缺少en-core-web-sm  
 打开终端输入
 ```bash
 python -m spacy download en_core_web_sm
