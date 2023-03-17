@@ -37,7 +37,7 @@ async def on_danmaku(event):
     with open("./output.txt", "a", encoding="utf-8") as f:
         f.write(f"[AI回复{user_name}]：{response}\n")  # 将回复写入文件
 
-    command = 'mpv.exe output.mp3'  # 播放音频文件
+    command = 'mpv.exe -vo null output.mp3'  # 播放音频文件
     subprocess.run(command, shell=True)  # 执行命令行指令
 
 sync(room.connect())  # 开始监听弹幕流
