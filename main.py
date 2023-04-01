@@ -3,7 +3,7 @@ from chatterbot import ChatBot  # 导入聊天机器人库
 from bilibili_api import live, sync  # 导入bilibili直播API库
 
 bot = ChatBot(
-    'Xzai',  # 聊天机器人名字
+    '伊卡洛斯',  # 聊天机器人名字
     database_uri='sqlite:///db.sqlite3'  # 数据库URI，数据库用于存储对话历史
 )
 
