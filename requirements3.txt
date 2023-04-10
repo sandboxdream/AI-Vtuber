@@ -1,0 +1,6 @@
+bilibili-api-python
+Flask
+openai
+pygame
+edge-tts
+langid

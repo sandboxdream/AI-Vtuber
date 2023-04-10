@@ -1,0 +1,19 @@
+{
+    "openai": {
+      "api_key": [
+        "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"
+      ]
+    },
+    "room_display_id": "278333",
+    "api": "https://api.openai.com/v1",
+    "tts_voice": "zh-CN-XiaoyiNeural",
+    "chatgpt": {
+      "model": "gpt-3.5-turbo",
+      "temperature": 0.9,
+      "max_tokens": 2048,
+      "top_p": 1,
+      "presence_penalty": 0,
+      "frequency_penalty": 0,
+      "preset": "请扮演一个AI虚拟主播。不要回答任何敏感问题！不要强调你是主播，只需要回答问题！"
+    }
+}

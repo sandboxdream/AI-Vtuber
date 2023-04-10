@@ -193,11 +193,13 @@ def type_english(text):
     for char in text:
         pyautogui.typewrite(char)
     
+    return
+
     # 将鼠标移动到屏幕上的随机位置
     screenWidth, screenHeight = pyautogui.size()
     randomX = random.randint(0, screenWidth)
     randomY = random.randint(0, screenHeight)
-    # 持续时间为0.5秒
+    # 持续时间为2秒
     pyautogui.moveTo(randomX, randomY, duration=2.0, tween=pyautogui.easeInOutCirc)  
 
 
@@ -256,6 +258,7 @@ async def on_danmaku(event):
     #     f.write(f"[AI回复{user_name}]：{content}\n")  # 将回复写入文件
 
     character = "ikaros"
+    # character = "妮姆芙"
     language = "日语"
     text = "こんにちわ。"
     speed = 1
@@ -278,7 +281,7 @@ async def on_danmaku(event):
     # 将英文字符串打散为单个字符，并进行模拟按键操作
     # 注意：需要管理员权限才能生效
     # 这个功能主要是为了配合live2d的按键检测动作使用的，不需要的可以直接注释
-    type_english(text_to_yin(text))
+    # type_english(text_to_yin(text))
 
     # 调用接口合成语音
     data_json = await get_data(character, language, text, speed)
