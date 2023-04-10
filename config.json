@@ -1,10 +1,10 @@
 {
     "openai": {
       "api_key": [
-        "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"
+        "你的api key"
       ]
     },
-    "room_display_id": "278333",
+    "room_display_id": "你的直播间地址",
     "api": "https://api.openai.com/v1",
     "tts_voice": "zh-CN-XiaoyiNeural",
     "chatgpt": {
