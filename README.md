@@ -18,6 +18,73 @@ AI Vtuber是一个由ChatterBot驱动的虚拟主播，可以在Bilibili直播�
 ### main3.py
 - Python 3.10+
 
+## main3.py (chatterbot/ChatGPT/claude + Edge-TTS/VITS-Fast)
+在命令行中使用以下命令安装所需库：
+```bash
+pip install -r requirements3.txt
+```
+
+配置都在`config.json`  
+```
+{
+  // 例如:123
+  "room_display_id": "你的直播间号",
+  // 选用的聊天类型：chatterbot/gpt/claude/none 其中none就是复读机模式
+  "chat_type": "none",
+  // 弹幕语言筛选，none就是全部语言，en英文，jp日文，zh中文
+  "need_lang": "none",
+  // 请求gpt/claude时，携带的字符串头部，用于给每个对话追加固定限制
+  "before_promet": "请简要回复:",
+  // 请求gpt/claude时，携带的字符串尾部
+  "after_promet": "",
+  // 最长阅读的英文单词数（空格分隔）
+  "max_len": 30,
+  "openai": {
+    "api": "https://api.openai.com/v1",
+    "api_key": [
+      "你的api key"
+    ]
+  },
+  // claude相关配置
+  "claude": {
+    // claude相关配置
+    // 参考：https://github.com/bincooo/claude-api#readme
+    "slack_user_token": "",
+    "bot_user_id": ""
+  },
+  // 语音合成类型选择 edge-tts/vits
+  "audio_synthesis_type": "edge-tts",
+  // vits相关配置
+  "vits": {
+    "vits_config_path": "E:\\GitHub_pro\\VITS-fast-fine-tuning\\inference\\finetune_speaker.json",
+    "vits_api_ip_port": "http://127.0.0.1:7860",
+    "character": "ikaros"
+  },
+  // edge-tts选定的说话人
+  "tts_voice": "zh-CN-XiaoyiNeural",
+  // chatterbot相关配置
+  "chatterbot": {
+    // 机器人名
+    "name": "bot",
+    // bot数据库路径
+    "db_path": "db.sqlite3"
+  },
+  // chatgpt相关配置
+  "chatgpt": {
+    "model": "gpt-3.5-turbo",
+    "temperature": 0.9,
+    "max_tokens": 2048,
+    "top_p": 1,
+    "presence_penalty": 0,
+    "frequency_penalty": 0,
+    "preset": "请扮演一个AI虚拟主播。不要回答任何敏感问题！不要强调你是主播，只需要回答问题！"
+  },
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.42"
+}
+```
+
+运行`python main3.py`  
+
 ## main2.py（vits魔改版）
 
 ### 安装依赖

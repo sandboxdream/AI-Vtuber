@@ -4,3 +4,4 @@ langid
 pypinyin
 pykakasi
 pyautogui
+edge-tts
