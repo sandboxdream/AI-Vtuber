@@ -22,6 +22,8 @@ from slack_sdk.errors import SlackApiError
 
 from profanity import profanity
 
+from game1 import game1
+
 # 读取配置文件信息
 with open("config.json", "r", encoding='utf-8') as jsonfile:
     config_data = json.load(jsonfile)
@@ -473,18 +475,27 @@ async def on_danmaku(event):
         elif chat_type == "chatterbot":
             # 生成回复
             resp_content = bot.get_response(content).text
+        elif chat_type == "game":
+            g1 = game1()
+            g1.parse_keys_and_simulate_key_press(content.split(), 2)
+
+            return
         else:
             # 复读机
             resp_content = content
 
         # print("resp_content=" + resp_content)
 
+        # 将 AI 回复记录到日志文件中
+        with open("./log/log-" + get_bj_time(1) + ".txt", "r+", encoding="utf-8") as f:
+            content = f.read()
+            # 将指针移到文件头部位置（此目的是为了让直播中读取日志文件时，可以一直让最新内容显示在顶部）
+            f.seek(0, 0)
+            # 不过这个实现方式，感觉有点低效
+            f.write(f"[AI回复{user_name}]：{resp_content}\n" + content)
+
         # 音频合成（edge-tts / vits）并播放
         await audio_synthesis(audio_synthesis_type, resp_content)
-
-        # 将 AI 回复记录到日志文件中
-        with open("./log/log-" + get_bj_time(1) + ".txt", "a", encoding="utf-8") as f:
-            f.write(f"[AI回复{user_name}]：{resp_content}\n")
 
 
 if audio_synthesis_type == "vits":

@@ -155,3 +155,5 @@ cython_debug/
 训练数据集/
 out/
 log/
+
+1.py
