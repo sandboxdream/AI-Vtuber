@@ -155,5 +155,7 @@ cython_debug/
 训练数据集/
 out/
 log/
+log.txt
 
 1.py
+db.sqlite3
