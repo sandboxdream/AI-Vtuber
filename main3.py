@@ -1,5 +1,5 @@
 # 导入所需的库
-import json, re
+import json, re, os
 import subprocess
 import traceback
 from copy import deepcopy
@@ -123,6 +123,16 @@ def get_bj_time(type=0):
         second = now.tm_sec  # 获取当前秒数
 
         return str(second)
+
+
+# 日志文件路径
+log_file_path = "./log/log-" + get_bj_time(1) + ".txt"
+if os.path.isfile(log_file_path):
+    print(f'{log_file_path} 日志文件已存在，跳过')
+else:
+    with open(log_file_path, 'w') as f:
+        f.write('')
+        print(f'{log_file_path} 日志文件已创建')
 
 
 # 删除多余单词
