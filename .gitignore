@@ -156,6 +156,7 @@ cython_debug/
 out/*.mp3
 log/*.txt
 log.txt
+output.txt
 
 1.py
 db.sqlite3
