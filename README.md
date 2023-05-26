@@ -23,6 +23,8 @@ AI Vtuber是一个由ChatterBot驱动的虚拟主播，可以在Bilibili直播�
 ```bash
 pip install -r requirements3.txt
 ```
+chatterbot相关安装参考main.py的说明。  
+如果想用chatterbot相关功能，可以直接注释相关部分代码。  
 
 配置都在`config.json`  
 ```
