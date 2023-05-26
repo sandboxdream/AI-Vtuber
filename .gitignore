@@ -153,8 +153,8 @@ cython_debug/
 
 数据备份/
 训练数据集/
-out/
-log/
+out/*.mp3
+log/*.txt
 log.txt
 
 1.py

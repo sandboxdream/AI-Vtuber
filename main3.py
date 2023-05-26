@@ -415,7 +415,7 @@ async def audio_synthesis(type="edge-tts", text="hi"):
     elif type == "edge-tts":
         voice_tmp_path = './out/' + get_bj_time(2) + '.mp3'
         # 过滤" '字符
-        text = text.replace('"', '').replace("'", '')
+        text = text.replace('"', '').replace("'", '').replace(" ", ',')
         # 使用 Edge TTS 生成回复消息的语音文件
         cmd = f'edge-tts --voice {tts_voice} --text "{text}" --write-media {voice_tmp_path}'
         subprocess.run(cmd, shell=True)
