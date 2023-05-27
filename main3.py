@@ -38,7 +38,9 @@ try:
     after_promet = config_data["after_promet"]
 
     # 最大阅读单词数
-    max_len = config_data["max_len"]
+    max_len = int(config_data["max_len"])
+    # 最大阅读字符数
+    max_char_len = int(config_data["max_char_len"])
 
     chat_type = config_data["chat_type"]
 
@@ -136,12 +138,12 @@ else:
 
 
 # 删除多余单词
-def remove_extra_words(text="", max_len=30):
+def remove_extra_words(text="", max_len=30, max_char_len=50):
     words = text.split()
     if len(words) > max_len:
         words = words[:max_len]  # 列表切片，保留前30个单词
         text = ' '.join(words) + '...'  # 使用join()函数将单词列表重新组合为字符串，并在末尾添加省略号
-    return text
+    return text[:max_char_len]
 
 
 # 链接检测
@@ -371,7 +373,7 @@ async def get_data(character="ikaros", language="日语", text="こんにちわ�
 
 # 音频合成（edge-tts / vits）并播放
 async def audio_synthesis(type="edge-tts", text="hi"):
-    text = remove_extra_words(text, max_len)
+    text = remove_extra_words(text, max_len, max_char_len)
     # print("裁剪后的合成文本:" + text)
 
     if type == "vits":
@@ -497,7 +499,7 @@ async def on_danmaku(event):
         # print("resp_content=" + resp_content)
 
         # 将 AI 回复记录到日志文件中
-        with open("./log/log-" + get_bj_time(1) + ".txt", "r+", encoding="utf-8") as f:
+        with open(log_file_path, "r+", encoding="utf-8") as f:
             content = f.read()
             # 将指针移到文件头部位置（此目的是为了让直播中读取日志文件时，可以一直让最新内容显示在顶部）
             f.seek(0, 0)

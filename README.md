@@ -41,6 +41,8 @@ chatterbot相关安装参考main.py的说明。
   "after_promet": "",
   // 最长阅读的英文单词数（空格分隔）
   "max_len": 30,
+  // 最长阅读的字符数，双重过滤，避免溢出
+  "max_char_len": 50,
   "openai": {
     "api": "https://api.openai.com/v1",
     "api_key": [

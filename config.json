@@ -5,6 +5,7 @@
   "before_promet": "请简要回复:",
   "after_promet": "",
   "max_len": 30,
+  "max_char_len": 50,
   "openai": {
     "api": "https://api.openai.com/v1",
     "api_key": [
