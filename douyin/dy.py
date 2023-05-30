@@ -45,9 +45,9 @@ from profanity import profanity
 
 
 LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
-logging.basicConfig(level=logging.DEBUG, format=LOG_FORMAT)
+# logging.basicConfig(level=logging.DEBUG, format=LOG_FORMAT)
 # 不想看那么多日志信息，可以把日志等级提一提
-# logging.basicConfig(level=logging.WARNING, format=LOG_FORMAT)
+logging.basicConfig(level=logging.WARNING, format=LOG_FORMAT)
 
 liveRoomId = None
 ttwid = None
@@ -498,6 +498,13 @@ def audio_synthesis(type="edge-tts", text="hi"):
     threading.Thread(target=pygame_play_voice, args=(type, text,)).start()
 
 
+# 判断字符串是否全为标点符号
+def is_punctuation_string(string):
+    # 使用正则表达式匹配标点符号
+    pattern = r'^[^\w\s]+$'
+    return re.match(pattern, string) is not None
+
+
 def onMessage(ws: websocket.WebSocketApp, message: bytes):
     wssPackage = PushFrame()
     wssPackage.ParseFromString(message)
@@ -535,6 +542,10 @@ def onMessage(ws: websocket.WebSocketApp, message: bytes):
             if content.endswith("。") or content.endswith("？") or content.endswith("?"):
                 # 输出当前用户发送的弹幕消息
                 print(f"[{user_name}]: {content}")
+
+                # 全为标点符号
+                if is_punctuation_string(content):
+                    return
 
                 # 换行转为,
                 content = content.replace('\n', ',')
