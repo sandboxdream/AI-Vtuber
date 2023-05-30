@@ -163,3 +163,9 @@ db.sqlite3
 
 config2.json
 config3.json
+
+kuaishou.py
+
+douyin/config2.json
+douyin/out/*.mp3
+douyin/log/*.txt
