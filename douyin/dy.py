@@ -23,7 +23,7 @@ from dy_pb2 import UpdateFanTicketMessage
 from dy_pb2 import CommonTextMessage
 
 # 导入所需的库
-import json, re, os
+import json, re, os, threading
 import subprocess
 import traceback
 from copy import deepcopy
@@ -44,6 +44,11 @@ from slack_sdk.errors import SlackApiError
 from profanity import profanity
 
 
+LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
+logging.basicConfig(level=logging.DEBUG, format=LOG_FORMAT)
+# 不想看那么多日志信息，可以把日志等级提一提
+# logging.basicConfig(level=logging.WARNING, format=LOG_FORMAT)
+
 liveRoomId = None
 ttwid = None
 roomStore = None
@@ -56,10 +61,8 @@ liveRoomTitle = None
 
 proxy = None
 
-
-
 # 读取配置文件信息
-with open("config.json", "r", encoding='utf-8') as jsonfile:
+with open("config2.json", "r", encoding='utf-8') as jsonfile:
     config_data = json.load(jsonfile)
 
 try:
@@ -427,8 +430,8 @@ def get_data(character="ikaros", language="日语", text="こんにちわ。", s
         return None
 
 
-# 音频合成（edge-tts / vits）并播放
-def audio_synthesis(type="edge-tts", text="hi"):
+# pygame播放音频
+def pygame_play_voice(type, text):
     text = remove_extra_words(text, max_len, max_char_len)
     # print("裁剪后的合成文本:" + text)
 
@@ -457,19 +460,15 @@ def audio_synthesis(type="edge-tts", text="hi"):
         voice_tmp_path = data_json["data"][1]["name"]
 
         try:
-            # 播放生成的语音文件
             pygame.mixer.init()
             pygame.mixer.music.load(voice_tmp_path)
-
             pygame.mixer.music.play()
             while pygame.mixer.music.get_busy():
                 pygame.time.Clock().tick(10)
-
             pygame.mixer.music.stop()
             pygame.mixer.quit()
         except Exception as e:
             print(e)
-            return
     elif type == "edge-tts":
         voice_tmp_path = './out/' + get_bj_time(2) + '.mp3'
         # 过滤" '字符
@@ -478,22 +477,25 @@ def audio_synthesis(type="edge-tts", text="hi"):
         cmd = f'edge-tts --voice {tts_voice} --text "{text}" --write-media {voice_tmp_path}'
         subprocess.run(cmd, shell=True)
 
+        # 会阻塞
         time.sleep(0.5)
 
         try:
-            # 播放生成的语音文件
             pygame.mixer.init()
             pygame.mixer.music.load(voice_tmp_path)
-
             pygame.mixer.music.play()
             while pygame.mixer.music.get_busy():
                 pygame.time.Clock().tick(10)
-
             pygame.mixer.music.stop()
             pygame.mixer.quit()
         except Exception as e:
             print(e)
-            return
+
+
+# 音频合成（edge-tts / vits）并播放
+def audio_synthesis(type="edge-tts", text="hi"):
+    # 单独开线程播放
+    threading.Thread(target=pygame_play_voice, args=(type, text,)).start()
 
 
 def onMessage(ws: websocket.WebSocketApp, message: bytes):
