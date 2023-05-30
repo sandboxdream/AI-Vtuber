@@ -1,10 +1,12 @@
 # AI Vtuber
 
-AI Vtuber是一个由ChatterBot驱动的虚拟主播，可以在Bilibili直播中与观众实时互动。它使用自然语言处理和文本转语音技术生成对观众问题的回答。
+AI Vtuber是一个由`ChatterBot/GPT/Claude`驱动的虚拟主播，可以在`Bilibili/抖音`直播中与观众实时互动。它使用自然语言处理和文本转语音技术(Edge-TTS/VITS-Fast)生成对观众问题的回答。
 
 魔改后的2为VITS版本，可以做复读，也可以沿用原版的ChatterBot进行聊天。
 
-版本3为AI Vtuber Kun的VITS版本。
+版本3为AI Vtuber Kun的VITS大融合版本（主要更新的版本）。
+
+`douyin`文件夹，抖音版的大融合功能（删了chatterbot）。  
 
 ## 运行环境
 

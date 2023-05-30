@@ -185,6 +185,13 @@ def lang_check(text, need="none"):
             return language
 
 
+# 判断字符串是否全为标点符号
+def is_punctuation_string(string):
+    # 使用正则表达式匹配标点符号
+    pattern = r'^[^\w\s]+$'
+    return re.match(pattern, string) is not None
+
+
 # chatgpt相关
 def chat(msg, sessionid):
     """
@@ -468,6 +475,10 @@ async def on_danmaku(event):
     if content.endswith("。") or content.endswith("？") or content.endswith("?"):
         # 输出当前用户发送的弹幕消息
         print(f"[{user_name}]: {content}")
+
+        # 全为标点符号
+        if is_punctuation_string(content):
+            return
 
         # 换行转为,
         content = content.replace('\n', ',')
