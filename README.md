@@ -39,6 +39,8 @@ chatterbot相关安装参考main.py的说明。
   "before_promet": "请简要回复:",
   // 请求gpt/claude时，携带的字符串尾部
   "after_promet": "",
+  // 本地违禁词数据路径（你如果不需要，可以清空文件内容）
+  "badwords_path": "data/badwords.txt",
   // 最长阅读的英文单词数（空格分隔）
   "max_len": 30,
   // 最长阅读的字符数，双重过滤，避免溢出

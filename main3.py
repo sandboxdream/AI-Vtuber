@@ -37,6 +37,9 @@ try:
     before_promet = config_data["before_promet"]
     after_promet = config_data["after_promet"]
 
+    # 敏感词数据路径
+    badwords_path = config_data["badwords_path"]
+
     # 最大阅读单词数
     max_len = int(config_data["max_len"])
     # 最大阅读字符数
@@ -144,6 +147,18 @@ def remove_extra_words(text="", max_len=30, max_char_len=50):
         words = words[:max_len]  # 列表切片，保留前30个单词
         text = ' '.join(words) + '...'  # 使用join()函数将单词列表重新组合为字符串，并在末尾添加省略号
     return text[:max_char_len]
+
+
+# 本地敏感词检测 传入敏感词库文件路径和待检查的文本
+def check_sensitive_words(file_path, text):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        sensitive_words = [line.strip() for line in file.readlines()]
+
+    for word in sensitive_words:
+        if word in text:
+            return True
+
+    return False
 
 
 # 链接检测
@@ -458,7 +473,9 @@ async def on_danmaku(event):
         content = content.replace('\n', ',')
 
         # 含有违禁词/链接
-        if profanity.contains_profanity(content) or is_url_check(content):
+        if profanity.contains_profanity(content) or check_sensitive_words(badwords_path, content) or \
+            is_url_check(content):
+            print(f"违禁词/链接：{content}")
             return
 
         # 语言检测

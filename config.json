@@ -4,6 +4,7 @@
   "need_lang": "none",
   "before_promet": "请简要回复:",
   "after_promet": "",
+  "badwords_path": "data/badwords.txt",
   "max_len": 30,
   "max_char_len": 50,
   "openai": {
