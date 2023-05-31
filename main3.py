@@ -86,15 +86,17 @@ except Exception as e:
     print(e)
     exit(0)
 
-try:
-    with open(vits_config_path, "r", encoding="utf-8") as file:
-        vits_data = json.load(file)
-    
-    # 加载说话人配置
-    speakers = vits_data["speakers"]
-except Exception as e:
-    print('加载配置文件失败，请进行修复')
-    exit(0)
+# vits模式下加载配置
+if audio_synthesis_type == "vits":
+    try:
+        with open(vits_config_path, "r", encoding="utf-8") as file:
+            vits_data = json.load(file)
+        
+        # 加载说话人配置
+        speakers = vits_data["speakers"]
+    except Exception as e:
+        print('加载配置文件失败，请进行修复')
+        exit(0)
 
 
 # 获取北京时间
