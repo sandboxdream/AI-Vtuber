@@ -20,6 +20,12 @@ AI Vtuber是一个由`ChatterBot/GPT/Claude`驱动的虚拟主播，可以在`Bi
 ### main3.py
 - Python 3.10+
 
+### 抖音版（类似main3的版本）
+- Python 3.10+
+
+## 抖音版 dy.py (ChatGPT/claude + Edge-TTS/VITS-Fast)
+具体说明请参考 [**douyin路径下的README.md**](./douyin/README.md)  
+
 ## main3.py (chatterbot/ChatGPT/claude + Edge-TTS/VITS-Fast)
 在命令行中使用以下命令安装所需库：
 ```bash
