@@ -62,7 +62,7 @@ liveRoomTitle = None
 proxy = None
 
 # 读取配置文件信息
-with open("config2.json", "r", encoding='utf-8') as jsonfile:
+with open("config.json", "r", encoding='utf-8') as jsonfile:
     config_data = json.load(jsonfile)
 
 try:

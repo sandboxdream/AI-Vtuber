@@ -12,3 +12,4 @@ protobuf
 protobuf_inspector
 requests
 websocket-client
+websocket
