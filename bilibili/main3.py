@@ -7,8 +7,6 @@ from datetime import datetime
 from datetime import timedelta
 from datetime import timezone
 
-from chatterbot import ChatBot  # 导入聊天机器人库
-
 import aiohttp, asyncio
 import langid
 
@@ -563,6 +561,8 @@ if chat_type == "claude":
 
     last_message_timestamp = None
 elif chat_type == "chatterbot":
+    from chatterbot import ChatBot  # 导入聊天机器人库
+
     bot = ChatBot(
         chatterbot_name,  # 聊天机器人名字
         database_uri='sqlite:///' + chatterbot_name  # 数据库URI，数据库用于存储对话历史
