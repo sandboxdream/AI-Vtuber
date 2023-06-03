@@ -2,7 +2,7 @@ from chatterbot import ChatBot
 from chatterbot.trainers import ListTrainer
 
 # 读取语料库文件
-with open('db.txt', 'r', encoding='utf-8') as f:
+with open('data/db.txt', 'r', encoding='utf-8') as f:
     corpus = f.readlines()
 
 # 创建ChatBot实例并训练

@@ -62,7 +62,7 @@ chatterbot相关安装参考main.py的说明。
   "langchain_pdf": {
     // 你的openai api key
     "openai_api_key": "你的api key",
-    // 加载的本地pdf数据文件路径（到x.pdf）
+    // 加载的本地pdf数据文件路径（到x.pdf）,如：./data/伊卡洛斯百度百科.pdf
     "data_path": "",
     // 拆分文本的分隔符
     "separator": "\n",
@@ -169,40 +169,11 @@ python main.py
 
 当有观众发送弹幕消息时，机器人将自动生成回复并将其转换为语音。声音文件将被保存并立即播放。
 
-### 如何训练自己的AI？
-- 打开`db.txt`，写入你想要训练的内容，格式如下
-```
-问
-答
-问
-答
-```
-- 将文件重命名为`db.txt`
-- 在命令行中运行以下命令启动程序：
-```bash
-python train.py
-```
-- 训练完的模型名叫`db.sqlite3`，直接双击`main.py`即可使用
-- 没有语料？快来加群下载吧！[745682833](https://jq.qq.com/?_wv=1027&k=IO1usMMj)
-
-### 常见问题
-1. 提示缺少en-core-web-sm，打开终端输入
-```bash
-python -m spacy download en_core_web_sm
-```
-2. 报错：no module named ‘spacy’解决办法
-```bash
-pip install spacy
-```
-
-### TODO
-- [ ] 优化ChatterBot
-  - [ ] 重写ChatterBot
 
 ### 许可证
 MIT许可证。详情请参阅LICENSE文件。
 
-## 扩展
+## 补充
 
 ### ChatterBot
 ChatterBot 是一个开源的 Python 聊天机器人框架，使用机器学习算法（尤其是自然语言处理、文本语义分析等）来实现基于规则和语境的自动聊天系统。它可以让开发者通过简单的配置和训练，构建出各种类型的聊天机器人，包括问答机器人、任务型机器人、闲聊机器人等。
