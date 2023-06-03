@@ -17,6 +17,16 @@
     "slack_user_token": "",
     "bot_user_id": ""
   },
+  "langchain_pdf": {
+    "openai_api_key": "你的api key",
+    "data_path": "",
+    "separator": "\n",
+    "chunk_size": 100,
+    "chunk_overlap": 50,
+    "model_name": "gpt-3.5-turbo-0301",
+    "chain_type": "stuff",
+    "show_cost": true
+  },
   "audio_synthesis_type": "edge-tts",
   "vits": {
     "config_path": "E:\\GitHub_pro\\VITS-fast-fine-tuning\\inference\\finetune_speaker.json",
