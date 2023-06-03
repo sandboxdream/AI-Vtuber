@@ -34,12 +34,7 @@ from datetime import timezone
 # import aiohttp, asyncio
 import langid
 
-import openai
 import pygame
-
-import time
-from slack_sdk import WebClient
-from slack_sdk.errors import SlackApiError
 
 from profanity import profanity
 
@@ -89,9 +84,6 @@ try:
 
     need_lang = config_data["need_lang"]
 
-    # 配置 OpenAI API
-    openai.api_base = config_data["openai"]["api"]  # https://chat-gpt.aurorax.cloud/v1 https://api.openai.com/v1
-
     # claude
     slack_user_token = config_data["claude"]["slack_user_token"]
     bot_user_id = config_data["claude"]["bot_user_id"]
@@ -126,6 +118,7 @@ try:
 except Exception as e:
     print(e)
     exit(0)
+
 
 # vits模式下加载配置
 if audio_synthesis_type == "vits":
@@ -230,170 +223,198 @@ def lang_check(text, need="none"):
             return language
 
 
-# chatgpt相关
-def chat(msg, sessionid):
-    """
-    ChatGPT 对话函数
-    :param msg: 用户输入的消息
-    :param sessionid: 当前会话 ID
-    :return: ChatGPT 返回的回复内容
-    """
-    try:
-        # 获取当前会话
-        session = get_chat_session(sessionid)
+if chat_type == "claude":
+    from slack_sdk import WebClient
+    from slack_sdk.errors import SlackApiError
 
-        # 将用户输入的消息添加到会话中
-        session['msg'].append({"role": "user", "content": msg})
+    client = WebClient(token=slack_user_token)
 
-        # 添加当前时间到会话中
-        session['msg'][1] = {"role": "system", "content": "current time is:" + get_bj_time()}
-
-        # 调用 ChatGPT 接口生成回复消息
-        message = chat_with_gpt(session['msg'])
-
-        # 如果返回的消息包含最大上下文长度限制，则删除超长上下文并重试
-        if message.__contains__("This model's maximum context length is 4096 token"):
-            del session['msg'][2:3]
-            del session['msg'][len(session['msg']) - 1:len(session['msg'])]
-            message = chat(msg, sessionid)
-
-        # 将 ChatGPT 返回的回复消息添加到会话中
-        session['msg'].append({"role": "assistant", "content": message})
-
-        # 输出会话 ID 和 ChatGPT 返回的回复消息
-        print("会话ID: " + str(sessionid))
-        print("ChatGPT返回内容: ")
-        print(message)
-
-        # 返回 ChatGPT 返回的回复消息
-        return message
-
-    # 捕获异常并打印堆栈跟踪信息
-    except Exception as error:
-        traceback.print_exc()
-        return str('异常: ' + str(error))
-
-
-def get_chat_session(sessionid):
-    """
-    获取指定 ID 的会话，如果不存在则创建一个新的会话
-    :param sessionid: 会话 ID
-    :return: 指定 ID 的会话
-    """
-    sessionid = str(sessionid)
-    if sessionid not in sessions:
-        config = deepcopy(session_config)
-        config['id'] = sessionid
-        config['msg'].append({"role": "system", "content": "current time is:" + get_bj_time()})
-        sessions[sessionid] = config
-    return sessions[sessionid]
-
-
-def chat_with_gpt(messages):
-    """
-    使用 ChatGPT 接口生成回复消息
-    :param messages: 上下文消息列表
-    :return: ChatGPT 返回的回复消息
-    """
-    global current_key_index
-    max_length = len(config_data['openai']['api_key']) - 1
-
-    try:
-        if not config_data['openai']['api_key']:
-            return "请设置Api Key"
-        else:
-            # 判断是否所有 API key 均已达到速率限制
-            if current_key_index > max_length:
-                current_key_index = 0
-                return "全部Key均已达到速率限制,请等待一分钟后再尝试"
-            openai.api_key = config_data['openai']['api_key'][current_key_index]
-
-        # 调用 ChatGPT 接口生成回复消息
-        resp = openai.ChatCompletion.create(
-            model=config_data['chatgpt']['model'],
-            messages=messages
-        )
-        resp = resp['choices'][0]['message']['content']
-
-    # 处理 OpenAIError 异常
-    except openai.OpenAIError as e:
-        if str(e).__contains__("Rate limit reached for default-gpt-3.5-turbo") and current_key_index <= max_length:
-            current_key_index = current_key_index + 1
-            print("速率限制，尝试切换key")
-            return chat_with_gpt(messages)
-        elif str(e).__contains__(
-                "Your access was terminated due to violation of our policies") and current_key_index <= max_length:
-            print("请及时确认该Key: " + str(openai.api_key) + " 是否正常，若异常，请移除")
-
-            # 判断是否所有 API key 均已尝试
-            if current_key_index + 1 > max_length:
-                return str(e)
-            else:
-                print("访问被阻止，尝试切换Key")
-                current_key_index = current_key_index + 1
-                return chat_with_gpt(messages)
-        else:
-            print('openai 接口报错: ' + str(e))
-            resp = "openai 接口报错: " + str(e)
-
-    return resp
-
-
-# 调用gpt接口，获取返回内容
-def get_gpt_resp(user_name, promet):
-    # 获取当前用户的会话
-    session = get_chat_session(str(user_name))
-    # 调用 ChatGPT 接口生成回复消息
-    resp_content = chat(promet, session)
-
-    return resp_content
-
-
-### claude
-def send_message(channel, text):
-    try:
-        return client.chat_postMessage(channel=channel, text=text)
-    except SlackApiError as e:
-        print(f"Error sending message: {e}")
-        return None
-
-def fetch_messages(channel, last_message_timestamp):
-    response = client.conversations_history(channel=channel, oldest=last_message_timestamp)
-    return [msg['text'] for msg in response['messages'] if msg['user'] == bot_user_id]
-
-def get_new_messages(channel, last_message_timestamp):
-    timeout = 60  # 超时时间设置为60秒
-    start_time = time.time()
-
-    while True:
-        messages = fetch_messages(channel, last_message_timestamp)
-        if messages and not messages[-1].endswith('Typing…_'):
-            return messages[-1]
-        if time.time() - start_time > timeout:
+    ### claude
+    def send_message(channel, text):
+        try:
+            return client.chat_postMessage(channel=channel, text=text)
+        except SlackApiError as e:
+            print(f"Error sending message: {e}")
             return None
-        
-        time.sleep(5)
 
-def find_direct_message_channel(user_id):
-    try:
-        response = client.conversations_open(users=user_id)
-        return response['channel']['id']
-    except SlackApiError as e:
-        print(f"Error opening DM channel: {e}")
+    def fetch_messages(channel, last_message_timestamp):
+        response = client.conversations_history(channel=channel, oldest=last_message_timestamp)
+        return [msg['text'] for msg in response['messages'] if msg['user'] == bot_user_id]
+
+    def get_new_messages(channel, last_message_timestamp):
+        timeout = 60  # 超时时间设置为60秒
+        start_time = time.time()
+
+        while True:
+            messages = fetch_messages(channel, last_message_timestamp)
+            if messages and not messages[-1].endswith('Typing…_'):
+                return messages[-1]
+            if time.time() - start_time > timeout:
+                return None
+            
+            time.sleep(5)
+
+    def find_direct_message_channel(user_id):
+        try:
+            response = client.conversations_open(users=user_id)
+            return response['channel']['id']
+        except SlackApiError as e:
+            print(f"Error opening DM channel: {e}")
+            return None
+
+    # 获取claude返回内容
+    def get_claude_resp(text):
+        response = send_message(dm_channel_id, text)
+        if response:
+            last_message_timestamp = response['ts']
+        else:
+            return None
+
+        new_message = get_new_messages(dm_channel_id, last_message_timestamp)
+        if new_message is not None:
+            return new_message
         return None
 
-# 获取claude返回内容
-def get_claude_resp(text):
-    response = send_message(dm_channel_id, text)
-    if response:
-        last_message_timestamp = response['ts']
-    else:
-        return None
 
-    new_message = get_new_messages(dm_channel_id, last_message_timestamp)
-    if new_message is not None:
-        return new_message
-    return None
+    dm_channel_id = find_direct_message_channel(bot_user_id)
+    if not dm_channel_id:
+        print("Could not find DM channel with the bot.")
+        exit(0)
+
+    last_message_timestamp = None
+elif chat_type == "gpt":
+    import openai
+
+    # 配置 OpenAI API 和 Bilibili 直播间 ID
+    openai.api_base = config_data["openai"]["api"]  # https://chat-gpt.aurorax.cloud/v1 https://api.openai.com/v1
+
+    # chatgpt相关
+    def chat(msg, sessionid):
+        """
+        ChatGPT 对话函数
+        :param msg: 用户输入的消息
+        :param sessionid: 当前会话 ID
+        :return: ChatGPT 返回的回复内容
+        """
+        try:
+            # 获取当前会话
+            session = get_chat_session(sessionid)
+
+            # 将用户输入的消息添加到会话中
+            session['msg'].append({"role": "user", "content": msg})
+
+            # 添加当前时间到会话中
+            session['msg'][1] = {"role": "system", "content": "current time is:" + get_bj_time()}
+
+            # 调用 ChatGPT 接口生成回复消息
+            message = chat_with_gpt(session['msg'])
+
+            # 如果返回的消息包含最大上下文长度限制，则删除超长上下文并重试
+            if message.__contains__("This model's maximum context length is 4096 token"):
+                del session['msg'][2:3]
+                del session['msg'][len(session['msg']) - 1:len(session['msg'])]
+                message = chat(msg, sessionid)
+
+            # 将 ChatGPT 返回的回复消息添加到会话中
+            session['msg'].append({"role": "assistant", "content": message})
+
+            # 输出会话 ID 和 ChatGPT 返回的回复消息
+            print("会话ID: " + str(sessionid))
+            print("ChatGPT返回内容: ")
+            print(message)
+
+            # 返回 ChatGPT 返回的回复消息
+            return message
+
+        # 捕获异常并打印堆栈跟踪信息
+        except Exception as error:
+            traceback.print_exc()
+            return str('异常: ' + str(error))
+
+
+    def get_chat_session(sessionid):
+        """
+        获取指定 ID 的会话，如果不存在则创建一个新的会话
+        :param sessionid: 会话 ID
+        :return: 指定 ID 的会话
+        """
+        sessionid = str(sessionid)
+        if sessionid not in sessions:
+            config = deepcopy(session_config)
+            config['id'] = sessionid
+            config['msg'].append({"role": "system", "content": "current time is:" + get_bj_time()})
+            sessions[sessionid] = config
+        return sessions[sessionid]
+
+
+    def chat_with_gpt(messages):
+        """
+        使用 ChatGPT 接口生成回复消息
+        :param messages: 上下文消息列表
+        :return: ChatGPT 返回的回复消息
+        """
+        global current_key_index
+        max_length = len(config_data['openai']['api_key']) - 1
+
+        try:
+            if not config_data['openai']['api_key']:
+                return "请设置Api Key"
+            else:
+                # 判断是否所有 API key 均已达到速率限制
+                if current_key_index > max_length:
+                    current_key_index = 0
+                    return "全部Key均已达到速率限制,请等待一分钟后再尝试"
+                openai.api_key = config_data['openai']['api_key'][current_key_index]
+
+            # 调用 ChatGPT 接口生成回复消息
+            resp = openai.ChatCompletion.create(
+                model=config_data['chatgpt']['model'],
+                messages=messages
+            )
+            resp = resp['choices'][0]['message']['content']
+
+        # 处理 OpenAIError 异常
+        except openai.OpenAIError as e:
+            if str(e).__contains__("Rate limit reached for default-gpt-3.5-turbo") and current_key_index <= max_length:
+                current_key_index = current_key_index + 1
+                print("速率限制，尝试切换key")
+                return chat_with_gpt(messages)
+            elif str(e).__contains__(
+                    "Your access was terminated due to violation of our policies") and current_key_index <= max_length:
+                print("请及时确认该Key: " + str(openai.api_key) + " 是否正常，若异常，请移除")
+
+                # 判断是否所有 API key 均已尝试
+                if current_key_index + 1 > max_length:
+                    return str(e)
+                else:
+                    print("访问被阻止，尝试切换Key")
+                    current_key_index = current_key_index + 1
+                    return chat_with_gpt(messages)
+            else:
+                print('openai 接口报错: ' + str(e))
+                resp = "openai 接口报错: " + str(e)
+
+        return resp
+
+
+    # 调用gpt接口，获取返回内容
+    def get_gpt_resp(user_name, promet):
+        # 获取当前用户的会话
+        session = get_chat_session(str(user_name))
+        # 调用 ChatGPT 接口生成回复消息
+        resp_content = chat(promet, session)
+
+        return resp_content
+
+elif chat_type == "chatterbot":
+    from chatterbot import ChatBot  # 导入聊天机器人库
+
+    bot = ChatBot(
+        chatterbot_name,  # 聊天机器人名字
+        database_uri='sqlite:///' + chatterbot_name  # 数据库URI，数据库用于存储对话历史
+    )
+# elif chat_type == "game":
+    # from game1 import game1
 
 
 # 请求VITS接口获取合成后的音频路径
