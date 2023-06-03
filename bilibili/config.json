@@ -19,11 +19,18 @@
   },
   "audio_synthesis_type": "edge-tts",
   "vits": {
-    "vits_config_path": "E:\\GitHub_pro\\VITS-fast-fine-tuning\\inference\\finetune_speaker.json",
-    "vits_api_ip_port": "http://127.0.0.1:7860",
+    "config_path": "E:\\GitHub_pro\\VITS-fast-fine-tuning\\inference\\finetune_speaker.json",
+    "api_ip_port": "http://127.0.0.1:7860",
     "character": "ikaros"
   },
-  "tts_voice": "zh-CN-XiaoyiNeural",
+  "edge-tts": {
+    "voice": "zh-CN-XiaoyiNeural"
+  },
+  "elevenlabs": {
+    "api_key": "",
+    "voice": "Domi",
+    "model": "eleven_monolingual_v1"
+  },
   "chatterbot": {
     "name": "bot",
     "db_path": "db.sqlite3"

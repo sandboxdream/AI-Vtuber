@@ -8,3 +8,4 @@ aiohttp
 asyncio
 slack_sdk
 profanity
+elevenlabs

@@ -1,12 +1,12 @@
 # AI Vtuber
 
-抖音版，一个由gpt/claude驱动的虚拟主播，可以在抖音直播中与观众实时互动。它使用自然语言处理和文本转语音技术生成对观众问题的回答。（edge-tts/VITS）
+抖音版，一个由`ChatterBot/GPT/Claude`驱动的虚拟主播，可以在抖音直播中与观众实时互动。它使用自然语言处理和文本转语音技术生成对观众问题的回答。（`Edge-TTS/VITS-Fast/elevenlabs`）
 
 ## 运行环境
 
 - Python 3.10+
 
-## dy.py (ChatGPT/claude + Edge-TTS/VITS-Fast)
+## dy.py
 在命令行中使用以下命令安装所需库：
 ```bash
 pip install -r requirements.txt
@@ -52,9 +52,21 @@ pip install -r requirements.txt
     "vits_api_ip_port": "http://127.0.0.1:7860",
     "character": "ikaros"
   },
-  // edge-tts选定的说话人
-  "tts_voice": "zh-CN-XiaoyiNeural",
-  // chatterbot相关配置（留了配置，但是注释了功能，感觉没人用）
+  // edge-tts相关配置
+  "edge-tts": {
+    // edge-tts选定的说话人
+    "voice": "zh-CN-XiaoyiNeural"
+  },
+  // elevenlabs相关配置
+  "elevenlabs": {
+    // elevenlabs密钥，可以不填，默认也有一定额度的免费使用权限，具体多少不知道
+    "api_key": "",
+    // 选择的说话人名
+    "voice": "Domi",
+    // 选择的模型
+    "model": "eleven_monolingual_v1"
+  },
+  // chatterbot相关配置
   "chatterbot": {
     // 机器人名
     "name": "bot",

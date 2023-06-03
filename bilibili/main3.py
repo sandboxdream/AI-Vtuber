@@ -23,7 +23,7 @@ from profanity import profanity
 from game1 import game1
 
 # 读取配置文件信息
-with open("config.json", "r", encoding='utf-8') as jsonfile:
+with open("config2.json", "r", encoding='utf-8') as jsonfile:
     config_data = json.load(jsonfile)
 
 try:
@@ -53,7 +53,6 @@ try:
 
     # 初始化 Bilibili 直播间和 TTS 语音
     room = live.LiveDanmaku(room_id)
-    tts_voice = config_data["tts_voice"]
 
     # claude
     slack_user_token = config_data["claude"]["slack_user_token"]
@@ -63,22 +62,28 @@ try:
     chatterbot_name = config_data["chatterbot"]["name"]
     chatterbot_db_path = config_data["chatterbot"]["db_path"]
 
-    # 初始化  TTS 语音
-    tts_voice = config_data["tts_voice"]
-
     # 音频合成使用技术
     audio_synthesis_type = config_data["audio_synthesis_type"]
 
     # vits配置文件路径(注意路径转义问题)
-    vits_config_path = config_data["vits"]["vits_config_path"]
+    vits_config_path = config_data["vits"]["config_path"]
     # api的ip和端口，注意书写格式
-    vits_api_ip_port = config_data["vits"]["vits_api_ip_port"]
+    vits_api_ip_port = config_data["vits"]["api_ip_port"]
     character = config_data["vits"]["character"]
     # character = "妮姆芙"
     language = "日语"
     text = "こんにちわ。"
     speed = 1
     speakers = None
+
+    # edge-tts配置
+    tts_voice = config_data["edge-tts"]["voice"]
+
+    # elevenlabs配置
+    elevenlabs_api_key = config_data["elevenlabs"]["api_key"]
+    elevenlabs_voice = config_data["elevenlabs"]["voice"]
+    elevenlabs_model = config_data["elevenlabs"]["model"]
+
     print("配置文件加载成功。")
 except Exception as e:
     print(e)
@@ -95,6 +100,8 @@ if audio_synthesis_type == "vits":
     except Exception as e:
         print('加载配置文件失败，请进行修复')
         exit(0)
+elif audio_synthesis_type == "elevenlabs":
+    from elevenlabs import generate, play, set_api_key
 
 
 # 获取北京时间
@@ -393,7 +400,7 @@ async def get_data(character="ikaros", language="日语", text="こんにちわ�
         return None
 
 
-# 音频合成（edge-tts / vits）并播放
+# 音频合成（edge-tts / vits / elevenlabs）并播放
 async def audio_synthesis(type="edge-tts", text="hi"):
     text = remove_extra_words(text, max_len, max_char_len)
     # print("裁剪后的合成文本:" + text)
@@ -457,6 +464,22 @@ async def audio_synthesis(type="edge-tts", text="hi"):
 
             pygame.mixer.music.stop()
             pygame.mixer.quit()
+        except Exception as e:
+            print(e)
+            return
+    elif type == "elevenlabs":
+        try:
+            # 如果配置了密钥就设置上0.0
+            if elevenlabs_api_key != "":
+                set_api_key(elevenlabs_api_key)
+
+            audio = generate(
+                text=text,
+                voice=elevenlabs_voice,
+                model=elevenlabs_model
+            )
+
+            play(audio)
         except Exception as e:
             print(e)
             return

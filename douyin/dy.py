@@ -92,33 +92,36 @@ try:
     # 配置 OpenAI API
     openai.api_base = config_data["openai"]["api"]  # https://chat-gpt.aurorax.cloud/v1 https://api.openai.com/v1
 
-    # TTS 语音
-    tts_voice = config_data["tts_voice"]
-
     # claude
     slack_user_token = config_data["claude"]["slack_user_token"]
     bot_user_id = config_data["claude"]["bot_user_id"]
 
     # chatterbot
-    # chatterbot_name = config_data["chatterbot"]["name"]
-    # chatterbot_db_path = config_data["chatterbot"]["db_path"]
-
-    # 初始化  TTS 语音
-    tts_voice = config_data["tts_voice"]
+    chatterbot_name = config_data["chatterbot"]["name"]
+    chatterbot_db_path = config_data["chatterbot"]["db_path"]
 
     # 音频合成使用技术
     audio_synthesis_type = config_data["audio_synthesis_type"]
 
     # vits配置文件路径(注意路径转义问题)
-    vits_config_path = config_data["vits"]["vits_config_path"]
+    vits_config_path = config_data["vits"]["config_path"]
     # api的ip和端口，注意书写格式
-    vits_api_ip_port = config_data["vits"]["vits_api_ip_port"]
+    vits_api_ip_port = config_data["vits"]["api_ip_port"]
     character = config_data["vits"]["character"]
     # character = "妮姆芙"
     language = "日语"
     text = "こんにちわ。"
     speed = 1
     speakers = None
+
+    # edge-tts配置
+    tts_voice = config_data["edge-tts"]["voice"]
+
+    # elevenlabs配置
+    elevenlabs_api_key = config_data["elevenlabs"]["api_key"]
+    elevenlabs_voice = config_data["elevenlabs"]["voice"]
+    elevenlabs_model = config_data["elevenlabs"]["model"]
+
     print("配置文件加载成功。")
 except Exception as e:
     print(e)
@@ -135,6 +138,8 @@ if audio_synthesis_type == "vits":
     except Exception as e:
         print('加载配置文件失败，请进行修复')
         exit(0)
+elif audio_synthesis_type == "elevenlabs":
+    from elevenlabs import generate, play, set_api_key
 
 
 # 获取北京时间
@@ -432,8 +437,8 @@ def get_data(character="ikaros", language="日语", text="こんにちわ。", s
         return None
 
 
-# pygame播放音频
-def pygame_play_voice(type, text):
+# 播放音频
+def my_play_voice(type, text):
     text = remove_extra_words(text, max_len, max_char_len)
     # print("裁剪后的合成文本:" + text)
 
@@ -492,12 +497,28 @@ def pygame_play_voice(type, text):
             pygame.mixer.quit()
         except Exception as e:
             print(e)
+    elif type == "elevenlabs":
+        try:
+            # 如果配置了密钥就设置上0.0
+            if elevenlabs_api_key != "":
+                set_api_key(elevenlabs_api_key)
+
+            audio = generate(
+                text=text,
+                voice=elevenlabs_voice,
+                model=elevenlabs_model
+            )
+
+            play(audio)
+        except Exception as e:
+            print(e)
+            return
 
 
 # 音频合成（edge-tts / vits）并播放
 def audio_synthesis(type="edge-tts", text="hi"):
     # 单独开线程播放
-    threading.Thread(target=pygame_play_voice, args=(type, text,)).start()
+    threading.Thread(target=my_play_voice, args=(type, text,)).start()
 
 
 # 判断字符串是否全为标点符号
@@ -581,9 +602,9 @@ def onMessage(ws: websocket.WebSocketApp, message: bytes):
                     else:
                         resp_content = ""
                         print("警告：claude无返回")
-                # elif chat_type == "chatterbot":
-                #     # 生成回复
-                #     resp_content = bot.get_response(content).text
+                elif chat_type == "chatterbot":
+                    # 生成回复
+                    resp_content = bot.get_response(content).text
                 # elif chat_type == "game":
                 #     g1 = game1()
                 #     g1.parse_keys_and_simulate_key_press(content.split(), 2)
@@ -858,11 +879,13 @@ if chat_type == "claude":
         exit(0)
 
     last_message_timestamp = None
-# elif chat_type == "chatterbot":
-#     bot = ChatBot(
-#         chatterbot_name,  # 聊天机器人名字
-#         database_uri='sqlite:///' + chatterbot_name  # 数据库URI，数据库用于存储对话历史
-#     )
+elif chat_type == "chatterbot":
+    from chatterbot import ChatBot  # 导入聊天机器人库
+
+    bot = ChatBot(
+        chatterbot_name,  # 聊天机器人名字
+        database_uri='sqlite:///' + chatterbot_name  # 数据库URI，数据库用于存储对话历史
+    )
 
 try: 
     parseLiveRoomUrl(f"https://live.douyin.com/{room_id}")

@@ -1,10 +1,10 @@
 # AI Vtuber
 
-AI Vtuber是一个由`ChatterBot/GPT/Claude`驱动的虚拟主播，可以在`Bilibili/抖音`直播中与观众实时互动。它使用自然语言处理和文本转语音技术(Edge-TTS/VITS-Fast)生成对观众问题的回答。
+AI Vtuber是一个由`ChatterBot/GPT/Claude`驱动的虚拟主播，可以在`Bilibili/抖音`直播中与观众实时互动。它使用自然语言处理和文本转语音技术(`Edge-TTS/VITS-Fast/elevenlabs`)生成对观众问题的回答。
 
 `bilibili`文件夹，哔哩哔哩版本，含原始项目版本，vits改版，大融合版本。  
 
-`douyin`文件夹，抖音版的大融合功能（删了chatterbot）。  
+`douyin`文件夹，抖音版的大融合功能。  
 
 2个平台的使用说明在各自文件夹内的README.md中有写。  
 
@@ -16,6 +16,11 @@ python：3.10
 MIT许可证。详情请参阅LICENSE文件。
 
 ## 扩展
+
+### elevenlabs
+[elevenlabs官网](https://beta.elevenlabs.io/)  
+[官方文档](https://docs.elevenlabs.io/api-reference/quick-start/introduction)  
+不注册账号也可以使用，不过应该是有限制的（具体多少未知）。免费账号拥有每月1万字的额度。  
 
 ### ChatterBot
 ChatterBot 是一个开源的 Python 聊天机器人框架，使用机器学习算法（尤其是自然语言处理、文本语义分析等）来实现基于规则和语境的自动聊天系统。它可以让开发者通过简单的配置和训练，构建出各种类型的聊天机器人，包括问答机器人、任务型机器人、闲聊机器人等。

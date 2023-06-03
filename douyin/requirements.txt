@@ -13,3 +13,4 @@ protobuf_inspector
 requests
 websocket-client
 websocket
+elevenlabs

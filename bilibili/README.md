@@ -1,6 +1,6 @@
 # AI Vtuber
 
-AI Vtuber是一个由`ChatterBot/GPT/Claude`驱动的虚拟主播，可以在`Bilibili/抖音`直播中与观众实时互动。它使用自然语言处理和文本转语音技术(Edge-TTS/VITS-Fast)生成对观众问题的回答。
+AI Vtuber是一个由`ChatterBot/GPT/Claude`驱动的虚拟主播，可以在`Bilibili/抖音`直播中与观众实时互动。它使用自然语言处理和文本转语音技术(`Edge-TTS/VITS-Fast/elevenlabs`)生成对观众问题的回答。
 
 魔改后的2为VITS版本，可以做复读，也可以沿用原版的ChatterBot进行聊天。
 
@@ -74,8 +74,20 @@ chatterbot相关安装参考main.py的说明。
     "vits_api_ip_port": "http://127.0.0.1:7860",
     "character": "ikaros"
   },
-  // edge-tts选定的说话人
-  "tts_voice": "zh-CN-XiaoyiNeural",
+  // edge-tts相关配置
+  "edge-tts": {
+    // edge-tts选定的说话人
+    "voice": "zh-CN-XiaoyiNeural"
+  },
+  // elevenlabs相关配置
+  "elevenlabs": {
+    // elevenlabs密钥，可以不填，默认也有一定额度的免费使用权限，具体多少不知道
+    "api_key": "",
+    // 选择的说话人名
+    "voice": "Domi",
+    // 选择的模型
+    "model": "eleven_monolingual_v1"
+  },
   // chatterbot相关配置
   "chatterbot": {
     // 机器人名
