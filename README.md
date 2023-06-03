@@ -1,6 +1,26 @@
 # AI Vtuber
 
-AI Vtuber是一个由`ChatterBot/GPT/Claude`驱动的虚拟主播，可以在`Bilibili/抖音`直播中与观众实时互动。它使用自然语言处理和文本转语音技术(`Edge-TTS/VITS-Fast/elevenlabs`)生成对观众问题的回答。
+_✨ AI Vtuber ✨_
+  
+<a href="https://github.com/Ikaros-521/AI-Vtuber/stargazers">
+    <img alt="GitHub stars" src="https://img.shields.io/github/stars/Ikaros-521/AI-Vtuber?color=%09%2300BFFF&style=flat-square">
+</a>
+<a href="https://github.com/Ikaros-521/AI-Vtuber/issues">
+    <img alt="GitHub issues" src="https://img.shields.io/github/issues/Ikaros-521/AI-Vtuber?color=Emerald%20green&style=flat-square">
+</a>
+<a href="https://github.com/Ikaros-521/AI-Vtuber/network">
+    <img alt="GitHub forks" src="https://img.shields.io/github/forks/Ikaros-521/AI-Vtuber?color=%2300BFFF&style=flat-square">
+</a>
+<a href="./LICENSE">
+    <img src="https://img.shields.io/github/license/Ikaros-521/AI-Vtuber.svg" alt="license">
+</a>
+<a href="https://www.python.org">
+    <img src="https://img.shields.io/badge/python-3.10+-blue.svg" alt="python">
+</a>
+
+</div>
+
+AI Vtuber是一个由`ChatterBot/GPT/Claude/langchain_pdf+gpt`驱动的虚拟主播，可以在`Bilibili/抖音`直播中与观众实时互动。它使用自然语言处理和文本转语音技术(`Edge-TTS/VITS-Fast/elevenlabs`)生成对观众问题的回答。
 
 `bilibili`文件夹，哔哩哔哩版本，含原始项目版本，vits改版，大融合版本。  
 
@@ -15,7 +35,10 @@ python：3.10
 ## 许可证
 MIT许可证。详情请参阅LICENSE文件。
 
-## 扩展
+## 补充
+
+### langchain_pdf
+参考：[LangChainSummarize](https://github.com/Ikaros-521/LangChainSummarize)  
 
 ### elevenlabs
 [elevenlabs官网](https://beta.elevenlabs.io/)  

@@ -1,12 +1,10 @@
 # AI Vtuber
 
-AI Vtuber是一个由`ChatterBot/GPT/Claude`驱动的虚拟主播，可以在`Bilibili/抖音`直播中与观众实时互动。它使用自然语言处理和文本转语音技术(`Edge-TTS/VITS-Fast/elevenlabs`)生成对观众问题的回答。
+AI Vtuber是一个由`ChatterBot/GPT/Claude/langchain_pdf+gpt`驱动的虚拟主播，可以在`Bilibili/抖音`直播中与观众实时互动。它使用自然语言处理和文本转语音技术(`Edge-TTS/VITS-Fast/elevenlabs`)生成对观众问题的回答。
 
 魔改后的2为VITS版本，可以做复读，也可以沿用原版的ChatterBot进行聊天。
 
 版本3为AI Vtuber Kun的VITS大融合版本（主要更新的版本）。
-
-`douyin`文件夹，抖音版的大融合功能（删了chatterbot）。  
 
 ## 运行环境
 
@@ -20,13 +18,7 @@ AI Vtuber是一个由`ChatterBot/GPT/Claude`驱动的虚拟主播，可以在`Bi
 ### main3.py
 - Python 3.10+
 
-### 抖音版（类似main3的版本）
-- Python 3.10+
-
-## 抖音版 dy.py (ChatGPT/claude + Edge-TTS/VITS-Fast)
-具体说明请参考 [**douyin路径下的README.md**](./douyin/README.md)  
-
-## main3.py (chatterbot/ChatGPT/claude + Edge-TTS/VITS-Fast)
+## main3.py
 在命令行中使用以下命令安装所需库：
 ```bash
 pip install -r requirements3.txt
@@ -39,7 +31,7 @@ chatterbot相关安装参考main.py的说明。
 {
   // 例如:123
   "room_display_id": "你的直播间号",
-  // 选用的聊天类型：chatterbot/gpt/claude/none 其中none就是复读机模式
+  // 选用的聊天类型：chatterbot/gpt/claude/langchain_pdf/langchain_pdf+gpt/none 其中none就是复读机模式
   "chat_type": "none",
   // 弹幕语言筛选，none就是全部语言，en英文，jp日文，zh中文
   "need_lang": "none",
@@ -66,7 +58,26 @@ chatterbot相关安装参考main.py的说明。
     "slack_user_token": "",
     "bot_user_id": ""
   },
-  // 语音合成类型选择 edge-tts/vits
+  // langchain_pdf 和 langchain_pdf+gpt 相关配置
+  "langchain_pdf": {
+    // 你的openai api key
+    "openai_api_key": "你的api key",
+    // 加载的本地pdf数据文件路径（到x.pdf）
+    "data_path": "",
+    // 拆分文本的分隔符
+    "separator": "\n",
+    // 每个文本块的最大字符数(文本块字符越多，消耗token越多，回复越详细)
+    "chunk_size": 100,
+    // 两个相邻文本块之间的重叠字符数。这种重叠可以帮助保持文本的连贯性，特别是当文本被用于训练语言模型或其他需要上下文信息的机器学习模型时
+    "chunk_overlap": 50,
+    // 选择的openai的模型
+    "model_name": "gpt-3.5-turbo-0301",
+    // 文档结合链的类型
+    "chain_type": "stuff",
+    // 显示openai token的消耗
+    "show_cost": true
+  },
+  // 语音合成类型选择 edge-tts/vits/elevenlabs
   "audio_synthesis_type": "edge-tts",
   // vits相关配置
   "vits": {
