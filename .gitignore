@@ -157,12 +157,19 @@ out/*.mp3
 log/*.txt
 log.txt
 output.txt
-
 1.py
 db.sqlite3
-
 config2.json
 config3.json
+
+bilibili/out/*.mp3
+bilibili/log/*.txt
+bilibili/log.txt
+bilibili/output.txt
+bilibili/1.py
+bilibili/db.sqlite3
+bilibili/config2.json
+bilibili/config3.json
 
 kuaishou.py
 
