@@ -16,6 +16,7 @@ pip install -r requirements.txt
 ```
 protoc -I . --python_out=. dy.proto
 ```
+ps:依赖[golang](https://go.dev/dl/)环境，还没有的话，手动补一补[protobuf](https://github.com/protocolbuffers/protobuf/releases)  
 
 配置都在`config.json`  
 ```
