@@ -12,6 +12,11 @@
 pip install -r requirements.txt
 ```
 
+运行前请重新生成一下protobuf文件，因为机器系统不一样同时protobuf版本也不一样所以不能拿来直接用～  
+```
+protoc -I . --python_out=. dy.proto
+```
+
 配置都在`config.json`  
 ```
 {
