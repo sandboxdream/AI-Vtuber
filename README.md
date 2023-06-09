@@ -201,6 +201,12 @@ MIT许可证。详情请参阅LICENSE文件。
 
 ## 补充
 
+### 抖音弹幕获取
+[douyin-live](https://github.com/YunzhiYike/douyin-live)  
+
+### 快手弹幕获取
+[kuaishou-live](https://github.com/YunzhiYike/kuaishou-live)  
+
 ### langchain_pdf
 参考：[LangChainSummarize](https://github.com/Ikaros-521/LangChainSummarize)  
 
