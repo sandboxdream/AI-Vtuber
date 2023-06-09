@@ -1,7 +1,0 @@
-bilibili-api-python
-aiohttp
-langid
-pypinyin
-pykakasi
-pyautogui
-edge-tts

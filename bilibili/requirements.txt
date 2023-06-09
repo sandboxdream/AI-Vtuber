@@ -1,3 +1,0 @@
-ChatterBot
-bilibili-api-python
-edge-tts

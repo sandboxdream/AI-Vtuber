@@ -4,9 +4,8 @@
 ## 安装依赖
 在命令行中使用以下命令安装所需库：
 ```bash
-pip install ChatterBot
+pip install spacy ChatterBot
 ```
-此外，还需要[下载并安装mpv](https://mpv.io/installation/)。在Windows操作系统上，也需要将 `mpv.exe` 添加到环境变量中。对于其他操作系统，请将其路径添加到系统 `PATH` 环境变量中。
 
 如果ChatterBot安装报错，请前往 https://github.com/RaSan147/ChatterBot_update 安装新版本。下载下来输入`python setup.py install`即可
 

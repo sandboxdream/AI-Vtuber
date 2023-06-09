@@ -1,0 +1,58 @@
+{
+  "room_display_id": "你的直播间房间号",
+  "chat_type": "none",
+  "need_lang": "none",
+  "before_promet": "请简要回复:",
+  "after_promet": "",
+  "badwords_path": "data/badwords.txt",
+  "max_len": 30,
+  "max_char_len": 50,
+  "openai": {
+    "api": "https://api.openai.com/v1",
+    "api_key": [
+      "你的api key"
+    ]
+  },
+  "claude": {
+    "slack_user_token": "",
+    "bot_user_id": ""
+  },
+  "langchain_pdf": {
+    "openai_api_key": "你的api key",
+    "data_path": "",
+    "separator": "\n",
+    "chunk_size": 100,
+    "chunk_overlap": 50,
+    "model_name": "gpt-3.5-turbo-0301",
+    "chain_type": "stuff",
+    "show_cost": true
+  },
+  "audio_synthesis_type": "edge-tts",
+  "vits": {
+    "config_path": "E:\\GitHub_pro\\VITS-fast-fine-tuning\\inference\\finetune_speaker.json",
+    "api_ip_port": "http://127.0.0.1:7860",
+    "character": "ikaros"
+  },
+  "edge-tts": {
+    "voice": "zh-CN-XiaoyiNeural"
+  },
+  "elevenlabs": {
+    "api_key": "",
+    "voice": "Domi",
+    "model": "eleven_monolingual_v1"
+  },
+  "chatterbot": {
+    "name": "bot",
+    "db_path": "db.sqlite3"
+  },
+  "chatgpt": {
+    "model": "gpt-3.5-turbo",
+    "temperature": 0.9,
+    "max_tokens": 2048,
+    "top_p": 1,
+    "presence_penalty": 0,
+    "frequency_penalty": 0,
+    "preset": "请扮演一个AI虚拟主播。不要回答任何敏感问题！不要强调你是主播，只需要回答问题！"
+  },
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.42"
+}

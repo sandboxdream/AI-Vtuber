@@ -176,3 +176,6 @@ kuaishou.py
 douyin/config2.json
 douyin/out/*.mp3
 douyin/log/*.txt
+
+test/
+game/
