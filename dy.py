@@ -237,6 +237,8 @@ def wssServerStart(roomId):
 
 
 def parseLiveRoomUrl(url):
+    print(f"直播间地址：{url}")
+
     h = {
         'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36',
@@ -245,16 +247,21 @@ def parseLiveRoomUrl(url):
     res = requests.get(url=url, headers=h, proxies=proxy)
     global ttwid, roomStore, liveRoomId, liveRoomTitle
     data = res.cookies.get_dict()
+    # print(f"data={data}")
     ttwid = data['ttwid']
     res = res.text
     res = re.search(r'<script id="RENDER_DATA" type="application/json">(.*?)</script>', res)
     res = res.group(1)
     res = urllib.parse.unquote(res, encoding='utf-8', errors='replace')
     res = json.loads(res)
-    # print(res)
+    # print(f"res={res}")
     roomStore = res['app']['initialState']['roomStore']
     liveRoomId = roomStore['roomInfo']['roomId']
     liveRoomTitle = roomStore['roomInfo']['room']['title']
+    liveAnchorNickname = roomStore['roomInfo']['anchor']['nickname']
+
+    print(f"直播间标题：{liveRoomTitle}\n播主：{liveAnchorNickname}\n直播间ID：{liveRoomId}")
+
     wssServerStart(liveRoomId)
 
 
@@ -311,7 +318,7 @@ def hexStrToProtobuf(hexStr):
 
 try: 
     room_id = my_handle.get_room_id()
-    room_id = "512488755245"
+    # room_id = "2036164249"
     parseLiveRoomUrl(f"https://live.douyin.com/{room_id}")
 except KeyboardInterrupt:
     print('程序被强行退出')
