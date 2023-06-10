@@ -153,6 +153,8 @@ pip install -r requirements_ks.txt
 
 修改`config.json`的配置，配好哈，注意JSON数据格式  
 
+弹幕自带过滤，且需要弹幕以。或.或？结尾才能触发，请注意。  
+
 ### 哔哩哔哩版
 
 在命令行中使用以下命令安装所需库：
