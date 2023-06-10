@@ -41,10 +41,7 @@ AI Vtuber是一个由`ChatterBot/GPT/Claude/langchain_pdf+gpt`驱动的虚拟主
 python：3.10.11  
 各个版本的依赖的库在 requirements_xx.txt 中，请自行安装。  
 
-当然，如果你觉得麻烦的话，可以直接按我的通用环境装（chatterbot另算）。  
-```
-pip install -r requirements_common.txt
-```
+依赖版本参考`requirements_common.txt`  
 
 安装命令参考（注意文件命名，对应各个版本）：  
 ```

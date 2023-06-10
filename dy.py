@@ -224,7 +224,25 @@ def wssServerStart(roomId):
     websocket.enableTrace(False)
     webSocketUrl = 'wss://webcast3-ws-web-lq.douyin.com/webcast/im/push/v2/?app_name=douyin_web&version_code=180800&webcast_sdk_version=1.3.0&update_version_code=1.3.0&compress=gzip&internal_ext=internal_src:dim|wss_push_room_id:'+liveRoomId+'|wss_push_did:7188358506633528844|dim_log_id:20230521093022204E5B327EF20D5CDFC6|fetch_time:1684632622323|seq:1|wss_info:0-1684632622323-0-0|wrds_kvs:WebcastRoomRankMessage-1684632106402346965_WebcastRoomStatsMessage-1684632616357153318&cursor=t-1684632622323_r-1_d-1_u-1_h-1&host=https://live.douyin.com&aid=6383&live_id=1&did_rule=3&debug=false&maxCacheMessageNumber=20&endpoint=live_pc&support_wrds=1&im_path=/webcast/im/fetch/&user_unique_id=7188358506633528844&device_platform=web&cookie_enabled=true&screen_width=1440&screen_height=900&browser_language=zh&browser_platform=MacIntel&browser_name=Mozilla&browser_version=5.0%20(Macintosh;%20Intel%20Mac%20OS%20X%2010_15_7)%20AppleWebKit/537.36%20(KHTML,%20like%20Gecko)%20Chrome/113.0.0.0%20Safari/537.36&browser_online=true&tz_name=Asia/Shanghai&identity=audience&room_id='+liveRoomId+'&heartbeatDuration=0&signature=00000000'
     h = {
-        'cookie': 'ttwid='+ttwid,
+        'cookie': 'ttwid='+ttwid + \
+                "__ac_nonce=063c22e0b00ef2187712a; __ac_signature=_02B4Z6wo00f01UZsilwAAIDC0rrRUTr27elGTI7AADJcqjRe1hQOZ"
+                ".K4Q4FmO9daZqxwlf.5k4RomG9GZZgMXO3CvtvKJiy9txGxo4HWdJhcwlVYhBiKSGhWCrULSjQEPlsLZ8LgciLILIZO8f; "
+                "%7Cd796439337e51fc553cfb64d79ef412b84b3eef18e9e19ebaa1287a829b90db8; douyin.com; "
+                "passport_csrf_token=955106f18f323068c601a6918c27747d; "
+                "passport_csrf_token_default=955106f18f323068c601a6918c27747d; "
+                "s_v_web_id=verify_lcvfzyv4_BZabwp7p_r58g_4G5z_8KHs_lDuazCJCZ9uB; "
+                "passport_assist_user"
+                "=Cj2FisA1wsU1M6ZAOUfBxA5tt48uEnnpcfN8dtT3oivxC3hjFxm0iQwLvZkXjoCnZas0ias8qelCHfDmIZJ5GkgKPEal_vGBVAKPt3vk_68vkfwzRBgsf8APM87d_iaEiBj6_B9X0Gj7vjvTHA_1A0fF9m3QYysg3NS7vbf-ihDlxaYNGImv1lQiAQNaHWg4; n_mh=bUxOCHzZv5szT8QIHfxmgnjoVlZQ1kn7aM-ZW6ndDKY; sso_uid_tt=e1e48ca5f945784a59c3174e16176a61; sso_uid_tt_ss=e1e48ca5f945784a59c3174e16176a61; toutiao_sso_user=fba93355178fb80aafc02d05bfcd0a5c; toutiao_sso_user_ss=fba93355178fb80aafc02d05bfcd0a5c; sid_ucp_sso_v1=1.0.0-KDM0OWJmNzI2ZDQ1NjFmODJkMTY4Y2Q2MDAzMTIzY2FkMTc1YWUwYmQKHQik8Iy7gQMQ7tyIngYY7zEgDDCYxPfbBTgGQPQHGgJsZiIgZmJhOTMzNTUxNzhmYjgwYWFmYzAyZDA1YmZjZDBhNWM; ssid_ucp_sso_v1=1.0.0-KDM0OWJmNzI2ZDQ1NjFmODJkMTY4Y2Q2MDAzMTIzY2FkMTc1YWUwYmQKHQik8Iy7gQMQ7tyIngYY7zEgDDCYxPfbBTgGQPQHGgJsZiIgZmJhOTMzNTUxNzhmYjgwYWFmYzAyZDA1YmZjZDBhNWM; odin_tt=8547fef56c59daf11b0c15312d499833a2be72189dd6aad256dc07c950b8880c52ad37e717a99de93cc971ad3d80d88ffc1b4e6a10be0fd4f05d46ba29e91ac5; passport_auth_status=6929cca1c9119873a9d7fa528ccd5f37%2C; passport_auth_status_ss=6929cca1c9119873a9d7fa528ccd5f37%2C; uid_tt=8c0899f7528059e847f7eddad4210e5c; uid_tt_ss=8c0899f7528059e847f7eddad4210e5c; sid_tt=6c5a7be3caf51c935494a12b4f1c5c13; sessionid=6c5a7be3caf51c935494a12b4f1c5c13; sessionid_ss=6c5a7be3caf51c935494a12b4f1c5c13; LOGIN_STATUS=1; store-region=cn-hn; store-region-src=uid; sid_guard=6c5a7be3caf51c935494a12b4f1c5c13%7C1673670258%7C5183996%7CWed%2C+15-Mar-2023+04%3A24%3A14+GMT; sid_ucp_v1=1.0.0-KGZmOThhNTZlMThiOTEzMTI2MWI0MDIxZGM5MDUyNjVmZmVkMzVhMTgKFwik8Iy7gQMQ8tyIngYY7zEgDDgGQPQHGgJsZiIgNmM1YTdiZTNjYWY1MWM5MzU0OTRhMTJiNGYxYzVjMTM; ssid_ucp_v1=1.0.0-KGZmOThhNTZlMThiOTEzMTI2MWI0MDIxZGM5MDUyNjVmZmVkMzVhMTgKFwik8Iy7gQMQ8tyIngYY7zEgDDgGQPQHGgJsZiIgNmM1YTdiZTNjYWY1MWM5MzU0OTRhMTJiNGYxYzVjMTM; csrf_session_id=f8b3bae210355efd72d7b596b8d59786; tt_scid=yrq-tjQaXEaPz4kTP9WpqNwOnqVy13KMI.snGi6wnZp8P1hduQmhbtqsTOyIhz.O0bd1; download_guide=%223%2F20230114%22; VIDEO_FILTER_MEMO_SELECT=%7B%22expireTime%22%3A1674275671220%2C%22type%22%3A1%7D; strategyABtestKey=%221673670871.396%22; FOLLOW_NUMBER_YELLOW_POINT_INFO=%22MS4wLjABAAAAlc42G0Nktrm_CVQMfASabMRnI_6GlL2br1i7a8yqTEI%2F1673712000000%2F0%2F1673670871480%2F0%22; home_can_add_dy_2_desktop=%221%22; passport_fe_beating_status=true; msToken=veZvf1xerEu8qj_1IHeP6Tce5JyHlTLZf_YVSJCj5moDg72Q0821Vcqo4ylUrBP75wlGO2xO22kVG9fEsZvWcx6L6nUPhL6LFf6TtpXznJMEA7riXCgfInQgv70a3Go=; msToken=6j75IbD0uth58uE0p2svIf3-bGlzkqLnJ34RfGkr8Ooxgos99KHfw-4HzlJ26GI6C3uTwDUUIthFI0wUocJy2ZAMkpyPrUgGFgcshHRO3vw_kBc9yiZ-4EbErjwp8FI=",
+        "origin": "https://www.douyin.com",
+        "referer": "https://www.douyin.com/",
+        # "sec-ch-ua": "\"Not_A Brand\";v=\"99\", \"Google Chrome\";v=\"109\", \"Chromium\";v=\"109\"",
+        # "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "sec-fetch-dest": "empty",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-origin",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
+        "x-secsdk-csrf-token": "000100000001a4af956d5ea10b016b19ba5c287191937c2093fc6b603acc6ee5bed3a6354333173a12ca9498806f",
         'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
     }
     # 创建一个长连接
