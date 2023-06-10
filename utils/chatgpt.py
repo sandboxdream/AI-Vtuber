@@ -109,12 +109,12 @@ class Chatgpt:
 
         # 处理 OpenAIError 异常
         except openai.OpenAIError as e:
-            if str(e).__contains__("Rate limit reached for default-gpt-3.5-turbo") and current_key_index <= max_length:
+            if str(e).__contains__("Rate limit reached for default-gpt-3.5-turbo") and self.current_key_index <= max_length:
                 self.current_key_index = self.current_key_index + 1
                 print("速率限制，尝试切换key")
                 return self.chat_with_gpt(messages)
             elif str(e).__contains__(
-                    "Your access was terminated due to violation of our policies") and current_key_index <= max_length:
+                    "Your access was terminated due to violation of our policies") and self.current_key_index <= max_length:
                 print("请及时确认该Key: " + str(openai.api_key) + " 是否正常，若异常，请移除")
 
                 # 判断是否所有 API key 均已尝试
