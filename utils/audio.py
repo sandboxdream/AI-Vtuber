@@ -30,7 +30,7 @@ class Audio:
     #         return None
 
     # 请求VITS接口获取合成后的音频路径
-    def get_data(vits_api_ip_port="http://127.0.0.1:7860", character="ikaros", language="日语", text="こんにちわ。", speed=1):
+    def get_data(self, vits_api_ip_port="http://127.0.0.1:7860", character="ikaros", language="日语", text="こんにちわ。", speed=1):
         # API地址
         API_URL = vits_api_ip_port + '/run/predict/'
 
@@ -99,7 +99,7 @@ class Audio:
 
             try:
                 # 调用接口合成语音
-                data_json = self.get_data(data["vits_api_ip_port"], data["character"], language, content, data["speed"])
+                data_json = self.get_data(data["api_ip_port"], data["character"], language, content, data["speed"])
                 # print(data_json)
             except Exception as e:
                 print(e)
