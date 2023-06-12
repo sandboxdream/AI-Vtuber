@@ -3,7 +3,7 @@ from bilibili_api import live, sync
 
 from utils.my_handle import My_handle
 
-my_handle = My_handle("config.json")
+my_handle = My_handle("config2.json")
 if my_handle is None:
     print("程序初始化失败！")
     exit(0)
