@@ -17,6 +17,12 @@
     "slack_user_token": "",
     "bot_user_id": ""
   },
+  "chatglm": {
+    "api_ip_port": "http://127.0.0.1:8000",
+    "max_length": 2048,
+    "top_p": 0.7,
+    "temperature": 0.95
+  },
   "langchain_pdf": {
     "openai_api_key": "你的api key",
     "data_path": "",

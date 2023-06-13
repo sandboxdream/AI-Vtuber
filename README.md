@@ -21,7 +21,7 @@ _✨ AI Vtuber ✨_
 
 </div>
 
-AI Vtuber是一个由`ChatterBot/GPT/Claude/langchain_pdf+gpt`驱动的虚拟主播，可以在`Bilibili/抖音/快手`直播中与观众实时互动。它使用自然语言处理和文本转语音技术(`Edge-TTS/VITS-Fast/elevenlabs`)生成对观众问题的回答。
+AI Vtuber是一个由`ChatterBot/GPT/Claude/langchain_pdf+gpt/chatglm`驱动的虚拟主播，可以在`Bilibili/抖音/快手`直播中与观众实时互动。它使用自然语言处理和文本转语音技术(`Edge-TTS/VITS-Fast/elevenlabs`)生成对观众问题的回答。
 
 
 ## 项目结构
@@ -57,7 +57,7 @@ pip install -r requirements_ks.txt
 {
   // 你的直播间号,兼容全平台，都是直播间页面的链接中最后的数字。例如:123
   "room_display_id": "你的直播间号",
-  // 选用的聊天类型：chatterbot/gpt/claude/langchain_pdf/langchain_pdf+gpt/none 其中none就是复读机模式
+  // 选用的聊天类型：chatterbot/gpt/claude/langchain_pdf/langchain_pdf+gpt/chatglm/none 其中none就是复读机模式
   "chat_type": "none",
   // 弹幕语言筛选，none就是全部语言，en英文，jp日文，zh中文
   "need_lang": "none",
@@ -83,6 +83,13 @@ pip install -r requirements_ks.txt
     // 参考：https://github.com/bincooo/claude-api#readme
     "slack_user_token": "",
     "bot_user_id": ""
+  },
+  // chatglm相关配置
+  "chatglm": {
+    "api_ip_port": "http://127.0.0.1:8000",
+    "max_length": 2048,
+    "top_p": 0.7,
+    "temperature": 0.95
   },
   // langchain_pdf 和 langchain_pdf+gpt 相关配置
   "langchain_pdf": {

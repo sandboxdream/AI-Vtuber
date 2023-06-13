@@ -49,6 +49,8 @@ class My_handle():
     chatterbot_config = None
     # langchain_pdf
     langchain_pdf_config = None
+    # chatglm
+    chatglm_config = None
 
     # 音频合成使用技术
     audio_synthesis_type = None
@@ -104,6 +106,9 @@ class My_handle():
             self.chatterbot_config = self.config.get("chatterbot")
             # langchain_pdf
             self.langchain_pdf_config = self.config.get("langchain_pdf")
+            # chatglm
+            self.chatglm_config = self.config.get("chatglm")
+            
 
             # 音频合成使用技术
             self.audio_synthesis_type = self.config.get("audio_synthesis_type")
@@ -138,6 +143,10 @@ class My_handle():
             from utils.langchain_pdf import Langchain_pdf
 
             self.langchain_pdf = Langchain_pdf(self.langchain_pdf_config, self.chat_type)
+        elif self.chat_type == "chatglm":
+            from utils.chatglm import Chatglm
+
+            self.chatglm = Chatglm(self.chatglm_config)
         elif self.chat_type == "game":
             exit(0)
 
@@ -207,6 +216,10 @@ class My_handle():
                 # 只用langchain，不做gpt的调用，可以节省token，做个简单的本地数据搜索
                 resp_content = self.langchain_pdf.get_langchain_pdf_resp(self.chat_type, content)
 
+                print(f"[AI回复{user_name}]：{resp_content}")
+            elif self.chat_type == "chatglm":
+                # 生成回复
+                resp_content = self.chatglm.get_chatglm_resp(content)
                 print(f"[AI回复{user_name}]：{resp_content}")
             elif self.chat_type == "game":
                 return
