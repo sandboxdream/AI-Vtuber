@@ -62,9 +62,9 @@ pip install -r requirements_ks.txt
   // 弹幕语言筛选，none就是全部语言，en英文，jp日文，zh中文
   "need_lang": "none",
   // 请求gpt/claude时，携带的字符串头部，用于给每个对话追加固定限制
-  "before_promet": "请简要回复:",
+  "before_prompt": "请简要回复:",
   // 请求gpt/claude时，携带的字符串尾部
-  "after_promet": "",
+  "after_prompt": "",
   // 本地违禁词数据路径（你如果不需要，可以清空文件内容）
   "badwords_path": "data/badwords.txt",
   // 最长阅读的英文单词数（空格分隔）

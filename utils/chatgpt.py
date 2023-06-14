@@ -134,10 +134,10 @@ class Chatgpt:
 
 
     # 调用gpt接口，获取返回内容
-    def get_gpt_resp(self, user_name, promet):
+    def get_gpt_resp(self, user_name, prompt):
         # 获取当前用户的会话
         session = self.get_chat_session(str(user_name))
         # 调用 ChatGPT 接口生成回复消息
-        resp_content = self.chat(promet, session)
+        resp_content = self.chat(prompt, session)
 
         return resp_content

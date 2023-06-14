@@ -24,8 +24,8 @@ class My_handle():
     # 直播间号
     room_id = None
 
-    before_promet = None
-    after_promet = None
+    before_prompt = None
+    after_prompt = None
 
     # 敏感词数据路径
     badwords_path = None
@@ -81,8 +81,8 @@ class My_handle():
             # 直播间号
             self.room_id = self.config.get("room_display_id")
 
-            self.before_promet = self.config.get("before_promet")
-            self.after_promet = self.config.get("after_promet")
+            self.before_prompt = self.config.get("before_prompt")
+            self.after_prompt = self.config.get("after_prompt")
 
             # 敏感词数据路径
             self.badwords_path = self.config.get("badwords_path")
@@ -190,7 +190,7 @@ class My_handle():
 
             # 根据聊天类型执行不同逻辑
             if self.chat_type == "gpt":
-                content = self.before_promet + content + self.after_promet
+                content = self.before_prompt + content + self.after_prompt
                 # 调用gpt接口，获取返回内容
                 resp_content = self.chatgpt.get_gpt_resp(user_name, content)
                 if resp_content is not None:
@@ -200,7 +200,7 @@ class My_handle():
                     resp_content = ""
                     print("警告：gpt无返回")
             elif self.chat_type == "claude":
-                content = self.before_promet + content + self.after_promet
+                content = self.before_prompt + content + self.after_prompt
                 resp_content = self.claude.get_claude_resp(content)
                 if resp_content is not None:
                     # 输出 返回的回复消息
