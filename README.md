@@ -24,7 +24,7 @@ _✨ AI Vtuber ✨_
 AI Vtuber是一个由`ChatterBot/GPT/Claude/langchain_pdf+gpt/chatglm`驱动的虚拟主播，可以在`Bilibili/抖音/快手`直播中与观众实时互动。它使用自然语言处理和文本转语音技术(`Edge-TTS/VITS-Fast/elevenlabs`)生成对观众问题的回答。
 
 
-## 项目结构
+## 📖项目结构
 
 - `config.json`，配置文件。
 - `bilibili.py`，哔哩哔哩版本。  
@@ -36,7 +36,7 @@ AI Vtuber是一个由`ChatterBot/GPT/Claude/langchain_pdf+gpt/chatglm`驱动的�
 - `out`文件夹，存储edge-tts输出的音频文件
  
 
-## 运行环境
+## 💿运行环境
 
 python：3.10.11  
 各个版本的依赖的库在 requirements_xx.txt 中，请自行安装。  
@@ -50,7 +50,7 @@ pip install -r requirements_dy.txt
 pip install -r requirements_ks.txt
 ```
 
-## 配置
+## 🔧配置
 
 配置都在`config.json`  
 ```
@@ -166,7 +166,7 @@ pip install -r requirements_ks.txt
 }
 ```
 
-## 使用
+## 🎉使用
 
 各版本都需要做的前期准备操作。  
 `chatterbot`相关安装参考[chatterbot/README.md](chatterbot/README.md)  
@@ -240,4 +240,18 @@ ChatterBot 是一个开源的 Python 聊天机器人框架，使用机器学习�
 
 ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和自然语言处理技术来分析和预测用户输入，然后生成响应。基于这种方法，聊天机器人的反应会更加智能、灵活、接近人类对话的方式。此外，ChatterBot 支持多种存储方式，如 JSON、SQLAlchemy、MongoDB 等，以及多种接口调用方式，如 RESTful API、WebSocket 等，方便开发者在不同场景中进行集成。
 
-总的来说，ChatterBot 是一个非常强大、灵活、易用的聊天机器人框架，帮助开发者快速搭建出个性化、定制化的聊天机器人，从而提升用户体验和服务质量。
+总的来说，ChatterBot 是一个非常强大、灵活、易用的聊天机器人框架，帮助开发者快速搭建出个性化、定制化的聊天机器人，从而提升用户体验和服务质量。  
+
+## Star 经历
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Ikaros-521/AI-Vtuber&type=Date)](https://star-history.com/#Ikaros-521/AI-Vtuber&Date)
+
+## 🤝 贡献
+
+### 🎉 鸣谢
+
+感谢以下开发者对该项目做出的贡献：
+
+<a href="https://github.com/Ikaros-521/AI-Vtuber/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Ikaros-521/AI-Vtuber" />
+</a>
