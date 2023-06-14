@@ -214,6 +214,16 @@ ps:依赖[golang](https://go.dev/dl/)环境，还没有的话，手动补一补[
 
 运行 `python ks.py`  
 
+## FAQ 常问问题
+
+### 1.openai 接口报错:《empty message》
+可能是API KEY过期了/额度没了，请检查API KEY是否可用。  
+在线测试参考：  
+[chatgpt-html](http://ikaros521.eu.org/chatgpt-html/)  
+[ChatGPT-Next-Web](https://chat-gpt-next-web-ikaros-521.vercel.app/)  
+
+
+
 ## 许可证
 
 MIT许可证。详情请参阅LICENSE文件。
