@@ -120,8 +120,12 @@ pip install -r requirements_ks.txt
   },
   // edge-tts相关配置
   "edge-tts": {
-    // edge-tts选定的说话人
+    // edge-tts选定的说话人(cmd执行：edge-tts -l 可以查看所有支持的说话人)
     "voice": "zh-CN-XiaoyiNeural"
+    // 语速增益 默认是 +0%，可以增减，注意 + - %符合别搞没了，不然会影响语音合成
+    "rate": "+0%",
+    // 音量增益 默认是 +0%，可以增减，注意 + - %符合别搞没了，不然会影响语音合成
+    "volume": "+0%"
   },
   // elevenlabs相关配置
   "elevenlabs": {
@@ -165,6 +169,10 @@ pip install -r requirements_ks.txt
   ]
 }
 ```
+
+或者纯代理的镜像站：  
+- https://openai-pag.wangzhishi.net/
+
 
 ## 🎉使用
 
@@ -251,6 +259,20 @@ ChatterBot 是一个开源的 Python 聊天机器人框架，使用机器学习�
 ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和自然语言处理技术来分析和预测用户输入，然后生成响应。基于这种方法，聊天机器人的反应会更加智能、灵活、接近人类对话的方式。此外，ChatterBot 支持多种存储方式，如 JSON、SQLAlchemy、MongoDB 等，以及多种接口调用方式，如 RESTful API、WebSocket 等，方便开发者在不同场景中进行集成。
 
 总的来说，ChatterBot 是一个非常强大、灵活、易用的聊天机器人框架，帮助开发者快速搭建出个性化、定制化的聊天机器人，从而提升用户体验和服务质量。  
+
+
+## 📝 更新日志
+
+<details>
+<summary>展开/收起</summary>
+
+### 2023-06-13
+兼容本地版ChatGLM API接口  
+
+### 2023-06-16
+增加Edge-TTS的语速、音量调节参数。  
+
+</details>
 
 ## Star 经历
 

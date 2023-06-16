@@ -179,3 +179,7 @@ douyin/log/*.txt
 
 test/
 game/
+
+dev/
+ui/
+main.py

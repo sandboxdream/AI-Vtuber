@@ -122,7 +122,7 @@ class Audio:
             # 过滤" '字符
             content = content.replace('"', '').replace("'", '').replace(" ", ',')
             # 使用 Edge TTS 生成回复消息的语音文件
-            cmd = f'edge-tts --voice {data["voice"]} --text "{content}" --write-media {voice_tmp_path}'
+            cmd = f'edge-tts --voice {data["voice"]} --text "{content}" --write-media {voice_tmp_path} --rate={data["rate"]} --volume={data["volume"]}'
             subprocess.run(cmd, shell=True)
 
             # 会阻塞

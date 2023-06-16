@@ -40,7 +40,9 @@
     "character": "ikaros"
   },
   "edge-tts": {
-    "voice": "zh-CN-XiaoyiNeural"
+    "voice": "zh-CN-XiaoyiNeural",
+    "rate": "+0%",
+    "volume": "+0%"
   },
   "elevenlabs": {
     "api_key": "",
