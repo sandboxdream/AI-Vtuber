@@ -186,6 +186,7 @@ class My_handle():
 
             # 语言检测
             if self.common.lang_check(content, self.need_lang) is None:
+                print("语言检测不通过，已过滤")
                 return
 
             # 根据聊天类型执行不同逻辑
