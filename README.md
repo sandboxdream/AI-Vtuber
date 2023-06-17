@@ -301,4 +301,5 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 
 <a href="https://github.com/Ikaros-521/AI-Vtuber/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=Ikaros-521/AI-Vtuber" />
+  <img style="border-radius: 50%; height:66px;" src="https://avatars.githubusercontent.com/u/46062705?v=4" />
 </a>
