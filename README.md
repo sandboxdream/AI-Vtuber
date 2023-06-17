@@ -57,7 +57,7 @@ pip install -r requirements_ks.txt
 {
   // 你的直播间号,兼容全平台，都是直播间页面的链接中最后的数字。例如:123
   "room_display_id": "你的直播间号",
-  // 选用的聊天类型：chatterbot/gpt/claude/langchain_pdf/langchain_pdf+gpt/chatglm/none 其中none就是复读机模式
+  // 选用的聊天类型：chatterbot/gpt/claude/langchain_pdf/langchain_pdf+gpt/chatglm/langchain_pdf_local/none 其中none就是复读机模式
   "chat_type": "none",
   // 弹幕语言筛选，none就是全部语言，en英文，jp日文，zh中文
   "need_lang": "none",
@@ -108,6 +108,21 @@ pip install -r requirements_ks.txt
     // 文档结合链的类型
     "chain_type": "stuff",
     // 显示openai token的消耗
+    "show_cost": true
+  },
+  "langchain_pdf_local": {
+    // claude相关配置
+    // 参考：https://github.com/bincooo/claude-api#readme
+    "bot_user_id": "",
+    "slack_user_token": "",
+    // 选择输入的pdf数据
+    "data_path": "data/伊卡洛斯百度百科.zip",
+    "separator": "\n",
+    "chunk_size": 100,
+    "chunk_overlap": 50,
+    // 默认模型
+    "embedding_model": "sebastian-hofstaetter/distilbert-dot-tas_b-b256-msmarco",
+    "chain_type": "stuff",
     "show_cost": true
   },
   // 语音合成类型选择 edge-tts/vits/elevenlabs
@@ -245,7 +260,7 @@ MIT许可证。详情请参阅LICENSE文件。
 [kuaishou-live](https://github.com/YunzhiYike/kuaishou-live)  
 
 ### langchain_pdf
-参考：[LangChainSummarize](https://github.com/Ikaros-521/LangChainSummarize)  
+参考：[LangChainSummarize](https://github.com/Ikaros-521/LangChainSummarize)
 
 ### elevenlabs
 [elevenlabs官网](https://beta.elevenlabs.io/)  
