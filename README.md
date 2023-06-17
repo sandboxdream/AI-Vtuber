@@ -34,7 +34,22 @@ AI Vtuber是一个由`ChatterBot/GPT/Claude/langchain_pdf+gpt/chatglm`驱动的�
 - `data`文件夹，存储数据文件和违禁词
 - `log`文件夹，存储运行日志
 - `out`文件夹，存储edge-tts输出的音频文件
- 
+
+
+## 下载项目
+
+首先你得装个`git`（啥，没装？百度），当然也可以直接在页面切换分支后下载各版本ZIP压缩包。    
+```
+# 主线
+git clone https://github.com/Ikaros-521/AI-Vtuber.git
+
+# owner分支
+git clone -b owner https://github.com/Ikaros-521/AI-Vtuber.git
+
+# dev分支
+git clone -b dev https://github.com/Ikaros-521/AI-Vtuber.git
+```
+
 
 ## 💿运行环境
 
