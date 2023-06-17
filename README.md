@@ -1,7 +1,7 @@
 # AI Vtuber
 
 <div style="text-align: center;">
-_✨ AI Vtuber ✨_
+_✨ AI Vtuber ✨_  
   
 <a href="https://github.com/Ikaros-521/AI-Vtuber/stargazers">
     <img alt="GitHub stars" src="https://img.shields.io/github/stars/Ikaros-521/AI-Vtuber?color=%09%2300BFFF&style=flat-square">
@@ -55,7 +55,7 @@ pip install -r requirements_ks.txt
 配置都在`config.json`  
 ```
 {
-  // 你的直播间号,兼容全平台，都是直播间页面的链接中最后的数字。例如:123
+  // 你的直播间号,兼容全平台，都是直播间页面的链接中最后的数字和字母。例如:123
   "room_display_id": "你的直播间号",
   // 选用的聊天类型：chatterbot/gpt/claude/langchain_pdf/langchain_pdf+gpt/chatglm/none 其中none就是复读机模式
   "chat_type": "none",
@@ -114,8 +114,11 @@ pip install -r requirements_ks.txt
   "audio_synthesis_type": "edge-tts",
   // vits相关配置
   "vits": {
+    // 配置文件的路径
     "vits_config_path": "E:\\GitHub_pro\\VITS-fast-fine-tuning\\inference\\finetune_speaker.json",
+    // 推理服务运行的链接（需要完整的URL）
     "vits_api_ip_port": "http://127.0.0.1:7860",
+    // 选择的说话人，配置文件中的speaker中的其中一个
     "character": "ikaros"
   },
   // edge-tts相关配置
@@ -146,6 +149,7 @@ pip install -r requirements_ks.txt
   // chatgpt相关配置
   "chatgpt": {
     "model": "gpt-3.5-turbo",
+    // 控制生成文本的随机性。较高的温度值会使生成的文本更随机和多样化，而较低的温度值会使生成的文本更加确定和一致。
     "temperature": 0.9,
     "max_tokens": 2048,
     "top_p": 1,
@@ -222,6 +226,12 @@ ps:依赖[golang](https://go.dev/dl/)环境，还没有的话，手动补一补[
 
 运行 `python ks.py`  
 
+## 开发
+### UI设计
+打开QT设计师~o( =∩ω∩= )m `pyqt5-tools designer`  
+生成UI代码 `pyuic5 -o UI_main.py ui\main.ui`  
+
+
 ## FAQ 常问问题
 
 ### 1.openai 接口报错:《empty message》
@@ -243,6 +253,12 @@ MIT许可证。详情请参阅LICENSE文件。
 
 ### 快手弹幕获取
 [kuaishou-live](https://github.com/YunzhiYike/kuaishou-live)  
+
+### Claude
+[claude-api](https://github.com/bincooo/claude-api)  
+
+### ChatGLM
+[ChatGLM-6B](https://github.com/THUDM/ChatGLM-6B)  
 
 ### langchain_pdf
 参考：[LangChainSummarize](https://github.com/Ikaros-521/LangChainSummarize)  
@@ -272,6 +288,12 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 ### 2023-06-16
 增加Edge-TTS的语速、音量调节参数。  
 
+### 2023-06-17
+- 增加GUI版。
+- 增加GUI运行的bat文件，需要配合本地虚拟环境运行。请到releases下载。
+- 对config.json的结构做了调整，增加了弹幕前后缀过滤配置。
+- 增加langchain_pdf_local的配置内容，待和主线整合后合并。
+
 </details>
 
 ## Star 经历
@@ -286,4 +308,5 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 
 <a href="https://github.com/Ikaros-521/AI-Vtuber/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=Ikaros-521/AI-Vtuber" />
+  <img style="border-radius: 50%; height:66px;" src="https://avatars.githubusercontent.com/u/46062705?v=4" />
 </a>

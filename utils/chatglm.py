@@ -1,6 +1,8 @@
-import json
+import json, logging
 import requests
 
+from .common import Common
+from .logger import Configure_logger
 
 class Chatglm:
     api_ip_port = "http://127.0.0.1:8000"
@@ -9,6 +11,11 @@ class Chatglm:
     temperature = 0.95
 
     def __init__(self, data):
+        self.common = Common()
+        # 日志文件路径
+        file_path = "./log/log-" + self.common.get_bj_time(1) + ".txt"
+        Configure_logger(file_path)
+
         self.api_ip_port = data["api_ip_port"]
         self.max_length = data["max_length"]
         self.top_p = data["top_p"]
@@ -36,5 +43,5 @@ class Chatglm:
 
             return resp_content
         except Exception as e:
-            print(e)
+            logging.info(e)
             return None
