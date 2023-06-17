@@ -1,5 +1,5 @@
 {
-  "room_display_id": "你的直播间房间号",
+  "room_display_id": "你的直播间号",
   "chat_type": "none",
   "need_lang": "none",
   "before_prompt": "请简要回复:",
@@ -30,6 +30,17 @@
     "chunk_size": 100,
     "chunk_overlap": 50,
     "model_name": "gpt-3.5-turbo-0301",
+    "chain_type": "stuff",
+    "show_cost": true
+  },
+  "langchain_pdf_local": {
+    "bot_user_id": "",
+    "slack_user_token": "",
+    "data_path": "data/伊卡洛斯百度百科.zip",
+    "separator": "\n",
+    "chunk_size": 100,
+    "chunk_overlap": 50,
+    "embedding_model": "sebastian-hofstaetter/distilbert-dot-tas_b-b256-msmarco",
     "chain_type": "stuff",
     "show_cost": true
   },

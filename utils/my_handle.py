@@ -7,8 +7,11 @@ from utils.audio import Audio
 
 
 class My_handle():
+    # common工具类
     common = None
+    # 配置信息
     config = None
+
     audio = None
 
     room_id = None
@@ -51,6 +54,8 @@ class My_handle():
     langchain_pdf_config = None
     # chatglm
     chatglm_config = None
+    # langchain_pdf_local
+    langchain_pdf_local_config = None
 
     # 音频合成使用技术
     audio_synthesis_type = None
@@ -108,6 +113,8 @@ class My_handle():
             self.langchain_pdf_config = self.config.get("langchain_pdf")
             # chatglm
             self.chatglm_config = self.config.get("chatglm")
+            # langchain_pdf_local
+            self.langchain_pdf_local_config = self.config.get("langchain_pdf_local")
             
 
             # 音频合成使用技术
@@ -147,6 +154,10 @@ class My_handle():
             from utils.chatglm import Chatglm
 
             self.chatglm = Chatglm(self.chatglm_config)
+        elif self.chat_type == "langchain_pdf_local":
+            from utils.langchain_pdf_local import Langchain_pdf_local
+
+            self.langchain_pdf = Langchain_pdf_local(self.langchain_pdf_local_config, self.chat_type)
         elif self.chat_type == "game":
             exit(0)
 
@@ -221,6 +232,10 @@ class My_handle():
             elif self.chat_type == "chatglm":
                 # 生成回复
                 resp_content = self.chatglm.get_chatglm_resp(content)
+                print(f"[AI回复{user_name}]：{resp_content}")
+            elif self.chat_type == "langchain_pdf_local":
+                resp_content = self.langchain_pdf.get_langchain_pdf_local_resp(self.chat_type, content)
+
                 print(f"[AI回复{user_name}]：{resp_content}")
             elif self.chat_type == "game":
                 return

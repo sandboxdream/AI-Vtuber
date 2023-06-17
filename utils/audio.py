@@ -78,6 +78,7 @@ class Audio:
 
     # 播放音频
     def my_play_voice(self, type, data, config, content):
+        print(content)
         content = common.remove_extra_words(content, config["max_len"], config["max_char_len"])
         # print("裁剪后的合成文本:" + text)
 
