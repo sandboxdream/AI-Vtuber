@@ -224,8 +224,4 @@ if __name__ == "__main__":
         encode_kwargs=encode_kwargs)
     create_faiss_index_from_zip(path_to_zip_file=zip_file_path, pdf_loader=PyPDFLoader, embeddings=embeddings)
 
-<<<<<<< HEAD
     db = load_faiss_index_from_zip(zip_file_path)
-=======
-    db = load_faiss_index_from_zip(zip_file_path)
->>>>>>> 348a7eee0f20d5855de9ece69981679eb8158d4e
