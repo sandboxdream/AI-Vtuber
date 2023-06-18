@@ -1,10 +1,9 @@
-import traceback
+import traceback, logging
 from copy import deepcopy
 import openai
 
 from .common import Common
-
-common = Common()
+from .logger import Configure_logger
 
 
 class Chatgpt:
@@ -17,6 +16,11 @@ class Chatgpt:
     data_chatgpt = {}
 
     def __init__(self, data_openai, data_chatgpt):
+        self.common = Common()
+        # 日志文件路径
+        file_path = "./log/log-" + self.common.get_bj_time(1) + ".txt"
+        Configure_logger(file_path)
+
         # 设置会话初始值
         self.session_config = {'msg': [{"role": "system", "content": data_chatgpt["preset"]}]}
         self.data_openai = data_openai
@@ -39,7 +43,7 @@ class Chatgpt:
             session['msg'].append({"role": "user", "content": msg})
 
             # 添加当前时间到会话中
-            session['msg'][1] = {"role": "system", "content": "current time is:" + common.get_bj_time()}
+            session['msg'][1] = {"role": "system", "content": "current time is:" + self.common.get_bj_time()}
 
             # 调用 ChatGPT 接口生成回复消息
             message = self.chat_with_gpt(session['msg'])
@@ -54,16 +58,16 @@ class Chatgpt:
             session['msg'].append({"role": "assistant", "content": message})
 
             # 输出会话 ID 和 ChatGPT 返回的回复消息
-            print("会话ID: " + str(sessionid))
-            print("ChatGPT返回内容: ")
-            print(message)
+            logging.info("会话ID: " + str(sessionid))
+            logging.info("ChatGPT返回内容: ")
+            logging.info(message)
 
             # 返回 ChatGPT 返回的回复消息
             return message
 
         # 捕获异常并打印堆栈跟踪信息
         except Exception as error:
-            traceback.print_exc()
+            traceback.logging.info_exc()
             return str('异常: ' + str(error))
 
 
@@ -77,7 +81,7 @@ class Chatgpt:
         if sessionid not in self.sessions:
             config = deepcopy(self.session_config)
             config['id'] = sessionid
-            config['msg'].append({"role": "system", "content": "current time is:" + common.get_bj_time()})
+            config['msg'].append({"role": "system", "content": "current time is:" + self.common.get_bj_time()})
             self.sessions[sessionid] = config
         return self.sessions[sessionid]
 
@@ -113,31 +117,31 @@ class Chatgpt:
         except openai.OpenAIError as e:
             if str(e).__contains__("Rate limit reached for default-gpt-3.5-turbo") and self.current_key_index <= max_length:
                 self.current_key_index = self.current_key_index + 1
-                print("速率限制，尝试切换key")
+                logging.info("速率限制，尝试切换key")
                 return self.chat_with_gpt(messages)
             elif str(e).__contains__(
                     "Your access was terminated due to violation of our policies") and self.current_key_index <= max_length:
-                print("请及时确认该Key: " + str(openai.api_key) + " 是否正常，若异常，请移除")
+                logging.info("请及时确认该Key: " + str(openai.api_key) + " 是否正常，若异常，请移除")
 
                 # 判断是否所有 API key 均已尝试
                 if self.current_key_index + 1 > max_length:
                     return str(e)
                 else:
-                    print("访问被阻止，尝试切换Key")
+                    logging.info("访问被阻止，尝试切换Key")
                     self.current_key_index = self.current_key_index + 1
                     return self.chat_with_gpt(messages)
             else:
-                print('openai 接口报错: ' + str(e))
+                logging.info('openai 接口报错: ' + str(e))
                 resp = "openai 接口报错: " + str(e)
 
         return resp
 
 
     # 调用gpt接口，获取返回内容
-    def get_gpt_resp(self, user_name, promet):
+    def get_gpt_resp(self, user_name, prompt):
         # 获取当前用户的会话
         session = self.get_chat_session(str(user_name))
         # 调用 ChatGPT 接口生成回复消息
-        resp_content = self.chat(promet, session)
+        resp_content = self.chat(prompt, session)
 
         return resp_content

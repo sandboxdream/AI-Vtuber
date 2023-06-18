@@ -1,7 +1,7 @@
 # AI Vtuber
 
 <div style="text-align: center;">
-_✨ AI Vtuber ✨_
+_✨ AI Vtuber ✨_  
   
 <a href="https://github.com/Ikaros-521/AI-Vtuber/stargazers">
     <img alt="GitHub stars" src="https://img.shields.io/github/stars/Ikaros-521/AI-Vtuber?color=%09%2300BFFF&style=flat-square">
@@ -21,10 +21,10 @@ _✨ AI Vtuber ✨_
 
 </div>
 
-AI Vtuber是一个由`ChatterBot/GPT/Claude/langchain_pdf+gpt`驱动的虚拟主播，可以在`Bilibili/抖音/快手`直播中与观众实时互动。它使用自然语言处理和文本转语音技术(`Edge-TTS/VITS-Fast/elevenlabs`)生成对观众问题的回答。
+AI Vtuber是一个由`ChatterBot/GPT/Claude/langchain_pdf+gpt/chatglm`驱动的虚拟主播，可以在`Bilibili/抖音/快手`直播中与观众实时互动。它使用自然语言处理和文本转语音技术(`Edge-TTS/VITS-Fast/elevenlabs`)生成对观众问题的回答。
 
 
-## 项目结构
+## 📖项目结构
 
 - `config.json`，配置文件。
 - `bilibili.py`，哔哩哔哩版本。  
@@ -34,9 +34,24 @@ AI Vtuber是一个由`ChatterBot/GPT/Claude/langchain_pdf+gpt`驱动的虚拟主
 - `data`文件夹，存储数据文件和违禁词
 - `log`文件夹，存储运行日志
 - `out`文件夹，存储edge-tts输出的音频文件
- 
 
-## 运行环境
+
+## 下载项目
+
+首先你得装个`git`（啥，没装？百度），当然也可以直接在页面切换分支后下载各版本ZIP压缩包。    
+```
+# 主线
+git clone https://github.com/Ikaros-521/AI-Vtuber.git
+
+# owner分支
+git clone -b owner https://github.com/Ikaros-521/AI-Vtuber.git
+
+# dev分支
+git clone -b dev https://github.com/Ikaros-521/AI-Vtuber.git
+```
+
+
+## 💿运行环境
 
 python：3.10.11  
 各个版本的依赖的库在 requirements_xx.txt 中，请自行安装。  
@@ -50,21 +65,21 @@ pip install -r requirements_dy.txt
 pip install -r requirements_ks.txt
 ```
 
-## 配置
+## 🔧配置
 
 配置都在`config.json`  
 ```
 {
-  // 你的直播间号,兼容全平台，都是直播间页面的链接中最后的数字。例如:123
+  // 你的直播间号,兼容全平台，都是直播间页面的链接中最后的数字和字母。例如:123
   "room_display_id": "你的直播间号",
-  // 选用的聊天类型：chatterbot/gpt/claude/langchain_pdf/langchain_pdf+gpt/none 其中none就是复读机模式
+  // 选用的聊天类型：chatterbot/gpt/claude/langchain_pdf/langchain_pdf+gpt/chatglm/langchain_pdf_local/none 其中none就是复读机模式
   "chat_type": "none",
   // 弹幕语言筛选，none就是全部语言，en英文，jp日文，zh中文
   "need_lang": "none",
   // 请求gpt/claude时，携带的字符串头部，用于给每个对话追加固定限制
-  "before_promet": "请简要回复:",
+  "before_prompt": "请简要回复:",
   // 请求gpt/claude时，携带的字符串尾部
-  "after_promet": "",
+  "after_prompt": "",
   // 本地违禁词数据路径（你如果不需要，可以清空文件内容）
   "badwords_path": "data/badwords.txt",
   // 最长阅读的英文单词数（空格分隔）
@@ -83,6 +98,13 @@ pip install -r requirements_ks.txt
     // 参考：https://github.com/bincooo/claude-api#readme
     "slack_user_token": "",
     "bot_user_id": ""
+  },
+  // chatglm相关配置
+  "chatglm": {
+    "api_ip_port": "http://127.0.0.1:8000",
+    "max_length": 2048,
+    "top_p": 0.7,
+    "temperature": 0.95
   },
   // langchain_pdf 和 langchain_pdf+gpt 相关配置
   "langchain_pdf": {
@@ -103,18 +125,43 @@ pip install -r requirements_ks.txt
     // 显示openai token的消耗
     "show_cost": true
   },
+  "langchain_pdf_local": {
+    // claude相关配置
+    // 参考：https://github.com/bincooo/claude-api#readme
+    "bot_user_id": "",
+    "slack_user_token": "",
+    // 选择输入的pdf数据
+    "data_path": "data/伊卡洛斯百度百科.zip",
+    "separator": "\n",
+    "chunk_size": 100,
+    "chunk_overlap": 50,
+    // 默认模型
+    "embedding_model": "sebastian-hofstaetter/distilbert-dot-tas_b-b256-msmarco",
+    // 最大查询数据库次数。限制次数有助于节省token
+    "max_query": 3,
+    "question_prompt": "请根据以上content信息进行归纳总结，并结合question的内容给出一个符合content和question语气、语调、背景的回答。不要出现'概括''综上''感谢'等字样，向朋友直接互相交流即可。如果发现不能content的信息与question不相符，抛弃content的提示，直接回答question即可。任何情况下都要简要地回答!",
+    "chain_type": "stuff",
+    "show_cost": true
+  },
   // 语音合成类型选择 edge-tts/vits/elevenlabs
   "audio_synthesis_type": "edge-tts",
   // vits相关配置
   "vits": {
+    // 配置文件的路径
     "vits_config_path": "E:\\GitHub_pro\\VITS-fast-fine-tuning\\inference\\finetune_speaker.json",
+    // 推理服务运行的链接（需要完整的URL）
     "vits_api_ip_port": "http://127.0.0.1:7860",
+    // 选择的说话人，配置文件中的speaker中的其中一个
     "character": "ikaros"
   },
   // edge-tts相关配置
   "edge-tts": {
-    // edge-tts选定的说话人
+    // edge-tts选定的说话人(cmd执行：edge-tts -l 可以查看所有支持的说话人)
     "voice": "zh-CN-XiaoyiNeural"
+    // 语速增益 默认是 +0%，可以增减，注意 + - %符合别搞没了，不然会影响语音合成
+    "rate": "+0%",
+    // 音量增益 默认是 +0%，可以增减，注意 + - %符合别搞没了，不然会影响语音合成
+    "volume": "+0%"
   },
   // elevenlabs相关配置
   "elevenlabs": {
@@ -135,6 +182,7 @@ pip install -r requirements_ks.txt
   // chatgpt相关配置
   "chatgpt": {
     "model": "gpt-3.5-turbo",
+    // 控制生成文本的随机性。较高的温度值会使生成的文本更随机和多样化，而较低的温度值会使生成的文本更加确定和一致。
     "temperature": 0.9,
     "max_tokens": 2048,
     "top_p": 1,
@@ -159,7 +207,11 @@ pip install -r requirements_ks.txt
 }
 ```
 
-## 使用
+或者纯代理的镜像站：  
+- https://openai-pag.wangzhishi.net/
+
+
+## 🎉使用
 
 各版本都需要做的前期准备操作。  
 `chatterbot`相关安装参考[chatterbot/README.md](chatterbot/README.md)  
@@ -207,6 +259,22 @@ ps:依赖[golang](https://go.dev/dl/)环境，还没有的话，手动补一补[
 
 运行 `python ks.py`  
 
+## 开发
+### UI设计
+打开QT设计师~o( =∩ω∩= )m `pyqt5-tools designer`  
+生成UI代码 `pyuic5 -o UI_main.py ui\main.ui`  
+
+
+## FAQ 常问问题
+
+### 1.openai 接口报错:《empty message》
+可能是API KEY过期了/额度没了，请检查API KEY是否可用。  
+在线测试参考：  
+[chatgpt-html](http://ikaros521.eu.org/chatgpt-html/)  
+[ChatGPT-Next-Web](https://chat-gpt-next-web-ikaros-521.vercel.app/)  
+
+
+
 ## 许可证
 
 MIT许可证。详情请参阅LICENSE文件。
@@ -219,8 +287,14 @@ MIT许可证。详情请参阅LICENSE文件。
 ### 快手弹幕获取
 [kuaishou-live](https://github.com/YunzhiYike/kuaishou-live)  
 
+### Claude
+[claude-api](https://github.com/bincooo/claude-api)  
+
+### ChatGLM
+[ChatGLM-6B](https://github.com/THUDM/ChatGLM-6B)  
+
 ### langchain_pdf
-参考：[LangChainSummarize](https://github.com/Ikaros-521/LangChainSummarize)  
+参考：[LangChainSummarize](https://github.com/Ikaros-521/LangChainSummarize)
 
 ### elevenlabs
 [elevenlabs官网](https://beta.elevenlabs.io/)  
@@ -233,4 +307,39 @@ ChatterBot 是一个开源的 Python 聊天机器人框架，使用机器学习�
 
 ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和自然语言处理技术来分析和预测用户输入，然后生成响应。基于这种方法，聊天机器人的反应会更加智能、灵活、接近人类对话的方式。此外，ChatterBot 支持多种存储方式，如 JSON、SQLAlchemy、MongoDB 等，以及多种接口调用方式，如 RESTful API、WebSocket 等，方便开发者在不同场景中进行集成。
 
-总的来说，ChatterBot 是一个非常强大、灵活、易用的聊天机器人框架，帮助开发者快速搭建出个性化、定制化的聊天机器人，从而提升用户体验和服务质量。
+总的来说，ChatterBot 是一个非常强大、灵活、易用的聊天机器人框架，帮助开发者快速搭建出个性化、定制化的聊天机器人，从而提升用户体验和服务质量。  
+
+
+## 📝 更新日志
+
+<details>
+<summary>展开/收起</summary>
+
+### 2023-06-13
+兼容本地版ChatGLM API接口  
+
+### 2023-06-16
+增加Edge-TTS的语速、音量调节参数。  
+
+### 2023-06-17
+- 增加GUI版。
+- 增加GUI运行的bat文件，需要配合本地虚拟环境运行。请到releases下载。
+- 对config.json的结构做了调整，增加了弹幕前后缀过滤配置。
+- 增加langchain_pdf_local的配置内容，待和主线整合后合并。
+
+</details>
+
+## Star 经历
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Ikaros-521/AI-Vtuber&type=Date)](https://star-history.com/#Ikaros-521/AI-Vtuber&Date)
+
+## 🤝 贡献
+
+### 🎉 鸣谢
+
+感谢以下开发者对该项目做出的贡献：
+
+<a href="https://github.com/Ikaros-521/AI-Vtuber/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Ikaros-521/AI-Vtuber" />
+  <img style="border-radius: 50%; height:66px;" src="https://avatars.githubusercontent.com/u/46062705?v=4" />
+</a>
