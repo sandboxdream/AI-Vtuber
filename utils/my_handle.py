@@ -194,7 +194,7 @@ class My_handle():
         content = content.replace('\n', ',')
 
         # 含有违禁词/链接
-        if self.common.profanity_content(content) or self.common.check_sensitive_words(self.filter_config["badwords_path"], content) or \
+        if self.common.profanity_content(content) or self.common.check_sensitive_words2(self.filter_config["badwords_path"], content) or \
             self.common.is_url_check(content):
             logging.warning(f"违禁词/链接：{content}")
             return

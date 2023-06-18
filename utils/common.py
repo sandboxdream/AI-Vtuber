@@ -8,6 +8,7 @@ from datetime import timezone
 import langid
 
 from profanity import profanity
+import ahocorasick
 
 class Common:
     # 获取北京时间
@@ -59,6 +60,28 @@ class Common:
         for word in sensitive_words:
             if word in text:
                 return True
+
+        return False
+    
+
+    # 本地敏感词检测 Aho-Corasick 算法 传入敏感词库文件路径和待检查的文本
+    def check_sensitive_words2(self, file_path, text):
+        with open(file_path, 'r', encoding='utf-8') as file:
+            sensitive_words = [line.strip() for line in file.readlines()]
+
+        # 创建 Aho-Corasick 自动机
+        automaton = ahocorasick.Automaton()
+
+        # 添加违禁词到自动机中
+        for word in sensitive_words:
+            automaton.add_word(word, word)
+
+        # 构建自动机的转移函数和失效函数
+        automaton.make_automaton()
+
+        # 在文本中搜索违禁词
+        for _, found_word in automaton.iter(text):
+            return True
 
         return False
 
