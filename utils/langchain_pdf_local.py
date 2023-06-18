@@ -147,4 +147,8 @@ if __name__ == '__main__':
     my_handle = My_handle("config.json")
     if my_handle is None:
         print("程序初始化失败！")
+<<<<<<< HEAD
         exit(0)
+=======
+        exit(0)
+>>>>>>> 348a7eee0f20d5855de9ece69981679eb8158d4e

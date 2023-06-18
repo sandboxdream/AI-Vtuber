@@ -12,6 +12,7 @@ class My_handle():
     common = None
     # 配置信息
     config = None
+
     audio = None
 
     room_id = None

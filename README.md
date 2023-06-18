@@ -294,7 +294,7 @@ MIT许可证。详情请参阅LICENSE文件。
 [ChatGLM-6B](https://github.com/THUDM/ChatGLM-6B)  
 
 ### langchain_pdf
-参考：[LangChainSummarize](https://github.com/Ikaros-521/LangChainSummarize)  
+参考：[LangChainSummarize](https://github.com/Ikaros-521/LangChainSummarize)
 
 ### elevenlabs
 [elevenlabs官网](https://beta.elevenlabs.io/)  
