@@ -309,6 +309,9 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 
 总的来说，ChatterBot 是一个非常强大、灵活、易用的聊天机器人框架，帮助开发者快速搭建出个性化、定制化的聊天机器人，从而提升用户体验和服务质量。  
 
+### Live2D
+源自：[CyberWaifu](https://github.com/jieran233/CyberWaifu)  
+
 
 ## 📝 更新日志
 
@@ -326,6 +329,12 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 - 增加GUI运行的bat文件，需要配合本地虚拟环境运行。请到releases下载。
 - 对config.json的结构做了调整，增加了弹幕前后缀过滤配置。
 - 增加langchain_pdf_local的配置内容，待和主线整合后合并。
+
+### 2023-06-18
+- 修复部分GUI的bug
+- 整合到主线
+- 新增本地live2d模型加载
+
 
 </details>
 
