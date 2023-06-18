@@ -193,3 +193,5 @@ chatterbot/ChatterBot_update/
 
 # 虚拟环境
 venv/
+
+output/

@@ -6,7 +6,8 @@
   "before_prompt": "请简要回复:",
   "after_prompt": "",
   "filter": {
-    "before_must_str": [],
+    "before_must_str": [
+    ],
     "after_must_str": [
       ".",
       "。",
