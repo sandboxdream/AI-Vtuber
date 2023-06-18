@@ -11,3 +11,5 @@ profanity==1.1
 elevenlabs
 PyPDF2
 langchain==0.0.142
+PyQt5
+pyqt5-tools
