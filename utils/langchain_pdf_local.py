@@ -39,6 +39,8 @@ class Langchain_pdf_local:
     langchain_pdf_embedding_model = "sebastian-hofstaetter/distilbert-dot-tas_b-b256-msmarco"
     langchain_pdf_chain_type = "stuff"
     langchain_pdf_show_cost = None
+    langchain_pdf_question_prompt = ""
+    langchain_pdf_max_query = 0
     docsearch = None
     chain = None
     pdf_loader = PyPDFLoader
@@ -55,6 +57,8 @@ class Langchain_pdf_local:
         self.langchain_pdf_embedding_model = data["embedding_model"]
         self.langchain_pdf_chain_type = data["chain_type"]
         self.langchain_pdf_show_cost = data["show_cost"]
+        self.langchain_pdf_question_prompt = data["question_prompt"]
+        self.langchain_pdf_max_query = data["max_query"]
 
         print(f"pdf文件路径：{self.langchain_pdf_data_path}")
 
@@ -100,27 +104,22 @@ class Langchain_pdf_local:
 
     # 调用本地向量数据库，获取关联信息
     def get_local_database_data(self, message):
-        print(f"开始从本地向量数据库中查询有关 {message} 的信息........", message)
+        print(f"开始从本地向量数据库中查询有关”{message}“的信息........")
 
         contents = []
-        try:
-            docs = self.local_db.similarity_search(message)
-            for i in range(len(docs)):
-                # 预处理分块
-                content = docs[i].page_content.replace('\n', ' ')
-                print(f"No.{i} 相关联信息: {content}")
-                data = get_content(content)
-                # 更新contents
-                contents.append(data)
-            print("整理后的相关信息: " + contents)
-
-        except:
-            print("检索本地向量数据库出现问题，可能会影响查询效果........")
+        docs = self.local_db.similarity_search(message, k=self.langchain_pdf_max_query)
+        for i in range(self.langchain_pdf_max_query):
+            # 预处理分块
+            content = docs[i].page_content.replace('\n', ' ')
+            print(f"No.{i} 相关联信息: {content}")
+            data = get_content(content)
+            # 更新contents
+            contents.append(data)
 
         print("从本地向量数据库查询到的相关信息: {}".format(contents))
         if len(contents) == 0 or contents is None:
             return
-        related_data = "\n---\n".join(contents) + "\n-----\n"
+        related_data = "\n---\n".join(contents) + "\n---\n"
         return related_data
 
     def load_local_db(self, zip_file):
@@ -128,7 +127,7 @@ class Langchain_pdf_local:
             return "文件为空. 创建失败.", None
         self.local_db = load_faiss_index_from_zip(zip_file)
 
-        return "成功读取知识库. 可以开始聊天了!"
+        print("成功读取知识库")
 
     def get_langchain_pdf_local_resp(self, chat_type="langchain_pdf", question=""):
         if self.local_db is None:
@@ -138,7 +137,7 @@ class Langchain_pdf_local:
         if related_data is None or len(related_data) <= 0:
             content = question
         else:
-            content = related_data + "\n请根据以上信息,回答这个问题: " + question
+            content = related_data + "\n" + self.langchain_pdf_question_prompt + " question: " + question
 
         resp = self.claude.get_claude_resp(content)
         return resp

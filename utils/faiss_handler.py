@@ -112,7 +112,7 @@ def create_faiss_index_from_zip(path_to_zip_file, embeddings=None, pdf_loader=No
         os.makedirs(embeddings_data)  # ./project/embeddings
         os.makedirs(index_data)  # ./project/faiss_index
     else:
-        raise ValueError(f"The project {project_name} exists.")
+        raise ValueError(f"向量数据库文件夹重名，请删除重名文件夹后再启动。")
 
     # 解压数据包
     with zipfile.ZipFile(path_to_zip_file, 'r') as zip_ref:
@@ -161,8 +161,6 @@ def create_faiss_index_from_zip(path_to_zip_file, embeddings=None, pdf_loader=No
     db = FAISS.from_embeddings(text_embedding_pairs, embeddings)
     db.save_local(index_data)
 
-    print(db_meta)
-    print("create_faiss_index_from_zip: Success!")
     return db
 
 
