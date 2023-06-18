@@ -21,7 +21,7 @@ _✨ AI Vtuber ✨_
 
 </div>
 
-AI Vtuber是一个由`ChatterBot/GPT/Claude/langchain_pdf+gpt/chatglm`驱动的虚拟主播，可以在`Bilibili/抖音/快手`直播中与观众实时互动。它使用自然语言处理和文本转语音技术(`Edge-TTS/VITS-Fast/elevenlabs`)生成对观众问题的回答。
+AI Vtuber是一个由`ChatterBot/GPT/Claude/langchain_pdf+gpt/chatglm`驱动的虚拟主播（Live2D），可以在`Bilibili/抖音/快手`直播中与观众实时互动。它使用自然语言处理和文本转语音技术(`Edge-TTS/VITS-Fast/elevenlabs`)生成对观众问题的回答。
 
 
 ## 📖项目结构
@@ -34,6 +34,7 @@ AI Vtuber是一个由`ChatterBot/GPT/Claude/langchain_pdf+gpt/chatglm`驱动的�
 - `data`文件夹，存储数据文件和违禁词
 - `log`文件夹，存储运行日志
 - `out`文件夹，存储edge-tts输出的音频文件
+- `Live2D`文件夹，存储Live2D源码及模型
 
 
 ## 下载项目
@@ -80,12 +81,30 @@ pip install -r requirements_ks.txt
   "before_prompt": "请简要回复:",
   // 请求gpt/claude时，携带的字符串尾部
   "after_prompt": "",
-  // 本地违禁词数据路径（你如果不需要，可以清空文件内容）
-  "badwords_path": "data/badwords.txt",
-  // 最长阅读的英文单词数（空格分隔）
-  "max_len": 30,
-  // 最长阅读的字符数，双重过滤，避免溢出
-  "max_char_len": 50,
+  "filter": {
+    // 弹幕过滤，必须携带的触发前缀字符串（任一）
+    "before_must_str": [],
+    // 弹幕过滤，必须携带的触发后缀字符串（任一）
+    "after_must_str": [
+      ".",
+      "。",
+      "?",
+      "？"
+    ],
+    // 本地违禁词数据路径（你如果不需要，可以清空文件内容）
+    "badwords_path": "data/badwords.txt",
+    // 最长阅读的英文单词数（空格分隔）
+    "max_len": 30,
+    // 最长阅读的字符数，双重过滤，避免溢出
+    "max_char_len": 50
+  },
+  // Live2D皮
+  "live2d": {
+    // 是否启用
+    "enable": true,
+    // web服务监听端口
+    "port": 12345
+  },
   "openai": {
     "api": "https://api.openai.com/v1",
     "api_key": [
@@ -350,5 +369,5 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 
 <a href="https://github.com/Ikaros-521/AI-Vtuber/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=Ikaros-521/AI-Vtuber" />
-  <img style="border-radius: 50%; height:66px;" src="https://avatars.githubusercontent.com/u/46062705?v=4" />
 </a>
+<img style="border-radius: 50%; height:66px;" src="https://avatars.githubusercontent.com/u/46062705?v=4" />
