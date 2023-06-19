@@ -1,7 +1,10 @@
-import time
+import time, logging
 
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
+
+from .common import Common
+from .logger import Configure_logger
 
 class Claude:
     slack_user_token = None
@@ -11,12 +14,17 @@ class Claude:
     dm_channel_id = None
 
     def __init__(self, data):
+        self.common = Common()
+        # 日志文件路径
+        file_path = "./log/log-" + self.common.get_bj_time(1) + ".txt"
+        Configure_logger(file_path)
+        
         self.slack_user_token = data["slack_user_token"]
         self.bot_user_id = data["bot_user_id"]
         self.client = WebClient(token=self.slack_user_token)
         self.dm_channel_id = self.find_direct_message_channel(self.bot_user_id)
         if not self.dm_channel_id:
-            print("Could not find DM channel with the bot.")
+            logging.error("Could not find DM channel with the bot.")
             return None
         
 
@@ -25,7 +33,7 @@ class Claude:
         try:
             return self.client.chat_postMessage(channel=channel, text=text)
         except SlackApiError as e:
-            print(f"Error sending message: {e}")
+            logging.error(f"Error sending message: {e}")
             return None
 
 
@@ -53,7 +61,7 @@ class Claude:
             response = self.client.conversations_open(users=user_id)
             return response['channel']['id']
         except SlackApiError as e:
-            print(f"Error opening DM channel: {e}")
+            logging.info(f"Error opening DM channel: {e}")
             return None
 
 

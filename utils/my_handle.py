@@ -1,9 +1,10 @@
 import os
 import logging
 
-from utils.config import Config
-from utils.common import Common
-from utils.audio import Audio
+from .config import Config
+from .common import Common
+from .audio import Audio
+from .logger import Configure_logger
 
 
 class My_handle():
@@ -11,7 +12,6 @@ class My_handle():
     common = None
     # 配置信息
     config = None
-
     audio = None
 
     room_id = None
@@ -30,13 +30,8 @@ class My_handle():
     before_prompt = None
     after_prompt = None
 
-    # 敏感词数据路径
-    badwords_path = None
-
-    # 最大阅读单词数
-    max_len = None
-    # 最大阅读字符数
-    max_char_len = None
+    # 过滤配置
+    filter_config = None
 
     chat_type = None
 
@@ -63,16 +58,14 @@ class My_handle():
     log_file_path = None
 
 
-    def __init__(self, config_path):
-        LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
-        # logging.basicConfig(level=logging.DEBUG, format=LOG_FORMAT)
-        # 不想看那么多日志信息，可以把日志等级提一提
-        logging.basicConfig(level=logging.WARNING, format=LOG_FORMAT)
-
-        
+    def __init__(self, config_path):        
         self.common = Common()
         self.config = Config(config_path)
         self.audio = Audio()
+        
+        # 日志文件路径
+        file_path = "./log/log-" + self.common.get_bj_time(1) + ".txt"
+        Configure_logger(file_path)
 
         self.proxy = None
 
@@ -89,13 +82,8 @@ class My_handle():
             self.before_prompt = self.config.get("before_prompt")
             self.after_prompt = self.config.get("after_prompt")
 
-            # 敏感词数据路径
-            self.badwords_path = self.config.get("badwords_path")
-
-            # 最大阅读单词数
-            self.max_len = int(self.config.get("max_len"))
-            # 最大阅读字符数
-            self.max_char_len = int(self.config.get("max_char_len"))
+            # 过滤配置
+            self.filter_config = self.config.get("filter")
 
             self.chat_type = self.config.get("chat_type")
 
@@ -120,9 +108,9 @@ class My_handle():
             # 音频合成使用技术
             self.audio_synthesis_type = self.config.get("audio_synthesis_type")
 
-            print("配置文件加载成功。")
+            logging.info("配置文件加载成功。")
         except Exception as e:
-            print(e)
+            logging.info(e)
             return None
 
 
@@ -144,7 +132,7 @@ class My_handle():
                     database_uri='sqlite:///' + self.chatterbot_config["db_path"]  # 数据库URI，数据库用于存储对话历史
                 )
             except Exception as e:
-                print(e)
+                logging.info(e)
                 exit(0)
         elif self.chat_type == "langchain_pdf" or self.chat_type == "langchain_pdf+gpt":
             from utils.langchain_pdf import Langchain_pdf
@@ -165,11 +153,11 @@ class My_handle():
         # 日志文件路径
         self.log_file_path = "./log/log-" + self.common.get_bj_time(1) + ".txt"
         if os.path.isfile(self.log_file_path):
-            print(f'{self.log_file_path} 日志文件已存在，跳过')
+            logging.info(f'{self.log_file_path} 日志文件已存在，跳过')
         else:
             with open(self.log_file_path, 'w') as f:
                 f.write('')
-                print(f'{self.log_file_path} 日志文件已创建')
+                logging.info(f'{self.log_file_path} 日志文件已创建')
 
 
     def get_room_id(self):
@@ -177,91 +165,103 @@ class My_handle():
     
 
     def commit_handle(self, user_name, content):
-        # 判断弹幕是否以句号或问号结尾，如果是则进行回复
-        if content.endswith("。") or content.endswith("？") or content.endswith("?"):
-            # 输出当前用户发送的弹幕消息
-            print(f"[{user_name}]: {content}")
+        # 判断弹幕是否以xx起始，如果不是则返回
+        if self.filter_config["before_must_str"] and not any(content.startswith(prefix) for prefix in self.filter_config["before_must_str"]):
+            return
+        else:
+            for prefix in self.filter_config["before_must_str"]:
+                if content.startswith(prefix):
+                    content = content[len(prefix):]  # 删除匹配的开头
+                    break
 
-            # 全为标点符号
-            if self.common.is_punctuation_string(content):
-                return
+        # 判断弹幕是否以xx结尾，如果不是则返回
+        if self.filter_config["after_must_str"] and not any(content.endswith(prefix) for prefix in self.filter_config["after_must_str"]):
+            return
+        else:
+            for prefix in self.filter_config["after_must_str"]:
+                if content.endswith(prefix):
+                    content = content[:-len(prefix)]  # 删除匹配的结尾
+                    break
 
-            # 换行转为,
-            content = content.replace('\n', ',')
+        # 输出当前用户发送的弹幕消息
+        logging.info(f"[{user_name}]: {content}")
 
-            # 含有违禁词/链接
-            if self.common.profanity_content(content) or self.common.check_sensitive_words(self.badwords_path, content) or \
-                self.common.is_url_check(content):
-                print(f"违禁词/链接：{content}")
-                return
+        # 全为标点符号
+        if self.common.is_punctuation_string(content):
+            return
 
-            # 语言检测
-            if self.common.lang_check(content, self.need_lang) is None:
-                print("语言检测不通过，已过滤")
-                return
+        # 换行转为,
+        content = content.replace('\n', ',')
 
-            # 根据聊天类型执行不同逻辑
-            if self.chat_type == "gpt":
-                content = self.before_prompt + content + self.after_prompt
-                # 调用gpt接口，获取返回内容
-                resp_content = self.chatgpt.get_gpt_resp(user_name, content)
-                if resp_content is not None:
-                    # 输出 ChatGPT 返回的回复消息
-                    print(f"[AI回复{user_name}]：{resp_content}")
-                else:
-                    resp_content = ""
-                    print("警告：gpt无返回")
-            elif self.chat_type == "claude":
-                content = self.before_prompt + content + self.after_prompt
-                resp_content = self.claude.get_claude_resp(content)
-                if resp_content is not None:
-                    # 输出 返回的回复消息
-                    print(f"[AI回复{user_name}]：{resp_content}")
-                else:
-                    resp_content = ""
-                    print("警告：claude无返回")
-            elif self.chat_type == "chatterbot":
-                # 生成回复
-                resp_content = self.bot.get_response(content).text
-                print(f"[AI回复{user_name}]：{resp_content}")
-            elif self.chat_type == "langchain_pdf" or self.chat_type == "langchain_pdf+gpt":
-                # 只用langchain，不做gpt的调用，可以节省token，做个简单的本地数据搜索
-                resp_content = self.langchain_pdf.get_langchain_pdf_resp(self.chat_type, content)
+        # 含有违禁词/链接
+        if self.common.profanity_content(content) or self.common.check_sensitive_words2(self.filter_config["badwords_path"], content) or \
+            self.common.is_url_check(content):
+            logging.warning(f"违禁词/链接：{content}")
+            return
 
-                print(f"[AI回复{user_name}]：{resp_content}")
-            elif self.chat_type == "chatglm":
-                # 生成回复
-                resp_content = self.chatglm.get_chatglm_resp(content)
-                print(f"[AI回复{user_name}]：{resp_content}")
-            elif self.chat_type == "langchain_pdf_local":
-                resp_content = self.langchain_pdf.get_langchain_pdf_local_resp(self.chat_type, content)
+        # 语言检测
+        if self.common.lang_check(content, self.need_lang) is None:
+            logging.warning("语言检测不通过，已过滤")
+            return
 
-                print(f"[AI回复{user_name}]：{resp_content}")
-            elif self.chat_type == "game":
-                return
-                g1 = game1()
-                g1.parse_keys_and_simulate_key_press(content.split(), 2)
-
-                return
+        # 根据聊天类型执行不同逻辑
+        if self.chat_type == "gpt":
+            content = self.before_prompt + content + self.after_prompt
+            # 调用gpt接口，获取返回内容
+            resp_content = self.chatgpt.get_gpt_resp(user_name, content)
+            if resp_content is not None:
+                # 输出 ChatGPT 返回的回复消息
+                logging.info(f"[AI回复{user_name}]：{resp_content}")
             else:
-                # 复读机
-                resp_content = content
+                resp_content = ""
+                logging.info("警告：gpt无返回")
+        elif self.chat_type == "claude":
+            content = self.before_prompt + content + self.after_prompt
+            resp_content = self.claude.get_claude_resp(content)
+            if resp_content is not None:
+                # 输出 返回的回复消息
+                logging.info(f"[AI回复{user_name}]：{resp_content}")
+            else:
+                resp_content = ""
+                logging.info("警告：claude无返回")
+        elif self.chat_type == "chatterbot":
+            # 生成回复
+            resp_content = self.bot.get_response(content).text
+            logging.info(f"[AI回复{user_name}]：{resp_content}")
+        elif self.chat_type == "langchain_pdf" or self.chat_type == "langchain_pdf+gpt":
+            # 只用langchain，不做gpt的调用，可以节省token，做个简单的本地数据搜索
+            resp_content = self.langchain_pdf.get_langchain_pdf_resp(self.chat_type, content)
 
-            # print("resp_content=" + resp_content)
+            logging.info(f"[AI回复{user_name}]：{resp_content}")
+        elif self.chat_type == "chatglm":
+            # 生成回复
+            resp_content = self.chatglm.get_chatglm_resp(content)
+            logging.info(f"[AI回复{user_name}]：{resp_content}")
+        elif self.chat_type == "langchain_pdf_local":
+            resp_content = self.langchain_pdf.get_langchain_pdf_local_resp(self.chat_type, content)
 
-            # 将 AI 回复记录到日志文件中
-            with open(self.log_file_path, "r+", encoding="utf-8") as f:
-                content = f.read()
-                # 将指针移到文件头部位置（此目的是为了让直播中读取日志文件时，可以一直让最新内容显示在顶部）
-                f.seek(0, 0)
-                # 不过这个实现方式，感觉有点低效
-                f.write(f"[AI回复{user_name}]：{resp_content}\n" + content)
+            print(f"[AI回复{user_name}]：{resp_content}")
+        elif self.chat_type == "game":
+            return
+            g1 = game1()
+            g1.parse_keys_and_simulate_key_press(content.split(), 2)
 
-            tmp_config = {
-                "max_len": self.max_len,
-                "max_char_len" : self.max_char_len
-            }
+            return
+        else:
+            # 复读机
+            resp_content = content
 
-            # 音频合成（edge-tts / vits）并播放
-            self.audio.audio_synthesis(self.audio_synthesis_type, self.config.get(self.audio_synthesis_type), tmp_config, resp_content)
+        # logger.info("resp_content=" + resp_content)
+
+        # 将 AI 回复记录到日志文件中
+        # with open(self.log_file_path, "r+", encoding="utf-8") as f:
+        #     content = f.read()
+        #     # 将指针移到文件头部位置（此目的是为了让直播中读取日志文件时，可以一直让最新内容显示在顶部）
+        #     f.seek(0, 0)
+        #     # 不过这个实现方式，感觉有点低效
+        #     f.write(f"[AI回复{user_name}]：{resp_content}\n" + content)
+
+
+        # 音频合成（edge-tts / vits）并播放
+        self.audio.audio_synthesis(self.audio_synthesis_type, self.config.get(self.audio_synthesis_type), self.filter_config, resp_content)
 

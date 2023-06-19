@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1900">
+  <title>TypeScript HTML App</title>
+  <link rel="stylesheet" href="./css/live2d.css">
+  <link rel="stylesheet" href="./font/iconfont.css">
+  <!-- Pollyfill script -->
+  <!-- <script src="https://unpkg.com/core-js-bundle@3.6.1/minified.js"></script> -->
+  <!-- Live2DCubismCore script -->
+  <script src="./js/live2dcubismcore.js"></script>
+  <!-- Build script -->
+  <script src="./js/bundle.js"></script>
+</head>
+
+<body>
+  <div id="landlord">
+    <div class="message" style="opacity:0"></div>
+    <canvas id="live2d" class="live2d"></canvas>
+    <div id="controller">
+      <div id="drag" class="iconfont" style="-webkit-app-region: drag;"><span>&#xe6a8;</span></div>
+      <div id="Fixed" class="iconfont"><span>&#xe637;</span></div>
+      <div id="nextScene" class="iconfont"><span>&#xe606;</span></div>
+      <div id="option1" class="iconfont"><span>X</span></div>
+      <div id="option2" class="iconfont"><span>X</span></div>
+      <div id="option3" class="iconfont"><span>X</span></div>
+    </div>
+  </div>
+  <script type="text/javascript" src="./js/jquery.min.js"></script>
+  <script src="./js/main.js"></script>
+  <script type="text/javascript" src="./js/message.js"></script>
+</body>
+
+</html>

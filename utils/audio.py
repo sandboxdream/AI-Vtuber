@@ -1,9 +1,5 @@
-import threading
-import json
-import time
+import time, logging
 import requests
-
-# 导入所需的库
 import json, threading
 import subprocess
 
@@ -12,22 +8,17 @@ import pygame
 from elevenlabs import generate, play, set_api_key
 
 from .common import Common
+from .logger import Configure_logger
 
-common = Common()
 
 class Audio:
-    # def get_vits_speakers(vits_config_path):
-    #     try:
-    #         with open(vits_config_path, "r", encoding="utf-8") as file:
-    #             vits_data = json.load(file)
-            
-    #         # 加载说话人配置
-    #         speakers = vits_data["speakers"]
+    common = None
 
-    #         return speakers
-    #     except Exception as e:
-    #         print('加载配置文件失败，请进行修复')
-    #         return None
+    def __init__(self):  
+        self.common = Common()
+        # 日志文件路径
+        file_path = "./log/log-" + self.common.get_bj_time(1) + ".txt"
+        Configure_logger(file_path)
 
     # 请求VITS接口获取合成后的音频路径
     def get_data(self, vits_api_ip_port="http://127.0.0.1:7860", character="ikaros", language="日语", text="こんにちわ。", speed=1):
@@ -62,11 +53,11 @@ class Audio:
             # async with aiohttp.ClientSession() as session:
             #     async with session.post(url=API_URL, json=data_json) as response:
             #         result = await response.read()
-            #         # print(result)
+            #         # logging.info(result)
             #         ret = json.loads(result)
             # return ret
         except Exception as e:
-            print(e)
+            logging.info(e)
             return None
     
 
@@ -78,15 +69,15 @@ class Audio:
 
     # 播放音频
     def my_play_voice(self, type, data, config, content):
-        print(content)
-        content = common.remove_extra_words(content, config["max_len"], config["max_char_len"])
-        # print("裁剪后的合成文本:" + text)
+        logging.debug(f"合成音频前的原始数据：{content}")
+        content = self.common.remove_extra_words(content, config["max_len"], config["max_char_len"])
+        # logging.info("裁剪后的合成文本:" + text)
 
         content = content.replace('\n', '。')
 
         if type == "vits":
             # 语言检测
-            language = common.lang_check(content)
+            language = self.common.lang_check(content)
 
             # 自定义语言名称（需要匹配请求解析）
             language_name_dict = {"en": "英语", "zh": "中文", "jp": "日语"}  
@@ -96,14 +87,14 @@ class Audio:
             else:
                 language = "日语"  # 无法识别出语言代码时的默认值
 
-            # print("language=" + language)
+            # logging.info("language=" + language)
 
             try:
                 # 调用接口合成语音
                 data_json = self.get_data(data["api_ip_port"], data["character"], language, content, data["speed"])
-                # print(data_json)
+                # logging.info(data_json)
             except Exception as e:
-                print(e)
+                logging.error(e)
                 return
 
             voice_tmp_path = data_json["data"][1]["name"]
@@ -117,9 +108,9 @@ class Audio:
                 pygame.mixer.music.stop()
                 pygame.mixer.quit()
             except Exception as e:
-                print(e)
+                logging.error(e)
         elif type == "edge-tts":
-            voice_tmp_path = './out/' + common.get_bj_time(2) + '.mp3'
+            voice_tmp_path = './out/' + self.common.get_bj_time(2) + '.mp3'
             # 过滤" '字符
             content = content.replace('"', '').replace("'", '').replace(" ", ',')
             # 使用 Edge TTS 生成回复消息的语音文件
@@ -138,7 +129,7 @@ class Audio:
                 pygame.mixer.music.stop()
                 pygame.mixer.quit()
             except Exception as e:
-                print(e)
+                logging.error(e)
         elif type == "elevenlabs":
             try:
                 # 如果配置了密钥就设置上0.0
@@ -153,5 +144,5 @@ class Audio:
 
                 play(audio)
             except Exception as e:
-                print(e)
+                logging.error(e)
                 return

@@ -177,6 +177,7 @@ douyin/config2.json
 douyin/out/*.mp3
 douyin/log/*.txt
 
+# 测试文件夹
 test/
 game/
 
@@ -186,3 +187,14 @@ main.py
 
 /data/vector_base
 .idea
+
+# 本地chatterbot项目路径
+chatterbot/ChatterBot_update/
+
+# 虚拟环境
+venv/
+
+output/
+.idea
+
+branch/

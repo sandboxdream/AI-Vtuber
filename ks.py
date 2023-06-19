@@ -25,7 +25,14 @@ from ks_pb2 import SCWebFeedPush
 from ks_pb2 import SCWebLiveWatchingUsers
 from ks_pb2 import SCWebEnterRoomAck
 
+from utils.common import Common
+from utils.logger import Configure_logger
 from utils.my_handle import My_handle
+
+common = Common()
+# 日志文件路径
+file_path = "./log/log-" + common.get_bj_time(1) + ".txt"
+Configure_logger(file_path)
 
 my_handle = My_handle("config.json")
 if my_handle is None:

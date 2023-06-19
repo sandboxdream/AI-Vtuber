@@ -8,6 +8,10 @@ from langchain.chat_models import ChatOpenAI
 from langchain.callbacks import get_openai_callback
 from langchain.prompts import PromptTemplate
 
+import logging
+
+from .common import Common
+from .logger import Configure_logger
 
 class Langchain_pdf:
     langchain_pdf_openai_api_key = None
@@ -22,6 +26,11 @@ class Langchain_pdf:
     chain = None
 
     def __init__(self, data, chat_type="langchain_pdf"):
+        self.common = Common()
+        # 日志文件路径
+        file_path = "./log/log-" + self.common.get_bj_time(1) + ".txt"
+        Configure_logger(file_path)
+
         self.langchain_pdf_openai_api_key = data["openai_api_key"]
         self.langchain_pdf_data_path = data["data_path"]
         self.langchain_pdf_separator = data["separator"]
@@ -31,7 +40,7 @@ class Langchain_pdf:
         self.langchain_pdf_chain_type = data["chain_type"]
         self.langchain_pdf_show_cost = data["show_cost"]
 
-        print(f"pdf文件路径：{self.langchain_pdf_data_path}")
+        logging.info(f"pdf文件路径：{self.langchain_pdf_data_path}")
 
         # 加载本地的pdf文件
         reader = PdfReader(self.langchain_pdf_data_path)
@@ -44,9 +53,9 @@ class Langchain_pdf:
             if text:
                 raw_text += text
 
-        # print(raw_text)
+        # logging.info(raw_text)
 
-        print("文档前100个字符：" + raw_text[:100])
+        logging.info("文档前100个字符：" + raw_text[:100])
 
         # We need to split the text that we read into smaller chunks so that during information retreival we don't hit the token size limits. 
         # 我们需要将读取的文本分成更小的块，这样在信息检索过程中就不会达到令牌大小的限制。
@@ -65,7 +74,7 @@ class Langchain_pdf:
         )
         texts = text_splitter.split_text(raw_text)
 
-        print("共切分为" + str(len(texts)) + "块文本内容")
+        logging.info("共切分为" + str(len(texts)) + "块文本内容")
 
         # 创建了一个OpenAIEmbeddings实例，然后使用这个实例将一些文本转化为向量表示（嵌入）。
         # 然后，这些向量被加载到一个FAISS（Facebook AI Similarity Search）索引中，用于进行相似性搜索。
@@ -112,18 +121,18 @@ class Langchain_pdf:
                 docs = self.docsearch.similarity_search(query)
 
                 # 可以打印匹配的文档内容，看看
-                # print(docs)
+                # logging.info(docs)
 
                 res = self.chain.run(input_documents=docs, question=query)
-                # print(f"Output: {res}")
+                # logging.info(f"Output: {res}")
 
                 # 显示花费
                 if self.langchain_pdf_show_cost:
                     # 相关消耗和费用
-                    print(f"Total Tokens: {cb.total_tokens}")
-                    print(f"Prompt Tokens: {cb.prompt_tokens}")
-                    print(f"Completion Tokens: {cb.completion_tokens}")
-                    print(f"Successful Requests: {cb.successful_requests}")
-                    print(f"Total Cost (USD): ${cb.total_cost}")
+                    logging.info(f"Total Tokens: {cb.total_tokens}")
+                    logging.info(f"Prompt Tokens: {cb.prompt_tokens}")
+                    logging.info(f"Completion Tokens: {cb.completion_tokens}")
+                    logging.info(f"Successful Requests: {cb.successful_requests}")
+                    logging.info(f"Total Cost (USD): ${cb.total_cost}")
                 
                 return res

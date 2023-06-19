@@ -14,3 +14,6 @@ requests
 websocket-client
 websocket-client-py3
 langchain==0.0.142
+PyQt5
+pyqt5-tools
+tiktoken
