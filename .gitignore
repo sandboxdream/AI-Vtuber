@@ -183,7 +183,6 @@ game/
 
 dev/
 ui/
-main.py
 
 /data/vector_base
 .idea
