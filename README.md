@@ -284,6 +284,22 @@ ps:依赖[golang](https://go.dev/dl/)环境，还没有的话，手动补一补[
 生成UI代码 `pyuic5 -o UI_main.py ui\main.ui`  
 
 
+## 打包懒人包
+
+1、本地装有conda环境  
+2、在本文件夹创建虚拟环境  
+`conda create --prefix ./venv python=3.10`  
+3、安装依赖  
+`venv\python.exe -m pip install -r requirements_bilibili.txt -i https://pypi.tuna.tsinghua.edu.cn/simple`  
+`venv\python.exe -m pip install -r requirements_dy.txt -i https://pypi.tuna.tsinghua.edu.cn/simple`  
+`venv\python.exe -m pip install -r requirements_ks.txt -i https://pypi.tuna.tsinghua.edu.cn/simple`  
+4、安装chatterbot（可选）
+`venv\python.exe -m pip install spacy SQLAlchemy==1.3.24 -i https://pypi.tuna.tsinghua.edu.cn/simple`  
+前提是你在当前目录下有clone chatterbot的项目（自行调整路径关系）  
+`venv\python.exe setup.py install`  
+5、修改`audio.py`中`edge-tts`的调用实现  
+
+
 ## FAQ 常问问题
 
 ### 1.openai 接口报错:《empty message》

@@ -56,6 +56,7 @@ class My_handle():
     audio_synthesis_type = None
 
     log_file_path = None
+    commit_file_path = None
 
 
     def __init__(self, config_path):        
@@ -159,6 +160,14 @@ class My_handle():
                 f.write('')
                 logging.info(f'{self.log_file_path} 日志文件已创建')
 
+        self.commit_file_path = "./log/commit-" + self.common.get_bj_time(1) + ".txt"
+        if os.path.isfile(self.commit_file_path):
+            logging.info(f'{self.commit_file_path} 弹幕文件已存在，跳过')
+        else:
+            with open(self.commit_file_path, 'w') as f:
+                f.write('')
+                logging.info(f'{self.commit_file_path} 弹幕文件已创建')
+
 
     def get_room_id(self):
         return self.room_id
@@ -254,12 +263,12 @@ class My_handle():
         # logger.info("resp_content=" + resp_content)
 
         # 将 AI 回复记录到日志文件中
-        # with open(self.log_file_path, "r+", encoding="utf-8") as f:
-        #     content = f.read()
-        #     # 将指针移到文件头部位置（此目的是为了让直播中读取日志文件时，可以一直让最新内容显示在顶部）
-        #     f.seek(0, 0)
-        #     # 不过这个实现方式，感觉有点低效
-        #     f.write(f"[AI回复{user_name}]：{resp_content}\n" + content)
+        with open(self.commit_file_path, "r+", encoding="utf-8") as f:
+            content = f.read()
+            # 将指针移到文件头部位置（此目的是为了让直播中读取日志文件时，可以一直让最新内容显示在顶部）
+            f.seek(0, 0)
+            # 不过这个实现方式，感觉有点低效
+            f.write(f"[AI回复{user_name}]：{resp_content}\n" + content)
 
 
         # 音频合成（edge-tts / vits）并播放

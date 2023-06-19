@@ -7,7 +7,8 @@
 pip install spacy ChatterBot
 ```
 
-如果ChatterBot安装报错，请前往 https://github.com/RaSan147/ChatterBot_update 安装新版本。下载下来输入`python setup.py install`即可
+如果ChatterBot安装报错，请前往 https://github.com/RaSan147/ChatterBot_update 安装新版本。下载下来输入`python setup.py install`即可  
+安装慢，可以拆开来装`pip install SQLAlchemy==1.3.24`  
 
 ## 如何训练自己的AI？
 - 打开`data/db.txt`，写入你想要训练的内容，格式如下

@@ -1,2 +1,3 @@
-call venv\Scripts\activate
-python main.py
+CHCP 65001
+call activate .\venv
+venv\python.exe main.py
