@@ -1,6 +1,6 @@
 {
   "platform": "bilibili",
-  "room_display_id": "278333",
+  "room_display_id": "你的直播间号",
   "chat_type": "none",
   "need_lang": "none",
   "before_prompt": "请简要回复:",

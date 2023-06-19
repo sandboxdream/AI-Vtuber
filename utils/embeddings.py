@@ -14,13 +14,17 @@ from langchain.embeddings import HuggingFaceEmbeddings
 """
     模型1："sebastian-hofstaetter/distilbert-dot-tas_b-b256-msmarco"
 """
-model_name = "sebastian-hofstaetter/distilbert-dot-tas_b-b256-msmarco"
-model_kwargs = {'device': 'cpu'}
-encode_kwargs = {'normalize_embeddings': False}
+DEFAULT_MODEL_NAME = "sebastian-hofstaetter/distilbert-dot-tas_b-b256-msmarco"
+DEFAULT_MODEL_KWARGS = {'device': 'cpu'}
+DEFAULT_ENCODE_KWARGS = {'normalize_embeddings': False}
 hf_embeddings = HuggingFaceEmbeddings(
-    model_name=model_name,
-    model_kwargs=model_kwargs,
-    encode_kwargs=encode_kwargs
+    model_name=DEFAULT_MODEL_NAME,
+    model_kwargs=DEFAULT_MODEL_KWARGS,
+    encode_kwargs=DEFAULT_ENCODE_KWARGS
 )
 
-EMBEDDINGS_MAPPING = {"distilbert-dot-tas_b-b256-msmarco": hf_embeddings}
+
+"""
+    模型列表
+"""
+EMBEDDINGS_MAPPING = {DEFAULT_MODEL_NAME: hf_embeddings}
