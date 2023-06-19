@@ -8,14 +8,15 @@
 @Description : 本地向量数据库配置
 """
 
-
 import json
+import logging
+
 from langchain.vectorstores import FAISS
 import os
 from tqdm.auto import tqdm
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.document_loaders import DirectoryLoader, TextLoader
-from utils.embeddings import EMBEDDINGS_MAPPING
+from utils.embeddings import EMBEDDINGS_MAPPING, DEFAULT_MODEL_NAME
 import tiktoken
 import zipfile
 import pickle
@@ -80,39 +81,46 @@ def get_chunks(docs, chunk_size=500, chunk_overlap=20, length_function=tiktoken_
 """
 
 
-def create_faiss_index_from_zip(path_to_zip_file, embeddings=None, pdf_loader=None,
-                                chunk_size=500, chunk_overlap=20,
-                                project_name="Please_Delete_This_File_After_Running"):
+def create_faiss_index_from_zip(path_to_zip_file, embedding_model_name=None, pdf_loader=None,
+                                chunk_size=500, chunk_overlap=20):
+    # 获取模型名称
+    if isinstance(embedding_model_name, str):
+        import copy
+        embeddings_str = copy.deepcopy(embedding_model_name)
+    else:
+        embeddings_str = DEFAULT_MODEL_NAME  # 默认模型
+
+    # 选择模型
+    if embedding_model_name is None:
+        embeddings = EMBEDDINGS_MAPPING[DEFAULT_MODEL_NAME]
+    elif isinstance(embedding_model_name, str):
+        embeddings = EMBEDDINGS_MAPPING[embedding_model_name]
+
+    # 创建存储向量数据库的目录
     # 存储的文件格式
-    # structure: project_name
+    # structure: ./data/vector_base
     #               - source data
     #               - embeddings
     #               - faiss_index
-    if isinstance(embeddings, str):
-        import copy
-        embeddings_str = copy.deepcopy(embeddings)
-    else:
-        embeddings_str = "distilbert-dot-tas_b-b256-msmarco"  # 默认模型
-
-    # 选择模型
-    if embeddings is None:
-        embeddings = EMBEDDINGS_MAPPING["distilbert-dot-tas_b-b256-msmarco"]
-    elif isinstance(embeddings, str):
-        embeddings = EMBEDDINGS_MAPPING[embeddings]
-
-    # 创建存储向量数据库的目录
     store_path = os.getcwd() + "/data/vector_base/"
-    if not os.path.exists(store_path + project_name):
+    if not os.path.exists(store_path):
         os.makedirs(store_path)
-        project_path = os.path.join(store_path, project_name)
+        project_path = store_path
         source_data = os.path.join(project_path, "source_data")
         embeddings_data = os.path.join(project_path, "embeddings")
         index_data = os.path.join(project_path, "faiss_index")
-        os.makedirs(source_data)  # ./project/source_data
-        os.makedirs(embeddings_data)  # ./project/embeddings
-        os.makedirs(index_data)  # ./project/faiss_index
+        os.makedirs(source_data)  # ./vector_base/source_data
+        os.makedirs(embeddings_data)  # ./vector_base/embeddings
+        os.makedirs(index_data)  # ./vector_base/faiss_index
     else:
-        raise ValueError(f"向量数据库文件夹重名，请删除重名文件夹后再启动。")
+        logging.warning(
+            "向量数据库已存在，默认加载旧的向量数据库。如果需要加载新的数据，请删除data目录下的vector_base，再重新启动")
+        logging.info("正在加载已存在的向量数据库文件")
+        db = load_exist_faiss_file(store_path)
+        if db is None:
+            logging.error("加载旧数据库为空，数据库文件可能存在异常。请彻底删除vector_base文件夹后，再重新导入数据")
+            exit(-1)
+        return db
 
     # 解压数据包
     with zipfile.ZipFile(path_to_zip_file, 'r') as zip_ref:
@@ -120,8 +128,7 @@ def create_faiss_index_from_zip(path_to_zip_file, embeddings=None, pdf_loader=No
         zip_ref.extractall(source_data)
 
     # 组装数据库元信息
-    db_meta = {"project_name": project_name,
-               "pdf_loader": pdf_loader.__name__, "chunk_size": chunk_size,
+    db_meta = {"pdf_loader": pdf_loader.__name__, "chunk_size": chunk_size,
                "chunk_overlap": chunk_overlap,
                "embedding_model": embeddings_str,
                "files": os.listdir(source_data),
@@ -178,34 +185,28 @@ def find_file_dir(file_name, directory):
     return None  # If the file was not found
 
 
-# 加载本地数据
-def load_faiss_index_from_zip(path_to_zip_file):
-    # Extract the zip file. Read the db_meta
-    # base_name = os.path.basename(path_to_zip_file)
-    path_to_extract = os.path.join(os.getcwd())
-    with zipfile.ZipFile(path_to_zip_file, 'r') as zip_ref:
-        zip_ref.extractall(path_to_extract)
-
-    db_meta_json = find_file("db_meta.json", path_to_extract)
+# 加载本地向量数据库
+def load_exist_faiss_file(path):
+    # 获取元数据
+    db_meta_json = find_file("db_meta.json", path)
     if db_meta_json is not None:
         with open(db_meta_json, "r", encoding="utf-8") as f:
             db_meta_dict = json.load(f)
     else:
-        raise ValueError("Cannot find `db_meta.json` in the .zip file. ")
+        logging.error("vector_base向量数据库已损坏，请彻底删除该文件夹后，再重新导入数据！")
+        exit(-1)
 
-    try:
-        embeddings = EMBEDDINGS_MAPPING[db_meta_dict["embedding_model"]]
-    except:
-        from langchain.embeddings.openai import OpenAIEmbeddings
-        embeddings = OpenAIEmbeddings(model="text-embedding-ada-002")
+    # 获取模型数据
+    embedding = EMBEDDINGS_MAPPING[db_meta_dict["embedding_model"]]
 
-    # locate index.faiss
-    index_path = find_file_dir("index.faiss", path_to_extract)
-    if index_path is not None:
-        db = FAISS.load_local(index_path, embeddings)
+    # 加载index.faiss
+    faiss_path = find_file_dir("index.faiss", path)
+    if faiss_path is not None:
+        db = FAISS.load_local(faiss_path, embedding)
         return db
     else:
-        raise ValueError("Failed to find `index.faiss` in the .zip file.")
+        logging.error("加载index.faiss失败，模型已损坏。请彻底删除vector_base文件夹后，再重新导入一次数据")
+        exit(-1)
 
 
 # 测试代码
@@ -223,5 +224,6 @@ if __name__ == "__main__":
         model_kwargs=model_kwargs,
         encode_kwargs=encode_kwargs)
     create_faiss_index_from_zip(path_to_zip_file=zip_file_path, pdf_loader=PyPDFLoader, embeddings=embeddings)
-
-    db = load_faiss_index_from_zip(zip_file_path)
+    db = load_exist_faiss_file(zip_file_path)
+    if db is not None:
+        logging.info("加载本地数据库成功！")
