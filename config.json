@@ -8,10 +8,6 @@
   "filter": {
     "before_must_str": [],
     "after_must_str": [
-      ".",
-      "。",
-      "?",
-      "？"
     ],
     "badwords_path": "data/badwords.txt",
     "max_len": 30,
