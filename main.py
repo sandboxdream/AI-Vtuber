@@ -11,7 +11,6 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QLabel, QCom
 from PyQt5.QtGui import QBrush, QColor, QTextCursor, QFont, QDesktopServices, QIcon
 from PyQt5 import QtCore
 from PyQt5.QtCore import QDateTime, Qt, QTimer, QThread, QEventLoop, pyqtSignal, QUrl
-from PyQt5.QtWebEngineWidgets import QWebEngineView
 
 import http.server
 import socketserver
