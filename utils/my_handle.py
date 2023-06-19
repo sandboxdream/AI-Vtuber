@@ -124,6 +124,10 @@ class My_handle():
             from utils.claude import Claude
 
             self.claude = Claude(self.claude_config)
+
+            # 初次运行 先重置下会话
+            if self.claude.reset_claude():
+                logging.error("重置Claude会话失败喵~")
         elif self.chat_type == "chatterbot":
             from chatterbot import ChatBot  # 导入聊天机器人库
 

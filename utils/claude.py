@@ -79,4 +79,12 @@ class Claude:
         return None
 
 
+    # 重置会话（不可用。。。） 待解决
+    def reset_claude(self):
+        response = self.send_message(self.dm_channel_id, "/reset")
+        if response:
+            return True
+        else:
+            return False
+
     
