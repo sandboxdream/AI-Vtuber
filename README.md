@@ -291,6 +291,7 @@ ps:依赖[golang](https://go.dev/dl/)环境，还没有的话，手动补一补[
 ### UI设计
 打开QT设计师~o( =∩ω∩= )m `pyqt5-tools designer`  
 生成UI代码 `pyuic5 -o UI_main.py ui\main.ui`  
+对UI做改动时，加入新的配置，一般需要修改init_config和save部分，新配置的读取和写入部分。  
 
 
 ## 打包懒人包(错误案例)
@@ -363,7 +364,6 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 - 懒人包的制作
 - 快手平台的重新兼容
 - live2d的嘴型匹配
-- GUI langchain local的模型下拉菜单
 
 ## 📝 更新日志
 
@@ -394,6 +394,7 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 - 增加弹幕触发,回复部分日志记录时，每20字符自动换行的机制
 - 修改edge-tts合成音频的文件名范围
 - 更换抖音方案为`dy-barrage-grab`  
+- GUI新增 弹幕日志类型、修改langchain_pdf_local的模型下拉选择
 
 </details>
 

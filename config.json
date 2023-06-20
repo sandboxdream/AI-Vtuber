@@ -5,6 +5,7 @@
   "need_lang": "none",
   "before_prompt": "请简要回复:",
   "after_prompt": "",
+  "commit_log_type": "回答",
   "filter": {
     "before_must_str": [],
     "after_must_str": [
