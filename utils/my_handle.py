@@ -272,7 +272,11 @@ class My_handle():
             # 将指针移到文件头部位置（此目的是为了让直播中读取日志文件时，可以一直让最新内容显示在顶部）
             f.seek(0, 0)
             # 不过这个实现方式，感觉有点低效
-            f.write(f"[AI回复{user_name}]：{resp_content}\n" + content)
+            # 设置单行最大字符数，主要目的用于接入直播弹幕显示时，弹幕过长导致的显示溢出问题
+            max_length = 20
+            resp_content_substrings = [resp_content[i:i + max_length] for i in range(0, len(resp_content), max_length)]
+            resp_content_joined = '\n'.join(resp_content_substrings)
+            f.write(f"[AI回复{user_name}]:{resp_content_joined}\n" + content)
 
 
         # 音频合成（edge-tts / vits）并播放
