@@ -109,7 +109,7 @@ class My_handle():
             # 音频合成使用技术
             self.audio_synthesis_type = self.config.get("audio_synthesis_type")
 
-            logging.info("配置文件加载成功。")
+            logging.info(f"配置数据加载成功。")
         except Exception as e:
             logging.info(e)
             return None
