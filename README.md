@@ -373,6 +373,7 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 ### 2023-06-20
 - 补充了整合包的打包方式
 - 音频合成更改多线程为队列结构，解决高并发的崩溃问题
+- langchain_pdf_local 增加 [GanymedeNil/text2vec-large-chinese](https://huggingface.co/GanymedeNil/text2vec-large-chinese) 模型，该模型在中文解析上很好
 
 
 </details>
