@@ -76,18 +76,12 @@ class Audio:
             #         ret = json.loads(result)
             # return ret
         except Exception as e:
-            logging.info(e)
+            logging.error(e)
             return None
     
 
     # 音频合成（edge-tts / vits）并播放
-    def audio_synthesis(self, type, data, config, content):
-        message = {
-            "type": type,
-            "data": data,
-            "config": config,
-            "content": content
-        }
+    def audio_synthesis(self, message):
         logging.debug(message)
         self.message_queue.put(message)
         # 单独开线程播放
@@ -174,3 +168,5 @@ class Audio:
             except Exception as e:
                 logging.error(e)
                 return
+            
+        

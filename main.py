@@ -40,6 +40,9 @@ class AI_VTB(QMainWindow):
     before_prompt = None
     after_prompt = None
 
+    # 弹幕日志类型
+    commit_log_type = None
+
     # 弹幕过滤配置
     filter_config = None
 
@@ -151,6 +154,8 @@ class AI_VTB(QMainWindow):
             self.before_prompt = config.get("before_prompt")
             self.after_prompt = config.get("after_prompt")
 
+            self.commit_log_type = config.get("commit_log_type")
+
             # 过滤配置
             self.filter_config = config.get("filter")
 
@@ -196,6 +201,7 @@ class AI_VTB(QMainWindow):
             self.ui.label_need_lang.setToolTip("只回复选中语言的弹幕，其他语言将被过滤")
             self.ui.label_before_prompt.setToolTip("提示词前缀，会自带追加在弹幕前，主要用于追加一些特殊的限制")
             self.ui.label_after_prompt.setToolTip("提示词后缀，会自带追加在弹幕后，主要用于追加一些特殊的限制")
+            self.ui.label_commit_log_type.setToolTip("弹幕日志类型，用于记录弹幕触发时记录的内容，默认只记录回答，降低当用户使用弹幕日志显示在直播间时，因为用户的不良弹幕造成直播间被封禁问题")
 
             self.ui.label_filter_before_must_str.setToolTip("本地违禁词数据路径（你如果不需要，可以清空文件内容）")
             self.ui.label_filter_after_must_str.setToolTip("本地违禁词数据路径（你如果不需要，可以清空文件内容）")
@@ -318,6 +324,19 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_before_prompt.setText(self.before_prompt)
             self.ui.lineEdit_after_prompt.setText(self.after_prompt)
 
+            self.ui.comboBox_commit_log_type.clear()
+            self.ui.comboBox_commit_log_type.addItems(["问答", "问题", "回答", "不记录"])
+            commit_log_type_index = 0
+            if self.commit_log_type == "问答":
+                commit_log_type_index = 0
+            elif self.commit_log_type == "问题":
+                commit_log_type_index = 1
+            elif self.commit_log_type == "回答":
+                commit_log_type_index = 2
+            elif self.commit_log_type == "不记录":
+                commit_log_type_index = 3
+            self.ui.comboBox_commit_log_type.setCurrentIndex(commit_log_type_index)
+
             tmp_str = ""
             for tmp in self.filter_config['before_must_str']:
                 tmp_str = tmp_str + tmp + "\n"
@@ -357,13 +376,13 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_chatglm_max_length.setText(str(self.chatglm_config['max_length']))
             self.ui.lineEdit_chatglm_top_p.setText(str(self.chatglm_config['top_p']))
             self.ui.lineEdit_chatglm_temperature.setText(str(self.chatglm_config['temperature']))
-
+            self.ui.lineEdit_langchain_pdf_model_name.setText(self.langchain_pdf_config['model_name'])
             self.ui.lineEdit_langchain_pdf_openai_api_key.setText(self.langchain_pdf_config['openai_api_key'])
             self.ui.lineEdit_langchain_pdf_data_path.setText(self.langchain_pdf_config['data_path'])
             self.ui.lineEdit_langchain_pdf_separator.setText(self.langchain_pdf_config['separator'])
             self.ui.lineEdit_langchain_pdf_chunk_size.setText(str(self.langchain_pdf_config['chunk_size']))
             self.ui.lineEdit_langchain_pdf_chunk_overlap.setText(str(self.langchain_pdf_config['chunk_overlap']))
-            self.ui.lineEdit_langchain_pdf_model_name.setText(self.langchain_pdf_config['model_name'])
+            
             self.ui.lineEdit_langchain_pdf_chain_type.setText(self.langchain_pdf_config['chain_type'])
             if self.langchain_pdf_config['show_cost']:
                 self.ui.checkBox_langchain_pdf_show_cost.setChecked(True)
@@ -374,7 +393,14 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_langchain_pdf_local_separator.setText(self.langchain_pdf_local_config['separator'])
             self.ui.lineEdit_langchain_pdf_local_chunk_size.setText(str(self.langchain_pdf_local_config['chunk_size']))
             self.ui.lineEdit_langchain_pdf_local_chunk_overlap.setText(str(self.langchain_pdf_local_config['chunk_overlap']))
-            self.ui.lineEdit_langchain_pdf_local_embedding_model.setText(self.langchain_pdf_local_config['embedding_model'])
+            self.ui.comboBox_langchain_pdf_local_embedding_model.clear()
+            self.ui.comboBox_langchain_pdf_local_embedding_model.addItems(["sebastian-hofstaetter/distilbert-dot-tas_b-b256-msmarco", "GanymedeNil/text2vec-large-chinese"])
+            langchain_pdf_local_embedding_model = 0
+            if self.langchain_pdf_local_config['embedding_model'] == "sebastian-hofstaetter/distilbert-dot-tas_b-b256-msmarco":
+                langchain_pdf_local_embedding_model = 0
+            elif self.langchain_pdf_local_config['embedding_model'] == "GanymedeNil/text2vec-large-chinese":
+                langchain_pdf_local_embedding_model = 1
+            self.ui.comboBox_langchain_pdf_local_embedding_model.setCurrentIndex(langchain_pdf_local_embedding_model)
             self.ui.lineEdit_langchain_pdf_local_chain_type.setText(self.langchain_pdf_local_config['chain_type'])
             if self.langchain_pdf_local_config['show_cost']:
                 self.ui.checkBox_langchain_pdf_local_show_cost.setChecked(True)
@@ -536,10 +562,15 @@ class AI_VTB(QMainWindow):
             elif need_lang == "日文":
                 config_data["need_lang"] = "jp"
 
-            before_prompt = self.ui.lineEdit_before_prompt.text()
-            config_data["before_prompt"] = before_prompt
-            after_prompt = self.ui.lineEdit_after_prompt.text()
-            config_data["after_prompt"] = after_prompt
+            config_data["commit_log_type"] = self.ui.comboBox_commit_log_type.currentText()
+
+            platform = self.ui.comboBox_platform.currentText()
+            if platform == "哔哩哔哩":
+                config_data["platform"] = "bilibili"
+            elif platform == "抖音":
+                config_data["platform"] = "dy"
+            elif platform == "快手":
+                config_data["platform"] = "ks"
 
             # 通用多行分隔符
             separators = [" ", "\n"]
@@ -639,7 +670,7 @@ class AI_VTB(QMainWindow):
             config_data["langchain_pdf_local"]["chunk_size"] = int(langchain_pdf_local_chunk_size)
             langchain_pdf_local_chunk_overlap = self.ui.lineEdit_langchain_pdf_local_chunk_overlap.text()
             config_data["langchain_pdf_local"]["chunk_overlap"] = int(langchain_pdf_local_chunk_overlap)
-            langchain_pdf_local_embedding_model = self.ui.lineEdit_langchain_pdf_local_embedding_model.text()
+            langchain_pdf_local_embedding_model = self.ui.comboBox_langchain_pdf_local_embedding_model.currentText()
             config_data["langchain_pdf_local"]["embedding_model"] = langchain_pdf_local_embedding_model
             langchain_pdf_local_chain_type = self.ui.lineEdit_langchain_pdf_local_chain_type.text()
             config_data["langchain_pdf_local"]["chain_type"] = langchain_pdf_local_chain_type

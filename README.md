@@ -291,9 +291,10 @@ ps:依赖[golang](https://go.dev/dl/)环境，还没有的话，手动补一补[
 ### UI设计
 打开QT设计师~o( =∩ω∩= )m `pyqt5-tools designer`  
 生成UI代码 `pyuic5 -o UI_main.py ui\main.ui`  
+对UI做改动时，加入新的配置，一般需要修改init_config和save部分，新配置的读取和写入部分。  
 
 
-## 打包懒人包
+## 打包懒人包(错误案例)
 
 1、本地装有conda环境  
 2、在本文件夹创建虚拟环境  
@@ -317,11 +318,6 @@ ps:依赖[golang](https://go.dev/dl/)环境，还没有的话，手动补一补[
 [chatgpt-html](http://ikaros521.eu.org/chatgpt-html/)  
 [ChatGPT-Next-Web](https://chat-gpt-next-web-ikaros-521.vercel.app/)  
 
-
-
-## 许可证
-
-MIT许可证。详情请参阅LICENSE文件。
 
 ## 补充
 
@@ -364,6 +360,11 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 如果本地电脑的配置太低，可以使用 [faiss_text2vec.ipynb](https://drive.google.com/file/d/1rbt2Yv7_pC1cmuODwmR2-1_cxFBFOfn8/view?usp=sharing) 云端解析向量数据库，拷贝回本地后再使用即可
 - author: [HildaM/text2vec_colab](https://github.com/HildaM/text2vec_colab)
 
+## 待办事项
+- 懒人包的制作
+- 快手平台的重新兼容
+- live2d的嘴型匹配
+
 ## 📝 更新日志
 
 <details>
@@ -393,8 +394,14 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 - 增加弹幕触发,回复部分日志记录时，每20字符自动换行的机制
 - 修改edge-tts合成音频的文件名范围
 - 更换抖音方案为`dy-barrage-grab`  
+- GUI新增 弹幕日志类型、修改langchain_pdf_local的模型下拉选择
 
 </details>
+
+
+## 许可证
+
+MIT许可证。详情请参阅LICENSE文件。
 
 ## Star 经历
 

@@ -268,7 +268,7 @@ class My_handle():
 
         # 将 AI 回复记录到日志文件中
         with open(self.commit_file_path, "r+", encoding="utf-8") as f:
-            content = f.read()
+            tmp_content = f.read()
             # 将指针移到文件头部位置（此目的是为了让直播中读取日志文件时，可以一直让最新内容显示在顶部）
             f.seek(0, 0)
             # 不过这个实现方式，感觉有点低效
@@ -276,9 +276,24 @@ class My_handle():
             max_length = 20
             resp_content_substrings = [resp_content[i:i + max_length] for i in range(0, len(resp_content), max_length)]
             resp_content_joined = '\n'.join(resp_content_substrings)
-            f.write(f"[AI回复{user_name}]:{resp_content_joined}\n" + content)
 
+            # 根据 弹幕日志类型进行各类日志写入
+            if self.config.get("commit_log_type") == "问答":
+                f.write(f"[{user_name} 提问]:{content}\n[AI回复{user_name}]:{resp_content_joined}\n" + tmp_content)
+            elif self.config.get("commit_log_type") == "问题":
+                f.write(f"[{user_name} 提问]:{content}\n" + tmp_content)
+            elif self.config.get("commit_log_type") == "回答":
+                f.write(f"[AI回复{user_name}]:{resp_content_joined}\n" + tmp_content)
+
+
+        message = {
+            "type": self.audio_synthesis_type,
+            "data": self.config.get(self.audio_synthesis_type),
+            "config": self.filter_config,
+            "user_name": user_name,
+            "content": content
+        }
 
         # 音频合成（edge-tts / vits）并播放
-        self.audio.audio_synthesis(self.audio_synthesis_type, self.config.get(self.audio_synthesis_type), self.filter_config, resp_content)
+        self.audio.audio_synthesis(message)
 
