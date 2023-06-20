@@ -14,7 +14,7 @@ from langchain.embeddings import HuggingFaceEmbeddings
 
 from utils.claude import Claude
 from utils.embeddings import EMBEDDINGS_MAPPING
-from utils.faiss_handler import load_faiss_index_from_zip, create_faiss_index_from_zip
+from utils.faiss_handler import create_faiss_index_from_zip
 from utils.my_handle import My_handle
 
 
@@ -60,29 +60,27 @@ class Langchain_pdf_local:
         self.langchain_pdf_question_prompt = data["question_prompt"]
         self.langchain_pdf_max_query = data["max_query"]
 
-        print(f"本地数据文件路径：{self.langchain_pdf_data_path}")
+        logging.info(f"本地数据文件路径：{self.langchain_pdf_data_path}")
 
         # 加载pdf并生成向量数据库
         self.load_zip_as_db(self.langchain_pdf_data_path, self.pdf_loader,
-                            self.langchain_pdf_embedding_model, self.langchain_pdf_chunk_size,
-                            self.langchain_pdf_chunk_overlap)
+                            self.langchain_pdf_chunk_size,self.langchain_pdf_chunk_overlap)
         # 初始化claude客户端
         self.claude = Claude(data)
 
-    def load_zip_as_db(self, zip_file,
+    def load_zip_as_db(self, zip_file_path,
                        pdf_loader,
-                       model_name,
                        chunk_size=300,
                        chunk_overlap=20):
-        if chunk_size <= chunk_overlap:
-            logging.error("chunk_size小于chunk_overlap. 创建失败.")
-            return
-        if zip_file is None:
-            logging.error("文件为空. 创建失败.")
-            return
+        if chunk_overlap >= chunk_size:
+            logging.error("输入的chunk_overlap大于chunk_size. 为了避免创建失败，将会修正chunk_overlap为chunk_size的十分之一")
+            chunk_overlap = round(chunk_size / 10)
+        if zip_file_path is None:
+            logging.error("zip文件路径为空. 向量数据库构建失败.请重新启动")
+            exit(-1)
 
         self.local_db = create_faiss_index_from_zip(
-            path_to_zip_file=zip_file,
+            zip_file_path=zip_file_path,
             embedding_model_name=self.langchain_pdf_embedding_model,
             pdf_loader=pdf_loader,
             chunk_size=chunk_size,

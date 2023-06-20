@@ -55,7 +55,7 @@ def tiktoken_len(text):
 
 
 def get_chunks(docs, chunk_size=500, chunk_overlap=20, length_function=tiktoken_len):
-    # docs should be the output of `loader.load()`
+    # 构造文本分割器
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size,
                                                    chunk_overlap=chunk_overlap,
                                                    length_function=length_function,
@@ -64,7 +64,7 @@ def get_chunks(docs, chunk_size=500, chunk_overlap=20, length_function=tiktoken_
     for idx, page in enumerate(tqdm(docs)):
         source = page.metadata.get('source')
         content = page.page_content
-        if len(content) > 50:
+        if len(content) > chunk_size:
             texts = text_splitter.split_text(content)
             chunks.extend([str({'content': texts[i], 'chunk': i, 'source': os.path.basename(source)}) for i in
                            range(len(texts))])
@@ -81,18 +81,12 @@ def get_chunks(docs, chunk_size=500, chunk_overlap=20, length_function=tiktoken_
 """
 
 
-def create_faiss_index_from_zip(path_to_zip_file, embedding_model_name=None, pdf_loader=None,
+def create_faiss_index_from_zip(zip_file_path, embedding_model_name=None, pdf_loader=None,
                                 chunk_size=500, chunk_overlap=20):
-    # 获取模型名称
-    if isinstance(embedding_model_name, str):
-        import copy
-        embeddings_str = copy.deepcopy(embedding_model_name)
-    else:
-        embeddings_str = DEFAULT_MODEL_NAME  # 默认模型
-
     # 选择模型
     if embedding_model_name is None:
         embeddings = EMBEDDINGS_MAPPING[DEFAULT_MODEL_NAME]
+        embedding_model_name = DEFAULT_MODEL_NAME
     elif isinstance(embedding_model_name, str):
         embeddings = EMBEDDINGS_MAPPING[embedding_model_name]
 
@@ -123,21 +117,21 @@ def create_faiss_index_from_zip(path_to_zip_file, embedding_model_name=None, pdf
         return db
 
     # 解压数据包
-    with zipfile.ZipFile(path_to_zip_file, 'r') as zip_ref:
+    with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
         # extract everything to "source_data"
         zip_ref.extractall(source_data)
 
-    # 组装数据库元信息
-    db_meta = {"pdf_loader": pdf_loader.__name__, "chunk_size": chunk_size,
+    # 组装数据库元信息，并写入到db_meta.json中
+    db_meta = {"pdf_loader": pdf_loader.__name__,
+               "chunk_size": chunk_size,
                "chunk_overlap": chunk_overlap,
-               "embedding_model": embeddings_str,
+               "embedding_model": embedding_model_name,
                "files": os.listdir(source_data),
                "source_path": source_data}
     with open(os.path.join(project_path, "db_meta.json"), "w", encoding="utf-8") as f:
-        # save db_meta.json to folder
         json.dump(db_meta, f)
 
-    # 处理不同的文件
+    # 处理不同的文本文件
     all_docs = []
     for ext in [".txt", ".tex", ".md", ".pdf"]:
         if ext in [".txt", ".tex", ".md"]:
@@ -212,18 +206,9 @@ def load_exist_faiss_file(path):
 # 测试代码
 if __name__ == "__main__":
     from langchain.document_loaders import PyPDFLoader
-    from langchain.embeddings.openai import OpenAIEmbeddings
-    from langchain.embeddings import HuggingFaceEmbeddings
 
     zip_file_path = "data/伊卡洛斯百度百科.zip"
-    model_name = "sebastian-hofstaetter/distilbert-dot-tas_b-b256-msmarco"
-    model_kwargs = {'device': 'cpu'}
-    encode_kwargs = {'normalize_embeddings': False}
-    embeddings = HuggingFaceEmbeddings(
-        model_name=model_name,
-        model_kwargs=model_kwargs,
-        encode_kwargs=encode_kwargs)
-    create_faiss_index_from_zip(path_to_zip_file=zip_file_path, pdf_loader=PyPDFLoader, embeddings=embeddings)
+    create_faiss_index_from_zip(zip_file_path=zip_file_path, pdf_loader=PyPDFLoader)
     db = load_exist_faiss_file(zip_file_path)
     if db is not None:
         logging.info("加载本地数据库成功！")

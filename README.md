@@ -345,6 +345,9 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 ### Live2D
 源自：[CyberWaifu](https://github.com/jieran233/CyberWaifu)  
 
+### langchain_pdf_local 向量数据库解析
+如果本地电脑的配置太低，可以使用 [faiss_text2vec.ipynb](https://drive.google.com/file/d/1rbt2Yv7_pC1cmuODwmR2-1_cxFBFOfn8/view?usp=sharing) 云端解析向量数据库，拷贝回本地后再使用即可
+- author: [HildaM/text2vec_colab](https://github.com/HildaM/text2vec_colab)
 
 ## 📝 更新日志
 
@@ -371,8 +374,8 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 ### 2023-06-20
 - 补充了整合包的打包方式
 - 音频合成更改多线程为队列结构，解决高并发的崩溃问题
+- langchain_pdf_local 增加 [GanymedeNil/text2vec-large-chinese](https://huggingface.co/GanymedeNil/text2vec-large-chinese) 模型，该模型在中文解析上很好
 - 增加弹幕触发,回复部分日志记录时，每20字符自动换行的机制
-
 
 </details>
 
