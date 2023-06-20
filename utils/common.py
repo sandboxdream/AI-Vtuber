@@ -42,6 +42,16 @@ class Common:
             second = now.tm_sec  # 获取当前秒数
 
             return str(second)
+        elif type == 3:
+            current_time = time.time()  # 返回自1970年1月1日以来的秒数
+
+            return str(current_time)
+        elif type == 4:
+            current_time = time.time()  # 返回自1970年1月1日以来的秒数
+            current_milliseconds = int(current_time * 1000) # 毫秒为单位
+            tgt_time = current_milliseconds % 100 # 用于生成音频文件名
+
+            return str(tgt_time)
     
     # 删除多余单词
     def remove_extra_words(self, text="", max_len=30, max_char_len=50):

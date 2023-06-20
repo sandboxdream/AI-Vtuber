@@ -137,7 +137,7 @@ class Audio:
             except Exception as e:
                 logging.error(e)
         elif message["type"] == "edge-tts":
-            voice_tmp_path = './out/' + self.common.get_bj_time(2) + '.mp3'
+            voice_tmp_path = './out/' + self.common.get_bj_time(4) + '.mp3'
             # 过滤" '字符
             message["content"] = message["content"].replace('"', '').replace("'", '').replace(" ", ',')
             # 使用 Edge TTS 生成回复消息的语音文件

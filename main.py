@@ -995,9 +995,12 @@ class ExternalCommandThread(QThread):
             self.output_ready.emit("没有传入platform，取名为寄！")
             return
         
+        logging.debug(f"platform={self.platform}")
+
         module = importlib.import_module(self.platform)
         process = subprocess.Popen([sys.executable, '-c', 'import {}'.format(module.__name__)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output, _ = process.communicate()
+        # logging.debug(output)
         # output_text = output.decode("utf-8")  # 将字节流解码为字符串
 
         # 调用 start_server() 并将输出追加到 textbrowser
@@ -1054,7 +1057,6 @@ if __name__ == '__main__':
 
     # 获取 httpx 库的日志记录器
     httpx_logger = logging.getLogger("httpx")
-
     # 设置 httpx 日志记录器的级别为 WARNING
     httpx_logger.setLevel(logging.WARNING)
 

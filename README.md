@@ -244,9 +244,20 @@ pip install -r requirements_ks.txt
 pip install -r requirements_bilibili.txt
 ```
 
-运行 `python bilibili.py`  
+运行 `python main.py`  
 
 ### 抖音版
+
+在命令行中使用以下命令安装所需库：
+```
+pip install -r requirements_dy.txt
+```
+
+先安装第三方弹幕捕获软件，参考[补充-抖音](#dy)
+
+运行 `python main.py`  
+
+### 抖音版_旧版（不稳定）
 
 在命令行中使用以下命令安装所需库：
 ```
@@ -259,7 +270,7 @@ protoc -I . --python_out=. dy.proto
 ```
 ps:依赖[golang](https://go.dev/dl/)环境，还没有的话，手动补一补[protobuf](https://github.com/protocolbuffers/protobuf/releases)  
 
-运行 `python dy.py`  
+运行 `python main.py`  
 
 ### 快手版
 
@@ -274,7 +285,7 @@ protoc -I . --python_out=. ks.proto
 ```
 ps:依赖[golang](https://go.dev/dl/)环境，还没有的话，手动补一补[protobuf](https://github.com/protocolbuffers/protobuf/releases)  
 
-运行 `python ks.py`  
+运行 `python main.py`  
 
 ## 开发
 ### UI设计
@@ -314,8 +325,12 @@ MIT许可证。详情请参阅LICENSE文件。
 
 ## 补充
 
-### 抖音弹幕获取
-[douyin-live](https://github.com/YunzhiYike/douyin-live)  
+### <span id="dy">抖音弹幕获取</span>
+`dy.py`稳定：[dy-barrage-grab](https://gitee.com/haodong108/dy-barrage-grab)  
+请到此仓库的releases下载官方软件包，并仔细阅读官方的使用说明，运行后能在cmd看到弹幕消息的话，即为成功。  
+
+
+`dy_old.py`不稳定：[douyin-live](https://github.com/YunzhiYike/douyin-live)   
 
 ### 快手弹幕获取
 [kuaishou-live](https://github.com/YunzhiYike/kuaishou-live)  
@@ -376,6 +391,8 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 - 音频合成更改多线程为队列结构，解决高并发的崩溃问题
 - langchain_pdf_local 增加 [GanymedeNil/text2vec-large-chinese](https://huggingface.co/GanymedeNil/text2vec-large-chinese) 模型，该模型在中文解析上很好
 - 增加弹幕触发,回复部分日志记录时，每20字符自动换行的机制
+- 修改edge-tts合成音频的文件名范围
+- 更换抖音方案为`dy-barrage-grab`  
 
 </details>
 

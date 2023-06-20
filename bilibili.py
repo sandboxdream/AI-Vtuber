@@ -11,8 +11,8 @@ from utils.my_handle import My_handle
 def start_server():
     common = Common()
     # 日志文件路径
-    file_path = "./log/log-" + common.get_bj_time(1) + ".txt"
-    Configure_logger(file_path)
+    log_path = "./log/log-" + common.get_bj_time(1) + ".txt"
+    Configure_logger(log_path)
     
     my_handle = My_handle("config.json")
     if my_handle is None:
