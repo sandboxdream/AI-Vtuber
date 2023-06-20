@@ -1,8 +1,8 @@
 # AI Vtuber
 
 <div style="text-align: center;">
-_✨ AI Vtuber ✨_  
-  
+_✨ AI Vtuber ✨_
+
 <a href="https://github.com/Ikaros-521/AI-Vtuber/stargazers">
     <img alt="GitHub stars" src="https://img.shields.io/github/stars/Ikaros-521/AI-Vtuber?color=%09%2300BFFF&style=flat-square">
 </a>
@@ -21,15 +21,13 @@ _✨ AI Vtuber ✨_
 
 </div>
 
-AI Vtuber是一个由`ChatterBot/GPT/Claude/langchain_pdf+gpt/chatglm`驱动的虚拟主播（Live2D），可以在`Bilibili/抖音/快手`直播中与观众实时互动。它使用自然语言处理和文本转语音技术(`Edge-TTS/VITS-Fast/elevenlabs`)生成对观众问题的回答。
+AI Vtuber是一个由`ChatterBot/GPT/Claude/langchain_pdf+gpt/chatglm/langchain_pdf_local`驱动的虚拟主播（Live2D），可以在`Bilibili/抖音/快手`直播中与观众实时互动。它使用自然语言处理和文本转语音技术(`Edge-TTS/VITS-Fast/elevenlabs`)生成对观众问题的回答。
 
 
 ## 📖项目结构
 
 - `config.json`，配置文件。
-- `bilibili.py`，哔哩哔哩版本。  
-- `dy.py`，抖音版。  
-- `ks.py`，快手版。
+- `main.py`，GUI主程序。会根据配置调用各平台程序
 - `utils`文件夹，存储聊天、音频、通用类相关功能的封装实现
 - `data`文件夹，存储数据文件和违禁词
 - `log`文件夹，存储运行日志
@@ -373,6 +371,7 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 ### 2023-06-20
 - 补充了整合包的打包方式
 - 音频合成更改多线程为队列结构，解决高并发的崩溃问题
+- 增加弹幕触发,回复部分日志记录时，每20字符自动换行的机制
 
 
 </details>
