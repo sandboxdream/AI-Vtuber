@@ -15,4 +15,3 @@ PyQt5
 pyqt5-tools
 tiktoken
 pyahocorasick
-queue
