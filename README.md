@@ -322,7 +322,17 @@ ps:依赖[golang](https://go.dev/dl/)环境，还没有的话，手动补一补[
 
 解决方案：参考[https://blog.csdn.net/mynameisyaxuan/article/details/128323026](https://blog.csdn.net/mynameisyaxuan/article/details/128323026)  
 
-#### 2.ModuleNotFoundError: No module named 'PyQt5'
+#### 2.ModuleNotFoundError: No module named 'xxx' 大同小异
+都是依赖库缺失问题，可以打开`requirements_bilibili.txt`/`requirements_dy.txt`/`requirements_ks.txt`内查看需要安装的依赖（可能还是遗漏...）  
+视情况更换镜像源，国内推荐清华源，如果清华源没有缺失的库，可以走pypi的源，安装命令如：`pip install PyQt5 -i https://pypi.tuna.tsinghua.edu.cn/simple`  
+注意：请在虚拟环境中安装！！！（如果你是根据半自动整合包做的话，先激活虚拟环境`conda activate ai_vtb`，然后进行安装）  
+```
+https://pypi.org/simple
+https://pypi.python.org/simple/
+https://pypi.tuna.tsinghua.edu.cn/simple
+```
+
+##### ModuleNotFoundError: No module named 'PyQt5'
 半自动包 运行`3.GUI运行.bat`时，出现  
 ```
 Traceback (most recent call last):
@@ -335,7 +345,7 @@ ModuleNotFoundError: No module named 'PyQt5'
 可以发现最左侧有这个括号，表示你激活了`ai_vtb`的虚拟环境中，然后你在运行 后面的pip安装 `(ai_vtb) F:\github_pro\AI-Vtuber>pip install PyQt5`
 ![MD_DDZ4{SX 5WPHB(B9M7JA](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/ee3ad055-b562-4f12-8797-d6aff44331be)
 
-#### 3.ModuleNotFoundError: No module named 'langid'
+##### ModuleNotFoundError: No module named 'langid'
 半自动包 运行`3.GUI运行.bat`时，出现  
 ```
 Traceback (most recent call last):
@@ -346,13 +356,13 @@ Traceback (most recent call last):
 ModuleNotFoundError: No module named 'langid'
 ```
 
-解决方案：手动补装`langid`，需要注意，得在`ai_vtb`的虚拟环境中安装， `pip install langid`
-![F}`MHYQ~_8K7EO{9U R@J6](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/af04344b-fcdd-43ac-bd42-01b38f629ef3)
+解决方案：手动补装`langid`，需要注意，得在`ai_vtb`的虚拟环境中安装， `pip install langid`  
+![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/3047406b-a25c-4e53-9248-a21684dbaea4)
 如果遇到上图安装失败的问题 ， 走官方源下载 `pip install langid -i https://pypi.python.org/simple/`
 ![HVD873 MJYU3U5HR8V ~PY4](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/0f08c00f-f7ac-41dd-a6a4-7f7539efa843)
 
 
-#### 4.ModuleNotFoundError: No module named 'profanity'
+##### ModuleNotFoundError: No module named 'profanity'
 半自动包 运行`3.GUI运行.bat`时，出现  
 ```
 Traceback (most recent call last):
@@ -363,10 +373,10 @@ Traceback (most recent call last):
 ModuleNotFoundError: No module named 'profanity'
 ```
 
-解决方案：手动补装`profanity`，需要注意，得在`ai_vtb`的虚拟环境中安装， `pip install profanity`
+解决方案：手动补装`profanity`，需要注意，得在`ai_vtb`的虚拟环境中安装， `pip install profanity`  
 ![I{UGQKZR029GFMQD{}K{82R](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/3501aaca-9a08-45e3-b7bd-6aa60f9ea4b9)
 
-#### 5.ModuleNotFoundError: No module named 'ahocorasick'
+##### ModuleNotFoundError: No module named 'ahocorasick'
 半自动包 运行`3.GUI运行.bat`时，出现  
 ```
 Traceback (most recent call last):
@@ -377,7 +387,7 @@ Traceback (most recent call last):
 ModuleNotFoundError: No module named 'ahocorasick'
 ```
 
-解决方案：手动补装`pyahocorasick`，需要注意，得在`ai_vtb`的虚拟环境中安装， `pip install pyahocorasick`
+解决方案：手动补装`pyahocorasick`，需要注意，得在`ai_vtb`的虚拟环境中安装， `pip install pyahocorasick`  
 ![9WYG0P%K6 ZMERSE8K9TI5R](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/b58927ac-c9f3-4e25-8b78-ccec09543735)
 
 
