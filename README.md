@@ -314,11 +314,82 @@ ps:依赖[golang](https://go.dev/dl/)环境，还没有的话，手动补一补[
 
 ## FAQ 常问问题
 
-### 1.openai 接口报错:《empty message》
+### 部署过程问题
+
+#### 1.CondaSSLError: OpenSSL appears to be unavailable on this machine
+本地已经有`Anaconda`环境，在执行 半自动包的`1.创建虚拟环境.bat`时，出现报错`CondaSSLError: OpenSSL appears to be unavailable on this machine `
+![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/8f6af198-a362-40ad-9c33-5f9576cdcfa8)
+
+解决方案：参考[https://blog.csdn.net/mynameisyaxuan/article/details/128323026](https://blog.csdn.net/mynameisyaxuan/article/details/128323026)  
+
+#### 2.ModuleNotFoundError: No module named 'PyQt5'
+半自动包 运行`3.GUI运行.bat`时，出现  
+```
+Traceback (most recent call last):
+  File "F:\github_pro\AI-Vtuber\main.py", line 10, in <module>
+    from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QLabel, QComboBox, QLineEdit, QTextEdit, QDialog
+ModuleNotFoundError: No module named 'PyQt5'
+```
+
+解决方案：手动补装`PyQt5`，需要注意，得在`ai_vtb`的虚拟环境中安装  
+可以发现最左侧有这个括号，表示你激活了`ai_vtb`的虚拟环境中，然后你在运行 后面的pip安装 `(ai_vtb) F:\github_pro\AI-Vtuber>pip install PyQt5`
+![MD_DDZ4{SX 5WPHB(B9M7JA](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/ee3ad055-b562-4f12-8797-d6aff44331be)
+
+#### 3.ModuleNotFoundError: No module named 'langid'
+半自动包 运行`3.GUI运行.bat`时，出现  
+```
+Traceback (most recent call last):
+  File "F:\github_pro\AI-Vtuber\main.py", line 20, in <module>
+    from utils.common import Common
+  File "F:\github_pro\AI-Vtuber\utils\common.py", line 8, in <module>
+    import langid
+ModuleNotFoundError: No module named 'langid'
+```
+
+解决方案：手动补装`langid`，需要注意，得在`ai_vtb`的虚拟环境中安装， `pip install langid`
+![F}`MHYQ~_8K7EO{9U R@J6](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/af04344b-fcdd-43ac-bd42-01b38f629ef3)
+如果遇到上图安装失败的问题 ， 走官方源下载 `pip install langid -i https://pypi.python.org/simple/`
+![HVD873 MJYU3U5HR8V ~PY4](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/0f08c00f-f7ac-41dd-a6a4-7f7539efa843)
+
+
+#### 4.ModuleNotFoundError: No module named 'profanity'
+半自动包 运行`3.GUI运行.bat`时，出现  
+```
+Traceback (most recent call last):
+  File "F:\github_pro\AI-Vtuber\main.py", line 20, in <module>
+    from utils.common import Common
+  File "F:\github_pro\AI-Vtuber\utils\common.py", line 10, in <module>
+    from profanity import profanity
+ModuleNotFoundError: No module named 'profanity'
+```
+
+解决方案：手动补装`profanity`，需要注意，得在`ai_vtb`的虚拟环境中安装， `pip install profanity`
+![I{UGQKZR029GFMQD{}K{82R](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/3501aaca-9a08-45e3-b7bd-6aa60f9ea4b9)
+
+#### 5.ModuleNotFoundError: No module named 'ahocorasick'
+半自动包 运行`3.GUI运行.bat`时，出现  
+```
+Traceback (most recent call last):
+  File "F:\github_pro\AI-Vtuber\main.py", line 20, in <module>
+    from utils.common import Common
+  File "F:\github_pro\AI-Vtuber\utils\common.py", line 11, in <module>
+    import ahocorasick
+ModuleNotFoundError: No module named 'ahocorasick'
+```
+
+解决方案：手动补装`pyahocorasick`，需要注意，得在`ai_vtb`的虚拟环境中安装， `pip install pyahocorasick`
+![9WYG0P%K6 ZMERSE8K9TI5R](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/b58927ac-c9f3-4e25-8b78-ccec09543735)
+
+
+### 使用过程问题
+
+#### 1.openai 接口报错:《empty message》
 可能是API KEY过期了/额度没了，请检查API KEY是否可用。  
 在线测试参考：  
 [chatgpt-html](http://ikaros521.eu.org/chatgpt-html/)  
 [ChatGPT-Next-Web](https://chat-gpt-next-web-ikaros-521.vercel.app/)  
+
+
 
 
 ## 补充
