@@ -79,6 +79,8 @@ pip install -r requirements_ks.txt
   "before_prompt": "请简要回复:",
   // 请求gpt/claude时，携带的字符串尾部
   "after_prompt": "",
+  // 弹幕日志类型，用于记录弹幕触发时记录的内容，默认只记录回答，降低当用户使用弹幕日志显示在直播间时，因为用户的不良弹幕造成直播间被封禁问题
+  "commit_log_type": "回答",
   "filter": {
     // 弹幕过滤，必须携带的触发前缀字符串（任一）
     "before_must_str": [],
