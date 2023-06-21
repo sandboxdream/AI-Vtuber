@@ -396,6 +396,9 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 - 更换抖音方案为`dy-barrage-grab`  
 - GUI新增 弹幕日志类型、修改langchain_pdf_local的模型下拉选择
 
+### 2023-06-21
+- 修复语音合成内容错误的bug
+
 </details>
 
 

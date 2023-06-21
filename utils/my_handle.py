@@ -291,7 +291,7 @@ class My_handle():
             "data": self.config.get(self.audio_synthesis_type),
             "config": self.filter_config,
             "user_name": user_name,
-            "content": content
+            "content": resp_content
         }
 
         # 音频合成（edge-tts / vits）并播放
