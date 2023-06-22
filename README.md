@@ -296,9 +296,9 @@ ps:依赖[golang](https://go.dev/dl/)环境，还没有的话，手动补一补[
 对UI做改动时，加入新的配置，一般需要修改init_config和save部分，新配置的读取和写入部分。  
 
 
-## 打包懒人包(错误案例)
+## 打包懒人包
 
-1、本地装有conda环境  
+1、本地装有conda环境并配置环境变量  
 2、在本文件夹创建虚拟环境  
 `conda create --prefix ./venv python=3.10`  
 3、安装依赖  
@@ -309,7 +309,7 @@ ps:依赖[golang](https://go.dev/dl/)环境，还没有的话，手动补一补[
 `venv\python.exe -m pip install spacy SQLAlchemy==1.3.24 -i https://pypi.tuna.tsinghua.edu.cn/simple`  
 前提是你在当前目录下有clone chatterbot的项目（自行调整路径关系）  
 `venv\python.exe setup.py install`  
-5、修改`audio.py`中`edge-tts`的调用实现  
+5、修改`audio.py`中`edge-tts`的调用实现。`venv\python.exe venv\Scripts\edge-tts.exe`  
 
 
 ## FAQ 常问问题
@@ -481,6 +481,9 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 
 ### 2023-06-21
 - 修复语音合成内容错误的bug
+
+### 2023-06-23
+- 针对整合包问题进行了优化和处理，新增了Scripts文件夹用于存储制作整合包时需要用的相关脚本。  
 
 </details>
 
