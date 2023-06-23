@@ -71,11 +71,11 @@ class My_handle():
 
         # 聊天相关类实例化
         if self.chat_type == "gpt":
-            from utils.chatgpt import Chatgpt
+            from utils.gpt_model.chatgpt import Chatgpt
 
             self.chatgpt = Chatgpt(self.openai_config, self.chatgpt_config)
         elif self.chat_type == "claude":
-            from utils.claude import Claude
+            from utils.gpt_model.claude import Claude
 
             self.claude = Claude(self.claude_config)
 
@@ -98,7 +98,7 @@ class My_handle():
 
             self.langchain_pdf = Langchain_pdf(self.langchain_pdf_config, self.chat_type)
         elif self.chat_type == "chatglm":
-            from utils.chatglm import Chatglm
+            from utils.gpt_model.chatglm import Chatglm
 
             self.chatglm = Chatglm(self.chatglm_config)
         elif self.chat_type == "langchain_pdf_local":

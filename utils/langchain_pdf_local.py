@@ -8,12 +8,9 @@
 @Description : 本地化向量数据库，实现langchain_pdf
 """
 import logging
-import uuid
 from langchain.document_loaders import PyPDFLoader
-from langchain.embeddings import HuggingFaceEmbeddings
 
-from utils.claude import Claude
-from utils.embeddings import EMBEDDINGS_MAPPING
+from utils.gpt_model.claude import Claude
 from utils.faiss_handler import create_faiss_index_from_zip
 from utils.my_handle import My_handle
 
