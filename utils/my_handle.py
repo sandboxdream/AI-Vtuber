@@ -8,11 +8,11 @@ from .logger import Configure_logger
 
 
 class My_handle():
-    def __init__(self, config_path):        
+    def __init__(self, config_path):
         self.common = Common()
         self.config = Config(config_path)
         self.audio = Audio()
-        
+
         # 日志文件路径
         file_path = "./log/log-" + self.common.get_bj_time(1) + ".txt"
         Configure_logger(file_path)
@@ -24,7 +24,7 @@ class My_handle():
         # }
 
         try:
-            
+
             # 设置会话初始值
             self.session_config = {'msg': [{"role": "system", "content": self.config.get('chatgpt', 'preset')}]}
             self.sessions = {}
@@ -60,7 +60,6 @@ class My_handle():
             self.chatglm_config = self.config.get("chatglm")
             # langchain_pdf_local
             self.langchain_pdf_local_config = self.config.get("langchain_pdf_local")
-            
 
             # 音频合成使用技术
             self.audio_synthesis_type = self.config.get("audio_synthesis_type")
@@ -69,7 +68,6 @@ class My_handle():
         except Exception as e:
             logging.info(e)
             return None
-
 
         # 聊天相关类实例化
         if self.chat_type == "gpt":
@@ -82,7 +80,7 @@ class My_handle():
             self.claude = Claude(self.claude_config)
 
             # 初次运行 先重置下会话
-            if self.claude.reset_claude():
+            if not self.claude.reset_claude():
                 logging.error("重置Claude会话失败喵~")
         elif self.chat_type == "chatterbot":
             from chatterbot import ChatBot  # 导入聊天机器人库
@@ -110,7 +108,6 @@ class My_handle():
         elif self.chat_type == "game":
             exit(0)
 
-
         # 日志文件路径
         self.log_file_path = "./log/log-" + self.common.get_bj_time(1) + ".txt"
         if os.path.isfile(self.log_file_path):
@@ -128,10 +125,8 @@ class My_handle():
                 f.write('')
                 logging.info(f'{self.commit_file_path} 弹幕文件已创建')
 
-
     def get_room_id(self):
         return self.room_id
-    
 
     def find_answer(self, question, qa_file_path):
         """从本地问答库中搜索问题的答案
@@ -155,7 +150,6 @@ class My_handle():
 
         return None
 
-
     def commit_handle(self, user_name, content):
         # 匹配本地问答库
         if self.local_qa == True:
@@ -170,17 +164,18 @@ class My_handle():
                     # 不过这个实现方式，感觉有点低效
                     # 设置单行最大字符数，主要目的用于接入直播弹幕显示时，弹幕过长导致的显示溢出问题
                     max_length = 20
-                    resp_content_substrings = [resp_content[i:i + max_length] for i in range(0, len(resp_content), max_length)]
+                    resp_content_substrings = [resp_content[i:i + max_length] for i in
+                                               range(0, len(resp_content), max_length)]
                     resp_content_joined = '\n'.join(resp_content_substrings)
 
                     # 根据 弹幕日志类型进行各类日志写入
                     if self.config.get("commit_log_type") == "问答":
-                        f.write(f"[{user_name} 提问]:{content}\n[AI回复{user_name}]:{resp_content_joined}\n" + tmp_content)
+                        f.write(
+                            f"[{user_name} 提问]:{content}\n[AI回复{user_name}]:{resp_content_joined}\n" + tmp_content)
                     elif self.config.get("commit_log_type") == "问题":
                         f.write(f"[{user_name} 提问]:{content}\n" + tmp_content)
                     elif self.config.get("commit_log_type") == "回答":
                         f.write(f"[AI回复{user_name}]:{resp_content_joined}\n" + tmp_content)
-
 
                 message = {
                     "type": self.audio_synthesis_type,
@@ -196,7 +191,8 @@ class My_handle():
                 return
 
         # 判断弹幕是否以xx起始，如果不是则返回
-        if self.filter_config["before_must_str"] and not any(content.startswith(prefix) for prefix in self.filter_config["before_must_str"]):
+        if self.filter_config["before_must_str"] and not any(
+                content.startswith(prefix) for prefix in self.filter_config["before_must_str"]):
             return
         else:
             for prefix in self.filter_config["before_must_str"]:
@@ -205,7 +201,8 @@ class My_handle():
                     break
 
         # 判断弹幕是否以xx结尾，如果不是则返回
-        if self.filter_config["after_must_str"] and not any(content.endswith(prefix) for prefix in self.filter_config["after_must_str"]):
+        if self.filter_config["after_must_str"] and not any(
+                content.endswith(prefix) for prefix in self.filter_config["after_must_str"]):
             return
         else:
             for prefix in self.filter_config["after_must_str"]:
@@ -224,8 +221,9 @@ class My_handle():
         content = content.replace('\n', ',')
 
         # 含有违禁词/链接
-        if self.common.profanity_content(content) or self.common.check_sensitive_words2(self.filter_config["badwords_path"], content) or \
-            self.common.is_url_check(content):
+        if self.common.profanity_content(content) or self.common.check_sensitive_words2(
+                self.filter_config["badwords_path"], content) or \
+                self.common.is_url_check(content):
             logging.warning(f"违禁词/链接：{content}")
             return
 
@@ -302,7 +300,6 @@ class My_handle():
             elif self.config.get("commit_log_type") == "回答":
                 f.write(f"[AI回复{user_name}]:{resp_content_joined}\n" + tmp_content)
 
-
         message = {
             "type": self.audio_synthesis_type,
             "data": self.config.get(self.audio_synthesis_type),
@@ -313,4 +310,3 @@ class My_handle():
 
         # 音频合成（edge-tts / vits）并播放
         self.audio.audio_synthesis(message)
-
