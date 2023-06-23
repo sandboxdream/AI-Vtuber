@@ -19,3 +19,6 @@ pyqt5-tools
 tiktoken
 pyahocorasick
 requests
+webuiapi
+pyvirtualcam
+numpy

@@ -211,7 +211,42 @@ pip install -r requirements_ks.txt
     "frequency_penalty": 0,
     "preset": "请扮演一个AI虚拟主播。不要回答任何敏感问题！不要强调你是主播，只需要回答问题！"
   },
-  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.42"
+  // stable diffusion相关配置
+  "sd": {
+    // 是否启用
+    "enable": false,
+    // 触发的关键词（弹幕头部触发）
+    "trigger": "画画：",
+    // 服务运行的IP地址
+    "ip": "127.0.0.1",
+    // 服务运行的端口
+    "port": 7860,
+    // 负面文本提示，用于指定与生成图像相矛盾或相反的内容
+    "negative_prompt": "ufsw, longbody, lowres, bad anatomy, bad hands, missing fingers, pubic hair,extra digit, fewer digits, cropped, worst quality, low quality",
+    // 随机种子，用于控制生成过程的随机性。可以设置一个整数值，以获得可重复的结果。
+    "seed": -1,
+    // 样式列表，用于指定生成图像的风格。可以包含多个风格，例如 ["anime", "portrait"]。
+    "styles": [],
+    // 提示词相关性，无分类器指导信息影响尺度(Classifier Free Guidance Scale) -图像应在多大程度上服从提示词-较低的值会产生更有创意的结果。
+    "cfg_scale": 7,
+    // 生成图像的步数，用于控制生成的精确程度。
+    "steps": 30,
+    // 是否启用高分辨率生成。默认为 False。
+    "enable_hr": false,
+    // 高分辨率缩放因子，用于指定生成图像的高分辨率缩放级别。
+    "hr_scale": 2,
+    // 高分辨率生成的第二次传递步数。
+    "hr_second_pass_steps": 20,
+    // 生成图像的水平尺寸。
+    "hr_resize_x": 512,
+    // 生成图像的垂直尺寸。
+    "hr_resize_y": 512,
+    // 去噪强度，用于控制生成图像中的噪点。
+    "denoising_strength": 0.4
+  },
+  "header": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.42"
+  }
 }
 ```
 
@@ -487,6 +522,7 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 ### 2023-06-23
 - 针对整合包问题进行了优化和处理，新增了Scripts文件夹用于存储制作整合包时需要用的相关脚本。  
 - 新增本地回答库，启用后优先匹配库内问答，无匹配结果则按正常流程运行
+- 新增stable diffusion的接入。（UI还未适配，初步实现功能，搭配虚拟摄像头食用）
 
 </details>
 

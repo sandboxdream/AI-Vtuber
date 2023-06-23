@@ -91,6 +91,23 @@
     "frequency_penalty": 0.0,
     "preset": "请扮演一个AI虚拟主播。不要回答任何敏感问题！不要强调你是主播，只需要回答问题！"
   },
+  "sd": {
+    "enable": false,
+    "trigger": "画画：",
+    "ip": "127.0.0.1",
+    "port": 7860,
+    "negative_prompt": "ufsw, longbody, lowres, bad anatomy, bad hands, missing fingers, pubic hair,extra digit, fewer digits, cropped, worst quality, low quality",
+    "seed": -1,
+    "styles": [],
+    "cfg_scale": 7,
+    "steps": 30,
+    "enable_hr": false,
+    "hr_scale": 2,
+    "hr_second_pass_steps": 20,
+    "hr_resize_x": 512,
+    "hr_resize_y": 512,
+    "denoising_strength": 0.4
+  },
   "header": {
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.42"
   }
