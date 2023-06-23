@@ -8,13 +8,11 @@
 @Description : 本地化向量数据库，实现langchain_pdf
 """
 import logging
-import uuid
 from langchain.document_loaders import PyPDFLoader
-from langchain.embeddings import HuggingFaceEmbeddings
 
-from utils.claude import Claude
-from utils.embeddings import EMBEDDINGS_MAPPING
+from utils.gpt_model.claude import Claude
 from utils.faiss_handler import create_faiss_index_from_zip
+from utils.gpt_model.gpt import GPT_MODEL
 from utils.my_handle import My_handle
 
 
@@ -30,8 +28,7 @@ def get_content(data: str):
 
 
 class Langchain_pdf_local:
-    langchain_pdf_bot_user_id = None
-    langchain_pdf_slack_user_token = None
+    langchain_pdf_gpt_model = None
     langchain_pdf_data_path = None
     langchain_pdf_separator = "\n"
     langchain_pdf_chunk_size = 100
@@ -48,8 +45,7 @@ class Langchain_pdf_local:
     claude = None
 
     def __init__(self, data, chat_type="langchain_pdf_local"):
-        self.langchain_pdf_bot_user_id = data["bot_user_id"]
-        self.langchain_pdf_slack_user_token = data["slack_user_token"]
+        self.langchain_pdf_gpt_model = data["gpt_model"]
         self.langchain_pdf_data_path = data["data_path"]
         self.langchain_pdf_separator = data["separator"]
         self.langchain_pdf_chunk_size = data["chunk_size"]
@@ -66,7 +62,7 @@ class Langchain_pdf_local:
         self.load_zip_as_db(self.langchain_pdf_data_path, self.pdf_loader,
                             self.langchain_pdf_chunk_size,self.langchain_pdf_chunk_overlap)
         # 初始化claude客户端
-        self.claude = Claude(data)
+        self.claude = GPT_MODEL.get(self.langchain_pdf_gpt_model)
 
     def load_zip_as_db(self, zip_file_path,
                        pdf_loader,
