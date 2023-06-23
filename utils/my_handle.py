@@ -4,6 +4,7 @@ import logging
 from .config import Config
 from .common import Common
 from .audio import Audio
+from .gpt_model.gpt import GPT_MODEL
 from .logger import Configure_logger
 
 
@@ -67,7 +68,11 @@ class My_handle():
             logging.info(f"配置数据加载成功。")
         except Exception as e:
             logging.info(e)
-            return None
+
+        # TODO 设置GPT_Model模型配置
+        GPT_MODEL.set_model_config("openai", self.openai_config)
+        GPT_MODEL.set_model_config("claude", self.claude_config)
+        GPT_MODEL.set_model_config("chatglm", self.chatglm_config)
 
         # 聊天相关类实例化
         if self.chat_type == "gpt":
@@ -77,7 +82,8 @@ class My_handle():
         elif self.chat_type == "claude":
             from utils.gpt_model.claude import Claude
 
-            self.claude = Claude(self.claude_config)
+            # self.claude = Claude(self.claude_config)
+            self.claude = GPT_MODEL.get("claude")
 
             # 初次运行 先重置下会话
             if not self.claude.reset_claude():

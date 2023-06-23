@@ -44,3 +44,7 @@ def start_server():
     finally:
         logging.warning('关闭连接...')
         exit(0)
+
+
+if __name__ == '__main__':
+    start_server()
