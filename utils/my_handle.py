@@ -110,15 +110,12 @@ class My_handle():
         elif self.chat_type == "game":
             exit(0)
 
-<<<<<<< HEAD
         if self.sd_config["enable"]:
             from utils.sd import SD
 
             self.sd = SD(self.sd_config)
 
 
-=======
->>>>>>> 9887480cf78eda6458cdbfa9e7c56c1e9d3a4a10
         # 日志文件路径
         self.log_file_path = "./log/log-" + self.common.get_bj_time(1) + ".txt"
         if os.path.isfile(self.log_file_path):
