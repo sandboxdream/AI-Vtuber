@@ -11,6 +11,7 @@ from langchain.prompts import PromptTemplate
 import logging
 
 from .common import Common
+from .gpt_model.gpt import GPT_MODEL
 from .logger import Configure_logger
 
 class Langchain_pdf:
@@ -31,7 +32,7 @@ class Langchain_pdf:
         file_path = "./log/log-" + self.common.get_bj_time(1) + ".txt"
         Configure_logger(file_path)
 
-        self.langchain_pdf_openai_api_key = data["openai_api_key"]
+        self.langchain_pdf_openai_api_key = GPT_MODEL.get_openai_key()
         self.langchain_pdf_data_path = data["data_path"]
         self.langchain_pdf_separator = data["separator"]
         self.langchain_pdf_chunk_size = data["chunk_size"]

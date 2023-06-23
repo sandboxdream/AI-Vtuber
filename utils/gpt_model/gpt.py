@@ -49,6 +49,11 @@ class GPT_Model:
                 logging.error(f"{name} 该模型不支持")
                 return
 
+    def get_openai_key(self):
+        if self.openai is None:
+            logging.error("openai_key 为空")
+            return None
+        return self.openai["api_key"]
 
 # 全局变量
 GPT_MODEL = GPT_Model()
