@@ -6,6 +6,7 @@
   "before_prompt": "请简要回复:",
   "after_prompt": "",
   "commit_log_type": "回答",
+  "local_qa": false,
   "filter": {
     "before_must_str": [],
     "after_must_str": [

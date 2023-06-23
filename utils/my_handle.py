@@ -8,57 +8,6 @@ from .logger import Configure_logger
 
 
 class My_handle():
-    # common工具类
-    common = None
-    # 配置信息
-    config = None
-    audio = None
-
-    room_id = None
-    proxy = None
-    # proxy = {
-    #     "http": "http://127.0.0.1:10809",
-    #     "https": "http://127.0.0.1:10809"
-    # }
-    session_config = None
-    sessions = {}
-    current_key_index = 0
-
-    # 直播间号
-    room_id = None
-
-    before_prompt = None
-    after_prompt = None
-
-    # 过滤配置
-    filter_config = None
-
-    chat_type = None
-
-    need_lang = None
-
-    # openai
-    openai_config = None
-    # chatgpt
-    chatgpt_config = None
-    # claude
-    claude_config = None
-    # chatterbot
-    chatterbot_config = None
-    # langchain_pdf
-    langchain_pdf_config = None
-    # chatglm
-    chatglm_config = None
-    # langchain_pdf_local
-    langchain_pdf_local_config = None
-
-    # 音频合成使用技术
-    audio_synthesis_type = None
-
-    log_file_path = None
-    commit_file_path = None
-
-
     def __init__(self, config_path):        
         self.common = Common()
         self.config = Config(config_path)
@@ -69,6 +18,10 @@ class My_handle():
         Configure_logger(file_path)
 
         self.proxy = None
+        # self.proxy = {
+        #     "http": "http://127.0.0.1:10809",
+        #     "https": "http://127.0.0.1:10809"
+        # }
 
         try:
             
@@ -89,6 +42,9 @@ class My_handle():
             self.chat_type = self.config.get("chat_type")
 
             self.need_lang = self.config.get("need_lang")
+
+            # 优先本地问答库匹配
+            self.local_qa = self.config.get("local_qa")
 
             # openai
             self.openai_config = self.config.get("openai")
@@ -177,7 +133,68 @@ class My_handle():
         return self.room_id
     
 
+    def find_answer(self, question, qa_file_path):
+        """从本地问答库中搜索问题的答案
+
+        Args:
+            question (_type_): 问题文本
+            qa_file_path (_type_): 问答库的路径
+
+        Returns:
+            _type_: 答案文本 或 None
+        """
+        with open(qa_file_path, 'r', encoding='utf-8') as file:
+            lines = file.readlines()
+
+        for i in range(0, len(lines), 2):
+            if question.strip() == lines[i].strip():
+                if i + 1 < len(lines):
+                    return lines[i + 1].strip()
+                else:
+                    return None
+
+        return None
+
+
     def commit_handle(self, user_name, content):
+        # 匹配本地问答库
+        if self.local_qa == True:
+            tmp = self.find_answer(content, "data/本地问答库.txt")
+            if tmp != None:
+                resp_content = tmp
+                # 将 AI 回复记录到日志文件中
+                with open(self.commit_file_path, "r+", encoding="utf-8") as f:
+                    tmp_content = f.read()
+                    # 将指针移到文件头部位置（此目的是为了让直播中读取日志文件时，可以一直让最新内容显示在顶部）
+                    f.seek(0, 0)
+                    # 不过这个实现方式，感觉有点低效
+                    # 设置单行最大字符数，主要目的用于接入直播弹幕显示时，弹幕过长导致的显示溢出问题
+                    max_length = 20
+                    resp_content_substrings = [resp_content[i:i + max_length] for i in range(0, len(resp_content), max_length)]
+                    resp_content_joined = '\n'.join(resp_content_substrings)
+
+                    # 根据 弹幕日志类型进行各类日志写入
+                    if self.config.get("commit_log_type") == "问答":
+                        f.write(f"[{user_name} 提问]:{content}\n[AI回复{user_name}]:{resp_content_joined}\n" + tmp_content)
+                    elif self.config.get("commit_log_type") == "问题":
+                        f.write(f"[{user_name} 提问]:{content}\n" + tmp_content)
+                    elif self.config.get("commit_log_type") == "回答":
+                        f.write(f"[AI回复{user_name}]:{resp_content_joined}\n" + tmp_content)
+
+
+                message = {
+                    "type": self.audio_synthesis_type,
+                    "data": self.config.get(self.audio_synthesis_type),
+                    "config": self.filter_config,
+                    "user_name": user_name,
+                    "content": resp_content
+                }
+
+                # 音频合成（edge-tts / vits）并播放
+                self.audio.audio_synthesis(message)
+
+                return
+
         # 判断弹幕是否以xx起始，如果不是则返回
         if self.filter_config["before_must_str"] and not any(content.startswith(prefix) for prefix in self.filter_config["before_must_str"]):
             return
