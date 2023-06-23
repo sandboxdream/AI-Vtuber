@@ -69,28 +69,28 @@ class My_handle():
         except Exception as e:
             logging.info(e)
 
-        # TODO 设置GPT_Model模型配置
+        # 设置GPT_Model全局模型列表
         GPT_MODEL.set_model_config("openai", self.openai_config)
+        GPT_MODEL.set_model_config("chatgpt", self.chatgpt_config)
         GPT_MODEL.set_model_config("claude", self.claude_config)
         GPT_MODEL.set_model_config("chatglm", self.chatglm_config)
 
         # 聊天相关类实例化
         if self.chat_type == "gpt":
             from utils.gpt_model.chatgpt import Chatgpt
+            # TODO 此处需要将“gpt”修改为“chatgpt”，需要让I佬在前端同步修改
+            self.chatgpt = GPT_MODEL.get("chatgpt")
 
-            self.chatgpt = Chatgpt(self.openai_config, self.chatgpt_config)
         elif self.chat_type == "claude":
             from utils.gpt_model.claude import Claude
-
-            # self.claude = Claude(self.claude_config)
-            self.claude = GPT_MODEL.get("claude")
+            self.claude = GPT_MODEL.get(self.chat_type)
 
             # 初次运行 先重置下会话
             if not self.claude.reset_claude():
                 logging.error("重置Claude会话失败喵~")
+
         elif self.chat_type == "chatterbot":
             from chatterbot import ChatBot  # 导入聊天机器人库
-
             try:
                 self.bot = ChatBot(
                     self.chatterbot_config["name"],  # 聊天机器人名字
@@ -99,18 +99,19 @@ class My_handle():
             except Exception as e:
                 logging.info(e)
                 exit(0)
+
         elif self.chat_type == "langchain_pdf" or self.chat_type == "langchain_pdf+gpt":
             from utils.langchain_pdf import Langchain_pdf
-
             self.langchain_pdf = Langchain_pdf(self.langchain_pdf_config, self.chat_type)
+
         elif self.chat_type == "chatglm":
             from utils.gpt_model.chatglm import Chatglm
+            self.chatglm = GPT_MODEL.get(self.chat_type)
 
-            self.chatglm = Chatglm(self.chatglm_config)
         elif self.chat_type == "langchain_pdf_local":
             from utils.langchain_pdf_local import Langchain_pdf_local
-
             self.langchain_pdf = Langchain_pdf_local(self.langchain_pdf_local_config, self.chat_type)
+
         elif self.chat_type == "game":
             exit(0)
 

@@ -16,23 +16,29 @@ from utils.gpt_model.claude import Claude
 
 class GPT_Model:
     # 模型配置信息
-    openai_key = None
+    openai = None   # 只有openai是config配置，其他均是实例
     chatgpt = None
     claude = None
     chatglm = None
 
-    def set_model_config(self, model_name, *config):
-        if model_name == "chatgpt":
-            self.openai_key = config[0]
-            self.chatgpt = Chatgpt(self.openai_key, config[1])
+    def set_model_config(self, model_name, config):
+        if model_name == "openai":
+            self.openai = config
+        elif model_name == "chatgpt":
+            if self.openai is None:
+                logging.error("openai key 为空，无法配置chatgpt模型")
+                exit(-1)
+            self.chatgpt = Chatgpt(self.openai, config)
         elif model_name == "claude":
-            self.claude = Claude(config[0])
+            self.claude = Claude(config)
         elif model_name == "chatglm":
-            self.chatglm = Chatglm(config[0])
+            self.chatglm = Chatglm(config)
 
     def get(self, name):
         logging.info("GPT_MODEL: 进入get方法")
         match name:
+            case "openai":
+                return self.openai
             case "chatgpt":
                 return self.chatgpt
             case "claude":
