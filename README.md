@@ -129,8 +129,6 @@ pip install -r requirements_ks.txt
   },
   // langchain_pdf 和 langchain_pdf+gpt 相关配置
   "langchain_pdf": {
-    // 你的openai api key
-    "openai_api_key": "你的api key",
     // 加载的本地pdf数据文件路径（到x.pdf）,如：./data/伊卡洛斯百度百科.pdf
     "data_path": "",
     // 拆分文本的分隔符
@@ -147,10 +145,8 @@ pip install -r requirements_ks.txt
     "show_cost": true
   },
   "langchain_pdf_local": {
-    // claude相关配置
-    // 参考：https://github.com/bincooo/claude-api#readme
-    "bot_user_id": "",
-    "slack_user_token": "",
+    // 选择使用的模型
+    "gpt_model": "claude",
     // 选择输入的pdf数据
     "data_path": "data/伊卡洛斯百度百科.zip",
     "separator": "\n",
@@ -487,6 +483,7 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 ### 2023-06-23
 - 针对整合包问题进行了优化和处理，新增了Scripts文件夹用于存储制作整合包时需要用的相关脚本。  
 - 新增本地回答库，启用后优先匹配库内问答，无匹配结果则按正常流程运行
+- dev分支：对模型的使用进行抽象，进行统一管理
 
 </details>
 
