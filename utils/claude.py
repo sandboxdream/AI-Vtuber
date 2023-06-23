@@ -6,6 +6,7 @@ from slack_sdk.errors import SlackApiError
 from .common import Common
 from .logger import Configure_logger
 
+
 class Claude:
     slack_user_token = None
     bot_user_id = None
@@ -18,7 +19,7 @@ class Claude:
         # 日志文件路径
         file_path = "./log/log-" + self.common.get_bj_time(1) + ".txt"
         Configure_logger(file_path)
-        
+
         self.slack_user_token = data["slack_user_token"]
         self.bot_user_id = data["bot_user_id"]
         self.client = WebClient(token=self.slack_user_token)
@@ -26,7 +27,6 @@ class Claude:
         if not self.dm_channel_id:
             logging.error("Could not find DM channel with the bot.")
             return None
-        
 
     ### claude
     def send_message(self, channel, text):
@@ -36,11 +36,9 @@ class Claude:
             logging.error(f"Error sending message: {e}")
             return None
 
-
     def fetch_messages(self, channel, last_message_timestamp):
         response = self.client.conversations_history(channel=channel, oldest=last_message_timestamp)
         return [msg['text'] for msg in response['messages'] if msg['user'] == self.bot_user_id]
-
 
     def get_new_messages(self, channel, last_message_timestamp):
         timeout = 60  # 超时时间设置为60秒
@@ -52,9 +50,8 @@ class Claude:
                 return messages[-1]
             if time.time() - start_time > timeout:
                 return None
-            
-            time.sleep(5)
 
+            time.sleep(5)
 
     def find_direct_message_channel(self, user_id):
         try:
@@ -63,7 +60,6 @@ class Claude:
         except SlackApiError as e:
             logging.info(f"Error opening DM channel: {e}")
             return None
-
 
     # 获取claude返回内容
     def get_claude_resp(self, text):
@@ -78,13 +74,10 @@ class Claude:
             return new_message
         return None
 
-
-    # 重置会话（不可用。。。） 待解决
+    # 重置会话
     def reset_claude(self):
         response = self.send_message(self.dm_channel_id, "/reset")
         if response:
             return True
         else:
             return False
-
-    
