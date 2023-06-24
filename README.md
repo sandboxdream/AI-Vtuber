@@ -328,6 +328,11 @@ ps:依赖[golang](https://go.dev/dl/)环境，还没有的话，手动补一补[
 
 运行 `python main.py`  
 
+## 效果图
+GUI界面  
+![A5 037 _%%F`IZQ{}B@{){K](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/f5306bbe-0903-45b4-a96c-851e60883bf2)
+
+
 ## 开发
 ### UI设计
 打开QT设计师~o( =∩ω∩= )m `pyqt5-tools designer`  
