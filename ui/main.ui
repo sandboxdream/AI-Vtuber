@@ -42,9 +42,9 @@
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-2587</y>
+             <y>-3390</y>
              <width>839</width>
-             <height>3355</height>
+             <height>4071</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -986,6 +986,177 @@
                  </item>
                  <item row="2" column="1">
                   <widget class="QLineEdit" name="lineEdit_elevenlabs_model"/>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QGroupBox" name="groupBox_sd">
+              <property name="title">
+               <string>Stable Diffusion</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_32">
+               <item row="0" column="0">
+                <layout class="QGridLayout" name="gridLayout_31">
+                 <item row="5" column="0">
+                  <widget class="QLabel" name="label_sd_seed">
+                   <property name="text">
+                    <string>随机种子</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="10" column="0">
+                  <widget class="QLabel" name="label_sd_hr_resize_y">
+                   <property name="text">
+                    <string>图像垂直像素</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="9" column="1">
+                  <widget class="QLineEdit" name="lineEdit_sd_hr_resize_x"/>
+                 </item>
+                 <item row="11" column="0">
+                  <widget class="QLabel" name="label_sd_enable_hr">
+                   <property name="text">
+                    <string>高分辨率生成</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="6" column="0">
+                  <widget class="QLabel" name="label_sd_styles">
+                   <property name="text">
+                    <string>图像风格</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="QLabel" name="label_sd_ip">
+                   <property name="text">
+                    <string>IP地址</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="8" column="1">
+                  <widget class="QLineEdit" name="lineEdit_sd_steps"/>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QLineEdit" name="lineEdit_sd_trigger"/>
+                 </item>
+                 <item row="3" column="1">
+                  <widget class="QLineEdit" name="lineEdit_sd_port"/>
+                 </item>
+                 <item row="4" column="0">
+                  <widget class="QLabel" name="label_sd_negative_prompt">
+                   <property name="text">
+                    <string>负面提示词</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="9" column="0">
+                  <widget class="QLabel" name="label_sd_hr_resize_x">
+                   <property name="text">
+                    <string>图像水平像素</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="0">
+                  <widget class="QLabel" name="label_sd_port">
+                   <property name="text">
+                    <string>端口</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="12" column="0">
+                  <widget class="QLabel" name="label_sd_hr_scale">
+                   <property name="text">
+                    <string>高分辨率缩放因子</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="13" column="0">
+                  <widget class="QLabel" name="label_sd_hr_second_pass_steps">
+                   <property name="text">
+                    <string>高分生二次传递步数</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="7" column="1">
+                  <widget class="QLineEdit" name="lineEdit_sd_cfg_scale"/>
+                 </item>
+                 <item row="7" column="0">
+                  <widget class="QLabel" name="label_sd_cfg_scale">
+                   <property name="text">
+                    <string>提示词相关性</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="4" column="1">
+                  <widget class="QLineEdit" name="lineEdit_sd_negative_prompt"/>
+                 </item>
+                 <item row="12" column="1">
+                  <widget class="QLineEdit" name="lineEdit_sd_hr_scale"/>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_sd_enable">
+                   <property name="text">
+                    <string>启用</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="6" column="1">
+                  <widget class="QTextEdit" name="textEdit_sd_styles"/>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="label_sd_trigger">
+                   <property name="text">
+                    <string>弹幕触发前缀</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="13" column="1">
+                  <widget class="QLineEdit" name="lineEdit_sd_hr_second_pass_steps"/>
+                 </item>
+                 <item row="10" column="1">
+                  <widget class="QLineEdit" name="lineEdit_sd_hr_resize_y"/>
+                 </item>
+                 <item row="5" column="1">
+                  <widget class="QLineEdit" name="lineEdit_sd_seed"/>
+                 </item>
+                 <item row="11" column="1">
+                  <widget class="QCheckBox" name="checkBox_sd_enable_hr">
+                   <property name="text">
+                    <string>启用</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QCheckBox" name="checkBox_sd_enable">
+                   <property name="text">
+                    <string>是</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QLineEdit" name="lineEdit_sd_ip"/>
+                 </item>
+                 <item row="8" column="0">
+                  <widget class="QLabel" name="label_sd_steps">
+                   <property name="text">
+                    <string>生成图像步数</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="14" column="0">
+                  <widget class="QLabel" name="label_sd_denoising_strength">
+                   <property name="text">
+                    <string>去噪强度</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="14" column="1">
+                  <widget class="QLineEdit" name="lineEdit_sd_denoising_strength"/>
                  </item>
                 </layout>
                </item>
