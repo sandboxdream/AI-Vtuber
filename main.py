@@ -23,59 +23,11 @@ from utils.logger import Configure_logger
 
 
 class AI_VTB(QMainWindow):
-    platform = None
-    room_id = None
     proxy = None
     # proxy = {
     #     "http": "http://127.0.0.1:10809",
     #     "https": "http://127.0.0.1:10809"
     # }
-    session_config = None
-    sessions = {}
-    current_key_index = 0
-
-    # 直播间号
-    room_id = None
-
-    before_prompt = None
-    after_prompt = None
-
-    # 弹幕日志类型
-    commit_log_type = None
-
-    # 弹幕过滤配置
-    filter_config = None
-
-    chat_type = None
-
-    need_lang = None
-
-    live2d_config = None
-
-    # openai
-    openai_config = None
-    # chatgpt
-    chatgpt_config = None
-    # claude
-    claude_config = None
-    # chatterbot
-    chatterbot_config = None
-    # langchain_pdf
-    langchain_pdf_config = None
-    # chatglm
-    chatglm_config = None
-    # langchain_pdf_local
-    langchain_pdf_local_config = None
-
-    # 音频合成使用技术
-    audio_synthesis_type = None
-    edge_tts_config = None
-    vits_config = None
-    elevenlabs_config = None
-
-    header_config = None
-
-    log_file_path = None
 
     # 线程
     my_thread = None
@@ -188,6 +140,7 @@ class AI_VTB(QMainWindow):
             self.vits_config = config.get("vits")
             self.elevenlabs_config = config.get("elevenlabs")
             
+            self.sd_config = config.get("sd")
 
             self.header_config = config.get("header")
 
@@ -261,10 +214,27 @@ class AI_VTB(QMainWindow):
             self.ui.label_vits_config_path.setToolTip("配置文件的路径，例如：E:\\inference\\finetune_speaker.json")
             self.ui.label_vits_api_ip_port.setToolTip("推理服务运行的链接（需要完整的URL）")
             self.ui.label_vits_character.setToolTip("选择的说话人，配置文件中的speaker中的其中一个")
+            self.ui.label_vits_speed.setToolTip("语速，默认为1")
 
             self.ui.label_elevenlabs_api_key.setToolTip("elevenlabs密钥，可以不填，默认也有一定额度的免费使用权限，具体多少不知道")
             self.ui.label_elevenlabs_voice.setToolTip("选择的说话人名")
             self.ui.label_elevenlabs_model.setToolTip("选择的模型")
+
+            self.ui.label_sd_enable.setToolTip("是否启用SD来进行画图")
+            self.ui.label_sd_trigger.setToolTip("触发的关键词（弹幕头部触发）")
+            self.ui.label_sd_ip.setToolTip("服务运行的IP地址")
+            self.ui.label_sd_port.setToolTip("服务运行的端口")
+            self.ui.label_sd_negative_prompt.setToolTip("负面文本提示，用于指定与生成图像相矛盾或相反的内容")
+            self.ui.label_sd_seed.setToolTip("随机种子，用于控制生成过程的随机性。可以设置一个整数值，以获得可重复的结果。")
+            self.ui.label_sd_styles.setToolTip("样式列表，用于指定生成图像的风格。可以包含多个风格，例如 [\"anime\", \"portrait\"]")
+            self.ui.label_sd_cfg_scale.setToolTip("提示词相关性，无分类器指导信息影响尺度(Classifier Free Guidance Scale) -图像应在多大程度上服从提示词-较低的值会产生更有创意的结果。")
+            self.ui.label_sd_steps.setToolTip("生成图像的步数，用于控制生成的精确程度。")
+            self.ui.label_sd_enable_hr.setToolTip("是否启用高分辨率生成。默认为 False。")
+            self.ui.label_sd_hr_scale.setToolTip("高分辨率缩放因子，用于指定生成图像的高分辨率缩放级别。")
+            self.ui.label_sd_hr_second_pass_steps.setToolTip("高分辨率生成的第二次传递步数。")
+            self.ui.label_sd_hr_resize_x.setToolTip("生成图像的水平尺寸。")
+            self.ui.label_sd_hr_resize_y.setToolTip("生成图像的垂直尺寸。")
+            self.ui.label_sd_denoising_strength.setToolTip("去噪强度，用于控制生成图像中的噪点。")
 
             self.ui.label_header_useragent.setToolTip("请求头，暂时没有用到，备用")
 
@@ -422,6 +392,7 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_vits_config_path.setText(self.vits_config['config_path'])
             self.ui.lineEdit_vits_api_ip_port.setText(self.vits_config['api_ip_port'])
             self.ui.lineEdit_vits_character.setText(self.vits_config['character'])
+            self.ui.lineEdit_vits_speed.setText(str(self.vits_config['speed']))
 
             self.ui.lineEdit_edge_tts_voice.setText(self.edge_tts_config['voice'])
             self.ui.lineEdit_edge_tts_rate.setText(self.edge_tts_config['rate'])
@@ -430,6 +401,28 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_elevenlabs_api_key.setText(self.elevenlabs_config['api_key'])
             self.ui.lineEdit_elevenlabs_voice.setText(self.elevenlabs_config['voice'])
             self.ui.lineEdit_elevenlabs_model.setText(self.elevenlabs_config['model'])
+
+            # sd 配置回显部分
+            if self.sd_config['enable']:
+                self.ui.checkBox_sd_enable.setChecked(True)
+            self.ui.lineEdit_sd_trigger.setText(self.sd_config['trigger'])
+            self.ui.lineEdit_sd_ip.setText(self.sd_config['ip'])
+            self.ui.lineEdit_sd_port.setText(str(self.sd_config['port']))
+            self.ui.lineEdit_sd_negative_prompt.setText(self.sd_config['negative_prompt'])
+            self.ui.lineEdit_sd_seed.setText(str(self.sd_config['seed']))
+            tmp_str = ""
+            for tmp in self.sd_config['styles']:
+                tmp_str = tmp_str + tmp + "\n"
+            self.ui.textEdit_sd_styles.setText(tmp_str)
+            self.ui.lineEdit_sd_cfg_scale.setText(str(self.sd_config['cfg_scale']))
+            self.ui.lineEdit_sd_steps.setText(str(self.sd_config['steps']))
+            self.ui.lineEdit_sd_hr_resize_x.setText(str(self.sd_config['hr_resize_x']))
+            self.ui.lineEdit_sd_hr_resize_y.setText(str(self.sd_config['hr_resize_y']))
+            if self.sd_config['enable_hr']:
+                self.ui.checkBox_sd_enable_hr.setChecked(True)
+            self.ui.lineEdit_sd_hr_scale.setText(str(self.sd_config['hr_scale']))
+            self.ui.lineEdit_sd_hr_second_pass_steps.setText(str(self.sd_config['hr_second_pass_steps']))
+            self.ui.lineEdit_sd_denoising_strength.setText(str(self.sd_config['denoising_strength']))
             
             # 显隐各板块
             self.oncomboBox_chat_type_IndexChanged(chat_type_index)
@@ -692,6 +685,8 @@ class AI_VTB(QMainWindow):
             config_data["vits"]["api_ip_port"] = vits_api_ip_port
             vits_character = self.ui.lineEdit_vits_character.text()
             config_data["vits"]["character"] = vits_character
+            vits_speed = self.ui.lineEdit_vits_speed.text()
+            config_data["vits"]["speed"] = float(vits_speed)
 
             edge_tts_voice = self.ui.lineEdit_edge_tts_voice.text()
             config_data["edge-tts"]["voice"] = edge_tts_voice
@@ -706,6 +701,42 @@ class AI_VTB(QMainWindow):
             config_data["elevenlabs"]["voice"] = elevenlabs_voice
             elevenlabs_model = self.ui.lineEdit_elevenlabs_model.text()
             config_data["elevenlabs"]["model"] = elevenlabs_model
+
+            # SD
+            sd_enable = self.ui.checkBox_sd_enable.isChecked()
+            config_data["sd"]["enable"] = sd_enable
+            sd_trigger = self.ui.lineEdit_sd_trigger.text()
+            config_data["sd"]["trigger"] = sd_trigger
+            sd_ip = self.ui.lineEdit_sd_ip.text()
+            config_data["sd"]["ip"] = sd_ip
+            sd_port = self.ui.lineEdit_sd_port.text()
+            config_data["sd"]["port"] = int(sd_port)
+            sd_negative_prompt = self.ui.lineEdit_sd_negative_prompt.text()
+            config_data["sd"]["negative_prompt"] = sd_negative_prompt
+            sd_seed = self.ui.lineEdit_sd_seed.text()
+            config_data["sd"]["seed"] = float(sd_seed)
+            # 获取多行文本输入框的内容
+            sd_styles = self.ui.textEdit_sd_styles.toPlainText()
+            styles = [token.strip() for separator in separators for part in sd_styles.split(separator) if (token := part.strip())]
+            if 0 != len(styles):
+                styles = styles[1:]
+            config_data["sd"]["styles"] = styles
+            sd_cfg_scale = self.ui.lineEdit_sd_cfg_scale.text()
+            config_data["sd"]["cfg_scale"] = int(sd_cfg_scale)
+            sd_steps = self.ui.lineEdit_sd_steps.text()
+            config_data["sd"]["steps"] = int(sd_steps)
+            sd_hr_resize_x = self.ui.lineEdit_sd_hr_resize_x.text()
+            config_data["sd"]["hr_resize_x"] = int(sd_hr_resize_x)
+            sd_hr_resize_y = self.ui.lineEdit_sd_hr_resize_y.text()
+            config_data["sd"]["hr_resize_y"] = int(sd_hr_resize_y)
+            sd_enable_hr = self.ui.checkBox_sd_enable_hr.isChecked()
+            config_data["sd"]["enable_hr"] = sd_enable_hr
+            sd_hr_scale = self.ui.lineEdit_sd_hr_scale.text()
+            config_data["sd"]["hr_scale"] = int(sd_hr_scale)
+            sd_hr_second_pass_steps = self.ui.lineEdit_sd_hr_second_pass_steps.text()
+            config_data["sd"]["hr_second_pass_steps"] = int(sd_hr_second_pass_steps)
+            sd_denoising_strength = self.ui.lineEdit_sd_denoising_strength.text()
+            config_data["sd"]["denoising_strength"] = float(sd_denoising_strength)
 
             header_useragent = self.ui.lineEdit_header_useragent.text()
             config_data["header"]["userAgent"] = header_useragent
