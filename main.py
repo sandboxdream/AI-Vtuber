@@ -1,16 +1,13 @@
 import sys, os, json, subprocess, importlib, re
-import gc
-import binascii
 import logging
 import time
-from functools import partial
+# from functools import partial
 
 from utils.config import Config
 
-from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QLabel, QComboBox, QLineEdit, QTextEdit, QDialog
-from PyQt5.QtGui import QBrush, QColor, QTextCursor, QFont, QDesktopServices, QIcon
-from PyQt5 import QtCore
-from PyQt5.QtCore import QDateTime, Qt, QTimer, QThread, QEventLoop, pyqtSignal, QUrl
+from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QLabel, QComboBox, QLineEdit, QTextEdit
+from PyQt5.QtGui import QFont, QDesktopServices, QIcon
+from PyQt5.QtCore import QTimer, QThread, QEventLoop, pyqtSignal, QUrl
 
 import http.server
 import socketserver
@@ -295,16 +292,9 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_after_prompt.setText(self.after_prompt)
 
             self.ui.comboBox_commit_log_type.clear()
-            self.ui.comboBox_commit_log_type.addItems(["问答", "问题", "回答", "不记录"])
-            commit_log_type_index = 0
-            if self.commit_log_type == "问答":
-                commit_log_type_index = 0
-            elif self.commit_log_type == "问题":
-                commit_log_type_index = 1
-            elif self.commit_log_type == "回答":
-                commit_log_type_index = 2
-            elif self.commit_log_type == "不记录":
-                commit_log_type_index = 3
+            commit_log_types = ["问答", "问题", "回答", "不记录"]
+            self.ui.comboBox_commit_log_type.addItems(commit_log_types)
+            commit_log_type_index = commit_log_types.index(self.commit_log_type)
             self.ui.comboBox_commit_log_type.setCurrentIndex(commit_log_type_index)
 
             tmp_str = ""
@@ -394,7 +384,17 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_vits_character.setText(self.vits_config['character'])
             self.ui.lineEdit_vits_speed.setText(str(self.vits_config['speed']))
 
-            self.ui.lineEdit_edge_tts_voice.setText(self.edge_tts_config['voice'])
+            self.ui.comboBox_edge_tts_voice.clear()
+            with open('data\edge-tts-voice-list.txt', 'r') as file:
+                file_content = file.read()
+            # 按行分割内容，并去除每行末尾的换行符
+            lines = file_content.strip().split('\n')
+            # 存储到字符串数组中
+            edge_tts_voices = [line for line in lines]
+            # print(edge_tts_voices)
+            self.ui.comboBox_edge_tts_voice.addItems(edge_tts_voices)
+            edge_tts_voice_index = edge_tts_voices.index(self.edge_tts_config['voice'])
+            self.ui.comboBox_edge_tts_voice.setCurrentIndex(edge_tts_voice_index)
             self.ui.lineEdit_edge_tts_rate.setText(self.edge_tts_config['rate'])
             self.ui.lineEdit_edge_tts_volume.setText(self.edge_tts_config['volume'])
 
@@ -688,7 +688,7 @@ class AI_VTB(QMainWindow):
             vits_speed = self.ui.lineEdit_vits_speed.text()
             config_data["vits"]["speed"] = float(vits_speed)
 
-            edge_tts_voice = self.ui.lineEdit_edge_tts_voice.text()
+            edge_tts_voice = self.ui.comboBox_platform.currentText()
             config_data["edge-tts"]["voice"] = edge_tts_voice
             edge_tts_rate = self.ui.lineEdit_edge_tts_rate.text()
             config_data["edge-tts"]["rate"] = edge_tts_rate

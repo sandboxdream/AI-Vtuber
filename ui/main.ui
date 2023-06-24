@@ -42,7 +42,7 @@
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-3390</y>
+             <y>-2532</y>
              <width>839</width>
              <height>4071</height>
             </rect>
@@ -878,9 +878,6 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="0" column="1">
-                  <widget class="QLineEdit" name="lineEdit_edge_tts_voice"/>
-                 </item>
                  <item row="2" column="0">
                   <widget class="QLabel" name="label_edge_tts_volume">
                    <property name="text">
@@ -890,6 +887,16 @@
                  </item>
                  <item row="2" column="1">
                   <widget class="QLineEdit" name="lineEdit_edge_tts_volume"/>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QComboBox" name="comboBox_edge_tts_voice">
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>100</height>
+                    </size>
+                   </property>
+                  </widget>
                  </item>
                 </layout>
                </item>
