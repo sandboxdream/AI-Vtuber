@@ -182,7 +182,9 @@ pip install -r requirements_ks.txt
     // 语速增益 默认是 +0%，可以增减，注意 + - %符合别搞没了，不然会影响语音合成
     "rate": "+0%",
     // 音量增益 默认是 +0%，可以增减，注意 + - %符合别搞没了，不然会影响语音合成
-    "volume": "+0%"
+    "volume": "+0%",
+    // 语速
+    "speed": 1
   },
   // elevenlabs相关配置
   "elevenlabs": {
