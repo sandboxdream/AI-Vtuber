@@ -42,9 +42,9 @@
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-1711</y>
+             <y>-2587</y>
              <width>839</width>
-             <height>3315</height>
+             <height>3355</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -904,9 +904,6 @@
               <layout class="QGridLayout" name="gridLayout_23">
                <item row="0" column="1">
                 <layout class="QGridLayout" name="gridLayout_24">
-                 <item row="0" column="2">
-                  <widget class="QLineEdit" name="lineEdit_vits_config_path"/>
-                 </item>
                  <item row="0" column="0">
                   <widget class="QLabel" name="label_vits_config_path">
                    <property name="text">
@@ -914,15 +911,8 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="1" column="0">
-                  <widget class="QLabel" name="label_vits_api_ip_port">
-                   <property name="text">
-                    <string>API地址</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="2">
-                  <widget class="QLineEdit" name="lineEdit_vits_api_ip_port"/>
+                 <item row="2" column="2">
+                  <widget class="QLineEdit" name="lineEdit_vits_character"/>
                  </item>
                  <item row="2" column="0">
                   <widget class="QLabel" name="label_vits_character">
@@ -931,8 +921,28 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="2" column="2">
-                  <widget class="QLineEdit" name="lineEdit_vits_character"/>
+                 <item row="1" column="2">
+                  <widget class="QLineEdit" name="lineEdit_vits_api_ip_port"/>
+                 </item>
+                 <item row="0" column="2">
+                  <widget class="QLineEdit" name="lineEdit_vits_config_path"/>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="label_vits_api_ip_port">
+                   <property name="text">
+                    <string>API地址</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="0">
+                  <widget class="QLabel" name="label_vits_speed">
+                   <property name="text">
+                    <string>语速</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="2">
+                  <widget class="QLineEdit" name="lineEdit_vits_speed"/>
                  </item>
                 </layout>
                </item>

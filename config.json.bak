@@ -66,7 +66,8 @@
   "vits": {
     "config_path": "E:\\GitHub_pro\\VITS-fast-fine-tuning\\inference\\finetune_speaker.json",
     "api_ip_port": "http://127.0.0.1:7860",
-    "character": "ikaros"
+    "character": "ikaros",
+    "speed": 1
   },
   "edge-tts": {
     "voice": "zh-CN-XiaoyiNeural",

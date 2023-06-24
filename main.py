@@ -261,6 +261,7 @@ class AI_VTB(QMainWindow):
             self.ui.label_vits_config_path.setToolTip("配置文件的路径，例如：E:\\inference\\finetune_speaker.json")
             self.ui.label_vits_api_ip_port.setToolTip("推理服务运行的链接（需要完整的URL）")
             self.ui.label_vits_character.setToolTip("选择的说话人，配置文件中的speaker中的其中一个")
+            self.ui.label_vits_speed.setToolTip("语速，默认为1")
 
             self.ui.label_elevenlabs_api_key.setToolTip("elevenlabs密钥，可以不填，默认也有一定额度的免费使用权限，具体多少不知道")
             self.ui.label_elevenlabs_voice.setToolTip("选择的说话人名")
@@ -422,6 +423,7 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_vits_config_path.setText(self.vits_config['config_path'])
             self.ui.lineEdit_vits_api_ip_port.setText(self.vits_config['api_ip_port'])
             self.ui.lineEdit_vits_character.setText(self.vits_config['character'])
+            self.ui.lineEdit_vits_speed.setText(str(self.vits_config['speed']))
 
             self.ui.lineEdit_edge_tts_voice.setText(self.edge_tts_config['voice'])
             self.ui.lineEdit_edge_tts_rate.setText(self.edge_tts_config['rate'])
@@ -692,6 +694,8 @@ class AI_VTB(QMainWindow):
             config_data["vits"]["api_ip_port"] = vits_api_ip_port
             vits_character = self.ui.lineEdit_vits_character.text()
             config_data["vits"]["character"] = vits_character
+            vits_speed = self.ui.lineEdit_vits_speed.text()
+            config_data["vits"]["speed"] = float(vits_speed)
 
             edge_tts_voice = self.ui.lineEdit_edge_tts_voice.text()
             config_data["edge-tts"]["voice"] = edge_tts_voice
