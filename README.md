@@ -21,7 +21,7 @@ _✨ AI Vtuber ✨_
 
 </div>
 
-AI Vtuber是一个由`ChatterBot/GPT/Claude/langchain_pdf+gpt/chatglm/langchain_pdf_local`驱动的虚拟主播（Live2D），可以在`Bilibili/抖音/快手`直播中与观众实时互动。它使用自然语言处理和文本转语音技术(`Edge-TTS/VITS-Fast/elevenlabs`)生成对观众问题的回答。
+AI Vtuber是一个由`ChatterBot/GPT/Claude/langchain_pdf+gpt/chatglm/langchain_pdf_local`驱动的虚拟主播（Live2D），可以在`Bilibili/抖音/快手`直播中与观众实时互动。它使用自然语言处理和文本转语音技术(`Edge-TTS/VITS-Fast/elevenlabs`)生成对观众问题的回答；通过特定指令协同`Stable Diffusion`进行画图展示。
 
 
 ## 📖项目结构
@@ -63,6 +63,8 @@ pip install -r requirements_bilibili.txt
 pip install -r requirements_dy.txt
 pip install -r requirements_ks.txt
 ```
+
+部署视频教程：[哔哩哔哩-BV1fV4y1C77r](https://www.bilibili.com/video/BV1fV4y1C77r)  
 
 ## 🔧配置
 
@@ -483,12 +485,15 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 
 总的来说，ChatterBot 是一个非常强大、灵活、易用的聊天机器人框架，帮助开发者快速搭建出个性化、定制化的聊天机器人，从而提升用户体验和服务质量。  
 
-### Live2D
-源自：[CyberWaifu](https://github.com/jieran233/CyberWaifu)  
-
 ### langchain_pdf_local 向量数据库解析
 如果本地电脑的配置太低，可以使用 [faiss_text2vec.ipynb](https://drive.google.com/file/d/1rbt2Yv7_pC1cmuODwmR2-1_cxFBFOfn8/view?usp=sharing) 云端解析向量数据库，拷贝回本地后再使用即可
 - author: [HildaM/text2vec_colab](https://github.com/HildaM/text2vec_colab)
+
+### Live2D
+源自：[CyberWaifu](https://github.com/jieran233/CyberWaifu)  
+
+### Stable Diffusion
+[stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui)
 
 ## 待办事项
 - 懒人包的制作
