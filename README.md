@@ -329,8 +329,11 @@ ps:依赖[golang](https://go.dev/dl/)环境，还没有的话，手动补一补[
 运行 `python main.py`  
 
 ## 效果图
-GUI界面  
+### GUI界面  
 ![A5 037 _%%F`IZQ{}B@{){K](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/f5306bbe-0903-45b4-a96c-851e60883bf2)
+
+### SD接入
+![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/a3e4b3b7-96d1-41b1-b45e-f2725acee27c)
 
 
 ## 开发
