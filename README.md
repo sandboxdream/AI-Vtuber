@@ -49,6 +49,8 @@ git clone -b owner https://github.com/Ikaros-521/AI-Vtuber.git
 git clone -b dev https://github.com/Ikaros-521/AI-Vtuber.git
 ```
 
+整合包下载：[页面右侧-releases](https://github.com/Ikaros-521/AI-Vtuber/releases)  
+
 
 ## 💿运行环境
 
