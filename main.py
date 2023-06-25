@@ -688,7 +688,7 @@ class AI_VTB(QMainWindow):
             vits_speed = self.ui.lineEdit_vits_speed.text()
             config_data["vits"]["speed"] = float(vits_speed)
 
-            edge_tts_voice = self.ui.comboBox_platform.currentText()
+            edge_tts_voice = self.ui.comboBox_edge_tts_voice.currentText()
             config_data["edge-tts"]["voice"] = edge_tts_voice
             edge_tts_rate = self.ui.lineEdit_edge_tts_rate.text()
             config_data["edge-tts"]["rate"] = edge_tts_rate
@@ -710,6 +710,7 @@ class AI_VTB(QMainWindow):
             sd_ip = self.ui.lineEdit_sd_ip.text()
             config_data["sd"]["ip"] = sd_ip
             sd_port = self.ui.lineEdit_sd_port.text()
+            print(f"sd_port={sd_port}")
             config_data["sd"]["port"] = int(sd_port)
             sd_negative_prompt = self.ui.lineEdit_sd_negative_prompt.text()
             config_data["sd"]["negative_prompt"] = sd_negative_prompt
