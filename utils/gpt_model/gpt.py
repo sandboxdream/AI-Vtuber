@@ -55,5 +55,11 @@ class GPT_Model:
             return None
         return self.openai["api_key"]
 
+    def get_openai_model_name(self):
+        if self.openai is None:
+            logging.warning("openai的model为空，将设置为默认gpt-3.5")
+            return "gpt-3.5-turbo-0301"
+        return self.openai["model"]
+
 # 全局变量
 GPT_MODEL = GPT_Model()

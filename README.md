@@ -127,38 +127,25 @@ pip install -r requirements_ks.txt
     "top_p": 0.7,
     "temperature": 0.95
   },
-  // langchain_pdf 和 langchain_pdf+gpt 相关配置
-  "langchain_pdf": {
-    // 加载的本地pdf数据文件路径（到x.pdf）,如：./data/伊卡洛斯百度百科.pdf
-    "data_path": "",
-    // 拆分文本的分隔符
-    "separator": "\n",
-    // 每个文本块的最大字符数(文本块字符越多，消耗token越多，回复越详细)
-    "chunk_size": 100,
-    // 两个相邻文本块之间的重叠字符数。这种重叠可以帮助保持文本的连贯性，特别是当文本被用于训练语言模型或其他需要上下文信息的机器学习模型时
-    "chunk_overlap": 50,
-    // 选择的openai的模型
-    "model_name": "gpt-3.5-turbo-0301",
-    // 文档结合链的类型
-    "chain_type": "stuff",
-    // 显示openai token的消耗
-    "show_cost": true
-  },
-  "langchain_pdf_local": {
-    // 选择使用的模型
-    "gpt_model": "claude",
-    // 选择输入的pdf数据
+  "chat_with_file": {
+    // 本地向量数据库模式
+    "chat_mode": "claude",
+    // 本地文件地址
     "data_path": "data/伊卡洛斯百度百科.zip",
+    // 切分数据块的标志
     "separator": "\n",
+    // 向量数据库数据分块
     "chunk_size": 100,
+    // 每个分块之间的重叠字数。字数越多，块与块之间的上下文联系更强，但不能超过chunk_size的大小。同时chunk_size和chunk_overlap越接近，构造向量数据库的耗时越长
     "chunk_overlap": 50,
-    // 默认模型
-    "embedding_model": "sebastian-hofstaetter/distilbert-dot-tas_b-b256-msmarco",
-    // 最大查询数据库次数。限制次数有助于节省token
-    "max_query": 3,
-    "question_prompt": "请根据以上content信息进行归纳总结，并结合question的内容给出一个符合content和question语气、语调、背景的回答。不要出现'概括''综上''感谢'等字样，向朋友直接互相交流即可。如果发现不能content的信息与question不相符，抛弃content的提示，直接回答question即可。任何情况下都要简要地回答!",
     "chain_type": "stuff",
-    "show_cost": true
+    // 适用于openai模式，显示消耗的token数目
+    "show_token_cost": false,
+    "question_prompt": "请根据以上content信息进行归纳总结，并结合question的内容给出一个符合content和question语气、语调、背景的回答。不要出现'概括''综上''感谢'等字样，向朋友直接互相交流即可。如果发现不能content的信息与question不相符，抛弃content的提示，直接回答question即可。任何情况下都要简要地回答!",
+    // 最大查询数据库次数。限制次数有助于节省token
+    "local_max_query": 3,
+    // 默认本地向量数据库模型
+    "local_vector_embedding_model": "sebastian-hofstaetter/distilbert-dot-tas_b-b256-msmarco"
   },
   // 语音合成类型选择 edge-tts/vits/elevenlabs
   "audio_synthesis_type": "edge-tts",
@@ -226,6 +213,27 @@ pip install -r requirements_ks.txt
 
 或者纯代理的镜像站：  
 - https://openai-pag.wangzhishi.net/
+
+### chat_with_file 模式说明
+#### 模式简介
+用户上传预先设定好的“人物设定”文件（pdf、txt等文本文件），让用户自定义配置角色背景信息、设定
+1. 当用户输入一个查询时，这个系统首先会在本地文档集合中进行相似性搜索，寻找与查询最相关的文档。
+2. 然后，它会把这些相关文档以及用户的查询作为输入，传递给语言模型。这个语言模型会基于这些输入生成一个答案。
+3. 如果系统在本地文档集合中找不到任何与用户查询相关的文档，或者如果语言模型无法基于给定的输入生成一个有意义的答案，那么这个系统可能就无法回答用户的查询。
+
+
+#### 模式配置
+chat_type设置为 “chat_with_file” 方可使用。使用前必须先设置好 opeanai、claude 等模型的访问 token 相关的配置。
+chat_with_file 目前支持以下模式，在相关配置下的 chat_mode 进行配置：
+- claude：使用claude作为聊天模型，需要同时设置好 local_vector_embedding_model 本地向量数据库。该模式会使用本地向量数据库存储数据。
+- openai_vector_search：仅仅使用向量数据库作查询，不做gpt的调用，可以节省token，做个简单的本地数据搜索。目前使用OpenAIEmbedding进行向量化，所以需要配置好OpenAI信息
+- openai_gpt：从向量数据库中查询到相关信息后，将其传递给gpt模型，让模型作进一步处理
+
+推荐使用Claude模式，这样可以免费使用，无需消耗openai的token。
+后续会支持更多免费模型，如：文心一言、讯飞星火等
+
+注意：
+- 本地向量数据库使用的是HuggingFace的模型，请确保电脑可以连接到HuggingFace网站，否则无法下载模型！
 
 
 ## 🎉使用
@@ -418,8 +426,10 @@ ModuleNotFoundError: No module named 'ahocorasick'
 ### ChatGLM
 [ChatGLM-6B](https://github.com/THUDM/ChatGLM-6B)  
 
-### langchain_pdf
+### chat_with_file
 参考：[LangChainSummarize](https://github.com/Ikaros-521/LangChainSummarize)
+构建本地向量数据库时，如果本地电脑的配置太低，可以使用 [faiss_text2vec.ipynb](https://drive.google.com/file/d/1rbt2Yv7_pC1cmuODwmR2-1_cxFBFOfn8/view?usp=sharing) 云端解析向量数据库，拷贝回本地后再使用即可
+- author: [HildaM/text2vec_colab](https://github.com/HildaM/text2vec_colab)
 
 ### elevenlabs
 [elevenlabs官网](https://beta.elevenlabs.io/)  
@@ -437,9 +447,6 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 ### Live2D
 源自：[CyberWaifu](https://github.com/jieran233/CyberWaifu)  
 
-### langchain_pdf_local 向量数据库解析
-如果本地电脑的配置太低，可以使用 [faiss_text2vec.ipynb](https://drive.google.com/file/d/1rbt2Yv7_pC1cmuODwmR2-1_cxFBFOfn8/view?usp=sharing) 云端解析向量数据库，拷贝回本地后再使用即可
-- author: [HildaM/text2vec_colab](https://github.com/HildaM/text2vec_colab)
 
 ## 待办事项
 - 懒人包的制作
@@ -484,6 +491,9 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 - 针对整合包问题进行了优化和处理，新增了Scripts文件夹用于存储制作整合包时需要用的相关脚本。  
 - 新增本地回答库，启用后优先匹配库内问答，无匹配结果则按正常流程运行
 - dev分支：对模型的使用进行抽象，进行统一管理
+
+### 2023-06-28
+- 将langchain_pdf和langchain_pdf_local两个模式统一为chat_with_file模式
 
 </details>
 

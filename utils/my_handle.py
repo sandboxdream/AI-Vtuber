@@ -55,12 +55,10 @@ class My_handle():
             self.claude_config = self.config.get("claude")
             # chatterbot
             self.chatterbot_config = self.config.get("chatterbot")
-            # langchain_pdf
-            self.langchain_pdf_config = self.config.get("langchain_pdf")
             # chatglm
             self.chatglm_config = self.config.get("chatglm")
-            # langchain_pdf_local
-            self.langchain_pdf_local_config = self.config.get("langchain_pdf_local")
+            # chat_with_file
+            self.chat_with_file_config = self.config.get("chat_with_file")
 
             # 音频合成使用技术
             self.audio_synthesis_type = self.config.get("audio_synthesis_type")
@@ -77,12 +75,10 @@ class My_handle():
 
         # 聊天相关类实例化
         if self.chat_type == "gpt":
-            from utils.gpt_model.chatgpt import Chatgpt
             # TODO 此处需要将“gpt”修改为“chatgpt”，需要让I佬在前端同步修改
             self.chatgpt = GPT_MODEL.get("chatgpt")
 
         elif self.chat_type == "claude":
-            from utils.gpt_model.claude import Claude
             self.claude = GPT_MODEL.get(self.chat_type)
 
             # 初次运行 先重置下会话
@@ -100,17 +96,12 @@ class My_handle():
                 logging.info(e)
                 exit(0)
 
-        elif self.chat_type == "langchain_pdf" or self.chat_type == "langchain_pdf+gpt":
-            from utils.langchain_pdf import Langchain_pdf
-            self.langchain_pdf = Langchain_pdf(self.langchain_pdf_config, self.chat_type)
-
         elif self.chat_type == "chatglm":
-            from utils.gpt_model.chatglm import Chatglm
             self.chatglm = GPT_MODEL.get(self.chat_type)
 
-        elif self.chat_type == "langchain_pdf_local":
-            from utils.langchain_pdf_local import Langchain_pdf_local
-            self.langchain_pdf = Langchain_pdf_local(self.langchain_pdf_local_config, self.chat_type)
+        elif self.chat_type == "chat_with_file":
+            from utils.chat_with_file.chat_with_file import Chat_with_file
+            self.chat_with_file = Chat_with_file(self.chat_with_file_config)
 
         elif self.chat_type == "game":
             exit(0)
@@ -263,19 +254,16 @@ class My_handle():
             # 生成回复
             resp_content = self.bot.get_response(content).text
             logging.info(f"[AI回复{user_name}]：{resp_content}")
-        elif self.chat_type == "langchain_pdf" or self.chat_type == "langchain_pdf+gpt":
-            # 只用langchain，不做gpt的调用，可以节省token，做个简单的本地数据搜索
-            resp_content = self.langchain_pdf.get_langchain_pdf_resp(self.chat_type, content)
 
-            logging.info(f"[AI回复{user_name}]：{resp_content}")
         elif self.chat_type == "chatglm":
             # 生成回复
             resp_content = self.chatglm.get_chatglm_resp(content)
             logging.info(f"[AI回复{user_name}]：{resp_content}")
-        elif self.chat_type == "langchain_pdf_local":
-            resp_content = self.langchain_pdf.get_langchain_pdf_local_resp(self.chat_type, content)
 
+        elif self.chat_type == "chat_with_file":
+            resp_content = self.chat_with_file.get_model_resp(content)
             print(f"[AI回复{user_name}]：{resp_content}")
+
         elif self.chat_type == "game":
             return
             g1 = game1()

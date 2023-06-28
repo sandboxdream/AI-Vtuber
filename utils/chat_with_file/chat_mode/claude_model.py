@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 """
 @Project : AI-Vtuber 
-@File    : langchain_pdf_local.py
+@File    : claude_model.py
 @Author  : HildaM
 @Email   : Hilda_quan@163.com
 @Date    : 2023/06/17 下午 4:44 
@@ -10,8 +10,8 @@
 import logging
 from langchain.document_loaders import PyPDFLoader
 
-from utils.gpt_model.claude import Claude
-from utils.faiss_handler import create_faiss_index_from_zip
+from utils.chat_with_file.chat_mode.chat_model import Chat_model
+from utils.chat_with_file.vector_store.faiss import create_faiss_index_from_zip
 from utils.gpt_model.gpt import GPT_MODEL
 from utils.my_handle import My_handle
 
@@ -27,42 +27,21 @@ def get_content(data: str):
     return data[start:end]
 
 
-class Langchain_pdf_local:
-    langchain_pdf_gpt_model = None
-    langchain_pdf_data_path = None
-    langchain_pdf_separator = "\n"
-    langchain_pdf_chunk_size = 100
-    langchain_pdf_chunk_overlap = 50
-    langchain_pdf_embedding_model = "sebastian-hofstaetter/distilbert-dot-tas_b-b256-msmarco"
-    langchain_pdf_chain_type = "stuff"
-    langchain_pdf_show_cost = None
-    langchain_pdf_question_prompt = ""
-    langchain_pdf_max_query = 0
-    docsearch = None
-    chain = None
+class Claude_mode(Chat_model):
     pdf_loader = PyPDFLoader
     local_db = None
     claude = None
 
-    def __init__(self, data, chat_type="langchain_pdf_local"):
-        self.langchain_pdf_gpt_model = data["gpt_model"]
-        self.langchain_pdf_data_path = data["data_path"]
-        self.langchain_pdf_separator = data["separator"]
-        self.langchain_pdf_chunk_size = data["chunk_size"]
-        self.langchain_pdf_chunk_overlap = data["chunk_overlap"]
-        self.langchain_pdf_embedding_model = data["embedding_model"]
-        self.langchain_pdf_chain_type = data["chain_type"]
-        self.langchain_pdf_show_cost = data["show_cost"]
-        self.langchain_pdf_question_prompt = data["question_prompt"]
-        self.langchain_pdf_max_query = data["max_query"]
+    def __init__(self, data):
+        super(Claude_mode, self).__init__(data)
 
-        logging.info(f"本地数据文件路径：{self.langchain_pdf_data_path}")
+        logging.info(f"本地数据文件路径：{self.data_path}")
 
         # 加载pdf并生成向量数据库
-        self.load_zip_as_db(self.langchain_pdf_data_path, self.pdf_loader,
-                            self.langchain_pdf_chunk_size,self.langchain_pdf_chunk_overlap)
+        self.load_zip_as_db(self.data_path, self.pdf_loader,
+                            self.chunk_size,self.chunk_overlap)
         # 初始化claude客户端
-        self.claude = GPT_MODEL.get(self.langchain_pdf_gpt_model)
+        self.claude = GPT_MODEL.get("claude")
 
     def load_zip_as_db(self, zip_file_path,
                        pdf_loader,
@@ -77,7 +56,7 @@ class Langchain_pdf_local:
 
         self.local_db = create_faiss_index_from_zip(
             zip_file_path=zip_file_path,
-            embedding_model_name=self.langchain_pdf_embedding_model,
+            embedding_model_name=self.local_vector_embedding_model,
             pdf_loader=pdf_loader,
             chunk_size=chunk_size,
             chunk_overlap=chunk_overlap
@@ -90,8 +69,8 @@ class Langchain_pdf_local:
         logging.info(f"开始从本地向量数据库中查询有关”{message}“的信息........")
 
         contents = []
-        docs = self.local_db.similarity_search(message, k=self.langchain_pdf_max_query)
-        for i in range(self.langchain_pdf_max_query):
+        docs = self.local_db.similarity_search(message, k=self.local_max_query)
+        for i in range(self.local_max_query):
             # 预处理分块
             content = docs[i].page_content.replace('\n', ' ')
             logging.info(f"No.{i} 相关联信息: {content}")
@@ -105,12 +84,12 @@ class Langchain_pdf_local:
         related_data = "\n---\n".join(contents) + "\n---\n"
         return related_data
 
-    def get_langchain_pdf_local_resp(self, chat_type="langchain_pdf", question=""):
+    def get_model_resp(self, question=""):
         related_data = self.get_local_database_data(question)
         if related_data is None or len(related_data) <= 0:
             content = question
         else:
-            content = related_data + "\n" + self.langchain_pdf_question_prompt + " question: " + question
+            content = related_data + "\n" + self.question_prompt + " question: " + question
 
         resp = self.claude.get_claude_resp(content)
         return resp
