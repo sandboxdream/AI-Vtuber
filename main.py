@@ -601,7 +601,7 @@ class AI_VTB(QMainWindow):
             config_data["chatglm"]["temperature"] = round(float(chatglm_temperature), 2)
 
             langchain_chat_mode = self.ui.lineEdit_langchain_chat_mode.text()
-            config_data["chat_with_file"]["openai_api_key"] = langchain_chat_mode
+            config_data["chat_with_file"]["chat_mode"] = langchain_chat_mode
             langchain_data_path = self.ui.lineEdit_langchain_data_path.text()
             config_data["chat_with_file"]["data_path"] = langchain_data_path
             langchain_separator = self.ui.lineEdit_langchain_separator.text()
@@ -620,7 +620,7 @@ class AI_VTB(QMainWindow):
             langchain_question_prompt = self.ui.lineEdit_langchain_question_prompt.text()
             config_data["chat_with_file"]["question_prompt"] = langchain_question_prompt
             langchain_local_max_query = self.ui.lineEdit_langchain_local_max_query.text()
-            config_data["chat_with_file"]["local_max_query"] = langchain_local_max_query
+            config_data["chat_with_file"]["local_max_query"] = int(langchain_local_max_query)
 
             audio_synthesis_type = self.ui.comboBox_audio_synthesis_type.currentText()
             if audio_synthesis_type == "Edge-TTS":
