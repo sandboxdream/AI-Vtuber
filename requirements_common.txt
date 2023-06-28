@@ -116,3 +116,4 @@ pyahocorasick==2.0.0
 requests
 sentence_transformers==2.2.2
 pypdf==3.11.1
+faiss-cpu==1.7.4
