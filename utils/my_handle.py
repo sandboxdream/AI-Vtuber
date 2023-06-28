@@ -63,6 +63,8 @@ class My_handle():
             # 音频合成使用技术
             self.audio_synthesis_type = self.config.get("audio_synthesis_type")
 
+            self.sd_config = self.config.get("sd")
+
             logging.info(f"配置数据加载成功。")
         except Exception as e:
             logging.info(e)
@@ -105,6 +107,11 @@ class My_handle():
 
         elif self.chat_type == "game":
             exit(0)
+
+        if self.sd_config["enable"]:
+            from utils.sd import SD
+
+            self.sd = SD(self.sd_config)
 
         # 日志文件路径
         self.log_file_path = "./log/log-" + self.common.get_bj_time(1) + ".txt"
@@ -151,6 +158,8 @@ class My_handle():
     def commit_handle(self, user_name, content):
         # 匹配本地问答库
         if self.local_qa == True:
+            # 输出当前用户发送的弹幕消息
+            logging.info(f"[{user_name}]: {content}")
             tmp = self.find_answer(content, "data/本地问答库.txt")
             if tmp != None:
                 resp_content = tmp
@@ -187,6 +196,25 @@ class My_handle():
                 self.audio.audio_synthesis(message)
 
                 return
+
+        # 画图模式
+        if content.startswith(self.sd_config["trigger"]):
+            # 含有违禁词/链接
+            if self.common.profanity_content(content) or self.common.check_sensitive_words2(
+                    self.filter_config["badwords_path"], content) or \
+                    self.common.is_url_check(content):
+                logging.warning(f"违禁词/链接：{content}")
+                return
+        
+            if self.sd_config["enable"] == False:
+                logging.info("您还未启用SD模式，无法使用画画功能")
+                return None
+            else:
+                # 输出当前用户发送的弹幕消息
+                logging.info(f"[{user_name}]: {content}")
+
+                self.sd.process_input(content[3:])
+                return None
 
         # 判断弹幕是否以xx起始，如果不是则返回
         if self.filter_config["before_must_str"] and not any(

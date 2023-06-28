@@ -4,6 +4,8 @@ import json, threading
 import subprocess
 import pygame
 import queue
+import edge_tts
+import asyncio
 
 from elevenlabs import generate, play, set_api_key
 
@@ -27,15 +29,18 @@ class Audio:
         # 创建队列
         self.message_queue = queue.Queue()
 
-        threading.Thread(target=self.message_queue_thread).start()
+        # 旧版同步写法
+        # threading.Thread(target=self.message_queue_thread).start()
+        # 改异步
+        threading.Thread(target=lambda: asyncio.run(self.message_queue_thread())).start()
 
 
-    def message_queue_thread(self):
+    async def message_queue_thread(self):
         logging.info("创建音频合成消息队列线程")
         while True:  # 无限循环，直到队列为空时退出
             message = self.message_queue.get()
             logging.debug(message)
-            self.my_play_voice(message)
+            await self.my_play_voice(message)
             self.message_queue.task_done()
 
 
@@ -89,7 +94,7 @@ class Audio:
 
 
     # 播放音频
-    def my_play_voice(self, message):
+    async def my_play_voice(self, message):
         logging.debug(f"合成音频前的原始数据：{message['content']}")
         message["content"] = self.common.remove_extra_words(message["content"], message["config"]["max_len"], message["config"]["max_char_len"])
         # logging.info("裁剪后的合成文本:" + text)
@@ -135,12 +140,16 @@ class Audio:
             # 过滤" '字符
             message["content"] = message["content"].replace('"', '').replace("'", '').replace(" ", ',')
             # 使用 Edge TTS 生成回复消息的语音文件
+            communicate = edge_tts.Communicate(text=message["content"], voice=message["data"]["voice"], rate=message["data"]["rate"], volume=message["data"]["volume"])
+            await communicate.save(voice_tmp_path)
+
+            # 旧版本实现
             # 注意此处，在打包整合包时，需要改为 venv\python.exe venv\Scripts\edge-tts.exe
-            cmd = f'edge-tts --voice {message["data"]["voice"]} --text "{message["content"]}" --write-media {voice_tmp_path} --rate={message["data"]["rate"]} --volume={message["data"]["volume"]}'
-            subprocess.run(cmd, shell=True)
+            # cmd = f'edge-tts --voice {message["data"]["voice"]} --text "{message["content"]}" --write-media {voice_tmp_path} --rate={message["data"]["rate"]} --volume={message["data"]["volume"]}'
+            # subprocess.run(cmd, shell=True)
 
             # 会阻塞
-            time.sleep(0.5)
+            # time.sleep(0.5)
 
             try:
                 pygame.mixer.init()

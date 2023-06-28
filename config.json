@@ -1,7 +1,7 @@
 {
   "platform": "bilibili",
-  "room_display_id": "1024814",
-  "chat_type": "chat_with_file",
+  "room_display_id": "278333",
+  "chat_type": "none",
   "need_lang": "none",
   "before_prompt": "请简要回复:",
   "after_prompt": "",
@@ -56,7 +56,8 @@
   "vits": {
     "config_path": "E:\\GitHub_pro\\VITS-fast-fine-tuning\\inference\\finetune_speaker.json",
     "api_ip_port": "http://127.0.0.1:7860",
-    "character": "ikaros"
+    "character": "ikaros",
+    "speed": 1
   },
   "edge-tts": {
     "voice": "zh-CN-XiaoyiNeural",
@@ -80,6 +81,23 @@
     "presence_penalty": 0.0,
     "frequency_penalty": 0.0,
     "preset": "请扮演一个AI虚拟主播。不要回答任何敏感问题！不要强调你是主播，只需要回答问题！"
+  },
+  "sd": {
+    "enable": false,
+    "trigger": "画画：",
+    "ip": "127.0.0.1",
+    "port": 7860,
+    "negative_prompt": "ufsw, longbody, lowres, bad anatomy, bad hands, missing fingers, pubic hair,extra digit, fewer digits, cropped, worst quality, low quality",
+    "seed": -1,
+    "styles": [],
+    "cfg_scale": 7,
+    "steps": 30,
+    "enable_hr": false,
+    "hr_scale": 2,
+    "hr_second_pass_steps": 20,
+    "hr_resize_x": 512,
+    "hr_resize_y": 512,
+    "denoising_strength": 0.4
   },
   "header": {
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.42"

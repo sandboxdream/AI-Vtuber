@@ -21,7 +21,7 @@ _✨ AI Vtuber ✨_
 
 </div>
 
-AI Vtuber是一个由`ChatterBot/GPT/Claude/langchain_pdf+gpt/chatglm/langchain_pdf_local`驱动的虚拟主播（Live2D），可以在`Bilibili/抖音/快手`直播中与观众实时互动。它使用自然语言处理和文本转语音技术(`Edge-TTS/VITS-Fast/elevenlabs`)生成对观众问题的回答。
+AI Vtuber是一个由`ChatterBot/GPT/Claude/langchain_pdf+gpt/chatglm/langchain_pdf_local`驱动的虚拟主播（Live2D），可以在`Bilibili/抖音/快手`直播中与观众实时互动。它使用自然语言处理和文本转语音技术(`Edge-TTS/VITS-Fast/elevenlabs`)生成对观众问题的回答；通过特定指令协同`Stable Diffusion`进行画图展示。
 
 
 ## 📖项目结构
@@ -49,6 +49,8 @@ git clone -b owner https://github.com/Ikaros-521/AI-Vtuber.git
 git clone -b dev https://github.com/Ikaros-521/AI-Vtuber.git
 ```
 
+整合包下载：[页面右侧-releases](https://github.com/Ikaros-521/AI-Vtuber/releases)  
+
 
 ## 💿运行环境
 
@@ -63,6 +65,8 @@ pip install -r requirements_bilibili.txt
 pip install -r requirements_dy.txt
 pip install -r requirements_ks.txt
 ```
+
+部署视频教程：[哔哩哔哩-BV1fV4y1C77r](https://www.bilibili.com/video/BV1fV4y1C77r)  
 
 ## 🔧配置
 
@@ -165,7 +169,9 @@ pip install -r requirements_ks.txt
     // 语速增益 默认是 +0%，可以增减，注意 + - %符合别搞没了，不然会影响语音合成
     "rate": "+0%",
     // 音量增益 默认是 +0%，可以增减，注意 + - %符合别搞没了，不然会影响语音合成
-    "volume": "+0%"
+    "volume": "+0%",
+    // 语速
+    "speed": 1
   },
   // elevenlabs相关配置
   "elevenlabs": {
@@ -194,7 +200,42 @@ pip install -r requirements_ks.txt
     "frequency_penalty": 0,
     "preset": "请扮演一个AI虚拟主播。不要回答任何敏感问题！不要强调你是主播，只需要回答问题！"
   },
-  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.42"
+  // stable diffusion相关配置
+  "sd": {
+    // 是否启用
+    "enable": false,
+    // 触发的关键词（弹幕头部触发）
+    "trigger": "画画：",
+    // 服务运行的IP地址
+    "ip": "127.0.0.1",
+    // 服务运行的端口
+    "port": 7860,
+    // 负面文本提示，用于指定与生成图像相矛盾或相反的内容
+    "negative_prompt": "ufsw, longbody, lowres, bad anatomy, bad hands, missing fingers, pubic hair,extra digit, fewer digits, cropped, worst quality, low quality",
+    // 随机种子，用于控制生成过程的随机性。可以设置一个整数值，以获得可重复的结果。
+    "seed": -1,
+    // 样式列表，用于指定生成图像的风格。可以包含多个风格，例如 ["anime", "portrait"]。
+    "styles": [],
+    // 提示词相关性，无分类器指导信息影响尺度(Classifier Free Guidance Scale) -图像应在多大程度上服从提示词-较低的值会产生更有创意的结果。
+    "cfg_scale": 7,
+    // 生成图像的步数，用于控制生成的精确程度。
+    "steps": 30,
+    // 是否启用高分辨率生成。默认为 False。
+    "enable_hr": false,
+    // 高分辨率缩放因子，用于指定生成图像的高分辨率缩放级别。
+    "hr_scale": 2,
+    // 高分辨率生成的第二次传递步数。
+    "hr_second_pass_steps": 20,
+    // 生成图像的水平尺寸。
+    "hr_resize_x": 512,
+    // 生成图像的垂直尺寸。
+    "hr_resize_y": 512,
+    // 去噪强度，用于控制生成图像中的噪点。
+    "denoising_strength": 0.4
+  },
+  "header": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.42"
+  }
 }
 ```
 
@@ -234,6 +275,7 @@ chat_with_file 目前支持以下模式，在相关配置下的 chat_mode 进行
 
 注意：
 - 本地向量数据库使用的是HuggingFace的模型，请确保电脑可以连接到HuggingFace网站，否则无法下载模型！
+
 
 
 ## 🎉使用
@@ -294,6 +336,14 @@ protoc -I . --python_out=. ks.proto
 ps:依赖[golang](https://go.dev/dl/)环境，还没有的话，手动补一补[protobuf](https://github.com/protocolbuffers/protobuf/releases)  
 
 运行 `python main.py`  
+
+## 效果图
+### GUI界面  
+![A5 037 _%%F`IZQ{}B@{){K](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/f5306bbe-0903-45b4-a96c-851e60883bf2)
+
+### SD接入
+![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/a3e4b3b7-96d1-41b1-b45e-f2725acee27c)
+
 
 ## 开发
 ### UI设计
@@ -431,6 +481,7 @@ ModuleNotFoundError: No module named 'ahocorasick'
 构建本地向量数据库时，如果本地电脑的配置太低，可以使用 [faiss_text2vec.ipynb](https://drive.google.com/file/d/1rbt2Yv7_pC1cmuODwmR2-1_cxFBFOfn8/view?usp=sharing) 云端解析向量数据库，拷贝回本地后再使用即可
 - author: [HildaM/text2vec_colab](https://github.com/HildaM/text2vec_colab)
 
+
 ### elevenlabs
 [elevenlabs官网](https://beta.elevenlabs.io/)  
 [官方文档](https://docs.elevenlabs.io/api-reference/quick-start/introduction)  
@@ -444,9 +495,15 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 
 总的来说，ChatterBot 是一个非常强大、灵活、易用的聊天机器人框架，帮助开发者快速搭建出个性化、定制化的聊天机器人，从而提升用户体验和服务质量。  
 
+### langchain_pdf_local 向量数据库解析
+如果本地电脑的配置太低，可以使用 [faiss_text2vec.ipynb](https://drive.google.com/file/d/1rbt2Yv7_pC1cmuODwmR2-1_cxFBFOfn8/view?usp=sharing) 云端解析向量数据库，拷贝回本地后再使用即可
+- author: [HildaM/text2vec_colab](https://github.com/HildaM/text2vec_colab)
+
 ### Live2D
 源自：[CyberWaifu](https://github.com/jieran233/CyberWaifu)  
 
+### Stable Diffusion
+[stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui)
 
 ## 待办事项
 - 懒人包的制作
@@ -490,7 +547,18 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 ### 2023-06-23
 - 针对整合包问题进行了优化和处理，新增了Scripts文件夹用于存储制作整合包时需要用的相关脚本。  
 - 新增本地回答库，启用后优先匹配库内问答，无匹配结果则按正常流程运行
-- dev分支：对模型的使用进行抽象，进行统一管理
+- 新增stable diffusion的接入。（UI还未适配，初步实现功能，搭配虚拟摄像头食用）
+
+### 2023-06-24
+- 新增stable diffusion的接入。（UI还未适配，初步实现功能，搭配虚拟摄像头食用）
+- bug修复：vits配置项依赖问题
+- 补充遗漏的ui文件
+- GUI补充缺失的vits的speed
+- GUI增加SD的配置
+- GUI修改Edge-TTS的说话人配置为下拉菜单，数据文件在data下，可以自行编辑修改
+
+### 2023-06-25
+- 修复保存配置时，edge-tts配置报错错误导致程序无法正常工作的bug
 
 ### 2023-06-28
 - 将langchain_pdf和langchain_pdf_local两个模式统一为chat_with_file模式

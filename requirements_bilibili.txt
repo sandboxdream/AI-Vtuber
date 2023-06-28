@@ -1,4 +1,4 @@
-bilibili-api
+bilibili-api==9.1.0
 bilibili-api-python
 openai
 pygame
@@ -16,3 +16,6 @@ pyqt5-tools
 tiktoken
 pyahocorasick
 requests
+webuiapi
+pyvirtualcam
+numpy
