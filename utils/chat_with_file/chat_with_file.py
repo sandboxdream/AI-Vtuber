@@ -14,9 +14,6 @@ from utils.chat_with_file.chat_mode.openai_model import Openai_mode
 from utils.common import Common
 from utils.logger import Configure_logger
 
-# 信息处理
-pdf_loader = PyPDFLoader
-
 
 class Chat_with_file:
     chat_model = None
@@ -29,7 +26,7 @@ class Chat_with_file:
 
         # 选择模式
         match data["chat_mode"]:
-            case "claude_mode":
+            case "claude":
                 self.chat_model = Claude_mode(data)
             case ("openai_vector_search", "openai_gpt"):
                 self.chat_model = Openai_mode(data)

@@ -47,7 +47,7 @@ class Chat_model:
 
         # 本地向量数据库配置
         self.local_vector_embedding_model = data["local_vector_embedding_model"]
-        self.local_max_query = data["max_query"]
+        self.local_max_query = data["local_max_query"]
 
         # prompt配置
         self.question_prompt = data["question_prompt"]

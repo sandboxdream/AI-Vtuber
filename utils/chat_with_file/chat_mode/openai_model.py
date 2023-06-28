@@ -22,12 +22,7 @@ class Openai_mode(Chat_model):
 
     def __init__(self, data, chat_type="langchain_pdf"):
         # 配置信息
-        super.__init__(data)
-
-        self.common = Common()
-        # 日志文件路径
-        file_path = "./log/log-" + self.common.get_bj_time(1) + ".txt"
-        Configure_logger(file_path)
+        super(Openai_mode, self).__init__(data)
 
         logging.info(f"pdf文件路径：{self.data_path}")
 

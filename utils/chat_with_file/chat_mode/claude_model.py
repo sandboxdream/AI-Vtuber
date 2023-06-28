@@ -33,7 +33,7 @@ class Claude_mode(Chat_model):
     claude = None
 
     def __init__(self, data):
-        super.__init__(data)
+        super(Claude_mode, self).__init__(data)
 
         logging.info(f"本地数据文件路径：{self.data_path}")
 
