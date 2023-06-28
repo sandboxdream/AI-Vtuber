@@ -563,6 +563,9 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 ### 2023-06-28
 - 将langchain_pdf和langchain_pdf_local两个模式统一为chat_with_file模式
 
+### 2023-06-29
+- 合并dev和main，并同步兼容GUI。
+
 </details>
 
 
