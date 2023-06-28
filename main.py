@@ -508,7 +508,7 @@ class AI_VTB(QMainWindow):
             elif chat_type == "ChatGLM":
                 config_data["chat_type"] = "chatglm"
             elif chat_type == "Langchain":
-                config_data["chat_type"] = "langchain"
+                config_data["chat_type"] = "chat_with_file"
             elif chat_type == "Chatterbot":
                 config_data["chat_type"] = "chatterbot"
 

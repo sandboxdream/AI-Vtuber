@@ -1,7 +1,7 @@
 {
   "platform": "bilibili",
   "room_display_id": "278333",
-  "chat_type": "langchain",
+  "chat_type": "none",
   "need_lang": "none",
   "before_prompt": "请简要回复:",
   "after_prompt": "",
