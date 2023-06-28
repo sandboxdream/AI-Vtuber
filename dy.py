@@ -104,3 +104,8 @@ def start_server():
     finally:
         logging.info('关闭连接...可能是直播间不存在或下播或网络问题')
         exit(0)
+
+
+if __name__ == '__main__':
+    start_server()
+    
