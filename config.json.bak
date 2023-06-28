@@ -1,11 +1,11 @@
 {
   "platform": "bilibili",
-  "room_display_id": "你的直播间号",
+  "room_display_id": "278333",
   "chat_type": "none",
   "need_lang": "none",
   "before_prompt": "请简要回复:",
   "after_prompt": "",
-  "commit_log_type": "回答",
+  "commit_log_type": "不记录",
   "local_qa": false,
   "filter": {
     "before_must_str": [],
@@ -27,7 +27,8 @@
     "api": "https://api.openai.com/v1",
     "api_key": [
       "你的api_key"
-    ]
+    ],
+    "model": "gpt-3.5-turbo-0301"
   },
   "claude": {
     "slack_user_token": "",
@@ -39,28 +40,17 @@
     "top_p": 0.7,
     "temperature": 0.95
   },
-  "langchain_pdf": {
-    "openai_api_key": "你的api key",
-    "data_path": "",
-    "separator": "\n",
-    "chunk_size": 100,
-    "chunk_overlap": 50,
-    "model_name": "gpt-3.5-turbo-0301",
-    "chain_type": "stuff",
-    "show_cost": false
-  },
-  "langchain_pdf_local": {
-    "bot_user_id": "",
-    "slack_user_token": "",
+  "chat_with_file": {
+    "chat_mode": "",
     "data_path": "data/伊卡洛斯百度百科.zip",
     "separator": "\n",
     "chunk_size": 100,
     "chunk_overlap": 50,
-    "embedding_model": "sebastian-hofstaetter/distilbert-dot-tas_b-b256-msmarco",
-    "max_query": 3,
-    "question_prompt": "请根据以上content信息进行归纳总结，并结合question的内容给出一个符合content和question语气、语调、背景的回答。不要出现'概括''综上''感谢'等字样，向朋友直接互相交流即可。如果发现不能content的信息与question不相符，抛弃content的提示，直接回答question即可。任何情况下都要简要地回答!",
     "chain_type": "stuff",
-    "show_cost": true
+    "show_token_cost": false,
+    "question_prompt": "请根据以上content信息进行归纳总结，并结合question的内容给出一个符合content和question语气、语调、背景的回答。不要出现'概括''综上''感谢'等字样，向朋友直接互相交流即可。如果发现不能content的信息与question不相符，抛弃content的提示，直接回答question即可。任何情况下都要简要地回答!",
+    "local_max_query": 3,
+    "local_vector_embedding_model": "sebastian-hofstaetter/distilbert-dot-tas_b-b256-msmarco"
   },
   "audio_synthesis_type": "edge-tts",
   "vits": {

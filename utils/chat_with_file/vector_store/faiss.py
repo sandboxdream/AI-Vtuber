@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 """
 @Project : AI-Vtuber
-@File    : langchain_pdf_local.py
+@File    : claude_model.py
 @Author  : HildaM
 @Email   : Hilda_quan@163.com
 @Date    : 2023/06/17 下午 4:44
@@ -16,7 +16,7 @@ import os
 from tqdm.auto import tqdm
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.document_loaders import DirectoryLoader, TextLoader
-from utils.embeddings import EMBEDDINGS_MAPPING, DEFAULT_MODEL_NAME
+from utils.chat_with_file.vector_store.embeddings import EMBEDDINGS_MAPPING, DEFAULT_MODEL_NAME
 import tiktoken
 import zipfile
 import pickle
@@ -26,7 +26,7 @@ tokenizer = tiktoken.get_encoding(tokenizer_name.name)
 
 
 #######################################################################################################################
-# Files handler
+# Files vector_store
 #######################################################################################################################
 def check_existence(path):
     return os.path.isfile(path) or os.path.isdir(path)

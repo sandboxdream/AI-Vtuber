@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 """
 @Project : AI-Vtuber
-@File    : langchain_pdf_local.py
+@File    : claude_model.py
 @Author  : HildaM
 @Email   : Hilda_quan@163.com
 @Date    : 2023/06/17 下午 4:44
@@ -20,8 +20,8 @@ DEFAULT_MODEL_KWARGS = {'device': 'cpu'}
 DEFAULT_ENCODE_KWARGS = {'normalize_embeddings': False}
 default_vec_model = HuggingFaceEmbeddings(
     model_name=DEFAULT_MODEL_NAME,
-    model_kwargs=DEFAULT_MODEL_KWARGS,
-    encode_kwargs=DEFAULT_ENCODE_KWARGS
+    # model_kwargs=DEFAULT_MODEL_KWARGS,
+    # encode_kwargs=DEFAULT_ENCODE_KWARGS
 )
 
 """
@@ -31,8 +31,8 @@ default_vec_model = HuggingFaceEmbeddings(
 TEXT2VEC_LARGE_CHINESE = "GanymedeNil/text2vec-large-chinese"
 text2vec_large_chinese = HuggingFaceEmbeddings(
     model_name=TEXT2VEC_LARGE_CHINESE,
-    model_kwargs=DEFAULT_MODEL_KWARGS,
-    encode_kwargs=DEFAULT_ENCODE_KWARGS
+    # model_kwargs=DEFAULT_MODEL_KWARGS,
+    # encode_kwargs=DEFAULT_ENCODE_KWARGS
 )
 
 

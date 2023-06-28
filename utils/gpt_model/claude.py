@@ -3,8 +3,8 @@ import time, logging
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 
-from .common import Common
-from .logger import Configure_logger
+from utils.common import Common
+from utils.logger import Configure_logger
 
 
 class Claude:
