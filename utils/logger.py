@@ -1,8 +1,8 @@
 import logging
 
 def Configure_logger(log_file):
-    # log_format = "%(asctime)s - %(levelname)s - %(message)s"
-    log_format = '%(asctime)s - %(pathname)s[line:%(lineno)d] - %(levelname)s: %(message)s'
+    log_format = "%(asctime)s - %(levelname)s - %(message)s"
+    # log_format = '%(asctime)s - %(pathname)s[line:%(lineno)d] - %(levelname)s: %(message)s'
     
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)
