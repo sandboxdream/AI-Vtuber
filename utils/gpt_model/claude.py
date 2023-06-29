@@ -3,8 +3,8 @@ import time, logging
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 
-from .common import Common
-from .logger import Configure_logger
+from utils.common import Common
+from utils.logger import Configure_logger
 
 
 class Claude:
@@ -19,6 +19,10 @@ class Claude:
         # 日志文件路径
         file_path = "./log/log-" + self.common.get_bj_time(1) + ".txt"
         Configure_logger(file_path)
+
+        if (data["slack_user_token"] == "" or data["bot_user_id"] == ""):
+            logging.info("Claude slack_user_token or bot_user_id 为空，不进行实例化.")
+            return None
 
         self.slack_user_token = data["slack_user_token"]
         self.bot_user_id = data["bot_user_id"]

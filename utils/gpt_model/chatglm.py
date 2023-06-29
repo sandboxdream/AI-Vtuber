@@ -1,8 +1,8 @@
 import json, logging
 import requests
 
-from .common import Common
-from .logger import Configure_logger
+from utils.common import Common
+from utils.logger import Configure_logger
 
 class Chatglm:
     api_ip_port = "http://127.0.0.1:8000"

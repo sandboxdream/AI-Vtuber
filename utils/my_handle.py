@@ -4,6 +4,7 @@ import logging
 from .config import Config
 from .common import Common
 from .audio import Audio
+from .gpt_model.gpt import GPT_MODEL
 from .logger import Configure_logger
 
 
@@ -54,12 +55,10 @@ class My_handle():
             self.claude_config = self.config.get("claude")
             # chatterbot
             self.chatterbot_config = self.config.get("chatterbot")
-            # langchain_pdf
-            self.langchain_pdf_config = self.config.get("langchain_pdf")
             # chatglm
             self.chatglm_config = self.config.get("chatglm")
-            # langchain_pdf_local
-            self.langchain_pdf_local_config = self.config.get("langchain_pdf_local")
+            # chat_with_file
+            self.chat_with_file_config = self.config.get("chat_with_file")
 
             # 音频合成使用技术
             self.audio_synthesis_type = self.config.get("audio_synthesis_type")
@@ -69,24 +68,27 @@ class My_handle():
             logging.info(f"配置数据加载成功。")
         except Exception as e:
             logging.info(e)
-            return None
+
+        # 设置GPT_Model全局模型列表
+        GPT_MODEL.set_model_config("openai", self.openai_config)
+        GPT_MODEL.set_model_config("chatgpt", self.chatgpt_config)
+        GPT_MODEL.set_model_config("claude", self.claude_config)
+        GPT_MODEL.set_model_config("chatglm", self.chatglm_config)
 
         # 聊天相关类实例化
         if self.chat_type == "gpt":
-            from utils.chatgpt import Chatgpt
+            # TODO 此处需要将“gpt”修改为“chatgpt”，需要让I佬在前端同步修改
+            self.chatgpt = GPT_MODEL.get("chatgpt")
 
-            self.chatgpt = Chatgpt(self.openai_config, self.chatgpt_config)
         elif self.chat_type == "claude":
-            from utils.claude import Claude
-
-            self.claude = Claude(self.claude_config)
+            self.claude = GPT_MODEL.get(self.chat_type)
 
             # 初次运行 先重置下会话
             if not self.claude.reset_claude():
                 logging.error("重置Claude会话失败喵~")
+
         elif self.chat_type == "chatterbot":
             from chatterbot import ChatBot  # 导入聊天机器人库
-
             try:
                 self.bot = ChatBot(
                     self.chatterbot_config["name"],  # 聊天机器人名字
@@ -95,18 +97,14 @@ class My_handle():
             except Exception as e:
                 logging.info(e)
                 exit(0)
-        elif self.chat_type == "langchain_pdf" or self.chat_type == "langchain_pdf+gpt":
-            from utils.langchain_pdf import Langchain_pdf
 
-            self.langchain_pdf = Langchain_pdf(self.langchain_pdf_config, self.chat_type)
         elif self.chat_type == "chatglm":
-            from utils.chatglm import Chatglm
+            self.chatglm = GPT_MODEL.get(self.chat_type)
 
-            self.chatglm = Chatglm(self.chatglm_config)
-        elif self.chat_type == "langchain_pdf_local":
-            from utils.langchain_pdf_local import Langchain_pdf_local
+        elif self.chat_type == "chat_with_file":
+            from utils.chat_with_file.chat_with_file import Chat_with_file
+            self.chat_with_file = Chat_with_file(self.chat_with_file_config)
 
-            self.langchain_pdf = Langchain_pdf_local(self.langchain_pdf_local_config, self.chat_type)
         elif self.chat_type == "game":
             exit(0)
 
@@ -114,7 +112,6 @@ class My_handle():
             from utils.sd import SD
 
             self.sd = SD(self.sd_config)
-
 
         # 日志文件路径
         self.log_file_path = "./log/log-" + self.common.get_bj_time(1) + ".txt"
@@ -202,13 +199,20 @@ class My_handle():
 
         # 画图模式
         if content.startswith(self.sd_config["trigger"]):
+            # 含有违禁词/链接
+            if self.common.profanity_content(content) or self.common.check_sensitive_words2(
+                    self.filter_config["badwords_path"], content) or \
+                    self.common.is_url_check(content):
+                logging.warning(f"违禁词/链接：{content}")
+                return
+        
             if self.sd_config["enable"] == False:
                 logging.info("您还未启用SD模式，无法使用画画功能")
                 return None
             else:
                 # 输出当前用户发送的弹幕消息
                 logging.info(f"[{user_name}]: {content}")
-                
+
                 self.sd.process_input(content[3:])
                 return None
 
@@ -278,19 +282,16 @@ class My_handle():
             # 生成回复
             resp_content = self.bot.get_response(content).text
             logging.info(f"[AI回复{user_name}]：{resp_content}")
-        elif self.chat_type == "langchain_pdf" or self.chat_type == "langchain_pdf+gpt":
-            # 只用langchain，不做gpt的调用，可以节省token，做个简单的本地数据搜索
-            resp_content = self.langchain_pdf.get_langchain_pdf_resp(self.chat_type, content)
 
-            logging.info(f"[AI回复{user_name}]：{resp_content}")
         elif self.chat_type == "chatglm":
             # 生成回复
             resp_content = self.chatglm.get_chatglm_resp(content)
             logging.info(f"[AI回复{user_name}]：{resp_content}")
-        elif self.chat_type == "langchain_pdf_local":
-            resp_content = self.langchain_pdf.get_langchain_pdf_local_resp(self.chat_type, content)
 
+        elif self.chat_type == "chat_with_file":
+            resp_content = self.chat_with_file.get_model_resp(content)
             print(f"[AI回复{user_name}]：{resp_content}")
+
         elif self.chat_type == "game":
             return
             g1 = game1()

@@ -42,9 +42,9 @@
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-2532</y>
-             <width>839</width>
-             <height>4071</height>
+             <y>0</y>
+             <width>807</width>
+             <height>3725</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -344,22 +344,12 @@
                  </item>
                  <item>
                   <property name="text">
-                   <string>Langchain_pdf</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Langchain_pdf+gpt</string>
+                   <string>chat_with_file</string>
                   </property>
                  </item>
                  <item>
                   <property name="text">
                    <string>Chatterbot</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Langchain_pdf_local</string>
                   </property>
                  </item>
                 </widget>
@@ -597,128 +587,58 @@
              </widget>
             </item>
             <item>
-             <widget class="QGroupBox" name="groupBox_langchain_pdf">
+             <widget class="QGroupBox" name="groupBox_chat_with_file">
               <property name="title">
-               <string>Langchain_pdf</string>
+               <string>chat_with_file</string>
               </property>
               <layout class="QGridLayout" name="gridLayout_10">
                <item row="0" column="0">
-                <layout class="QGridLayout" name="gridLayout_11" rowstretch="0,0,0,0,0,0,0,0,0" rowminimumheight="0,0,0,0,0,0,0,0,0">
+                <layout class="QGridLayout" name="gridLayout_11" rowstretch="0,0,0,0,0,0,0,0,0,0,0" rowminimumheight="0,0,0,0,0,0,0,0,0,0,0">
                  <property name="spacing">
                   <number>6</number>
                  </property>
                  <item row="0" column="1">
-                  <widget class="QLineEdit" name="lineEdit_langchain_pdf_openai_api_key"/>
-                 </item>
-                 <item row="1" column="1">
-                  <widget class="QLineEdit" name="lineEdit_langchain_pdf_data_path"/>
-                 </item>
-                 <item row="8" column="1">
-                  <widget class="QCheckBox" name="checkBox_langchain_pdf_show_cost">
-                   <property name="cursor">
-                    <cursorShape>PointingHandCursor</cursorShape>
-                   </property>
-                   <property name="text">
-                    <string>启用</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="8" column="0">
-                  <widget class="QLabel" name="label_langchain_pdf_show_cost">
-                   <property name="text">
-                    <string>显示成本</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="6" column="0">
-                  <widget class="QLabel" name="label_langchain_pdf_model_name">
-                   <property name="text">
-                    <string>模型</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="5" column="0">
-                  <widget class="QLabel" name="label_langchain_pdf_chunk_overlap">
-                   <property name="text">
-                    <string>块重叠</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="3" column="1">
-                  <widget class="QLineEdit" name="lineEdit_langchain_pdf_chunk_size"/>
+                  <widget class="QLineEdit" name="lineEdit_chat_with_file_chat_mode"/>
                  </item>
                  <item row="5" column="1">
-                  <widget class="QLineEdit" name="lineEdit_langchain_pdf_chunk_overlap"/>
+                  <widget class="QLineEdit" name="lineEdit_chat_with_file_chunk_overlap"/>
                  </item>
-                 <item row="3" column="0">
-                  <widget class="QLabel" name="label_langchain_pdf_chunk_size">
+                 <item row="7" column="0">
+                  <widget class="QLabel" name="label_chat_with_file_chain_type">
                    <property name="text">
-                    <string>块大小</string>
+                    <string>链类型</string>
                    </property>
                   </widget>
                  </item>
                  <item row="1" column="0">
-                  <widget class="QLabel" name="label_langchain_pdf_data_path">
+                  <widget class="QLabel" name="label_chat_with_file_data_path">
                    <property name="text">
                     <string>pdf文件路径</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="0">
-                  <widget class="QLabel" name="label_langchain_pdf_openai_api_key">
-                   <property name="text">
-                    <string>openai api密钥</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="0">
-                  <widget class="QLabel" name="label_langchain_pdf_separator">
-                   <property name="text">
-                    <string>分隔符</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="1">
-                  <widget class="QLineEdit" name="lineEdit_langchain_pdf_separator"/>
-                 </item>
-                 <item row="7" column="0">
-                  <widget class="QLabel" name="label_langchain_pdf_chain_type">
-                   <property name="text">
-                    <string>链类型</string>
                    </property>
                   </widget>
                  </item>
                  <item row="7" column="1">
-                  <widget class="QLineEdit" name="lineEdit_langchain_pdf_chain_type"/>
+                  <widget class="QLineEdit" name="lineEdit_chat_with_file_chain_type"/>
                  </item>
-                 <item row="6" column="1">
-                  <widget class="QLineEdit" name="lineEdit_langchain_pdf_model_name"/>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item>
-             <widget class="QGroupBox" name="groupBox_langchain_pdf_local">
-              <property name="title">
-               <string>Langchain_pdf_local</string>
-              </property>
-              <layout class="QGridLayout" name="gridLayout_28">
-               <item row="0" column="0">
-                <layout class="QGridLayout" name="gridLayout_27">
-                 <item row="4" column="2">
-                  <widget class="QLineEdit" name="lineEdit_langchain_pdf_local_chunk_size"/>
-                 </item>
-                 <item row="0" column="0">
-                  <widget class="QLabel" name="label_langchain_pdf_local_slack_user_token">
+                 <item row="6" column="0">
+                  <widget class="QLabel" name="label_chat_with_file_local_vector_embedding_model">
                    <property name="text">
-                    <string>slack_user_token</string>
+                    <string>模型</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="9" column="2">
-                  <widget class="QCheckBox" name="checkBox_langchain_pdf_local_show_cost">
+                 <item row="3" column="1">
+                  <widget class="QLineEdit" name="lineEdit_chat_with_file_chunk_size"/>
+                 </item>
+                 <item row="10" column="0">
+                  <widget class="QLabel" name="label_chat_with_file_show_token_cost">
+                   <property name="text">
+                    <string>显示成本</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="10" column="1">
+                  <widget class="QCheckBox" name="checkBox_chat_with_file_show_token_cost">
                    <property name="cursor">
                     <cursorShape>PointingHandCursor</cursorShape>
                    </property>
@@ -727,93 +647,62 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="4" column="0">
-                  <widget class="QLabel" name="label_langchain_pdf_local_chunk_size">
+                 <item row="6" column="1">
+                  <widget class="QLineEdit" name="lineEdit_chat_with_file_local_vector_embedding_model"/>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QLineEdit" name="lineEdit_chat_with_file_data_path"/>
+                 </item>
+                 <item row="3" column="0">
+                  <widget class="QLabel" name="label_chat_with_file_chunk_size">
                    <property name="text">
                     <string>块大小</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="8" column="0">
-                  <widget class="QLabel" name="label_langchain_pdf_local_chain_type">
-                   <property name="text">
-                    <string>链类型</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="9" column="0">
-                  <widget class="QLabel" name="label_langchain_pdf_local_show_cost">
-                   <property name="text">
-                    <string>显示成本</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="2">
-                  <widget class="QLineEdit" name="lineEdit_langchain_pdf_local_slack_user_token"/>
-                 </item>
                  <item row="5" column="0">
-                  <widget class="QLabel" name="label_langchain_pdf_local_chunk_overlap">
+                  <widget class="QLabel" name="label_chat_with_file_chunk_overlap">
                    <property name="text">
                     <string>块重叠</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="3" column="2">
-                  <widget class="QLineEdit" name="lineEdit_langchain_pdf_local_separator"/>
+                 <item row="8" column="0">
+                  <widget class="QLabel" name="label_chat_with_file_question_prompt">
+                   <property name="text">
+                    <string>问题总结提示词</string>
+                   </property>
+                  </widget>
                  </item>
-                 <item row="5" column="2">
-                  <widget class="QLineEdit" name="lineEdit_langchain_pdf_local_chunk_overlap"/>
+                 <item row="2" column="1">
+                  <widget class="QLineEdit" name="lineEdit_chat_with_file_separator"/>
                  </item>
-                 <item row="3" column="0">
-                  <widget class="QLabel" name="label_langchain_pdf_local_separator">
+                 <item row="8" column="1">
+                  <widget class="QLineEdit" name="lineEdit_chat_with_file_question_prompt"/>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="QLabel" name="label_chat_with_file_separator">
                    <property name="text">
                     <string>分隔符</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="2" column="0">
-                  <widget class="QLabel" name="label_langchain_pdf_local_data_path">
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_chat_with_file_chat_mode">
                    <property name="text">
-                    <string>pdf文件路径</string>
+                    <string>聊天模式</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="8" column="2">
-                  <widget class="QLineEdit" name="lineEdit_langchain_pdf_local_chain_type"/>
-                 </item>
-                 <item row="2" column="2">
-                  <widget class="QLineEdit" name="lineEdit_langchain_pdf_local_data_path"/>
-                 </item>
-                 <item row="1" column="0">
-                  <widget class="QLabel" name="label_langchain_pdf_local_bot_user_id">
+                 <item row="9" column="0">
+                  <widget class="QLabel" name="label_chat_with_file_local_max_query">
                    <property name="text">
-                    <string>bot_user_id</string>
+                    <string>最大查询数据库次数</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="1" column="2">
-                  <widget class="QLineEdit" name="lineEdit_langchain_pdf_local_bot_user_id"/>
-                 </item>
-                 <item row="6" column="2">
-                  <widget class="QComboBox" name="comboBox_langchain_pdf_local_embedding_model">
-                   <item>
-                    <property name="text">
-                     <string>sebastian-hofstaetter/distilbert-dot-tas_b-b256-msmarco</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>GanymedeNil/text2vec-large-chinese</string>
-                    </property>
-                   </item>
-                  </widget>
-                 </item>
-                 <item row="6" column="0">
-                  <widget class="QLabel" name="label_langchain_pdf_local_embedding_model">
-                   <property name="text">
-                    <string>模型</string>
-                   </property>
-                  </widget>
+                 <item row="9" column="1">
+                  <widget class="QLineEdit" name="lineEdit_chat_with_file_local_max_query"/>
                  </item>
                 </layout>
                </item>

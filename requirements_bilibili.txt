@@ -1,4 +1,4 @@
-bilibili-api
+bilibili-api==9.1.0
 bilibili-api-python
 openai
 pygame

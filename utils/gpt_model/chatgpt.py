@@ -2,8 +2,8 @@ import traceback, logging
 from copy import deepcopy
 import openai
 
-from .common import Common
-from .logger import Configure_logger
+from utils.common import Common
+from utils.logger import Configure_logger
 
 
 class Chatgpt:

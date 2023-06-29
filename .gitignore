@@ -196,3 +196,5 @@ output/
 .idea
 
 branch/
+
+data/vector_base
