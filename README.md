@@ -565,6 +565,10 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 
 ### 2023-06-29
 - 合并dev和main，并同步兼容GUI。
+- 修复GPT_MODEL初始化claude时的空配置bug
+- bilibili-api-python需要升级至15.5.1，更加稳定
+- GUI改langchain为chat_with_file
+- 正式合入主线
 
 </details>
 
