@@ -366,7 +366,6 @@ ps:依赖[golang](https://go.dev/dl/)环境，还没有的话，手动补一补[
 `venv\python.exe -m pip install spacy SQLAlchemy==1.3.24 -i https://pypi.tuna.tsinghua.edu.cn/simple`  
 前提是你在当前目录下有clone chatterbot的项目（自行调整路径关系）  
 `venv\python.exe setup.py install`  
-5、修改`audio.py`中`edge-tts`的调用实现。`venv\python.exe venv\Scripts\edge-tts.exe`  
 
 
 ## FAQ 常问问题
