@@ -58,6 +58,7 @@ python：3.10.11
 各个版本的依赖的库在 requirements_xx.txt 中，请自行安装。  
 
 依赖版本参考`requirements_common.txt`  
+(`chat_with_file`有一些依赖会拉模型文件，所以暂不合入整合包，需求的请自行安装)  
 
 安装命令参考（注意文件命名，对应各个版本）：  
 ```
@@ -569,6 +570,7 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 - bilibili-api-python需要升级至15.5.1，更加稳定
 - GUI改langchain为chat_with_file
 - 正式合入主线
+- 补上遗漏的依赖，部分需要用户使用时自行安装补
 
 </details>
 
