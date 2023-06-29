@@ -122,8 +122,8 @@ class AI_VTB(QMainWindow):
             self.claude_config = config.get("claude")
             # chatterbot
             self.chatterbot_config = config.get("chatterbot")
-            # langchain
-            self.langchain_config = config.get("chat_with_file")
+            # chat_with_file
+            self.chat_with_file_config = config.get("chat_with_file")
             # chatglm
             self.chatglm_config = config.get("chatglm")
             
@@ -180,16 +180,16 @@ class AI_VTB(QMainWindow):
             self.ui.label_chatglm_top_p.setToolTip("也称为 Nucleus采样。控制模型生成时选择概率的阈值范围。")
             self.ui.label_chatglm_temperature.setToolTip("温度参数，控制生成文本的随机性。较高的温度值会产生更多的随机性和多样性。")
             
-            self.ui.label_langchain_chat_mode.setToolTip("本地向量数据库模式")
-            self.ui.label_langchain_data_path.setToolTip("加载的本地pdf数据文件路径（到x.pdf）, 如：./data/伊卡洛斯百度百科.pdf")
-            self.ui.label_langchain_separator.setToolTip("拆分文本的分隔符，这里使用 换行符 作为分隔符。")
-            self.ui.label_langchain_chunk_size.setToolTip("每个文本块的最大字符数(文本块字符越多，消耗token越多，回复越详细)")
-            self.ui.label_langchain_chunk_overlap.setToolTip("两个相邻文本块之间的重叠字符数。这种重叠可以帮助保持文本的连贯性，特别是当文本被用于训练语言模型或其他需要上下文信息的机器学习模型时")
-            self.ui.label_langchain_local_vector_embedding_model.setToolTip("指定要使用的OpenAI模型名称")
-            self.ui.label_langchain_chain_type.setToolTip("指定要生成的语言链的类型，例如：stuff")
-            self.ui.label_langchain_show_token_cost.setToolTip("表示是否显示生成文本的成本。如果启用，将在终端中显示成本信息。")
-            self.ui.label_langchain_question_prompt.setToolTip("通过LLM总结本地向量数据库输出内容，此处填写总结用提示词")
-            self.ui.label_langchain_local_max_query.setToolTip("最大查询数据库次数。限制次数有助于节省token")
+            self.ui.label_chat_with_file_chat_mode.setToolTip("本地向量数据库模式")
+            self.ui.label_chat_with_file_data_path.setToolTip("加载的本地pdf数据文件路径（到x.pdf）, 如：./data/伊卡洛斯百度百科.pdf")
+            self.ui.label_chat_with_file_separator.setToolTip("拆分文本的分隔符，这里使用 换行符 作为分隔符。")
+            self.ui.label_chat_with_file_chunk_size.setToolTip("每个文本块的最大字符数(文本块字符越多，消耗token越多，回复越详细)")
+            self.ui.label_chat_with_file_chunk_overlap.setToolTip("两个相邻文本块之间的重叠字符数。这种重叠可以帮助保持文本的连贯性，特别是当文本被用于训练语言模型或其他需要上下文信息的机器学习模型时")
+            self.ui.label_chat_with_file_local_vector_embedding_model.setToolTip("指定要使用的OpenAI模型名称")
+            self.ui.label_chat_with_file_chain_type.setToolTip("指定要生成的语言链的类型，例如：stuff")
+            self.ui.label_chat_with_file_show_token_cost.setToolTip("表示是否显示生成文本的成本。如果启用，将在终端中显示成本信息。")
+            self.ui.label_chat_with_file_question_prompt.setToolTip("通过LLM总结本地向量数据库输出内容，此处填写总结用提示词")
+            self.ui.label_chat_with_file_local_max_query.setToolTip("最大查询数据库次数。限制次数有助于节省token")
 
             self.ui.label_chatterbot_name.setToolTip("机器人名称")
             self.ui.label_chatterbot_db_path.setToolTip("数据库路径")
@@ -245,7 +245,7 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_room_display_id.setText(self.room_id)
             
             self.ui.comboBox_chat_type.clear()
-            self.ui.comboBox_chat_type.addItems(["复读机", "ChatGPT", "Claude", "ChatGLM", "Langchain", "Chatterbot"])
+            self.ui.comboBox_chat_type.addItems(["复读机", "ChatGPT", "Claude", "ChatGLM", "chat_with_file", "Chatterbot"])
             chat_type_index = 0
             if self.chat_type == "none":
                 chat_type_index = 0
@@ -255,7 +255,7 @@ class AI_VTB(QMainWindow):
                 chat_type_index = 2 
             elif self.chat_type == "chatglm":
                 chat_type_index = 3
-            elif self.chat_type == "langchain":
+            elif self.chat_type == "chat_with_file":
                 chat_type_index = 4
             elif self.chat_type == "chatterbot":
                 chat_type_index = 5
@@ -323,18 +323,18 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_chatglm_top_p.setText(str(self.chatglm_config['top_p']))
             self.ui.lineEdit_chatglm_temperature.setText(str(self.chatglm_config['temperature']))
 
-            self.ui.lineEdit_langchain_chat_mode.setText(self.langchain_config['chat_mode'])
-            self.ui.lineEdit_langchain_local_vector_embedding_model.setText(self.langchain_config['local_vector_embedding_model'])
-            self.ui.lineEdit_langchain_data_path.setText(self.langchain_config['data_path'])
-            self.ui.lineEdit_langchain_separator.setText(self.langchain_config['separator'])
-            self.ui.lineEdit_langchain_chunk_size.setText(str(self.langchain_config['chunk_size']))
-            self.ui.lineEdit_langchain_chunk_overlap.setText(str(self.langchain_config['chunk_overlap']))
-            self.ui.lineEdit_langchain_question_prompt.setText(str(self.langchain_config['question_prompt']))
-            self.ui.lineEdit_langchain_local_max_query.setText(str(self.langchain_config['local_max_query']))
+            self.ui.lineEdit_chat_with_file_chat_mode.setText(self.chat_with_file_config['chat_mode'])
+            self.ui.lineEdit_chat_with_file_local_vector_embedding_model.setText(self.chat_with_file_config['local_vector_embedding_model'])
+            self.ui.lineEdit_chat_with_file_data_path.setText(self.chat_with_file_config['data_path'])
+            self.ui.lineEdit_chat_with_file_separator.setText(self.chat_with_file_config['separator'])
+            self.ui.lineEdit_chat_with_file_chunk_size.setText(str(self.chat_with_file_config['chunk_size']))
+            self.ui.lineEdit_chat_with_file_chunk_overlap.setText(str(self.chat_with_file_config['chunk_overlap']))
+            self.ui.lineEdit_chat_with_file_question_prompt.setText(str(self.chat_with_file_config['question_prompt']))
+            self.ui.lineEdit_chat_with_file_local_max_query.setText(str(self.chat_with_file_config['local_max_query']))
             
-            self.ui.lineEdit_langchain_chain_type.setText(self.langchain_config['chain_type'])
-            if self.langchain_config['show_token_cost']:
-                self.ui.checkBox_langchain_show_token_cost.setChecked(True)
+            self.ui.lineEdit_chat_with_file_chain_type.setText(self.chat_with_file_config['chain_type'])
+            if self.chat_with_file_config['show_token_cost']:
+                self.ui.checkBox_chat_with_file_show_token_cost.setChecked(True)
 
             self.ui.lineEdit_chatterbot_name.setText(self.chatterbot_config['name'])
             self.ui.lineEdit_chatterbot_db_path.setText(self.chatterbot_config['db_path'])
@@ -507,7 +507,7 @@ class AI_VTB(QMainWindow):
                 config_data["chat_type"] = "claude"
             elif chat_type == "ChatGLM":
                 config_data["chat_type"] = "chatglm"
-            elif chat_type == "Langchain":
+            elif chat_type == "chat_with_file":
                 config_data["chat_type"] = "chat_with_file"
             elif chat_type == "Chatterbot":
                 config_data["chat_type"] = "chatterbot"
@@ -600,27 +600,27 @@ class AI_VTB(QMainWindow):
             chatglm_temperature = self.ui.lineEdit_chatglm_temperature.text()
             config_data["chatglm"]["temperature"] = round(float(chatglm_temperature), 2)
 
-            langchain_chat_mode = self.ui.lineEdit_langchain_chat_mode.text()
-            config_data["chat_with_file"]["chat_mode"] = langchain_chat_mode
-            langchain_data_path = self.ui.lineEdit_langchain_data_path.text()
-            config_data["chat_with_file"]["data_path"] = langchain_data_path
-            langchain_separator = self.ui.lineEdit_langchain_separator.text()
-            config_data["chat_with_file"]["separator"] = langchain_separator
-            langchain_chunk_size = self.ui.lineEdit_langchain_chunk_size.text()
-            config_data["chat_with_file"]["chunk_size"] = int(langchain_chunk_size)
-            langchain_chunk_overlap = self.ui.lineEdit_langchain_chunk_overlap.text()
-            config_data["chat_with_file"]["chunk_overlap"] = int(langchain_chunk_overlap)
-            langchain_local_vector_embedding_model = self.ui.lineEdit_langchain_local_vector_embedding_model.text()
-            config_data["chat_with_file"]["local_vector_embedding_model"] = langchain_local_vector_embedding_model
-            langchain_chain_type = self.ui.lineEdit_langchain_chain_type.text()
-            config_data["chat_with_file"]["chain_type"] = langchain_chain_type
+            chat_with_file_chat_mode = self.ui.lineEdit_chat_with_file_chat_mode.text()
+            config_data["chat_with_file"]["chat_mode"] = chat_with_file_chat_mode
+            chat_with_file_data_path = self.ui.lineEdit_chat_with_file_data_path.text()
+            config_data["chat_with_file"]["data_path"] = chat_with_file_data_path
+            chat_with_file_separator = self.ui.lineEdit_chat_with_file_separator.text()
+            config_data["chat_with_file"]["separator"] = chat_with_file_separator
+            chat_with_file_chunk_size = self.ui.lineEdit_chat_with_file_chunk_size.text()
+            config_data["chat_with_file"]["chunk_size"] = int(chat_with_file_chunk_size)
+            chat_with_file_chunk_overlap = self.ui.lineEdit_chat_with_file_chunk_overlap.text()
+            config_data["chat_with_file"]["chunk_overlap"] = int(chat_with_file_chunk_overlap)
+            chat_with_file_local_vector_embedding_model = self.ui.lineEdit_chat_with_file_local_vector_embedding_model.text()
+            config_data["chat_with_file"]["local_vector_embedding_model"] = chat_with_file_local_vector_embedding_model
+            chat_with_file_chain_type = self.ui.lineEdit_chat_with_file_chain_type.text()
+            config_data["chat_with_file"]["chain_type"] = chat_with_file_chain_type
             # 获取复选框的选中状态
-            langchain_show_token_cost = self.ui.checkBox_langchain_show_token_cost.isChecked()
-            config_data["chat_with_file"]["show_token_cost"] = langchain_show_token_cost
-            langchain_question_prompt = self.ui.lineEdit_langchain_question_prompt.text()
-            config_data["chat_with_file"]["question_prompt"] = langchain_question_prompt
-            langchain_local_max_query = self.ui.lineEdit_langchain_local_max_query.text()
-            config_data["chat_with_file"]["local_max_query"] = int(langchain_local_max_query)
+            chat_with_file_show_token_cost = self.ui.checkBox_chat_with_file_show_token_cost.isChecked()
+            config_data["chat_with_file"]["show_token_cost"] = chat_with_file_show_token_cost
+            chat_with_file_question_prompt = self.ui.lineEdit_chat_with_file_question_prompt.text()
+            config_data["chat_with_file"]["question_prompt"] = chat_with_file_question_prompt
+            chat_with_file_local_max_query = self.ui.lineEdit_chat_with_file_local_max_query.text()
+            config_data["chat_with_file"]["local_max_query"] = int(chat_with_file_local_max_query)
 
             audio_synthesis_type = self.ui.comboBox_audio_synthesis_type.currentText()
             if audio_synthesis_type == "Edge-TTS":
@@ -847,7 +847,7 @@ class AI_VTB(QMainWindow):
         self.ui.groupBox_chatgpt.setVisible(visibility_values[1])
         self.ui.groupBox_claude.setVisible(visibility_values[2])
         self.ui.groupBox_chatglm.setVisible(visibility_values[3])
-        self.ui.groupBox_langchain.setVisible(visibility_values[4])
+        self.ui.groupBox_chat_with_file.setVisible(visibility_values[4])
         self.ui.groupBox_chatterbot.setVisible(visibility_values[5])
         self.ui.groupBox_header.setVisible(visibility_values[6])
 
