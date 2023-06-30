@@ -18,7 +18,6 @@ from utils.common import Common
 from utils.logger import Configure_logger
 
 
-
 class AI_VTB(QMainWindow):
     proxy = None
     # proxy = {
@@ -28,13 +27,14 @@ class AI_VTB(QMainWindow):
 
     # 线程
     my_thread = None
-    
+
     '''
         初始化
     '''
+
     def __init__(self):
         logging.info("程序开始运行")
-        
+
         self.app = QApplication(sys.argv)
         super().__init__()
         self.ui = UI_main.Ui_MainWindow()
@@ -65,15 +65,13 @@ class AI_VTB(QMainWindow):
         # 初始化
         self.init_ui()
 
-
-    # 设置实例 
+    # 设置实例
     def CreateItems(self):
         # 定时器
         self.timer = QTimer(self)
         self.eventLoop = QEventLoop(self)
 
         # self.timer_connection = None
-    
 
     # 读取配置文件 进行初始化(开始堆shi喵)
     def init_config(self):
@@ -84,19 +82,18 @@ class AI_VTB(QMainWindow):
             logging.error("配置文件不存在！！！请恢复")
             self.show_message_box("错误", f"配置文件不存在！！！请恢复", QMessageBox.Critical)
             exit(0)
-            
 
         config = Config(config_path)
 
         try:
-            
+
             # 设置会话初始值
             self.session_config = {'msg': [{"role": "system", "content": config.get('chatgpt', 'preset')}]}
             self.sessions = {}
             self.current_key_index = 0
 
             self.platform = config.get("platform")
-            
+
             # 直播间号
             self.room_id = config.get("room_display_id")
 
@@ -126,7 +123,6 @@ class AI_VTB(QMainWindow):
             self.chat_with_file_config = config.get("chat_with_file")
             # chatglm
             self.chatglm_config = config.get("chatglm")
-            
 
             # 音频合成使用技术
             self.audio_synthesis_type = config.get("audio_synthesis_type")
@@ -134,7 +130,7 @@ class AI_VTB(QMainWindow):
             self.edge_tts_config = config.get("edge-tts")
             self.vits_config = config.get("vits")
             self.elevenlabs_config = config.get("elevenlabs")
-            
+
             self.sd_config = config.get("sd")
 
             self.header_config = config.get("header")
@@ -143,13 +139,15 @@ class AI_VTB(QMainWindow):
                 配置Label提示
             """
             # 设置鼠标悬停时的提示文本
-            self.ui.label_platform.setToolTip("运行的平台版本")  
-            self.ui.label_room_display_id.setToolTip("待监听的直播间的房间号（直播间URL最后一个/后的数字和字母），需要是开播状态")
+            self.ui.label_platform.setToolTip("运行的平台版本")
+            self.ui.label_room_display_id.setToolTip(
+                "待监听的直播间的房间号（直播间URL最后一个/后的数字和字母），需要是开播状态")
             self.ui.label_chat_type.setToolTip("弹幕对接的聊天类型")
             self.ui.label_need_lang.setToolTip("只回复选中语言的弹幕，其他语言将被过滤")
             self.ui.label_before_prompt.setToolTip("提示词前缀，会自带追加在弹幕前，主要用于追加一些特殊的限制")
             self.ui.label_after_prompt.setToolTip("提示词后缀，会自带追加在弹幕后，主要用于追加一些特殊的限制")
-            self.ui.label_commit_log_type.setToolTip("弹幕日志类型，用于记录弹幕触发时记录的内容，默认只记录回答，降低当用户使用弹幕日志显示在直播间时，因为用户的不良弹幕造成直播间被封禁问题")
+            self.ui.label_commit_log_type.setToolTip(
+                "弹幕日志类型，用于记录弹幕触发时记录的内容，默认只记录回答，降低当用户使用弹幕日志显示在直播间时，因为用户的不良弹幕造成直播间被封禁问题")
 
             self.ui.label_filter_before_must_str.setToolTip("本地违禁词数据路径（你如果不需要，可以清空文件内容）")
             self.ui.label_filter_after_must_str.setToolTip("本地违禁词数据路径（你如果不需要，可以清空文件内容）")
@@ -165,45 +163,59 @@ class AI_VTB(QMainWindow):
             self.ui.label_openai_api.setToolTip("API请求地址，支持代理")
             self.ui.label_openai_api_key.setToolTip("API KEY，支持代理")
             self.ui.label_chatgpt_model.setToolTip("指定要使用的模型，可以去官方API文档查看模型列表")
-            self.ui.label_chatgpt_temperature.setToolTip("控制生成文本的随机性。较高的温度值会使生成的文本更随机和多样化，而较低的温度值会使生成的文本更加确定和一致。")
+            self.ui.label_chatgpt_temperature.setToolTip(
+                "控制生成文本的随机性。较高的温度值会使生成的文本更随机和多样化，而较低的温度值会使生成的文本更加确定和一致。")
             self.ui.label_chatgpt_max_tokens.setToolTip("限制生成回答的最大长度。")
-            self.ui.label_chatgpt_top_p.setToolTip("也被称为 Nucleus采样。这个参数控制模型从累积概率大于一定阈值的令牌中进行采样。较高的值会产生更多的多样性，较低的值会产生更少但更确定的回答。")
-            self.ui.label_chatgpt_presence_penalty.setToolTip("控制模型生成回答时对给定问题提示的关注程度。较高的存在惩罚值会减少模型对给定提示的重复程度，鼓励模型更自主地生成回答。")
-            self.ui.label_chatgpt_frequency_penalty.setToolTip("控制生成回答时对已经出现过的令牌的惩罚程度。较高的频率惩罚值会减少模型生成已经频繁出现的令牌，以避免重复和过度使用特定词语。")
+            self.ui.label_chatgpt_top_p.setToolTip(
+                "也被称为 Nucleus采样。这个参数控制模型从累积概率大于一定阈值的令牌中进行采样。较高的值会产生更多的多样性，较低的值会产生更少但更确定的回答。")
+            self.ui.label_chatgpt_presence_penalty.setToolTip(
+                "控制模型生成回答时对给定问题提示的关注程度。较高的存在惩罚值会减少模型对给定提示的重复程度，鼓励模型更自主地生成回答。")
+            self.ui.label_chatgpt_frequency_penalty.setToolTip(
+                "控制生成回答时对已经出现过的令牌的惩罚程度。较高的频率惩罚值会减少模型生成已经频繁出现的令牌，以避免重复和过度使用特定词语。")
             self.ui.label_chatgpt_preset.setToolTip("用于指定一组预定义的设置，以便模型更好地适应特定的对话场景。")
 
             self.ui.label_claude_slack_user_token.setToolTip("Slack平台配置的用户Token，参考文档的Claude板块进行配置")
-            self.ui.label_claude_bot_user_id.setToolTip("Slack平台添加的Claude显示的成员ID，参考文档的Claude板块进行配置")
+            self.ui.label_claude_bot_user_id.setToolTip(
+                "Slack平台添加的Claude显示的成员ID，参考文档的Claude板块进行配置")
 
             self.ui.label_chatglm_api_ip_port.setToolTip("ChatGLM的API版本运行后的服务链接（需要完整的URL）")
             self.ui.label_chatglm_max_length.setToolTip("生成回答的最大长度限制，以令牌数或字符数为单位。")
             self.ui.label_chatglm_top_p.setToolTip("也称为 Nucleus采样。控制模型生成时选择概率的阈值范围。")
-            self.ui.label_chatglm_temperature.setToolTip("温度参数，控制生成文本的随机性。较高的温度值会产生更多的随机性和多样性。")
-            
+            self.ui.label_chatglm_temperature.setToolTip(
+                "温度参数，控制生成文本的随机性。较高的温度值会产生更多的随机性和多样性。")
+
             self.ui.label_chat_with_file_chat_mode.setToolTip("本地向量数据库模式")
-            self.ui.label_chat_with_file_data_path.setToolTip("加载的本地pdf数据文件路径（到x.pdf）, 如：./data/伊卡洛斯百度百科.pdf")
+            self.ui.label_chat_with_file_data_path.setToolTip(
+                "加载的本地pdf数据文件路径（到x.pdf）, 如：./data/伊卡洛斯百度百科.pdf")
             self.ui.label_chat_with_file_separator.setToolTip("拆分文本的分隔符，这里使用 换行符 作为分隔符。")
-            self.ui.label_chat_with_file_chunk_size.setToolTip("每个文本块的最大字符数(文本块字符越多，消耗token越多，回复越详细)")
-            self.ui.label_chat_with_file_chunk_overlap.setToolTip("两个相邻文本块之间的重叠字符数。这种重叠可以帮助保持文本的连贯性，特别是当文本被用于训练语言模型或其他需要上下文信息的机器学习模型时")
+            self.ui.label_chat_with_file_chunk_size.setToolTip(
+                "每个文本块的最大字符数(文本块字符越多，消耗token越多，回复越详细)")
+            self.ui.label_chat_with_file_chunk_overlap.setToolTip(
+                "两个相邻文本块之间的重叠字符数。这种重叠可以帮助保持文本的连贯性，特别是当文本被用于训练语言模型或其他需要上下文信息的机器学习模型时")
             self.ui.label_chat_with_file_local_vector_embedding_model.setToolTip("指定要使用的OpenAI模型名称")
             self.ui.label_chat_with_file_chain_type.setToolTip("指定要生成的语言链的类型，例如：stuff")
-            self.ui.label_chat_with_file_show_token_cost.setToolTip("表示是否显示生成文本的成本。如果启用，将在终端中显示成本信息。")
-            self.ui.label_chat_with_file_question_prompt.setToolTip("通过LLM总结本地向量数据库输出内容，此处填写总结用提示词")
+            self.ui.label_chat_with_file_show_token_cost.setToolTip(
+                "表示是否显示生成文本的成本。如果启用，将在终端中显示成本信息。")
+            self.ui.label_chat_with_file_question_prompt.setToolTip(
+                "通过LLM总结本地向量数据库输出内容，此处填写总结用提示词")
             self.ui.label_chat_with_file_local_max_query.setToolTip("最大查询数据库次数。限制次数有助于节省token")
 
             self.ui.label_chatterbot_name.setToolTip("机器人名称")
             self.ui.label_chatterbot_db_path.setToolTip("数据库路径")
 
             self.ui.label_edge_tts_voice.setToolTip("选定的说话人(cmd执行：edge-tts -l 可以查看所有支持的说话人)")
-            self.ui.label_edge_tts_rate.setToolTip("语速增益 默认是 +0%，可以增减，注意 + - %符合别搞没了，不然会影响语音合成")
-            self.ui.label_edge_tts_volume.setToolTip("音量增益 默认是 +0%，可以增减，注意 + - %符合别搞没了，不然会影响语音合成")
+            self.ui.label_edge_tts_rate.setToolTip(
+                "语速增益 默认是 +0%，可以增减，注意 + - %符合别搞没了，不然会影响语音合成")
+            self.ui.label_edge_tts_volume.setToolTip(
+                "音量增益 默认是 +0%，可以增减，注意 + - %符合别搞没了，不然会影响语音合成")
 
             self.ui.label_vits_config_path.setToolTip("配置文件的路径，例如：E:\\inference\\finetune_speaker.json")
             self.ui.label_vits_api_ip_port.setToolTip("推理服务运行的链接（需要完整的URL）")
             self.ui.label_vits_character.setToolTip("选择的说话人，配置文件中的speaker中的其中一个")
             self.ui.label_vits_speed.setToolTip("语速，默认为1")
 
-            self.ui.label_elevenlabs_api_key.setToolTip("elevenlabs密钥，可以不填，默认也有一定额度的免费使用权限，具体多少不知道")
+            self.ui.label_elevenlabs_api_key.setToolTip(
+                "elevenlabs密钥，可以不填，默认也有一定额度的免费使用权限，具体多少不知道")
             self.ui.label_elevenlabs_voice.setToolTip("选择的说话人名")
             self.ui.label_elevenlabs_model.setToolTip("选择的模型")
 
@@ -213,8 +225,10 @@ class AI_VTB(QMainWindow):
             self.ui.label_sd_port.setToolTip("服务运行的端口")
             self.ui.label_sd_negative_prompt.setToolTip("负面文本提示，用于指定与生成图像相矛盾或相反的内容")
             self.ui.label_sd_seed.setToolTip("随机种子，用于控制生成过程的随机性。可以设置一个整数值，以获得可重复的结果。")
-            self.ui.label_sd_styles.setToolTip("样式列表，用于指定生成图像的风格。可以包含多个风格，例如 [\"anime\", \"portrait\"]")
-            self.ui.label_sd_cfg_scale.setToolTip("提示词相关性，无分类器指导信息影响尺度(Classifier Free Guidance Scale) -图像应在多大程度上服从提示词-较低的值会产生更有创意的结果。")
+            self.ui.label_sd_styles.setToolTip(
+                "样式列表，用于指定生成图像的风格。可以包含多个风格，例如 [\"anime\", \"portrait\"]")
+            self.ui.label_sd_cfg_scale.setToolTip(
+                "提示词相关性，无分类器指导信息影响尺度(Classifier Free Guidance Scale) -图像应在多大程度上服从提示词-较低的值会产生更有创意的结果。")
             self.ui.label_sd_steps.setToolTip("生成图像的步数，用于控制生成的精确程度。")
             self.ui.label_sd_enable_hr.setToolTip("是否启用高分辨率生成。默认为 False。")
             self.ui.label_sd_hr_scale.setToolTip("高分辨率缩放因子，用于指定生成图像的高分辨率缩放级别。")
@@ -224,7 +238,6 @@ class AI_VTB(QMainWindow):
             self.ui.label_sd_denoising_strength.setToolTip("去噪强度，用于控制生成图像中的噪点。")
 
             self.ui.label_header_useragent.setToolTip("请求头，暂时没有用到，备用")
-
 
             """
                 配置同步UI
@@ -238,21 +251,22 @@ class AI_VTB(QMainWindow):
             elif self.platform == "dy":
                 platform_index = 1
             elif self.platform == "ks":
-                platform_index = 2 
+                platform_index = 2
             self.ui.comboBox_platform.setCurrentIndex(platform_index)
-            
+
             # 修改输入框内容
             self.ui.lineEdit_room_display_id.setText(self.room_id)
-            
+
             self.ui.comboBox_chat_type.clear()
-            self.ui.comboBox_chat_type.addItems(["复读机", "ChatGPT", "Claude", "ChatGLM", "chat_with_file", "Chatterbot"])
+            self.ui.comboBox_chat_type.addItems(
+                ["复读机", "ChatGPT", "Claude", "ChatGLM", "chat_with_file", "Chatterbot"])
             chat_type_index = 0
             if self.chat_type == "none":
                 chat_type_index = 0
             elif self.chat_type == "gpt":
                 chat_type_index = 1
             elif self.chat_type == "claude":
-                chat_type_index = 2 
+                chat_type_index = 2
             elif self.chat_type == "chatglm":
                 chat_type_index = 3
             elif self.chat_type == "chat_with_file":
@@ -260,7 +274,7 @@ class AI_VTB(QMainWindow):
             elif self.chat_type == "chatterbot":
                 chat_type_index = 5
             self.ui.comboBox_chat_type.setCurrentIndex(chat_type_index)
-            
+
             self.ui.comboBox_need_lang.clear()
             self.ui.comboBox_need_lang.addItems(["所有", "中文", "英文", "日文"])
             need_lang_index = 0
@@ -324,14 +338,15 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_chatglm_temperature.setText(str(self.chatglm_config['temperature']))
 
             self.ui.lineEdit_chat_with_file_chat_mode.setText(self.chat_with_file_config['chat_mode'])
-            self.ui.lineEdit_chat_with_file_local_vector_embedding_model.setText(self.chat_with_file_config['local_vector_embedding_model'])
+            self.ui.lineEdit_chat_with_file_local_vector_embedding_model.setText(
+                self.chat_with_file_config['local_vector_embedding_model'])
             self.ui.lineEdit_chat_with_file_data_path.setText(self.chat_with_file_config['data_path'])
             self.ui.lineEdit_chat_with_file_separator.setText(self.chat_with_file_config['separator'])
             self.ui.lineEdit_chat_with_file_chunk_size.setText(str(self.chat_with_file_config['chunk_size']))
             self.ui.lineEdit_chat_with_file_chunk_overlap.setText(str(self.chat_with_file_config['chunk_overlap']))
             self.ui.lineEdit_chat_with_file_question_prompt.setText(str(self.chat_with_file_config['question_prompt']))
             self.ui.lineEdit_chat_with_file_local_max_query.setText(str(self.chat_with_file_config['local_max_query']))
-            
+
             self.ui.lineEdit_chat_with_file_chain_type.setText(self.chat_with_file_config['chain_type'])
             if self.chat_with_file_config['show_token_cost']:
                 self.ui.checkBox_chat_with_file_show_token_cost.setChecked(True)
@@ -347,7 +362,7 @@ class AI_VTB(QMainWindow):
             elif self.audio_synthesis_type == "vits":
                 audio_synthesis_type_index = 1
             elif self.audio_synthesis_type == "elevenlabs":
-                audio_synthesis_type_index = 2 
+                audio_synthesis_type_index = 2
             self.ui.comboBox_audio_synthesis_type.setCurrentIndex(audio_synthesis_type_index)
 
             self.ui.lineEdit_vits_config_path.setText(self.vits_config['config_path'])
@@ -394,7 +409,7 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_sd_hr_scale.setText(str(self.sd_config['hr_scale']))
             self.ui.lineEdit_sd_hr_second_pass_steps.setText(str(self.sd_config['hr_second_pass_steps']))
             self.ui.lineEdit_sd_denoising_strength.setText(str(self.sd_config['denoising_strength']))
-            
+
             # 显隐各板块
             self.oncomboBox_chat_type_IndexChanged(chat_type_index)
             self.oncomboBox_audio_synthesis_type_IndexChanged(audio_synthesis_type_index)
@@ -403,8 +418,7 @@ class AI_VTB(QMainWindow):
         except Exception as e:
             logging.info(e)
             return None
-    
-    
+
     # ui初始化
     def init_ui(self):
         # 统一设置下样式先
@@ -433,7 +447,6 @@ class AI_VTB(QMainWindow):
         for textEdit in textEdits:
             textEdit.setStyleSheet(common_css)
             textEdit.setFont(font)
-        
 
         self.show()
 
@@ -451,8 +464,10 @@ class AI_VTB(QMainWindow):
 
         self.ui.comboBox_chat_type.disconnect()
         self.ui.comboBox_audio_synthesis_type.disconnect()
-        self.ui.comboBox_chat_type.currentIndexChanged.connect(lambda index: self.oncomboBox_chat_type_IndexChanged(index))
-        self.ui.comboBox_audio_synthesis_type.currentIndexChanged.connect(lambda index: self.oncomboBox_audio_synthesis_type_IndexChanged(index))
+        self.ui.comboBox_chat_type.currentIndexChanged.connect(
+            lambda index: self.oncomboBox_chat_type_IndexChanged(index))
+        self.ui.comboBox_audio_synthesis_type.currentIndexChanged.connect(
+            lambda index: self.oncomboBox_audio_synthesis_type_IndexChanged(index))
 
         self.ui.action_official_store.triggered.connect(self.openBrowser)
 
@@ -463,11 +478,10 @@ class AI_VTB(QMainWindow):
         self.throttled_config_page = self.throttle(self.config_page, 0.5)
         self.throttled_run_page = self.throttle(self.run_page, 0.5)
 
-
-
     '''
         按钮相关的函数
     '''
+
     # 保存喵(开始堆shi喵)
     def save(self):
         global config, config_path
@@ -496,7 +510,7 @@ class AI_VTB(QMainWindow):
                 self.show_message_box("错误", "直播间号只由字母或数字组成，请勿输入错误内容", QMessageBox.Critical)
                 return False
             config_data["room_display_id"] = room_display_id
-                
+
             chat_type = self.ui.comboBox_chat_type.currentText()
             logging.info(chat_type)
             if chat_type == "复读机":
@@ -536,12 +550,14 @@ class AI_VTB(QMainWindow):
             separators = [" ", "\n"]
 
             filter_before_must_str = self.ui.textEdit_filter_before_must_str.toPlainText()
-            before_must_strs = [token.strip() for separator in separators for part in filter_before_must_str.split(separator) if (token := part.strip())]
+            before_must_strs = [token.strip() for separator in separators for part in
+                                filter_before_must_str.split(separator) if (token := part.strip())]
             if 0 != len(before_must_strs):
                 before_must_strs = before_must_strs[1:]
             config_data["filter"]["before_must_str"] = before_must_strs
             filter_after_must_str = self.ui.textEdit_filter_after_must_str.toPlainText()
-            after_must_strs = [token.strip() for separator in separators for part in filter_after_must_str.split(separator) if (token := part.strip())]
+            after_must_strs = [token.strip() for separator in separators for part in
+                               filter_after_must_str.split(separator) if (token := part.strip())]
             if 0 != len(after_must_strs):
                 after_must_strs = after_must_strs[1:]
             config_data["filter"]["after_must_str"] = after_must_strs
@@ -561,7 +577,8 @@ class AI_VTB(QMainWindow):
             config_data["openai"]["api"] = openai_api
             # 获取多行文本输入框的内容
             openai_api_key = self.ui.textEdit_openai_api_key.toPlainText()
-            api_keys = [token.strip() for separator in separators for part in openai_api_key.split(separator) if (token := part.strip())]
+            api_keys = [token.strip() for separator in separators for part in openai_api_key.split(separator) if
+                        (token := part.strip())]
             if 0 != len(api_keys):
                 api_keys = api_keys[1:]
             config_data["openai"]["api_key"] = api_keys
@@ -669,7 +686,8 @@ class AI_VTB(QMainWindow):
             config_data["sd"]["seed"] = float(sd_seed)
             # 获取多行文本输入框的内容
             sd_styles = self.ui.textEdit_sd_styles.toPlainText()
-            styles = [token.strip() for separator in separators for part in sd_styles.split(separator) if (token := part.strip())]
+            styles = [token.strip() for separator in separators for part in sd_styles.split(separator) if
+                      (token := part.strip())]
             if 0 != len(styles):
                 styles = styles[1:]
             config_data["sd"]["styles"] = styles
@@ -692,7 +710,6 @@ class AI_VTB(QMainWindow):
 
             header_useragent = self.ui.lineEdit_header_useragent.text()
             config_data["header"]["userAgent"] = header_useragent
-            
 
             # logging.info(config_data)
         except Exception as e:
@@ -716,7 +733,6 @@ class AI_VTB(QMainWindow):
             self.show_message_box("错误", f"无法写入配置文件！\n{e}", QMessageBox.Critical)
             return False
 
-
     # 恢复出厂配置
     def factory(self):
         result = QMessageBox.question(
@@ -739,7 +755,6 @@ class AI_VTB(QMainWindow):
 
         # 重载下配置
         self.init_config()
-
 
     # 运行
     def run(self):
@@ -782,16 +797,13 @@ class AI_VTB(QMainWindow):
         # 启动定时器，延迟  秒后触发函数执行
         QTimer.singleShot(100, delayed_run)
 
-
     # 切换至配置页面
     def config_page(self):
         self.ui.stackedWidget.setCurrentIndex(0)
 
-
     # 切换至运行页面
     def run_page(self):
         self.ui.stackedWidget.setCurrentIndex(1)
-
 
     # 保存配置
     def on_pushButton_save_clicked(self):
@@ -805,29 +817,26 @@ class AI_VTB(QMainWindow):
     def on_pushButton_run_clicked(self):
         self.throttled_run()
 
-
     # 切换至配置页面
     def on_pushButton_config_page_clicked(self):
         self.throttled_config_page()
 
-    
     # 切换至运行页面
     def on_pushButton_run_page_clicked(self):
         self.throttled_run_page()
 
-
-
     '''
         餐单栏相关的函数
     '''
+
     def openBrowser(self):
         url = QUrl("https://github.com/Ikaros-521/AI-Vtuber")  # 指定要打开的网页地址
         QDesktopServices.openUrl(url)
 
-
     '''
         UI操作的函数
     '''
+
     # 聊天类型改变 加载显隐不同groupBox
     def oncomboBox_chat_type_IndexChanged(self, index):
         # 各index对应的groupbox的显隐值
@@ -851,7 +860,6 @@ class AI_VTB(QMainWindow):
         self.ui.groupBox_chatterbot.setVisible(visibility_values[5])
         self.ui.groupBox_header.setVisible(visibility_values[6])
 
-    
     # 语音合成类型改变 加载显隐不同groupBox
     def oncomboBox_audio_synthesis_type_IndexChanged(self, index):
         # 各index对应的groupbox的显隐值
@@ -867,7 +875,6 @@ class AI_VTB(QMainWindow):
         self.ui.groupBox_vits_fast.setVisible(visibility_values[1])
         self.ui.groupBox_elevenlabs.setVisible(visibility_values[2])
 
-
     # 输出文本到运行页的textbrowser
     # def output_to_textbrowser(self, content):
     #     max_content_len = 10000
@@ -877,7 +884,6 @@ class AI_VTB(QMainWindow):
     #         text = text[-max_content_len:]  # 保留最后一万个字符，截断超出部分
     #     self.ui.textBrowser.setText(text)
 
-    
     # def update_textbrowser(self, output_text):
     #     cursor = self.ui.textBrowser.textCursor()
     #     cursor.movePosition(QTextCursor.End)
@@ -885,7 +891,6 @@ class AI_VTB(QMainWindow):
     #     self.ui.textBrowser.setTextCursor(cursor)
     #     self.ui.textBrowser.ensureCursorVisible()
 
-    
     # 获取一个文件最后num_lines行数据
     def load_last_lines(self, file_path, num_lines=1000):
         lines = []
@@ -900,7 +905,6 @@ class AI_VTB(QMainWindow):
         last_lines.reverse()
 
         return last_lines
-
 
     # 清空text_browser，显示文件内的数据
     def update_text_browser(self):
@@ -935,21 +939,19 @@ class AI_VTB(QMainWindow):
         if not has_selection:
             self.ui.textBrowser.verticalScrollBar().setValue(scroll_position)
 
-
     '''
         通用的函数
     '''
+
     def restart_application(self):
         QApplication.exit()  # Exit the current application instance
         python = sys.executable
         os.execl(python, python, *sys.argv)  # Start a new instance of the application
 
-
     # 字符串是否只由字母或数字组成
     def is_alpha_numeric(self, string):
         pattern = r'^[a-zA-Z0-9]+$'
         return re.match(pattern, string) is not None
-
 
     # 显示提示弹窗框,自动关闭时间（单位：毫秒）
     def show_message_box(self, title, text, icon=QMessageBox.Information, timeout_ms=60 * 1000):
@@ -965,11 +967,11 @@ class AI_VTB(QMainWindow):
 
         msg_box.exec_()
 
-
     # 套娃运行喵（会卡死）
     def run_external_command(self):
         module = importlib.import_module(self.platform)
-        process = subprocess.Popen([sys.executable, '-c', 'import {}'.format(module.__name__)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        process = subprocess.Popen([sys.executable, '-c', 'import {}'.format(module.__name__)], stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE)
         output, _ = process.communicate()
         output_text = output.decode("utf-8")  # 将字节流解码为字符串
         self.output_to_textbrowser(output_text)
@@ -977,7 +979,6 @@ class AI_VTB(QMainWindow):
         # 调用 start_server() 并将输出追加到 textbrowser
         start_server_output = module.start_server()  # 调用 start_server() 函数并获取输出
         output_text += start_server_output
-        
 
     # 节流函数，单位时间内只执行一次函数
     def throttle(self, func, delay):
@@ -990,10 +991,11 @@ class AI_VTB(QMainWindow):
                 last_executed = current_time
                 func(*args, **kwargs)
 
-        return throttled   
-    
+        return throttled
 
-# 执行额外命令的线程
+    # 执行额外命令的线程
+
+
 class ExternalCommandThread(QThread):
     output_ready = pyqtSignal(str)
 
@@ -1006,11 +1008,12 @@ class ExternalCommandThread(QThread):
             # 处理没有传递 platform 的情况
             self.output_ready.emit("没有传入platform，取名为寄！")
             return
-        
+
         logging.debug(f"platform={self.platform}")
 
         module = importlib.import_module(self.platform)
-        process = subprocess.Popen([sys.executable, '-c', 'import {}'.format(module.__name__)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        process = subprocess.Popen([sys.executable, '-c', 'import {}'.format(module.__name__)], stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE)
         output, _ = process.communicate()
         # logging.debug(output)
         # output_text = output.decode("utf-8")  # 将字节流解码为字符串
@@ -1028,7 +1031,6 @@ class WebServerThread(QThread):
             logging.info(f"Web运行在端口：{web_server_port}")
             logging.info(f"可以直接访问Live2D页， http://127.0.0.1:{web_server_port}/Live2D/")
             httpd.serve_forever()
-
 
 
 # 程序入口
@@ -1054,7 +1056,7 @@ if __name__ == '__main__':
     audio_out_dir = os.path.join(file_relative_path, 'out')
     if not os.path.exists(audio_out_dir):
         os.makedirs(audio_out_dir)
-        
+
     # # 创建配置文件夹
     # config_dir = os.path.join(file_relative_path, 'config')
     # if not os.path.exists(config_dir):
@@ -1123,7 +1125,6 @@ if __name__ == '__main__':
     logging.addHandler(fh)
     logging.addHandler(ch)
     '''
-
 
     logging.debug("配置文件路径=" + str(config_path))
 
