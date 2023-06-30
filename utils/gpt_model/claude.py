@@ -20,7 +20,7 @@ class Claude:
         file_path = "./log/log-" + self.common.get_bj_time(1) + ".txt"
         Configure_logger(file_path)
 
-        if (data["slack_user_token"] == "" or data["bot_user_id"] == ""):
+        if data["slack_user_token"] == "" or data["bot_user_id"] == "":
             logging.info("Claude slack_user_token or bot_user_id 为空，不进行实例化.")
             return None
 
