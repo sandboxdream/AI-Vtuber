@@ -20,7 +20,7 @@ class Openai_mode(Chat_model):
     docsearch = None
     chain = None
 
-    def __init__(self, data, chat_type="langchain_pdf"):
+    def __init__(self, data):
         # 配置信息
         super(Openai_mode, self).__init__(data)
 
@@ -66,7 +66,7 @@ class Openai_mode(Chat_model):
         embeddings = OpenAIEmbeddings(openai_api_key=self.openai_api_key)
         self.docsearch = FAISS.from_texts(texts, embeddings)
 
-        if chat_type == "langchain_pdf+gpt":
+        if self.chat_mode == "openai_gpt":
             # 使用以下上下文来回答最后的问题。如果你不知道答案，就说你不知道或者你在文章中找不到答案，不要试图编造答案。
             prompt_template = """Use the following pieces of context to answer the question at the end. If you don't know the answer, just say that you don't know or you can't find the answer in the article, don't try to make up an answer.
 
