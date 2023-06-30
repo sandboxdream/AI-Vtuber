@@ -58,7 +58,6 @@ python：3.10.11
 各个版本的依赖的库在 requirements_xx.txt 中，请自行安装。  
 
 依赖版本参考`requirements_common.txt`  
-(`chat_with_file`有一些依赖会拉模型文件，所以暂不合入整合包，需求的请自行安装)  
 
 安装命令参考（注意文件命名，对应各个版本）：  
 ```
@@ -366,6 +365,7 @@ ps:依赖[golang](https://go.dev/dl/)环境，还没有的话，手动补一补[
 `venv\python.exe -m pip install spacy SQLAlchemy==1.3.24 -i https://pypi.tuna.tsinghua.edu.cn/simple`  
 前提是你在当前目录下有clone chatterbot的项目（自行调整路径关系）  
 `venv\python.exe setup.py install`  
+5、修改`audio.py`中`edge-tts`的调用实现。`venv\python.exe venv\Scripts\edge-tts.exe`  
 
 
 ## FAQ 常问问题
@@ -495,9 +495,6 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 
 总的来说，ChatterBot 是一个非常强大、灵活、易用的聊天机器人框架，帮助开发者快速搭建出个性化、定制化的聊天机器人，从而提升用户体验和服务质量。  
 
-### langchain_pdf_local 向量数据库解析
-如果本地电脑的配置太低，可以使用 [faiss_text2vec.ipynb](https://drive.google.com/file/d/1rbt2Yv7_pC1cmuODwmR2-1_cxFBFOfn8/view?usp=sharing) 云端解析向量数据库，拷贝回本地后再使用即可
-- author: [HildaM/text2vec_colab](https://github.com/HildaM/text2vec_colab)
 
 ### Live2D
 源自：[CyberWaifu](https://github.com/jieran233/CyberWaifu)  
@@ -569,7 +566,6 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 - bilibili-api-python需要升级至15.5.1，更加稳定
 - GUI改langchain为chat_with_file
 - 正式合入主线
-- 补上遗漏的依赖，部分需要用户使用时自行安装补
 
 </details>
 

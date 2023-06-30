@@ -19,4 +19,3 @@ requests
 webuiapi
 pyvirtualcam
 numpy
-pypdf

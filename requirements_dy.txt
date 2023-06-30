@@ -20,4 +20,3 @@ pyahocorasick
 webuiapi
 pyvirtualcam
 numpy
-pypdf

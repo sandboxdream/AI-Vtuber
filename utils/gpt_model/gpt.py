@@ -16,7 +16,7 @@ from utils.gpt_model.claude import Claude
 
 class GPT_Model:
     # 模型配置信息
-    openai = None   # 只有openai是config配置，其他均是实例
+    openai = None  # 只有openai是config配置，其他均是实例
     chatgpt = None
     claude = None
     chatglm = None
@@ -60,6 +60,7 @@ class GPT_Model:
             logging.warning("openai的model为空，将设置为默认gpt-3.5")
             return "gpt-3.5-turbo-0301"
         return self.openai["model"]
+
 
 # 全局变量
 GPT_MODEL = GPT_Model()
