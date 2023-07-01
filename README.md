@@ -509,9 +509,16 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 [stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui)
 
 ## 待办事项
-- 懒人包的制作
+- 懒人包优化
 - 快手平台的重新兼容
+- 其他直播平台的适配
 - live2d的嘴型匹配
+- 接入更多的2/3D模型软件
+- so-vits-svc接入
+- 本机语音直接交流模式
+- 网友提案：vtuber studio的虚拟摄像头导入直播姬直播间并通过音量驱动模型动作和口型，但是在这个过程中语音输出是扬声器，声音输出的时候输入口的麦克风无法同时采集音量来驱动口型和模型动作，这个时候需要用一个软件叫voicemeeter来搭建虚拟声源输入口，把扬声器的输出声音输入到虚拟麦克风中，再在vtuber studio中调用虚拟麦克风的音量幅度和频率来驱动其中的live2d模型（选择voicevolumeinputplus输入，输出选择mouthopen（就是调节mouth的y轴就行）
+- 本地的用户拉黑机制
+- 礼物互动机制（跳舞，唱歌）
 
 ## 📝 更新日志
 
