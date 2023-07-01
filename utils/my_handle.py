@@ -76,8 +76,7 @@ class My_handle():
         GPT_MODEL.set_model_config("chatglm", self.chatglm_config)
 
         # 聊天相关类实例化
-        if self.chat_type == "gpt":
-            # TODO 此处需要将“gpt”修改为“chatgpt”，需要让I佬在前端同步修改
+        if self.chat_type == "chatgpt":
             self.chatgpt = GPT_MODEL.get("chatgpt")
 
         elif self.chat_type == "claude":
@@ -259,7 +258,7 @@ class My_handle():
             return
 
         # 根据聊天类型执行不同逻辑
-        if self.chat_type == "gpt":
+        if self.chat_type == "chatgpt":
             content = self.before_prompt + content + self.after_prompt
             # 调用gpt接口，获取返回内容
             resp_content = self.chatgpt.get_gpt_resp(user_name, content)
@@ -268,7 +267,7 @@ class My_handle():
                 logging.info(f"[AI回复{user_name}]：{resp_content}")
             else:
                 resp_content = ""
-                logging.info("警告：gpt无返回")
+                logging.info("警告：chatgpt无返回")
         elif self.chat_type == "claude":
             content = self.before_prompt + content + self.after_prompt
             resp_content = self.claude.get_claude_resp(content)

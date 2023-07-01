@@ -21,7 +21,7 @@ _✨ AI Vtuber ✨_
 
 </div>
 
-AI Vtuber是一个由`ChatterBot/GPT/Claude/langchain_pdf+gpt/chatglm/langchain_pdf_local`驱动的虚拟主播（Live2D），可以在`Bilibili/抖音/快手`直播中与观众实时互动。它使用自然语言处理和文本转语音技术(`Edge-TTS/VITS-Fast/elevenlabs`)生成对观众问题的回答；通过特定指令协同`Stable Diffusion`进行画图展示。
+AI Vtuber是一个由`ChatterBot/GPT/Claude/langchain本地or云端/chatglm`驱动的虚拟主播（Live2D），可以在`Bilibili/抖音/快手`直播中与观众实时互动。它使用自然语言处理和文本转语音技术(`Edge-TTS/VITS-Fast/elevenlabs`)生成对观众问题的回答；通过特定指令协同`Stable Diffusion`进行画图展示。
 
 
 ## 📖项目结构
@@ -70,18 +70,18 @@ pip install -r requirements_ks.txt
 
 ## 🔧配置
 
-配置都在`config.json`  
+GUI程序运行后会自动加载配置文件，可以通过GUI程序进行配置修改，也可以手动修改配置运行。配置都在`config.json`  
 ```
 {
   // 你的直播间号,兼容全平台，都是直播间页面的链接中最后的数字和字母。例如:123
   "room_display_id": "你的直播间号",
-  // 选用的聊天类型：chatterbot/gpt/claude/langchain_pdf/langchain_pdf+gpt/chatglm/langchain_pdf_local/none 其中none就是复读机模式
+  // 选用的聊天类型：chatterbot/chatgpt/claude/chat_with_file/chatglm/none 其中none就是复读机模式
   "chat_type": "none",
   // 弹幕语言筛选，none就是全部语言，en英文，jp日文，zh中文
   "need_lang": "none",
-  // 请求gpt/claude时，携带的字符串头部，用于给每个对话追加固定限制
+  // 请求chatgpt/claude时，携带的字符串头部，用于给每个对话追加固定限制
   "before_prompt": "请简要回复:",
-  // 请求gpt/claude时，携带的字符串尾部
+  // 请求chatgpt/claude时，携带的字符串尾部
   "after_prompt": "",
   // 弹幕日志类型，用于记录弹幕触发时记录的内容，默认只记录回答，降低当用户使用弹幕日志显示在直播间时，因为用户的不良弹幕造成直播间被封禁问题
   "commit_log_type": "回答",
@@ -294,7 +294,8 @@ chat_with_file 目前支持以下模式，在相关配置下的 chat_mode 进行
 pip install -r requirements_bilibili.txt
 ```
 
-运行 `python main.py`  
+运行GUI `python main.py`  
+单独运行 `python bilibili.py`  
 
 ### 抖音版
 
@@ -305,7 +306,8 @@ pip install -r requirements_dy.txt
 
 先安装第三方弹幕捕获软件，参考[补充-抖音](#dy)
 
-运行 `python main.py`  
+运行GUI `python main.py`  
+单独运行 `python dy.py`  
 
 ### 抖音版_旧版（不稳定）
 
@@ -371,6 +373,8 @@ ps:依赖[golang](https://go.dev/dl/)环境，还没有的话，手动补一补[
 ## FAQ 常问问题
 
 ### 部署过程问题
+<details>
+<summary>展开/收起</summary>
 
 #### 1.CondaSSLError: OpenSSL appears to be unavailable on this machine
 本地已经有`Anaconda`环境，在执行 半自动包的`1.创建虚拟环境.bat`时，出现报错`CondaSSLError: OpenSSL appears to be unavailable on this machine `
@@ -445,9 +449,11 @@ ModuleNotFoundError: No module named 'ahocorasick'
 
 解决方案：手动补装`pyahocorasick`，需要注意，得在`ai_vtb`的虚拟环境中安装， `pip install pyahocorasick`  
 ![9WYG0P%K6 ZMERSE8K9TI5R](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/b58927ac-c9f3-4e25-8b78-ccec09543735)
-
+</details>
 
 ### 使用过程问题
+<details>
+<summary>展开/收起</summary>
 
 #### 1.openai 接口报错:《empty message》
 可能是API KEY过期了/额度没了，请检查API KEY是否可用。  
@@ -455,7 +461,7 @@ ModuleNotFoundError: No module named 'ahocorasick'
 [chatgpt-html](http://ikaros521.eu.org/chatgpt-html/)  
 [ChatGPT-Next-Web](https://chat-gpt-next-web-ikaros-521.vercel.app/)  
 
-
+</details>
 
 
 ## 补充
@@ -566,6 +572,9 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 - bilibili-api-python需要升级至15.5.1，更加稳定
 - GUI改langchain为chat_with_file
 - 正式合入主线
+
+### 2023-07-01
+- 修改chat_mode的gpt为chatgpt，适配调整。
 
 </details>
 
