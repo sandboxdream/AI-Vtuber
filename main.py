@@ -318,7 +318,29 @@ class AI_VTB(QMainWindow):
                 tmp_str = tmp_str + tmp + "\n"
             self.ui.textEdit_openai_api_key.setText(tmp_str)
 
-            self.ui.lineEdit_chatgpt_model.setText(self.chatgpt_config['model'])
+            self.ui.comboBox_chatgpt_model.clear()
+            chatgpt_models = ["gpt-3.5-turbo",
+                "gpt-3.5-turbo-0301",
+                "gpt-3.5-turbo-0613",
+                "gpt-3.5-turbo-16k",
+                "gpt-3.5-turbo-16k-0613",
+                "gpt-4",
+                "gpt-4-0314",
+                "gpt-4-0613",
+                "gpt-4-32k",
+                "gpt-4-32k-0314",
+                "gpt-4-32k-0613",
+                "text-embedding-ada-002",
+                "text-davinci-003",
+                "text-davinci-002",
+                "text-curie-001",
+                "text-babbage-001",
+                "text-ada-001",
+                "text-moderation-latest",
+                "text-moderation-stable"]
+            self.ui.comboBox_chatgpt_model.addItems(chatgpt_models)
+            chatgpt_model_index = chatgpt_models.index(self.chatgpt_config['model'])
+            self.ui.comboBox_chatgpt_model.setCurrentIndex(chatgpt_model_index)
             self.ui.lineEdit_chatgpt_temperature.setText(str(self.chatgpt_config['temperature']))
             self.ui.lineEdit_chatgpt_max_tokens.setText(str(self.chatgpt_config['max_tokens']))
             self.ui.lineEdit_chatgpt_top_p.setText(str(self.chatgpt_config['top_p']))
@@ -334,8 +356,24 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_chatglm_top_p.setText(str(self.chatglm_config['top_p']))
             self.ui.lineEdit_chatglm_temperature.setText(str(self.chatglm_config['temperature']))
 
-            self.ui.lineEdit_chat_with_file_chat_mode.setText(self.chat_with_file_config['chat_mode'])
-            self.ui.lineEdit_chat_with_file_local_vector_embedding_model.setText(self.chat_with_file_config['local_vector_embedding_model'])
+            self.ui.comboBox_chat_with_file_chat_mode.clear()
+            self.ui.comboBox_chat_with_file_chat_mode.addItems(["claude", "openai_gpt", "openai_vector_search"])
+            chat_with_file_chat_mode_index = 0
+            if self.chat_with_file_config['chat_mode'] == "claude":
+                chat_with_file_chat_mode_index = 0
+            elif self.chat_with_file_config['chat_mode'] == "openai_gpt":
+                chat_with_file_chat_mode_index = 1
+            elif self.chat_with_file_config['chat_mode'] == "openai_vector_search":
+                chat_with_file_chat_mode_index = 2
+            self.ui.comboBox_chat_with_file_chat_mode.setCurrentIndex(chat_with_file_chat_mode_index)
+            self.ui.comboBox_chat_with_file_local_vector_embedding_model.clear()
+            self.ui.comboBox_chat_with_file_local_vector_embedding_model.addItems(["sebastian-hofstaetter/distilbert-dot-tas_b-b256-msmarco", "GanymedeNil/text2vec-large-chinese"])
+            chat_with_file_local_vector_embedding_model_index = 0
+            if self.chat_with_file_config['local_vector_embedding_model'] == "sebastian-hofstaetter/distilbert-dot-tas_b-b256-msmarco":
+                chat_with_file_local_vector_embedding_model_index = 0
+            elif self.chat_with_file_config['local_vector_embedding_model'] == "GanymedeNil/text2vec-large-chinese":
+                chat_with_file_local_vector_embedding_model_index = 1
+            self.ui.comboBox_chat_with_file_local_vector_embedding_model.setCurrentIndex(chat_with_file_local_vector_embedding_model_index)
             self.ui.lineEdit_chat_with_file_data_path.setText(self.chat_with_file_config['data_path'])
             self.ui.lineEdit_chat_with_file_separator.setText(self.chat_with_file_config['separator'])
             self.ui.lineEdit_chat_with_file_chunk_size.setText(str(self.chat_with_file_config['chunk_size']))
@@ -588,8 +626,7 @@ class AI_VTB(QMainWindow):
                 api_keys = api_keys[1:]
             config_data["openai"]["api_key"] = api_keys
 
-            chatgpt_model = self.ui.lineEdit_chatgpt_model.text()
-            config_data["chatgpt"]["model"] = chatgpt_model
+            config_data["chatgpt"]["model"] = self.ui.comboBox_chatgpt_model.currentText()
             chatgpt_temperature = self.ui.lineEdit_chatgpt_temperature.text()
             config_data["chatgpt"]["temperature"] = round(float(chatgpt_temperature), 1)
             chatgpt_max_tokens = self.ui.lineEdit_chatgpt_max_tokens.text()
@@ -622,8 +659,7 @@ class AI_VTB(QMainWindow):
             chatglm_temperature = self.ui.lineEdit_chatglm_temperature.text()
             config_data["chatglm"]["temperature"] = round(float(chatglm_temperature), 2)
 
-            chat_with_file_chat_mode = self.ui.lineEdit_chat_with_file_chat_mode.text()
-            config_data["chat_with_file"]["chat_mode"] = chat_with_file_chat_mode
+            config_data["chat_with_file"]["chat_mode"] = self.ui.comboBox_chat_with_file_chat_mode.currentText()
             chat_with_file_data_path = self.ui.lineEdit_chat_with_file_data_path.text()
             config_data["chat_with_file"]["data_path"] = chat_with_file_data_path
             chat_with_file_separator = self.ui.lineEdit_chat_with_file_separator.text()
@@ -632,8 +668,7 @@ class AI_VTB(QMainWindow):
             config_data["chat_with_file"]["chunk_size"] = int(chat_with_file_chunk_size)
             chat_with_file_chunk_overlap = self.ui.lineEdit_chat_with_file_chunk_overlap.text()
             config_data["chat_with_file"]["chunk_overlap"] = int(chat_with_file_chunk_overlap)
-            chat_with_file_local_vector_embedding_model = self.ui.lineEdit_chat_with_file_local_vector_embedding_model.text()
-            config_data["chat_with_file"]["local_vector_embedding_model"] = chat_with_file_local_vector_embedding_model
+            config_data["chat_with_file"]["local_vector_embedding_model"] = self.ui.comboBox_chat_with_file_local_vector_embedding_model.currentText()
             chat_with_file_chain_type = self.ui.lineEdit_chat_with_file_chain_type.text()
             config_data["chat_with_file"]["chain_type"] = chat_with_file_chain_type
             # 获取复选框的选中状态
