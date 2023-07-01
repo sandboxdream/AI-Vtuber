@@ -52,12 +52,12 @@
     "local_max_query": 3,
     "local_vector_embedding_model": "sebastian-hofstaetter/distilbert-dot-tas_b-b256-msmarco"
   },
-  "audio_synthesis_type": "vits",
+  "audio_synthesis_type": "edge-tts",
   "vits": {
-    "config_path": "D:\\GitHub_pro\\VITS-fast-fine-tuning\\inference\\finetune_speaker.json",
+    "config_path": "E:\\GitHub_pro\\VITS-fast-fine-tuning\\inference\\finetune_speaker.json",
     "api_ip_port": "http://127.0.0.1:7860",
     "character": "ikaros",
-    "speed": 1.0
+    "speed": 1
   },
   "edge-tts": {
     "voice": "zh-CN-XiaoyiNeural",
@@ -88,7 +88,7 @@
     "ip": "127.0.0.1",
     "port": 7860,
     "negative_prompt": "ufsw, longbody, lowres, bad anatomy, bad hands, missing fingers, pubic hair,extra digit, fewer digits, cropped, worst quality, low quality",
-    "seed": -1.0,
+    "seed": -1,
     "styles": [],
     "cfg_scale": 7,
     "steps": 30,

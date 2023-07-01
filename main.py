@@ -249,7 +249,7 @@ class AI_VTB(QMainWindow):
             chat_type_index = 0
             if self.chat_type == "none":
                 chat_type_index = 0
-            elif self.chat_type == "gpt":
+            elif self.chat_type == "chatgpt":
                 chat_type_index = 1
             elif self.chat_type == "claude":
                 chat_type_index = 2 
@@ -502,7 +502,7 @@ class AI_VTB(QMainWindow):
             if chat_type == "复读机":
                 config_data["chat_type"] = "none"
             elif chat_type == "ChatGPT":
-                config_data["chat_type"] = "gpt"
+                config_data["chat_type"] = "chatgpt"
             elif chat_type == "Claude":
                 config_data["chat_type"] = "claude"
             elif chat_type == "ChatGLM":
