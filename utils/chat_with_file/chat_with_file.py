@@ -28,7 +28,9 @@ class Chat_with_file:
         match data["chat_mode"]:
             case "claude":
                 self.chat_model = Claude_mode(data)
-            case ("openai_vector_search", "openai_gpt"):
+            case "openai_gpt":
+                self.chat_model = Openai_mode(data)
+            case "openai_vector_search":
                 self.chat_model = Openai_mode(data)
 
     def get_model_resp(self, question):

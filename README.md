@@ -682,6 +682,9 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 - 修改chat_mode的gpt为chatgpt，适配调整。
 - MD增加目录
 - 追加对text-generation-webui的兼容。
+- 修复chat_with_file，openai相关模式下的无法使用的bug。
+- 补充缺失的faiss-cpu依赖。
+- 后置create_faiss_index_from_zip的加载。
 
 </details>
 

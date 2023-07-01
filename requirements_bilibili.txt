@@ -19,3 +19,4 @@ requests
 webuiapi
 pyvirtualcam
 numpy
+faiss-cpu
