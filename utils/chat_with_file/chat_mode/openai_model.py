@@ -20,7 +20,7 @@ class Openai_mode(Chat_model):
     docsearch = None
     chain = None
 
-    def __init__(self, data, chat_type="langchain_pdf"):
+    def __init__(self, data):
         # 配置信息
         super(Openai_mode, self).__init__(data)
 
@@ -63,10 +63,10 @@ class Openai_mode(Chat_model):
         # 创建了一个OpenAIEmbeddings实例，然后使用这个实例将一些文本转化为向量表示（嵌入）。
         # 然后，这些向量被加载到一个FAISS（Facebook AI Similarity Search）索引中，用于进行相似性搜索。
         # 这种索引允许你在大量向量中快速找到与给定向量最相似的向量。
-        embeddings = OpenAIEmbeddings(openai_api_key=self.openai_api_key)
+        embeddings = OpenAIEmbeddings(openai_api_key=self.openai_api_key[0])
         self.docsearch = FAISS.from_texts(texts, embeddings)
 
-        if chat_type == "langchain_pdf+gpt":
+        if self.chat_mode == "openai_gpt":
             # 使用以下上下文来回答最后的问题。如果你不知道答案，就说你不知道或者你在文章中找不到答案，不要试图编造答案。
             prompt_template = """Use the following pieces of context to answer the question at the end. If you don't know the answer, just say that you don't know or you can't find the answer in the article, don't try to make up an answer.
 
@@ -80,7 +80,7 @@ class Openai_mode(Chat_model):
 
             # 创建一个询问-回答链（QA Chain），使用了一个自定义的提示模板
             self.chain = load_qa_chain(
-                ChatOpenAI(model_name=self.openai_model_name, openai_api_key=self.openai_api_key), \
+                ChatOpenAI(model_name=self.openai_model_name, openai_api_key=self.openai_api_key[0]), \
                 chain_type=self.chain_type, prompt=PROMPT)
 
     def get_model_resp(self, content=""):
