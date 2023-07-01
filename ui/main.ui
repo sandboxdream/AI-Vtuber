@@ -42,7 +42,7 @@
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-1982</y>
+             <y>-811</y>
              <width>807</width>
              <height>4031</height>
             </rect>
@@ -384,9 +384,6 @@
                       </property>
                      </widget>
                     </item>
-                    <item row="0" column="1">
-                     <widget class="QLineEdit" name="lineEdit_chatgpt_model"/>
-                    </item>
                     <item row="2" column="0">
                      <widget class="QLabel" name="label_chatgpt_max_tokens">
                       <property name="text">
@@ -443,6 +440,105 @@
                     </item>
                     <item row="6" column="1">
                      <widget class="QLineEdit" name="lineEdit_chatgpt_preset"/>
+                    </item>
+                    <item row="0" column="1">
+                     <widget class="QComboBox" name="comboBox_chatgpt_model">
+                      <item>
+                       <property name="text">
+                        <string>gpt-3.5-turbo</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>gpt-3.5-turbo-0301</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>gpt-3.5-turbo-0613</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>gpt-3.5-turbo-16k</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>gpt-3.5-turbo-16k-0613</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>gpt-4</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>gpt-4-0314</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>gpt-4-0613</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>gpt-4-32k</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>gpt-4-32k-0314</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>gpt-4-32k-0613</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>text-embedding-ada-002</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>text-davinci-003</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>text-davinci-002</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>text-curie-001</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>text-babbage-001</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>text-ada-001</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>text-moderation-latest</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>text-moderation-stable</string>
+                       </property>
+                      </item>
+                     </widget>
                     </item>
                    </layout>
                   </item>
@@ -602,9 +698,6 @@
                  <property name="spacing">
                   <number>6</number>
                  </property>
-                 <item row="0" column="1">
-                  <widget class="QLineEdit" name="lineEdit_chat_with_file_chat_mode"/>
-                 </item>
                  <item row="5" column="1">
                   <widget class="QLineEdit" name="lineEdit_chat_with_file_chunk_overlap"/>
                  </item>
@@ -651,9 +744,6 @@
                     <string>启用</string>
                    </property>
                   </widget>
-                 </item>
-                 <item row="6" column="1">
-                  <widget class="QLineEdit" name="lineEdit_chat_with_file_local_vector_embedding_model"/>
                  </item>
                  <item row="1" column="1">
                   <widget class="QLineEdit" name="lineEdit_chat_with_file_data_path"/>
@@ -708,6 +798,39 @@
                  </item>
                  <item row="9" column="1">
                   <widget class="QLineEdit" name="lineEdit_chat_with_file_local_max_query"/>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QComboBox" name="comboBox_chat_with_file_chat_mode">
+                   <item>
+                    <property name="text">
+                     <string>claude</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>openai_gpt</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>openai_vector_search</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item row="6" column="1">
+                  <widget class="QComboBox" name="comboBox_chat_with_file_local_vector_embedding_model">
+                   <item>
+                    <property name="text">
+                     <string>sebastian-hofstaetter/distilbert-dot-tas_b-b256-msmarco</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>GanymedeNil/text2vec-large-chinese</string>
+                    </property>
+                   </item>
+                  </widget>
                  </item>
                 </layout>
                </item>
