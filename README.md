@@ -66,6 +66,7 @@ AI Vtuber是一个由`ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
   - [Claude](#claude)
   - [ChatGLM](#chatglm)
   - [chat_with_file](#chat_with_file)
+  - [text-generation-webui](#text-generation-webui)
   - [elevenlabs](#elevenlabs)
   - [ChatterBot](#chatterbot)
   - [Live2D](#live2d)
@@ -680,7 +681,7 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 ### 2023-07-01
 - 修改chat_mode的gpt为chatgpt，适配调整。
 - MD增加目录
-- 追加对text-generation-webui的兼容（GUI还未适配）。
+- 追加对text-generation-webui的兼容。
 
 </details>
 

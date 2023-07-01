@@ -126,6 +126,8 @@ class AI_VTB(QMainWindow):
             self.chat_with_file_config = config.get("chat_with_file")
             # chatglm
             self.chatglm_config = config.get("chatglm")
+            # text_generation_webui
+            self.text_generation_webui_config = config.get("text_generation_webui")
             
 
             # 音频合成使用技术
@@ -191,6 +193,13 @@ class AI_VTB(QMainWindow):
             self.ui.label_chat_with_file_question_prompt.setToolTip("通过LLM总结本地向量数据库输出内容，此处填写总结用提示词")
             self.ui.label_chat_with_file_local_max_query.setToolTip("最大查询数据库次数。限制次数有助于节省token")
 
+            self.ui.label_text_generation_webui_api_ip_port.setToolTip("text-generation-webui开启API模式后监听的IP和端口地址")
+            self.ui.label_text_generation_webui_max_new_tokens.setToolTip("自行查阅")
+            self.ui.label_text_generation_webui_mode.setToolTip("自行查阅")
+            self.ui.label_text_generation_webui_character.setToolTip("自行查阅")
+            self.ui.label_text_generation_webui_instruction_template.setToolTip("自行查阅")
+            self.ui.label_text_generation_webui_your_name.setToolTip("自行查阅")
+
             self.ui.label_chatterbot_name.setToolTip("机器人名称")
             self.ui.label_chatterbot_db_path.setToolTip("数据库路径")
 
@@ -245,7 +254,7 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_room_display_id.setText(self.room_id)
             
             self.ui.comboBox_chat_type.clear()
-            self.ui.comboBox_chat_type.addItems(["复读机", "ChatGPT", "Claude", "ChatGLM", "chat_with_file", "Chatterbot"])
+            self.ui.comboBox_chat_type.addItems(["复读机", "ChatGPT", "Claude", "ChatGLM", "chat_with_file", "Chatterbot", "text_generation_webui"])
             chat_type_index = 0
             if self.chat_type == "none":
                 chat_type_index = 0
@@ -259,6 +268,8 @@ class AI_VTB(QMainWindow):
                 chat_type_index = 4
             elif self.chat_type == "chatterbot":
                 chat_type_index = 5
+            elif self.chat_type == "text_generation_webui":
+                chat_type_index = 6
             self.ui.comboBox_chat_type.setCurrentIndex(chat_type_index)
             
             self.ui.comboBox_need_lang.clear()
@@ -331,13 +342,19 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_chat_with_file_chunk_overlap.setText(str(self.chat_with_file_config['chunk_overlap']))
             self.ui.lineEdit_chat_with_file_question_prompt.setText(str(self.chat_with_file_config['question_prompt']))
             self.ui.lineEdit_chat_with_file_local_max_query.setText(str(self.chat_with_file_config['local_max_query']))
-            
             self.ui.lineEdit_chat_with_file_chain_type.setText(self.chat_with_file_config['chain_type'])
             if self.chat_with_file_config['show_token_cost']:
                 self.ui.checkBox_chat_with_file_show_token_cost.setChecked(True)
 
             self.ui.lineEdit_chatterbot_name.setText(self.chatterbot_config['name'])
             self.ui.lineEdit_chatterbot_db_path.setText(self.chatterbot_config['db_path'])
+
+            self.ui.lineEdit_text_generation_webui_api_ip_port.setText(str(self.text_generation_webui_config['api_ip_port']))
+            self.ui.lineEdit_text_generation_webui_max_new_tokens.setText(str(self.text_generation_webui_config['max_new_tokens']))
+            self.ui.lineEdit_text_generation_webui_mode.setText(str(self.text_generation_webui_config['mode']))
+            self.ui.lineEdit_text_generation_webui_character.setText(str(self.text_generation_webui_config['character']))
+            self.ui.lineEdit_text_generation_webui_instruction_template.setText(str(self.text_generation_webui_config['instruction_template']))
+            self.ui.lineEdit_text_generation_webui_your_name.setText(str(self.text_generation_webui_config['your_name']))
 
             self.ui.comboBox_audio_synthesis_type.clear()
             self.ui.comboBox_audio_synthesis_type.addItems(["Edge-TTS", "VITS-Fast", "elevenlabs"])
@@ -511,6 +528,8 @@ class AI_VTB(QMainWindow):
                 config_data["chat_type"] = "chat_with_file"
             elif chat_type == "Chatterbot":
                 config_data["chat_type"] = "chatterbot"
+            elif chat_type == "text_generation_webui":
+                config_data["chat_type"] = "text_generation_webui"
 
             need_lang = self.ui.comboBox_need_lang.currentText()
             if need_lang == "所有":
@@ -621,6 +640,19 @@ class AI_VTB(QMainWindow):
             config_data["chat_with_file"]["question_prompt"] = chat_with_file_question_prompt
             chat_with_file_local_max_query = self.ui.lineEdit_chat_with_file_local_max_query.text()
             config_data["chat_with_file"]["local_max_query"] = int(chat_with_file_local_max_query)
+
+            text_generation_webui_api_ip_port = self.ui.lineEdit_text_generation_webui_api_ip_port.text()
+            config_data["text_generation_webui"]["api_ip_port"] = text_generation_webui_api_ip_port
+            text_generation_webui_max_new_tokens = self.ui.lineEdit_text_generation_webui_max_new_tokens.text()
+            config_data["chatglm"]["max_new_tokens"] = int(text_generation_webui_max_new_tokens)
+            text_generation_webui_mode = self.ui.lineEdit_text_generation_webui_mode.text()
+            config_data["text_generation_webui"]["mode"] = text_generation_webui_mode
+            text_generation_webui_character = self.ui.lineEdit_text_generation_webui_character.text()
+            config_data["text_generation_webui"]["character"] = text_generation_webui_character
+            text_generation_webui_instruction_template = self.ui.lineEdit_text_generation_webui_instruction_template.text()
+            config_data["text_generation_webui"]["instruction_template"] = text_generation_webui_instruction_template
+            text_generation_webui_your_name = self.ui.lineEdit_text_generation_webui_your_name.text()
+            config_data["text_generation_webui"]["your_name"] = text_generation_webui_your_name
 
             audio_synthesis_type = self.ui.comboBox_audio_synthesis_type.currentText()
             if audio_synthesis_type == "Edge-TTS":
@@ -832,24 +864,25 @@ class AI_VTB(QMainWindow):
     def oncomboBox_chat_type_IndexChanged(self, index):
         # 各index对应的groupbox的显隐值
         visibility_map = {
-            0: (0, 0, 0, 0, 0, 0, 0),
-            1: (1, 1, 0, 0, 0, 0, 1),
-            2: (0, 0, 1, 0, 0, 0, 0),
-            3: (0, 0, 0, 1, 0, 0, 0),
-            4: (0, 0, 0, 0, 1, 0, 0),
-            5: (0, 0, 0, 0, 1, 0, 0),
-            6: (0, 0, 0, 0, 0, 1, 0),
+            0: (0, 0, 0, 0, 0, 0, 0, 0),
+            1: (1, 1, 1, 0, 0, 0, 0, 0),
+            2: (0, 0, 0, 1, 0, 0, 0, 0),
+            3: (0, 0, 0, 0, 1, 0, 0, 0),
+            4: (0, 0, 0, 0, 0, 1, 0, 0),
+            5: (0, 0, 0, 0, 0, 0, 1, 0),
+            6: (0, 0, 0, 0, 0, 0, 0, 1),
         }
 
-        visibility_values = visibility_map.get(index, (0, 0, 0, 0, 0, 0, 0))
+        visibility_values = visibility_map.get(index, (0, 0, 0, 0, 0, 0, 0, 0))
 
         self.ui.groupBox_openai.setVisible(visibility_values[0])
         self.ui.groupBox_chatgpt.setVisible(visibility_values[1])
-        self.ui.groupBox_claude.setVisible(visibility_values[2])
-        self.ui.groupBox_chatglm.setVisible(visibility_values[3])
-        self.ui.groupBox_chat_with_file.setVisible(visibility_values[4])
-        self.ui.groupBox_chatterbot.setVisible(visibility_values[5])
-        self.ui.groupBox_header.setVisible(visibility_values[6])
+        self.ui.groupBox_header.setVisible(visibility_values[2])
+        self.ui.groupBox_claude.setVisible(visibility_values[3])
+        self.ui.groupBox_chatglm.setVisible(visibility_values[4])
+        self.ui.groupBox_chat_with_file.setVisible(visibility_values[5])
+        self.ui.groupBox_chatterbot.setVisible(visibility_values[6])
+        self.ui.groupBox_text_generation_webui.setVisible(visibility_values[7])
 
     
     # 语音合成类型改变 加载显隐不同groupBox
