@@ -21,7 +21,7 @@ _✨ AI Vtuber ✨_
 
 </div>
 
-AI Vtuber是一个由`ChatterBot/GPT/Claude/langchain本地or云端/chatglm`驱动的虚拟主播（Live2D），可以在`Bilibili/抖音/快手`直播中与观众实时互动。它使用自然语言处理和文本转语音技术(`Edge-TTS/VITS-Fast/elevenlabs`)生成对观众问题的回答；通过特定指令协同`Stable Diffusion`进行画图展示。
+AI Vtuber是一个由`ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text-generation-webui`驱动的虚拟主播（Live2D），可以在`Bilibili/抖音/快手`直播中与观众实时互动。它使用自然语言处理和文本转语音技术(`Edge-TTS/VITS-Fast/elevenlabs`)生成对观众问题的回答；通过特定指令协同`Stable Diffusion`进行画图展示。
 
 ## 🕺🏻目录
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -126,6 +126,10 @@ pip install -r requirements_ks.txt
 ## 🔧配置
 
 GUI程序运行后会自动加载配置文件，可以通过GUI程序进行配置修改，也可以手动修改配置运行。配置都在`config.json`  
+
+<details>
+<summary>展开/收起</summary>
+
 ```
 {
   // 你的直播间号,兼容全平台，都是直播间页面的链接中最后的数字和字母。例如:123
@@ -255,6 +259,20 @@ GUI程序运行后会自动加载配置文件，可以通过GUI程序进行配�
     "frequency_penalty": 0,
     "preset": "请扮演一个AI虚拟主播。不要回答任何敏感问题！不要强调你是主播，只需要回答问题！"
   },
+  // text-generation-webui相关配置
+  "text_generation_webui": {
+    // 服务监听的IP和端口
+    "api_ip_port": "http://127.0.0.1:5000",
+    "max_new_tokens": 250,
+    // 有 'chat', 'chat-instruct', 'instruct'
+    "mode": "chat",
+    // 角色
+    "character": "Example",
+    // 聊天指导模板
+    "instruction_template": "Vicuna-v1.1",
+    // 你的名字
+    "your_name": "你"
+  },
   // stable diffusion相关配置
   "sd": {
     // 是否启用
@@ -293,6 +311,9 @@ GUI程序运行后会自动加载配置文件，可以通过GUI程序进行配�
   }
 }
 ```
+
+</details>
+
 
 ### chatgpt代理
 例如：[API2D](https://api2d.com/wiki/doc)  
@@ -558,6 +579,11 @@ cmd输入命令即可：`doctoc /path/to/file`
 构建本地向量数据库时，如果本地电脑的配置太低，可以使用 [faiss_text2vec.ipynb](https://drive.google.com/file/d/1rbt2Yv7_pC1cmuODwmR2-1_cxFBFOfn8/view?usp=sharing) 云端解析向量数据库，拷贝回本地后再使用即可
 - author: [HildaM/text2vec_colab](https://github.com/HildaM/text2vec_colab)
 
+### text-generation-webui
+官方仓库：[text-generation-webui](https://github.com/oobabooga/text-generation-webui)  
+懒人包：b站：coyude [AI对话 懒人包v1发布 图形化启动界面(oobabooga/text-generation-webui)可用chatglm/rwkv/vicuna](https://www.bilibili.com/video/BV1tP411d7wo)  
+API调用demo：[api-examples](https://github.com/oobabooga/text-generation-webui/tree/main/api-examples)  
+
 
 ### elevenlabs
 [elevenlabs官网](https://beta.elevenlabs.io/)  
@@ -654,6 +680,7 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 ### 2023-07-01
 - 修改chat_mode的gpt为chatgpt，适配调整。
 - MD增加目录
+- 追加对text-generation-webui的兼容（GUI还未适配）。
 
 </details>
 
