@@ -54,7 +54,7 @@
   },
   "audio_synthesis_type": "edge-tts",
   "vits": {
-    "config_path": "E:\\GitHub_pro\\VITS-fast-fine-tuning\\inference\\finetune_speaker.json",
+    "config_path": "D:\\GitHub_pro\\VITS-fast-fine-tuning\\inference\\finetune_speaker.json",
     "api_ip_port": "http://127.0.0.1:7860",
     "character": "ikaros",
     "speed": 1
@@ -81,6 +81,14 @@
     "presence_penalty": 0.0,
     "frequency_penalty": 0.0,
     "preset": "请扮演一个AI虚拟主播。不要回答任何敏感问题！不要强调你是主播，只需要回答问题！"
+  },
+  "text_generation_webui": {
+    "api_ip_port": "http://127.0.0.1:5000",
+    "max_new_tokens": 250,
+    "mode": "chat",
+    "character": "Example",
+    "instruction_template": "Vicuna-v1.1",
+    "your_name": "你"
   },
   "sd": {
     "enable": false,
