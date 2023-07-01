@@ -135,14 +135,12 @@ class Common:
     # 中文语句切分
     def split_sentences(self, text):
         # 使用正则表达式切分句子
-        sentences = re.split('([。！？])', text)
+        sentences = re.split('([。！？.!?])', text)
         result = []
-        current_sentence = ""
         for sentence in sentences:
-            current_sentence += sentence
-            # 当句子长度超过阈值或者句子以标点符号结尾时，添加到结果列表中
-            if len(current_sentence) > 10 and re.match('^[。！？]$', sentence):
-                result.append(current_sentence)
-                current_sentence = ""
+            if sentence not in ["。", "！", "？", ".", "!", "?"]:
+                result.append(sentence)
+        
+        # print(result)
         return result
     

@@ -509,7 +509,9 @@ class AI_VTB(QMainWindow):
         self.ui.comboBox_chat_type.currentIndexChanged.connect(lambda index: self.oncomboBox_chat_type_IndexChanged(index))
         self.ui.comboBox_audio_synthesis_type.currentIndexChanged.connect(lambda index: self.oncomboBox_audio_synthesis_type_IndexChanged(index))
 
-        self.ui.action_official_store.triggered.connect(self.openBrowser)
+        self.ui.action_official_store.triggered.connect(self.openBrowser_github)
+        self.ui.action_video_tutorials.triggered.connect(self.openBrowser_video)
+        self.ui.action_exit.triggered.connect(self.exit_soft)
 
         # 创建节流函数，并将其保存为类的属性，delay秒内只执行一次
         self.throttled_save = self.throttle(self.save, 1)
@@ -890,10 +892,16 @@ class AI_VTB(QMainWindow):
     '''
         餐单栏相关的函数
     '''
-    def openBrowser(self):
+    def openBrowser_github(self):
         url = QUrl("https://github.com/Ikaros-521/AI-Vtuber")  # 指定要打开的网页地址
         QDesktopServices.openUrl(url)
 
+    def openBrowser_video(self):
+        url = QUrl("https://space.bilibili.com/3709626/channel/collectiondetail?sid=1422512")  # 指定要打开的网页地址
+        QDesktopServices.openUrl(url)
+
+    def exit_soft(self):
+        exit(0)
 
     '''
         UI操作的函数

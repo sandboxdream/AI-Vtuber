@@ -14,7 +14,10 @@
    <string>AI Vtuber</string>
   </property>
   <property name="styleSheet">
-   <string notr="true"/>
+   <string notr="true">QPushButton:hover {
+            background-color: #1976D2;
+            
+        }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_20">
@@ -42,8 +45,8 @@
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-811</y>
-             <width>807</width>
+             <y>0</y>
+             <width>860</width>
              <height>4031</height>
             </rect>
            </property>
@@ -1382,7 +1385,7 @@ border-radius: 4px;
 font: 75 12pt &quot;微软雅黑&quot;;</string>
       </property>
       <property name="text">
-       <string>-&gt;运行页</string>
+       <string>☞运行页</string>
       </property>
      </widget>
     </item>
@@ -1400,7 +1403,7 @@ border-radius: 4px;
 font: 75 12pt &quot;微软雅黑&quot;;</string>
       </property>
       <property name="text">
-       <string>&lt;-配置页</string>
+       <string>☜配置页</string>
       </property>
      </widget>
     </item>
@@ -1420,13 +1423,31 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
      <string>关于</string>
     </property>
     <addaction name="action_official_store"/>
+    <addaction name="action_video_tutorials"/>
    </widget>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>文件</string>
+    </property>
+    <addaction name="action_exit"/>
+   </widget>
+   <addaction name="menu"/>
    <addaction name="menu_about"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="action_official_store">
    <property name="text">
     <string>官方仓库</string>
+   </property>
+  </action>
+  <action name="action_video_tutorials">
+   <property name="text">
+    <string>视频教程</string>
+   </property>
+  </action>
+  <action name="action_exit">
+   <property name="text">
+    <string>退出</string>
    </property>
   </action>
  </widget>

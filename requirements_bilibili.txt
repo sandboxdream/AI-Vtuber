@@ -1,16 +1,13 @@
-bilibili-api==9.1.0
-bilibili-api-python
+aiohttp
+asyncio
 openai
 pygame
 edge-tts
 langid
-aiohttp
-asyncio
 slack_sdk==3.21.3
 profanity==1.1
 elevenlabs
 PyPDF2
-langchain==0.0.142
 PyQt5
 pyqt5-tools
 tiktoken
@@ -20,3 +17,6 @@ webuiapi
 pyvirtualcam
 numpy
 faiss-cpu
+bilibili-api==9.1.0
+bilibili-api-python
+langchain==0.0.142
