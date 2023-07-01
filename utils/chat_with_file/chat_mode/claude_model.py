@@ -11,7 +11,7 @@ import logging
 from langchain.document_loaders import PyPDFLoader
 
 from utils.chat_with_file.chat_mode.chat_model import Chat_model
-from utils.chat_with_file.vector_store.faiss import create_faiss_index_from_zip
+
 from utils.gpt_model.gpt import GPT_MODEL
 from utils.my_handle import My_handle
 
@@ -47,6 +47,8 @@ class Claude_mode(Chat_model):
                        pdf_loader,
                        chunk_size=300,
                        chunk_overlap=20):
+        from utils.chat_with_file.vector_store.faiss import create_faiss_index_from_zip
+
         if chunk_overlap >= chunk_size:
             logging.error("输入的chunk_overlap大于chunk_size. 为了避免创建失败，将会修正chunk_overlap为chunk_size的十分之一")
             chunk_overlap = round(chunk_size / 10)
