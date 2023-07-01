@@ -59,6 +59,7 @@ class My_handle():
             self.chatglm_config = self.config.get("chatglm")
             # chat_with_file
             self.chat_with_file_config = self.config.get("chat_with_file")
+            self.text_generation_webui_config = self.config.get("text_generation_webui")
 
             # 音频合成使用技术
             self.audio_synthesis_type = self.config.get("audio_synthesis_type")
@@ -74,6 +75,7 @@ class My_handle():
         GPT_MODEL.set_model_config("chatgpt", self.chatgpt_config)
         GPT_MODEL.set_model_config("claude", self.claude_config)
         GPT_MODEL.set_model_config("chatglm", self.chatglm_config)
+        GPT_MODEL.set_model_config("text_generation_webui", self.text_generation_webui_config)
 
         # 聊天相关类实例化
         if self.chat_type == "chatgpt":
@@ -103,6 +105,9 @@ class My_handle():
         elif self.chat_type == "chat_with_file":
             from utils.chat_with_file.chat_with_file import Chat_with_file
             self.chat_with_file = Chat_with_file(self.chat_with_file_config)
+
+        elif self.chat_type == "text_generation_webui":
+            self.text_generation_webui = GPT_MODEL.get(self.chat_type)
 
         elif self.chat_type == "game":
             exit(0)
@@ -291,6 +296,11 @@ class My_handle():
             resp_content = self.chat_with_file.get_model_resp(content)
             print(f"[AI回复{user_name}]：{resp_content}")
 
+        elif self.chat_type == "text_generation_webui":
+            # 生成回复
+            resp_content = self.text_generation_webui.get_text_generation_webui_resp(content)
+            logging.info(f"[AI回复{user_name}]：{resp_content}")
+
         elif self.chat_type == "game":
             return
             g1 = game1()
@@ -316,11 +326,11 @@ class My_handle():
 
             # 根据 弹幕日志类型进行各类日志写入
             if self.config.get("commit_log_type") == "问答":
-                f.write(f"[{user_name} 提问]:{content}\n[AI回复{user_name}]:{resp_content_joined}\n" + tmp_content)
+                f.write(f"[{user_name} 提问]:\n{content}\n[AI回复{user_name}]:{resp_content_joined}\n" + tmp_content)
             elif self.config.get("commit_log_type") == "问题":
-                f.write(f"[{user_name} 提问]:{content}\n" + tmp_content)
+                f.write(f"[{user_name} 提问]:\n{content}\n" + tmp_content)
             elif self.config.get("commit_log_type") == "回答":
-                f.write(f"[AI回复{user_name}]:{resp_content_joined}\n" + tmp_content)
+                f.write(f"[AI回复{user_name}]:\n{resp_content_joined}\n" + tmp_content)
 
         message = {
             "type": self.audio_synthesis_type,

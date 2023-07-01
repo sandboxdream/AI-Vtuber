@@ -21,3 +21,4 @@ pyahocorasick
 webuiapi
 pyvirtualcam
 numpy
+faiss-cpu
