@@ -685,6 +685,8 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 - 修复chat_with_file，openai相关模式下的无法使用的bug。
 - 补充缺失的faiss-cpu依赖。
 - 后置create_faiss_index_from_zip的加载。
+- 语音合成逻辑升级，会先对中文长文本进行切分，然后多线程队列合成，从而可以通过多次合成的方式处理长回复。
+- 修改默认音频合成长度为80 & 200。
 
 </details>
 
