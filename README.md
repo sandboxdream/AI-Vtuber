@@ -23,6 +23,61 @@ _✨ AI Vtuber ✨_
 
 AI Vtuber是一个由`ChatterBot/GPT/Claude/langchain本地or云端/chatglm`驱动的虚拟主播（Live2D），可以在`Bilibili/抖音/快手`直播中与观众实时互动。它使用自然语言处理和文本转语音技术(`Edge-TTS/VITS-Fast/elevenlabs`)生成对观众问题的回答；通过特定指令协同`Stable Diffusion`进行画图展示。
 
+## 🕺🏻目录
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [📖项目结构](#%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84)
+- [下载项目](#%E4%B8%8B%E8%BD%BD%E9%A1%B9%E7%9B%AE)
+- [💿运行环境](#%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83)
+- [🔧配置](#%E9%85%8D%E7%BD%AE)
+  - [chatgpt代理](#chatgpt%E4%BB%A3%E7%90%86)
+  - [chat_with_file 模式说明](#chat_with_file-%E6%A8%A1%E5%BC%8F%E8%AF%B4%E6%98%8E)
+    - [模式简介](#%E6%A8%A1%E5%BC%8F%E7%AE%80%E4%BB%8B)
+    - [模式配置](#%E6%A8%A1%E5%BC%8F%E9%85%8D%E7%BD%AE)
+- [🎉使用](#%E4%BD%BF%E7%94%A8)
+  - [哔哩哔哩版](#%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9%E7%89%88)
+  - [抖音版](#%E6%8A%96%E9%9F%B3%E7%89%88)
+  - [抖音版_旧版（不稳定）](#%E6%8A%96%E9%9F%B3%E7%89%88_%E6%97%A7%E7%89%88%E4%B8%8D%E7%A8%B3%E5%AE%9A)
+  - [快手版](#%E5%BF%AB%E6%89%8B%E7%89%88)
+- [效果图](#%E6%95%88%E6%9E%9C%E5%9B%BE)
+  - [GUI界面](#gui%E7%95%8C%E9%9D%A2)
+  - [SD接入](#sd%E6%8E%A5%E5%85%A5)
+- [FAQ 常问问题](#faq-%E5%B8%B8%E9%97%AE%E9%97%AE%E9%A2%98)
+  - [部署过程问题](#%E9%83%A8%E7%BD%B2%E8%BF%87%E7%A8%8B%E9%97%AE%E9%A2%98)
+    - [1.CondaSSLError: OpenSSL appears to be unavailable on this machine](#1condasslerror-openssl-appears-to-be-unavailable-on-this-machine)
+    - [2.ModuleNotFoundError: No module named 'xxx' 大同小异](#2modulenotfounderror-no-module-named-xxx-%E5%A4%A7%E5%90%8C%E5%B0%8F%E5%BC%82)
+      - [ModuleNotFoundError: No module named 'PyQt5'](#modulenotfounderror-no-module-named-pyqt5)
+      - [ModuleNotFoundError: No module named 'langid'](#modulenotfounderror-no-module-named-langid)
+      - [ModuleNotFoundError: No module named 'profanity'](#modulenotfounderror-no-module-named-profanity)
+      - [ModuleNotFoundError: No module named 'ahocorasick'](#modulenotfounderror-no-module-named-ahocorasick)
+  - [使用过程问题](#%E4%BD%BF%E7%94%A8%E8%BF%87%E7%A8%8B%E9%97%AE%E9%A2%98)
+    - [1.openai 接口报错:《empty message》](#1openai-%E6%8E%A5%E5%8F%A3%E6%8A%A5%E9%94%99empty-message)
+- [开发&项目相关](#%E5%BC%80%E5%8F%91%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3)
+  - [UI设计](#ui%E8%AE%BE%E8%AE%A1)
+  - [打包懒人包](#%E6%89%93%E5%8C%85%E6%87%92%E4%BA%BA%E5%8C%85)
+  - [MD目录自动生成](#md%E7%9B%AE%E5%BD%95%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90)
+    - [安装](#%E5%AE%89%E8%A3%85)
+    - [使用](#%E4%BD%BF%E7%94%A8)
+- [补充](#%E8%A1%A5%E5%85%85)
+  - [<span id="dy">抖音弹幕获取</span>](#span-iddy%E6%8A%96%E9%9F%B3%E5%BC%B9%E5%B9%95%E8%8E%B7%E5%8F%96span)
+  - [快手弹幕获取](#%E5%BF%AB%E6%89%8B%E5%BC%B9%E5%B9%95%E8%8E%B7%E5%8F%96)
+  - [Claude](#claude)
+  - [ChatGLM](#chatglm)
+  - [chat_with_file](#chat_with_file)
+  - [elevenlabs](#elevenlabs)
+  - [ChatterBot](#chatterbot)
+  - [Live2D](#live2d)
+  - [Stable Diffusion](#stable-diffusion)
+- [待办事项](#%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9)
+- [📝 更新日志](#-%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97)
+- [许可证](#%E8%AE%B8%E5%8F%AF%E8%AF%81)
+- [Star 经历](#star-%E7%BB%8F%E5%8E%86)
+- [🤝 贡献](#-%E8%B4%A1%E7%8C%AE)
+  - [🎉 鸣谢](#-%E9%B8%A3%E8%B0%A2)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## 📖项目结构
 
@@ -346,30 +401,6 @@ ps:依赖[golang](https://go.dev/dl/)环境，还没有的话，手动补一补[
 ### SD接入
 ![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/a3e4b3b7-96d1-41b1-b45e-f2725acee27c)
 
-
-## 开发
-### UI设计
-打开QT设计师~o( =∩ω∩= )m `pyqt5-tools designer`  
-生成UI代码 `pyuic5 -o UI_main.py ui\main.ui`  
-对UI做改动时，加入新的配置，一般需要修改init_config和save部分，新配置的读取和写入部分。  
-
-
-## 打包懒人包
-
-1、本地装有conda环境并配置环境变量  
-2、在本文件夹创建虚拟环境  
-`conda create --prefix ./venv python=3.10`  
-3、安装依赖  
-`venv\python.exe -m pip install -r requirements_bilibili.txt -i https://pypi.tuna.tsinghua.edu.cn/simple`  
-`venv\python.exe -m pip install -r requirements_dy.txt -i https://pypi.tuna.tsinghua.edu.cn/simple`  
-`venv\python.exe -m pip install -r requirements_ks.txt -i https://pypi.tuna.tsinghua.edu.cn/simple`  
-4、安装chatterbot（可选）
-`venv\python.exe -m pip install spacy SQLAlchemy==1.3.24 -i https://pypi.tuna.tsinghua.edu.cn/simple`  
-前提是你在当前目录下有clone chatterbot的项目（自行调整路径关系）  
-`venv\python.exe setup.py install`  
-5、修改`audio.py`中`edge-tts`的调用实现。`venv\python.exe venv\Scripts\edge-tts.exe`  
-
-
 ## FAQ 常问问题
 
 ### 部署过程问题
@@ -464,6 +495,46 @@ ModuleNotFoundError: No module named 'ahocorasick'
 </details>
 
 
+## 开发&项目相关
+### UI设计
+打开QT设计师~o( =∩ω∩= )m `pyqt5-tools designer`  
+生成UI代码 `pyuic5 -o UI_main.py ui\main.ui`  
+对UI做改动时，加入新的配置，一般需要修改init_config和save部分，新配置的读取和写入部分。  
+
+
+### 打包懒人包
+
+1、本地装有conda环境并配置环境变量  
+2、在本文件夹创建虚拟环境  
+`conda create --prefix ./venv python=3.10`  
+3、安装依赖  
+`venv\python.exe -m pip install -r requirements_bilibili.txt -i https://pypi.tuna.tsinghua.edu.cn/simple`  
+`venv\python.exe -m pip install -r requirements_dy.txt -i https://pypi.tuna.tsinghua.edu.cn/simple`  
+`venv\python.exe -m pip install -r requirements_ks.txt -i https://pypi.tuna.tsinghua.edu.cn/simple`  
+4、安装chatterbot（可选）
+`venv\python.exe -m pip install spacy SQLAlchemy==1.3.24 -i https://pypi.tuna.tsinghua.edu.cn/simple`  
+前提是你在当前目录下有clone chatterbot的项目（自行调整路径关系）  
+`venv\python.exe setup.py install`  
+5、修改`audio.py`中`edge-tts`的调用实现。`venv\python.exe venv\Scripts\edge-tts.exe`  
+
+### MD目录自动生成
+
+[doctoc](https://github.com/thlorenz/doctoc),在本地git存储库中生成降价文件的目录。链接通过命令行标志兼容github或其他网站生成的锚。
+
+#### 安装
+node.js环境  
+进入包含本地git项目的目录，键入: `npm install -g doctoc`  
+
+#### 使用
+在`README.md`中，找个生成目录位置，写入如下代码，确认生成位置：
+```
+<!-- START doctoc -->
+<!-- END doctoc -->
+```
+cmd输入命令即可：`doctoc /path/to/file`  
+例如：`doctoc README.md`  
+
+
 ## 补充
 
 ### <span id="dy">抖音弹幕获取</span>
@@ -509,9 +580,16 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 [stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui)
 
 ## 待办事项
-- 懒人包的制作
+- 懒人包优化
 - 快手平台的重新兼容
+- 其他直播平台的适配
 - live2d的嘴型匹配
+- 接入更多的2/3D模型软件
+- so-vits-svc接入
+- 本机语音直接交流模式
+- 网友提案：vtuber studio的虚拟摄像头导入直播姬直播间并通过音量驱动模型动作和口型，但是在这个过程中语音输出是扬声器，声音输出的时候输入口的麦克风无法同时采集音量来驱动口型和模型动作，这个时候需要用一个软件叫voicemeeter来搭建虚拟声源输入口，把扬声器的输出声音输入到虚拟麦克风中，再在vtuber studio中调用虚拟麦克风的音量幅度和频率来驱动其中的live2d模型（选择voicevolumeinputplus输入，输出选择mouthopen（就是调节mouth的y轴就行）
+- 本地的用户拉黑机制
+- 礼物互动机制（跳舞，唱歌）
 
 ## 📝 更新日志
 
@@ -575,6 +653,7 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 
 ### 2023-07-01
 - 修改chat_mode的gpt为chatgpt，适配调整。
+- MD增加目录
 
 </details>
 
