@@ -531,6 +531,9 @@ class AI_VTB(QMainWindow):
             elif chat_type == "text_generation_webui":
                 config_data["chat_type"] = "text_generation_webui"
 
+            config_data["before_prompt"] = self.ui.lineEdit_before_prompt.text()
+            config_data["after_prompt"] = self.ui.lineEdit_after_prompt.text()
+
             need_lang = self.ui.comboBox_need_lang.currentText()
             if need_lang == "所有":
                 config_data["need_lang"] = "none"

@@ -16,8 +16,8 @@
       "？"
     ],
     "badwords_path": "data/badwords.txt",
-    "max_len": 30,
-    "max_char_len": 50
+    "max_len": 80,
+    "max_char_len": 200
   },
   "live2d": {
     "enable": true,
