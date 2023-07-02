@@ -199,3 +199,5 @@ branch/
 data/vector_base
 data/text2vec_models/
 !data/text2vec_models
+
+song/
