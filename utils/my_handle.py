@@ -12,7 +12,7 @@ class My_handle():
     def __init__(self, config_path):
         self.common = Common()
         self.config = Config(config_path)
-        self.audio = Audio()
+        self.audio = Audio(config_path)
 
         # 日志文件路径
         file_path = "./log/log-" + self.common.get_bj_time(1) + ".txt"
@@ -64,7 +64,12 @@ class My_handle():
             # 音频合成使用技术
             self.audio_synthesis_type = self.config.get("audio_synthesis_type")
 
+            # Stable Diffusion
             self.sd_config = self.config.get("sd")
+
+            # 点歌模块
+            self.choose_song_config = self.config.get("choose_song")
+            self.song_lists = None
 
             logging.info(f"配置数据加载成功。")
         except Exception as e:
@@ -112,10 +117,16 @@ class My_handle():
         elif self.chat_type == "game":
             exit(0)
 
+        # 判断是否使能了SD
         if self.sd_config["enable"]:
             from utils.sd import SD
 
             self.sd = SD(self.sd_config)
+
+        # 判断是否使能了点歌模式
+        if self.choose_song_config["enable"]:
+            # 获取本地音频文件夹内所有的音频文件名
+            self.song_lists = self.audio.get_dir_songs_filename()
 
         # 日志文件路径
         self.log_file_path = "./log/log-" + self.common.get_bj_time(1) + ".txt"
@@ -159,8 +170,10 @@ class My_handle():
 
         return None
 
+
+    # 弹幕处理
     def commit_handle(self, user_name, content):
-        # 匹配本地问答库
+        # 1、匹配本地问答库 触发后不执行后面的其他功能
         if self.local_qa == True:
             # 输出当前用户发送的弹幕消息
             logging.info(f"[{user_name}]: {content}")
@@ -201,7 +214,52 @@ class My_handle():
 
                 return
 
-        # 画图模式
+        # 2、点歌模式 触发后不执行后面的其他功能
+        if self.choose_song_config["enable"] == True:
+            # 判断点歌命令是否正确
+            if content.startswith(self.choose_song_config["start_cmd"]):
+                logging.info(f"[{user_name}]: {content}")
+
+                # 判断是否有此歌曲
+                song_filename = self.common.find_best_match(content, self.song_lists)
+                if song_filename is None:
+                    # 去除命令前缀
+                    content = content[len(self.choose_song_config["start_cmd"]):]
+                    # resp_content = f"抱歉，我还没学会唱{content}"
+                    # 根据配置的 匹配失败回复文案来进行合成
+                    resp_content = self.choose_song_config["match_fail_copy"].format(content=content)
+                    logging.info(f"[AI回复{user_name}]：{resp_content}")
+
+                    message = {
+                        "type": self.audio_synthesis_type,
+                        "data": self.config.get(self.audio_synthesis_type),
+                        "config": self.filter_config,
+                        "user_name": user_name,
+                        "content": resp_content
+                    }
+
+                    # 音频合成（edge-tts / vits）并播放
+                    self.audio.audio_synthesis(message)
+
+                    return
+                
+                # 拼接音频文件路径
+                resp_content = f"{self.choose_song_config['song_path']}/{song_filename}"
+                message = {
+                    "type": "song",
+                    "user_name": user_name,
+                    "content": resp_content
+                }
+                
+                # 音频合成（edge-tts / vits）并播放
+                self.audio.audio_synthesis(message)
+            # 判断取消点歌命令是否正确
+            elif content.startswith(self.choose_song_config["stop_cmd"]):
+                self.audio.stop_current_audio()
+
+                return
+
+        # 3、画图模式 触发后不执行后面的其他功能
         if content.startswith(self.sd_config["trigger"]):
             # 含有违禁词/链接
             if self.common.profanity_content(content) or self.common.check_sensitive_words2(
