@@ -695,6 +695,9 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 - GUI chat_with_file部分对chatgpt/claude的配置依赖，改选中直接呼出3个配置box。
 - 修复音频分割部分对短音频丢失问题的恶性bug。
 
+### 2023-07-02
+- chat_with_file模式支持加载本地模型，无需链接huggingface仓库
+
 </details>
 
 
