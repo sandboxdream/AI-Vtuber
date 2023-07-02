@@ -690,6 +690,10 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 - GUI chat_with_file部分对chatgpt/claude的配置依赖，改选中直接呼出3个配置box。
 - 修复音频分割部分对短音频丢失问题的恶性bug。
 
+### 2023-07-02
+- 延长audio合成部分，合成队列的循环延时，一定程度上降低对Edge-TTS的压力。
+- 给audio合成中 vits没有启动时的数据解析追加try异常捕获。
+
 </details>
 
 

@@ -50,6 +50,9 @@ class Audio:
             await self.my_play_voice(message)
             self.message_queue.task_done()
 
+            # 加个延时 降低点edge-tts的压力
+            time.sleep(0.5)
+
 
     # 请求VITS接口获取合成后的音频路径
     def vits_fast_api(self, vits_api_ip_port="http://127.0.0.1:7860", character="ikaros", language="日语", text="こんにちわ。", speed=1):
@@ -135,8 +138,12 @@ class Audio:
                 logging.error(e)
                 return
 
-            voice_tmp_path = data_json["data"][1]["name"]
-            # print(f"voice_tmp_path={voice_tmp_path}")
+            try:
+                voice_tmp_path = data_json["data"][1]["name"]
+                # print(f"voice_tmp_path={voice_tmp_path}")
+            except Exception as e:
+                logging.error(e)
+                return
 
             # voice_tmp_path = await self.so_vits_svc_api(audio_path=voice_tmp_path)
             # print(f"voice_tmp_path={voice_tmp_path}")
