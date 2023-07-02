@@ -145,6 +145,6 @@ class Common:
         # 替换换行和空格为空
         result = [s.replace('\n', '').replace(' ', '') for s in result]
 
-        print(result)
+        # print(result)
         return result
     
