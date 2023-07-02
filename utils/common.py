@@ -135,12 +135,16 @@ class Common:
     # 中文语句切分
     def split_sentences(self, text):
         # 使用正则表达式切分句子
-        sentences = re.split('([。！？.!?])', text)
+        # .的过滤可能会导致 序号类的回复被切分
+        sentences = re.split('([。！？!?])', text)
         result = []
         for sentence in sentences:
-            if sentence not in ["。", "！", "？", ".", "!", "?"]:
+            if sentence not in ["。", "！", "？", ".", "!", "?", ""]:
                 result.append(sentence)
         
-        # print(result)
+        # 替换换行和空格为空
+        result = [s.replace('\n', '').replace(' ', '') for s in result]
+
+        print(result)
         return result
     
