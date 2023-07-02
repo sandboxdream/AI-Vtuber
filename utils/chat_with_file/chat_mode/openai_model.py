@@ -11,9 +11,6 @@ from langchain.prompts import PromptTemplate
 import logging
 
 from utils.chat_with_file.chat_mode.chat_model import Chat_model
-from utils.common import Common
-from utils.gpt_model.gpt import GPT_MODEL
-from utils.logger import Configure_logger
 
 
 class Openai_mode(Chat_model):
