@@ -16,7 +16,7 @@ import os
 from tqdm.auto import tqdm
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.document_loaders import DirectoryLoader, TextLoader
-from utils.chat_with_file.vector_store.embeddings import EMBEDDINGS_MAPPING, DEFAULT_MODEL_NAME
+from utils.chat_with_file.vector_store.embeddings import get_text2vec_model, get_default_model, DEFAULT_MODEL_NAME
 import tiktoken
 import zipfile
 import pickle
@@ -85,10 +85,10 @@ def create_faiss_index_from_zip(zip_file_path, embedding_model_name=None, pdf_lo
                                 chunk_size=500, chunk_overlap=20):
     # 选择模型
     if embedding_model_name is None:
-        embeddings = EMBEDDINGS_MAPPING[DEFAULT_MODEL_NAME]
+        embeddings = get_default_model()
         embedding_model_name = DEFAULT_MODEL_NAME
     elif isinstance(embedding_model_name, str):
-        embeddings = EMBEDDINGS_MAPPING[embedding_model_name]
+        embeddings = get_text2vec_model(embedding_model_name)
 
     # 创建存储向量数据库的目录
     # 存储的文件格式
@@ -191,7 +191,7 @@ def load_exist_faiss_file(path):
         exit(-1)
 
     # 获取模型数据
-    embedding = EMBEDDINGS_MAPPING[db_meta_dict["embedding_model"]]
+    embedding = get_text2vec_model(db_meta_dict["embedding_model"])
 
     # 加载index.faiss
     faiss_path = find_file_dir("index.faiss", path)
