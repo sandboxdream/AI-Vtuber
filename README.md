@@ -350,8 +350,13 @@ chat_with_file 目前支持以下模式，在相关配置下的 chat_mode 进行
 推荐使用Claude模式，这样可以免费使用，无需消耗openai的token。
 后续会支持更多免费模型，如：文心一言、讯飞星火等
 
-注意：
-- 本地向量数据库使用的是HuggingFace的模型，请确保电脑可以连接到HuggingFace网站，否则无法下载模型！
+##### 注意
+1. 所有模型都应该采用HuggingFace模型，暂未适配其他模型
+2. 本地模型存储目录是data/text2vec_models，将自己的模型存储到该位置，在config.json配置中填写该模型的 "文件夹名字" 即可
+3. 如果需要其他模型，可以从HuggingFace中下载下来，存放到对应位置即可
+4. 也可以直接输入HuggingFace的模型名字，如 [GanymedeNil/text2vec-large-chinese](https://huggingface.co/GanymedeNil/text2vec-large-chinese)，项目会自动从远程仓库下载。
+   1. 请确保能够连接上HuggingFace
+   2. 远程仓库下载的模型，一般存储在系统cache中。win端一般是：C:\Users\用户\.cache\torch\sentence_transformers。也可以将其移动到项目模型存储目录下使用
 
 
 

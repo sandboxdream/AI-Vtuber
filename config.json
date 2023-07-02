@@ -43,7 +43,7 @@
     "max_new_tokens": 250
   },
   "chat_with_file": {
-    "chat_mode": "claude",
+    "chat_mode": "",
     "data_path": "data/伊卡洛斯百度百科.zip",
     "separator": "\n",
     "chunk_size": 100,
@@ -52,9 +52,9 @@
     "show_token_cost": false,
     "question_prompt": "请根据以上content信息进行归纳总结，并结合question的内容给出一个符合content和question语气、语调、背景的回答。不要出现'概括''综上''感谢'等字样，向朋友直接互相交流即可。如果发现不能content的信息与question不相符，抛弃content的提示，直接回答question即可。任何情况下都要简要地回答!",
     "local_max_query": 3,
-    "local_vector_embedding_model": "sebastian-hofstaetter/distilbert-dot-tas_b-b256-msmarco"
+    "local_vector_embedding_model": "sebastian-hofstaetter_distilbert-dot-tas_b-b256-msmarco"
   },
-  "audio_synthesis_type": "vits",
+  "audio_synthesis_type": "edge-tts",
   "vits": {
     "config_path": "D:\\GitHub_pro\\VITS-fast-fine-tuning\\inference\\finetune_speaker.json",
     "api_ip_port": "http://127.0.0.1:7860",
