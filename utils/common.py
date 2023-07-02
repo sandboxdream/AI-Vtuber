@@ -130,3 +130,17 @@ class Common:
     # 违禁词校验
     def profanity_content(self, content):
         return profanity.contains_profanity(content)
+
+
+    # 中文语句切分
+    def split_sentences(self, text):
+        # 使用正则表达式切分句子
+        sentences = re.split('([。！？.!?])', text)
+        result = []
+        for sentence in sentences:
+            if sentence not in ["。", "！", "？", ".", "!", "?"]:
+                result.append(sentence)
+        
+        # print(result)
+        return result
+    
