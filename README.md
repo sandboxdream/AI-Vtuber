@@ -274,6 +274,19 @@ GUI程序运行后会自动加载配置文件，可以通过GUI程序进行配�
     // 你的名字
     "your_name": "你"
   },
+  // 点歌模式设置
+  "choose_song": {
+    // 是否启用 true启用 false关闭
+    "enable": true,
+    // 点歌触发命令（完全匹配才行）
+    "start_cmd": "点歌 ",
+    // 停止点歌命令（完全匹配才行）
+    "stop_cmd": "取消点歌",
+    // 歌曲音频路径（默认为本项目的song文件夹）
+    "song_path": "song",
+    // 匹配失败返回的音频文案 注意 {content} 这个是用于替换用户发送的歌名的，请务必不要乱删！影响使用！
+    "match_fail_copy": "抱歉，我还没学会唱{content}"
+  },
   // stable diffusion相关配置
   "sd": {
     // 是否启用
@@ -531,18 +544,16 @@ ModuleNotFoundError: No module named 'ahocorasick'
 
 ### 打包懒人包
 
-1、本地装有conda环境并配置环境变量  
-2、在本文件夹创建虚拟环境  
-`conda create --prefix ./venv python=3.10`  
+1、直接在懒人包中安装miniconda  
+2、激活base虚拟环境（使用写好的激活脚本）  
 3、安装依赖  
-`venv\python.exe -m pip install -r requirements_bilibili.txt -i https://pypi.tuna.tsinghua.edu.cn/simple`  
-`venv\python.exe -m pip install -r requirements_dy.txt -i https://pypi.tuna.tsinghua.edu.cn/simple`  
-`venv\python.exe -m pip install -r requirements_ks.txt -i https://pypi.tuna.tsinghua.edu.cn/simple`  
+`pip install -r requirements_bilibili.txt -i https://pypi.tuna.tsinghua.edu.cn/simple`  
+`pip install -r requirements_dy.txt -i https://pypi.tuna.tsinghua.edu.cn/simple`  
+`pip install -r requirements_ks.txt -i https://pypi.tuna.tsinghua.edu.cn/simple`  
 4、安装chatterbot（可选）
-`venv\python.exe -m pip install spacy SQLAlchemy==1.3.24 -i https://pypi.tuna.tsinghua.edu.cn/simple`  
+`pip install spacy SQLAlchemy==1.3.24 -i https://pypi.tuna.tsinghua.edu.cn/simple`  
 前提是你在当前目录下有clone chatterbot的项目（自行调整路径关系）  
-`venv\python.exe setup.py install`  
-5、修改`audio.py`中`edge-tts`的调用实现。`venv\python.exe venv\Scripts\edge-tts.exe`  
+`python setup.py install`  
 
 ### MD目录自动生成
 
@@ -621,6 +632,7 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 - 本机语音直接交流模式
 - 本地的用户拉黑机制
 - 礼物互动机制（跳舞，唱歌）
+- 弹幕跳过机制
 
 ## 📝 更新日志
 
@@ -701,7 +713,7 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 - 给audio合成中 vits没有启动时的数据解析追加try异常捕获。
 - 修复 回复文本切分时，对空字符串的过滤遗漏，并对.的过滤进行删除，默认中文环境的过滤
 - 音频合成部分基本上都进行了异常捕获。
-
+- 新增功能 点歌模式 触发优先级高于LLM和弹幕过滤机制，可以通过 自定义点歌和取消点歌命令 播放本机已有音频。
 
 </details>
 

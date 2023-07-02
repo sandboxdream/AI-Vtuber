@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1035</width>
+    <width>1067</width>
     <height>799</height>
    </rect>
   </property>
@@ -45,9 +45,9 @@
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>0</y>
+             <y>-2962</y>
              <width>860</width>
-             <height>4031</height>
+             <height>4295</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -1093,6 +1093,73 @@
              </widget>
             </item>
             <item>
+             <widget class="QGroupBox" name="groupBox_choose_song">
+              <property name="title">
+               <string>点歌模式</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_34">
+               <item row="0" column="0">
+                <layout class="QGridLayout" name="gridLayout_33">
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="label_choose_song_start_cmd">
+                   <property name="text">
+                    <string>点歌触发命令</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="1">
+                  <widget class="QLineEdit" name="lineEdit_choose_song_song_path"/>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="QLabel" name="label_choose_song_stop_cmd">
+                   <property name="text">
+                    <string>取消点歌命令</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QLineEdit" name="lineEdit_choose_song_start_cmd"/>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_choose_song_enable">
+                   <property name="text">
+                    <string>启用</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="0">
+                  <widget class="QLabel" name="label_choose_song_song_path">
+                   <property name="text">
+                    <string>歌曲路径</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QCheckBox" name="checkBox_choose_song_enable">
+                   <property name="text">
+                    <string>是</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QLineEdit" name="lineEdit_choose_song_stop_cmd"/>
+                 </item>
+                 <item row="4" column="0">
+                  <widget class="QLabel" name="label_choose_song_match_fail_copy">
+                   <property name="text">
+                    <string>匹配失败文案</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="4" column="1">
+                  <widget class="QLineEdit" name="lineEdit_choose_song_match_fail_copy"/>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
              <widget class="QGroupBox" name="groupBox_sd">
               <property name="title">
                <string>Stable Diffusion</string>
@@ -1414,7 +1481,7 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1035</width>
+     <width>1067</width>
      <height>26</height>
     </rect>
    </property>

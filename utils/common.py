@@ -10,6 +10,8 @@ import langid
 from profanity import profanity
 import ahocorasick
 
+import difflib
+
 class Common:
     # 获取北京时间
     def get_bj_time(self, type=0):
@@ -148,3 +150,25 @@ class Common:
         # print(result)
         return result
     
+
+    # 字符串匹配算法来计算字符串之间的相似度，并选择匹配度最高的字符串作为结果
+    def find_best_match(self, substring, string_list):
+        """字符串匹配算法来计算字符串之间的相似度，并选择匹配度最高的字符串作为结果
+
+        Args:
+            substring (_type_): 要搜索的子串
+            string_list (_type_): 字符串列表
+
+        Returns:
+            _type_: 匹配到的字符串 或 None
+        """
+        best_match = None
+        best_ratio = 0
+        
+        for string in string_list:
+            ratio = difflib.SequenceMatcher(None, substring, string).ratio()
+            if ratio > best_ratio:
+                best_ratio = ratio
+                best_match = string
+        
+        return best_match

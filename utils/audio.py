@@ -8,19 +8,23 @@ import edge_tts
 import asyncio
 from copy import deepcopy
 import aiohttp
+import glob
+import os
 
 from elevenlabs import generate, play, set_api_key
 
 from .common import Common
 from .logger import Configure_logger
+from .config import Config
 
 
 class Audio:
     # 存储消息（待合成音频的弹幕）
     messages = []
 
-    def __init__(self):  
+    def __init__(self, config_path):  
         self.common = Common()
+        self.config = Config(config_path)
 
         # 日志文件路径
         file_path = "./log/log-" + self.common.get_bj_time(1) + ".txt"
@@ -39,6 +43,34 @@ class Audio:
         # 音频合成单独一个线程排队播放
         self.only_play_audio_thread = threading.Thread(target=self.only_play_audio)
         self.only_play_audio_thread.start()
+
+
+    # 获取本地音频文件夹内所有的音频文件名
+    def get_dir_songs_filename(self):
+        try:
+            song_path = self.config.get("choose_song", "song_path")
+
+            # 使用 glob 模块匹配指定文件夹下的所有音频文件
+            audio_files = glob.glob(os.path.join(song_path, '*.mp3')) + \
+                        glob.glob(os.path.join(song_path, '*.wav')) + \
+                        glob.glob(os.path.join(song_path, '*.flac')) + \
+                        glob.glob(os.path.join(song_path, '*.aac')) + \
+                        glob.glob(os.path.join(song_path, '*.ogg')) + \
+                        glob.glob(os.path.join(song_path, '*.m4a'))
+
+
+            # 提取文件名
+            file_names = [os.path.basename(file) for file in audio_files]
+            # 提取文件名（去除文件后缀）
+            # file_names = [os.path.splitext(os.path.basename(file))[0] for file in audio_files]
+
+            logging.info("获取到本地音频文件名列表如下：")
+            logging.info(file_names)
+        
+            return file_names
+        except Exception as e:
+            logging.error(e)
+            return None
 
 
     # 音频合成消息队列线程
@@ -101,6 +133,13 @@ class Audio:
     def audio_synthesis(self, message):
         try:
             logging.debug(message)
+
+            # 判断是否是点歌模式
+            if message['type'] == "song":
+                self.voice_tmp_path_queue.put(message['content'])
+                return
+
+            # 中文语句切分
             sentences = self.common.split_sentences(message['content'])
             for s in sentences:
                 message_copy = deepcopy(message)  # 创建 message 的副本
@@ -112,6 +151,7 @@ class Audio:
         except Exception as e:
             logging.error(e)
             return
+
 
     # 播放音频
     async def my_play_voice(self, message):
@@ -209,6 +249,11 @@ class Audio:
             pygame.mixer.quit()
         except Exception as e:
             logging.error(e)
+
+
+    # 停止当前播放的音频
+    def stop_current_audio(self):
+        pygame.mixer.music.fadeout(1000)
 
 
     # 调用so-vits-svc的api

@@ -90,6 +90,13 @@
     "instruction_template": "Vicuna-v1.1",
     "your_name": "你"
   },
+  "choose_song": {
+    "enable": true,
+    "start_cmd": "点歌 ",
+    "stop_cmd": "取消点歌",
+    "song_path": "song",
+    "match_fail_copy": "抱歉，我还没学会唱{content}"
+  },
   "sd": {
     "enable": false,
     "trigger": "画画：",

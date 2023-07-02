@@ -137,6 +137,9 @@ class AI_VTB(QMainWindow):
             self.vits_config = config.get("vits")
             self.elevenlabs_config = config.get("elevenlabs")
             
+            # 点歌模式
+            self.choose_song_config = config.get("choose_song")
+
             self.sd_config = config.get("sd")
 
             self.header_config = config.get("header")
@@ -427,6 +430,14 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_elevenlabs_api_key.setText(self.elevenlabs_config['api_key'])
             self.ui.lineEdit_elevenlabs_voice.setText(self.elevenlabs_config['voice'])
             self.ui.lineEdit_elevenlabs_model.setText(self.elevenlabs_config['model'])
+
+            # 点歌模式 配置回显部分
+            if self.choose_song_config['enable']:
+                self.ui.checkBox_choose_song_enable.setChecked(True)
+            self.ui.lineEdit_choose_song_start_cmd.setText(self.choose_song_config['start_cmd'])
+            self.ui.lineEdit_choose_song_stop_cmd.setText(self.choose_song_config['stop_cmd'])
+            self.ui.lineEdit_choose_song_song_path.setText(self.choose_song_config['song_path'])
+            self.ui.lineEdit_choose_song_match_fail_copy.setText(self.choose_song_config['match_fail_copy'])
 
             # sd 配置回显部分
             if self.sd_config['enable']:
@@ -725,45 +736,38 @@ class AI_VTB(QMainWindow):
             elevenlabs_model = self.ui.lineEdit_elevenlabs_model.text()
             config_data["elevenlabs"]["model"] = elevenlabs_model
 
+            # 点歌
+            config_data["choose_song"]["enable"] = self.ui.checkBox_choose_song_enable.isChecked()
+            config_data["choose_song"]["start_cmd"] = self.ui.lineEdit_choose_song_start_cmd.text()
+            config_data["choose_song"]["stop_cmd"] = self.ui.lineEdit_choose_song_stop_cmd.text()
+            config_data["choose_song"]["song_path"] = self.ui.lineEdit_choose_song_song_path.text()
+            config_data["choose_song"]["match_fail_copy"] = self.ui.lineEdit_choose_song_match_fail_copy.text()
+
             # SD
-            sd_enable = self.ui.checkBox_sd_enable.isChecked()
-            config_data["sd"]["enable"] = sd_enable
-            sd_trigger = self.ui.lineEdit_sd_trigger.text()
-            config_data["sd"]["trigger"] = sd_trigger
-            sd_ip = self.ui.lineEdit_sd_ip.text()
-            config_data["sd"]["ip"] = sd_ip
+            config_data["sd"]["enable"] = self.ui.checkBox_sd_enable.isChecked()
+            config_data["sd"]["trigger"] = self.ui.lineEdit_sd_trigger.text()
+            config_data["sd"]["ip"] = self.ui.lineEdit_sd_ip.text()
             sd_port = self.ui.lineEdit_sd_port.text()
             print(f"sd_port={sd_port}")
             config_data["sd"]["port"] = int(sd_port)
-            sd_negative_prompt = self.ui.lineEdit_sd_negative_prompt.text()
-            config_data["sd"]["negative_prompt"] = sd_negative_prompt
-            sd_seed = self.ui.lineEdit_sd_seed.text()
-            config_data["sd"]["seed"] = float(sd_seed)
+            config_data["sd"]["negative_prompt"] = self.ui.lineEdit_sd_negative_prompt.text()
+            config_data["sd"]["seed"] = float(self.ui.lineEdit_sd_seed.text())
             # 获取多行文本输入框的内容
             sd_styles = self.ui.textEdit_sd_styles.toPlainText()
             styles = [token.strip() for separator in separators for part in sd_styles.split(separator) if (token := part.strip())]
             if 0 != len(styles):
                 styles = styles[1:]
             config_data["sd"]["styles"] = styles
-            sd_cfg_scale = self.ui.lineEdit_sd_cfg_scale.text()
-            config_data["sd"]["cfg_scale"] = int(sd_cfg_scale)
-            sd_steps = self.ui.lineEdit_sd_steps.text()
-            config_data["sd"]["steps"] = int(sd_steps)
-            sd_hr_resize_x = self.ui.lineEdit_sd_hr_resize_x.text()
-            config_data["sd"]["hr_resize_x"] = int(sd_hr_resize_x)
-            sd_hr_resize_y = self.ui.lineEdit_sd_hr_resize_y.text()
-            config_data["sd"]["hr_resize_y"] = int(sd_hr_resize_y)
-            sd_enable_hr = self.ui.checkBox_sd_enable_hr.isChecked()
-            config_data["sd"]["enable_hr"] = sd_enable_hr
-            sd_hr_scale = self.ui.lineEdit_sd_hr_scale.text()
-            config_data["sd"]["hr_scale"] = int(sd_hr_scale)
-            sd_hr_second_pass_steps = self.ui.lineEdit_sd_hr_second_pass_steps.text()
-            config_data["sd"]["hr_second_pass_steps"] = int(sd_hr_second_pass_steps)
-            sd_denoising_strength = self.ui.lineEdit_sd_denoising_strength.text()
-            config_data["sd"]["denoising_strength"] = float(sd_denoising_strength)
+            config_data["sd"]["cfg_scale"] = int(self.ui.lineEdit_sd_cfg_scale.text())
+            config_data["sd"]["steps"] = int(self.ui.lineEdit_sd_steps.text())
+            config_data["sd"]["hr_resize_x"] = int(self.ui.lineEdit_sd_hr_resize_x.text())
+            config_data["sd"]["hr_resize_y"] = int(self.ui.lineEdit_sd_hr_resize_y.text())
+            config_data["sd"]["enable_hr"] = self.ui.checkBox_sd_enable_hr.isChecked()
+            config_data["sd"]["hr_scale"] = int(self.ui.lineEdit_sd_hr_scale.text())
+            config_data["sd"]["hr_second_pass_steps"] = int(self.ui.lineEdit_sd_hr_second_pass_steps.text())
+            config_data["sd"]["denoising_strength"] = float(self.ui.lineEdit_sd_denoising_strength.text())
 
-            header_useragent = self.ui.lineEdit_header_useragent.text()
-            config_data["header"]["userAgent"] = header_useragent
+            config_data["header"]["userAgent"] = self.ui.lineEdit_header_useragent.text()
             
 
             # logging.info(config_data)
