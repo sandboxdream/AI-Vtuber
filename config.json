@@ -26,8 +26,7 @@
   "openai": {
     "api": "https://api.openai.com/v1",
     "api_key": [
-      "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",
-      "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"
+      "你的api_key"
     ],
     "model": "gpt-3.5-turbo-0301"
   },
@@ -39,8 +38,7 @@
     "api_ip_port": "http://127.0.0.1:8000",
     "max_length": 2048,
     "top_p": 0.7,
-    "temperature": 0.95,
-    "max_new_tokens": 250
+    "temperature": 0.95
   },
   "chat_with_file": {
     "chat_mode": "",
@@ -59,7 +57,7 @@
     "config_path": "D:\\GitHub_pro\\VITS-fast-fine-tuning\\inference\\finetune_speaker.json",
     "api_ip_port": "http://127.0.0.1:7860",
     "character": "ikaros",
-    "speed": 1.0
+    "speed": 1
   },
   "edge-tts": {
     "voice": "zh-CN-XiaoyiNeural",
@@ -98,7 +96,7 @@
     "ip": "127.0.0.1",
     "port": 7860,
     "negative_prompt": "ufsw, longbody, lowres, bad anatomy, bad hands, missing fingers, pubic hair,extra digit, fewer digits, cropped, worst quality, low quality",
-    "seed": -1.0,
+    "seed": -1,
     "styles": [],
     "cfg_scale": 7,
     "steps": 30,

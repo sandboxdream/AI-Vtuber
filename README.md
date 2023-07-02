@@ -697,6 +697,8 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 
 ### 2023-07-02
 - chat_with_file模式支持加载本地模型，无需链接huggingface仓库
+- 延长audio合成部分，合成队列的循环延时，一定程度上降低对Edge-TTS的压力。
+- 给audio合成中 vits没有启动时的数据解析追加try异常捕获。
 
 </details>
 
