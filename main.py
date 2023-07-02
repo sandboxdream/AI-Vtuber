@@ -219,6 +219,12 @@ class AI_VTB(QMainWindow):
             self.ui.label_elevenlabs_voice.setToolTip("选择的说话人名")
             self.ui.label_elevenlabs_model.setToolTip("选择的模型")
 
+            self.ui.label_choose_song_enable.setToolTip("是否启用点歌模式")
+            self.ui.label_choose_song_start_cmd.setToolTip("点歌触发命令（完全匹配才行）")
+            self.ui.label_choose_song_stop_cmd.setToolTip("停止点歌命令（完全匹配才行）")
+            self.ui.label_choose_song_song_path.setToolTip("歌曲音频路径（默认为本项目的song文件夹）")
+            self.ui.label_choose_song_match_fail_copy.setToolTip("匹配失败返回的音频文案 注意 {content} 这个是用于替换用户发送的歌名的，请务必不要乱删！影响使用！")
+
             self.ui.label_sd_enable.setToolTip("是否启用SD来进行画图")
             self.ui.label_sd_trigger.setToolTip("触发的关键词（弹幕头部触发）")
             self.ui.label_sd_ip.setToolTip("服务运行的IP地址")
