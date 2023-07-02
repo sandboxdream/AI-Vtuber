@@ -1,4 +1,8 @@
+import os
+import zipfile
+
 from PyPDF2 import PdfReader
+from langchain.document_loaders import DirectoryLoader, TextLoader, PyPDFLoader
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.vectorstores import ElasticVectorSearch, Pinecone, Weaviate, FAISS
@@ -7,6 +11,7 @@ from langchain.llms import OpenAI
 from langchain.chat_models import ChatOpenAI
 from langchain.callbacks import get_openai_callback
 from langchain.prompts import PromptTemplate
+from tqdm.auto import tqdm
 
 import logging
 
@@ -23,20 +28,34 @@ class Openai_mode(Chat_model):
 
         logging.info(f"pdf文件路径：{self.data_path}")
 
-        # 加载本地的pdf文件
-        reader = PdfReader(self.data_path)
+        # 加载本地的zip文件
+        # 存储的文件格式
+        # structure: ./data/vector_base
+        #               - source data
+        store_path = os.getcwd() + "/data/vector_base/"
+        if not os.path.exists(store_path):
+            os.makedirs(store_path)
+            project_path = store_path
+            source_data = os.path.join(project_path, "source_data")
+            os.makedirs(source_data)  # ./vector_base/source_data
 
-        # read data from the file and put them into a variable called raw_text
-        # 读取数据存入raw_text
-        raw_text = ''
-        for i, page in enumerate(reader.pages):
-            text = page.extract_text()
-            if text:
-                raw_text += text
+        # 解压数据包
+        with zipfile.ZipFile(self.data_path, 'r') as zip_ref:
+            # extract everything to "source_data"
+            zip_ref.extractall(source_data)
 
-        # logging.info(raw_text)
-
-        logging.info("文档前100个字符：" + raw_text[:100])
+        # 处理不同的文本文件
+        all_docs = []
+        for ext in [".txt", ".tex", ".md", ".pdf"]:
+            if ext in [".txt", ".tex", ".md"]:
+                loader = DirectoryLoader(source_data, glob=f"**/*{ext}", loader_cls=TextLoader,
+                                         loader_kwargs={'autodetect_encoding': True})
+            elif ext in [".pdf"]:
+                loader = DirectoryLoader(source_data, glob=f"**/*{ext}", loader_cls=PyPDFLoader)
+            else:
+                continue
+            docs = loader.load()
+            all_docs = all_docs + docs
 
         # We need to split the text that we read into smaller chunks so that during information retreival we don't hit the token size limits. 
         # 我们需要将读取的文本分成更小的块，这样在信息检索过程中就不会达到令牌大小的限制。
@@ -53,7 +72,11 @@ class Openai_mode(Chat_model):
             # 例如，如果你的文本是由词汇组成的，你可能想要使用一个函数，其计算文本块中的词汇数，而不是字符数。
             length_function=len,
         )
-        texts = text_splitter.split_text(raw_text)
+
+        for idx, page in enumerate(tqdm(docs)):
+            content = page.page_content
+            if len(content) > self.chunk_size:
+                texts = text_splitter.split_text(content)
 
         logging.info("共切分为" + str(len(texts)) + "块文本内容")
 
