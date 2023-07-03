@@ -26,13 +26,13 @@
   "openai": {
     "api": "https://api.openai.com/v1",
     "api_key": [
-      "你的api_key"
+      "你的api key"
     ],
     "model": "gpt-3.5-turbo-0301"
   },
   "claude": {
-    "slack_user_token": "",
-    "bot_user_id": ""
+    "slack_user_token": "xoxp-5408795235075-5408920581074-5465524888785-46b44cb7c09462d0519ceb4492dcf504",
+    "bot_user_id": "U05CW9LJ30X"
   },
   "chatglm": {
     "api_ip_port": "http://127.0.0.1:8000",
@@ -59,6 +59,14 @@
     "api_ip_port": "http://127.0.0.1:7860",
     "character": "ikaros",
     "speed": 1.0
+  },
+  "so_vits_svc": {
+    "enable": false,
+    "config_path": "D:\\so-vits-svc\\configs\\ikaros_v1.json",
+    "api_ip_port": "http://127.0.0.1:1145",
+    "spk": "ikaros",
+    "tran": 1.0,
+    "wav_format": "wav"
   },
   "edge-tts": {
     "voice": "zh-CN-XiaoyiNeural",

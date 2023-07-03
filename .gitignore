@@ -154,6 +154,7 @@ cython_debug/
 数据备份/
 训练数据集/
 out/*.mp3
+out/*.wav
 log/*.txt
 log.txt
 output.txt

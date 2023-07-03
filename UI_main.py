@@ -37,7 +37,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -2962, 860, 4295))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -3160, 860, 4599))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout.setContentsMargins(35, 20, 35, 20)
@@ -587,6 +587,50 @@ class Ui_MainWindow(object):
         self.gridLayout_33.addWidget(self.lineEdit_choose_song_match_fail_copy, 4, 1, 1, 1)
         self.gridLayout_34.addLayout(self.gridLayout_33, 0, 0, 1, 1)
         self.verticalLayout.addWidget(self.groupBox_choose_song)
+        self.groupBox_so_vits_svc = QtWidgets.QGroupBox(self.scrollAreaWidgetContents)
+        self.groupBox_so_vits_svc.setObjectName("groupBox_so_vits_svc")
+        self.gridLayout_36 = QtWidgets.QGridLayout(self.groupBox_so_vits_svc)
+        self.gridLayout_36.setObjectName("gridLayout_36")
+        self.gridLayout_35 = QtWidgets.QGridLayout()
+        self.gridLayout_35.setObjectName("gridLayout_35")
+        self.checkBox_so_vits_svc_enable = QtWidgets.QCheckBox(self.groupBox_so_vits_svc)
+        self.checkBox_so_vits_svc_enable.setObjectName("checkBox_so_vits_svc_enable")
+        self.gridLayout_35.addWidget(self.checkBox_so_vits_svc_enable, 0, 1, 1, 1)
+        self.lineEdit_so_vits_svc_api_ip_port = QtWidgets.QLineEdit(self.groupBox_so_vits_svc)
+        self.lineEdit_so_vits_svc_api_ip_port.setObjectName("lineEdit_so_vits_svc_api_ip_port")
+        self.gridLayout_35.addWidget(self.lineEdit_so_vits_svc_api_ip_port, 2, 1, 1, 1)
+        self.label_so_vits_svc_config_path = QtWidgets.QLabel(self.groupBox_so_vits_svc)
+        self.label_so_vits_svc_config_path.setObjectName("label_so_vits_svc_config_path")
+        self.gridLayout_35.addWidget(self.label_so_vits_svc_config_path, 1, 0, 1, 1)
+        self.label_so_vits_svc_api_ip_port = QtWidgets.QLabel(self.groupBox_so_vits_svc)
+        self.label_so_vits_svc_api_ip_port.setObjectName("label_so_vits_svc_api_ip_port")
+        self.gridLayout_35.addWidget(self.label_so_vits_svc_api_ip_port, 2, 0, 1, 1)
+        self.lineEdit_so_vits_svc_tran = QtWidgets.QLineEdit(self.groupBox_so_vits_svc)
+        self.lineEdit_so_vits_svc_tran.setObjectName("lineEdit_so_vits_svc_tran")
+        self.gridLayout_35.addWidget(self.lineEdit_so_vits_svc_tran, 4, 1, 1, 1)
+        self.lineEdit_so_vits_svc_config_path = QtWidgets.QLineEdit(self.groupBox_so_vits_svc)
+        self.lineEdit_so_vits_svc_config_path.setObjectName("lineEdit_so_vits_svc_config_path")
+        self.gridLayout_35.addWidget(self.lineEdit_so_vits_svc_config_path, 1, 1, 1, 1)
+        self.label_so_vits_svc_enable = QtWidgets.QLabel(self.groupBox_so_vits_svc)
+        self.label_so_vits_svc_enable.setObjectName("label_so_vits_svc_enable")
+        self.gridLayout_35.addWidget(self.label_so_vits_svc_enable, 0, 0, 1, 1)
+        self.label_so_vits_svc_spk = QtWidgets.QLabel(self.groupBox_so_vits_svc)
+        self.label_so_vits_svc_spk.setObjectName("label_so_vits_svc_spk")
+        self.gridLayout_35.addWidget(self.label_so_vits_svc_spk, 3, 0, 1, 1)
+        self.lineEdit_so_vits_svc_spk = QtWidgets.QLineEdit(self.groupBox_so_vits_svc)
+        self.lineEdit_so_vits_svc_spk.setObjectName("lineEdit_so_vits_svc_spk")
+        self.gridLayout_35.addWidget(self.lineEdit_so_vits_svc_spk, 3, 1, 1, 1)
+        self.label_so_vits_svc_tran = QtWidgets.QLabel(self.groupBox_so_vits_svc)
+        self.label_so_vits_svc_tran.setObjectName("label_so_vits_svc_tran")
+        self.gridLayout_35.addWidget(self.label_so_vits_svc_tran, 4, 0, 1, 1)
+        self.label_so_vits_svc_wav_format = QtWidgets.QLabel(self.groupBox_so_vits_svc)
+        self.label_so_vits_svc_wav_format.setObjectName("label_so_vits_svc_wav_format")
+        self.gridLayout_35.addWidget(self.label_so_vits_svc_wav_format, 5, 0, 1, 1)
+        self.lineEdit_so_vits_svc_wav_format = QtWidgets.QLineEdit(self.groupBox_so_vits_svc)
+        self.lineEdit_so_vits_svc_wav_format.setObjectName("lineEdit_so_vits_svc_wav_format")
+        self.gridLayout_35.addWidget(self.lineEdit_so_vits_svc_wav_format, 5, 1, 1, 1)
+        self.gridLayout_36.addLayout(self.gridLayout_35, 0, 0, 1, 1)
+        self.verticalLayout.addWidget(self.groupBox_so_vits_svc)
         self.groupBox_sd = QtWidgets.QGroupBox(self.scrollAreaWidgetContents)
         self.groupBox_sd.setObjectName("groupBox_sd")
         self.gridLayout_32 = QtWidgets.QGridLayout(self.groupBox_sd)
@@ -736,7 +780,7 @@ class Ui_MainWindow(object):
         self.pushButton_factory = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_factory.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_factory.setStyleSheet("border: 1px solid #dcdfe6;\n"
-"background-color: rgba(245, 46, 46, 255);\n"
+"background-color: #f56c6c;\n"
 "text-align: center;\n"
 "padding: 12px 16px;\n"
 "border-radius: 4px;\n"
@@ -746,7 +790,7 @@ class Ui_MainWindow(object):
         self.pushButton_run_page = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_run_page.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_run_page.setStyleSheet("border: 1px solid #dcdfe6;\n"
-"background-color: rgba(230, 162, 60, 255);\n"
+"background-color: #e6a23c;\n"
 "text-align: center;\n"
 "padding: 12px 16px;\n"
 "border-radius: 4px;\n"
@@ -756,7 +800,7 @@ class Ui_MainWindow(object):
         self.pushButton_config_page = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_config_page.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_config_page.setStyleSheet("border: 1px solid #dcdfe6;\n"
-"background-color: rgba(230, 162, 60, 255);\n"
+"background-color: #e6a23c;\n"
 "text-align: center;\n"
 "padding: 12px 16px;\n"
 "border-radius: 4px;\n"
@@ -918,6 +962,14 @@ class Ui_MainWindow(object):
         self.label_choose_song_song_path.setText(_translate("MainWindow", "歌曲路径"))
         self.checkBox_choose_song_enable.setText(_translate("MainWindow", "是"))
         self.label_choose_song_match_fail_copy.setText(_translate("MainWindow", "匹配失败文案"))
+        self.groupBox_so_vits_svc.setTitle(_translate("MainWindow", "so-vits-svc"))
+        self.checkBox_so_vits_svc_enable.setText(_translate("MainWindow", "是"))
+        self.label_so_vits_svc_config_path.setText(_translate("MainWindow", "配置文件路径"))
+        self.label_so_vits_svc_api_ip_port.setText(_translate("MainWindow", "API地址"))
+        self.label_so_vits_svc_enable.setText(_translate("MainWindow", "启用"))
+        self.label_so_vits_svc_spk.setText(_translate("MainWindow", "说话人"))
+        self.label_so_vits_svc_tran.setText(_translate("MainWindow", "音调"))
+        self.label_so_vits_svc_wav_format.setText(_translate("MainWindow", "输出音频格式"))
         self.groupBox_sd.setTitle(_translate("MainWindow", "Stable Diffusion"))
         self.label_sd_seed.setText(_translate("MainWindow", "随机种子"))
         self.label_sd_hr_resize_y.setText(_translate("MainWindow", "图像垂直像素"))

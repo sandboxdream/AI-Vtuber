@@ -129,6 +129,37 @@ class Audio:
             return None
     
 
+    # 调用so-vits-svc的api
+    async def so_vits_svc_api(self, audio_path=""):
+        try:
+            url = f"{self.config.get('so_vits_svc', 'api_ip_port')}/wav2wav"
+            
+            params = {
+                "audio_path": audio_path,
+                "tran": self.config.get("so_vits_svc", "tran"),
+                "spk": self.config.get("so_vits_svc", "spk"),
+                "wav_format": self.config.get("so_vits_svc", "wav_format")
+            }
+
+            # logging.info(params)
+
+            async with aiohttp.ClientSession() as session:
+                async with session.post(url, data=params) as response:
+                    if response.status == 200:
+                        output_path = "out/" + self.common.get_bj_time(4) + ".wav"  # Replace with the desired path to save the output WAV file
+                        with open(output_path, "wb") as f:
+                            f.write(await response.read())
+                        logging.debug(f"Conversion completed. Output WAV file saved:{output_path}")
+
+                        return output_path
+                    else:
+                        logging.error(await response.text())
+
+                        return None
+        except Exception as e:
+            logging.error(e)
+
+
     # 音频合成（edge-tts / vits）并播放
     def audio_synthesis(self, message):
         try:
@@ -187,8 +218,9 @@ class Audio:
                 voice_tmp_path = data_json["data"][1]["name"]
                 # print(f"voice_tmp_path={voice_tmp_path}")
 
-                # voice_tmp_path = await self.so_vits_svc_api(audio_path=voice_tmp_path)
-                # print(f"voice_tmp_path={voice_tmp_path}")
+                if True == self.config.get("so_vits_svc", "enable"):
+                    voice_tmp_path = await self.so_vits_svc_api(audio_path=voice_tmp_path)
+                    # print(f"voice_tmp_path={voice_tmp_path}")
 
                 self.voice_tmp_path_queue.put(voice_tmp_path)
             except Exception as e:
@@ -205,8 +237,9 @@ class Audio:
 
                 # logging.info(f"voice_tmp_path={voice_tmp_path}")
 
-                # voice_tmp_path = await self.so_vits_svc_api(audio_path=voice_tmp_path)
-                # print(f"voice_tmp_path={voice_tmp_path}")
+                if True == self.config.get("so_vits_svc", "enable"):
+                    voice_tmp_path = await self.so_vits_svc_api(audio_path=os.path.abspath(voice_tmp_path))
+                    # print(f"voice_tmp_path={voice_tmp_path}")
 
                 self.voice_tmp_path_queue.put(voice_tmp_path)
             except Exception as e:
@@ -254,34 +287,3 @@ class Audio:
     # 停止当前播放的音频
     def stop_current_audio(self):
         pygame.mixer.music.fadeout(1000)
-
-
-    # 调用so-vits-svc的api
-    async def so_vits_svc_api(self, so_vits_svc_api_ip_port="http://127.0.0.1:1145", audio_path="", tran="0", spk="ikaros", wav_format="wav"):
-        try:
-            url = f"{so_vits_svc_api_ip_port}/wav2wav"
-            
-            params = {
-                "audio_path": audio_path,
-                "tran": tran,
-                "spk": spk,
-                "wav_format": wav_format
-            }
-
-            print(params)
-
-            async with aiohttp.ClientSession() as session:
-                async with session.post(url, data=params) as response:
-                    if response.status == 200:
-                        output_path = "out/" + self.common.get_bj_time(4) + ".wav"  # Replace with the desired path to save the output WAV file
-                        with open(output_path, "wb") as f:
-                            f.write(await response.read())
-                        print("Conversion completed. Output WAV file saved:", output_path)
-
-                        return output_path
-                    else:
-                        print("Error:", await response.text())
-
-                        return None
-        except Exception as e:
-            logging.error(e)
