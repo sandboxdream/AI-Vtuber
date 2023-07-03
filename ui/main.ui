@@ -45,9 +45,9 @@
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-2962</y>
+             <y>-3160</y>
              <width>860</width>
-             <height>4295</height>
+             <height>4599</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -1160,6 +1160,83 @@
              </widget>
             </item>
             <item>
+             <widget class="QGroupBox" name="groupBox_so_vits_svc">
+              <property name="title">
+               <string>so-vits-svc</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_36">
+               <item row="0" column="0">
+                <layout class="QGridLayout" name="gridLayout_35">
+                 <item row="0" column="1">
+                  <widget class="QCheckBox" name="checkBox_so_vits_svc_enable">
+                   <property name="text">
+                    <string>是</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QLineEdit" name="lineEdit_so_vits_svc_api_ip_port"/>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="label_so_vits_svc_config_path">
+                   <property name="text">
+                    <string>配置文件路径</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="QLabel" name="label_so_vits_svc_api_ip_port">
+                   <property name="text">
+                    <string>API地址</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="4" column="1">
+                  <widget class="QLineEdit" name="lineEdit_so_vits_svc_tran"/>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QLineEdit" name="lineEdit_so_vits_svc_config_path"/>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_so_vits_svc_enable">
+                   <property name="text">
+                    <string>启用</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="0">
+                  <widget class="QLabel" name="label_so_vits_svc_spk">
+                   <property name="text">
+                    <string>说话人</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="1">
+                  <widget class="QLineEdit" name="lineEdit_so_vits_svc_spk"/>
+                 </item>
+                 <item row="4" column="0">
+                  <widget class="QLabel" name="label_so_vits_svc_tran">
+                   <property name="text">
+                    <string>音调</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="5" column="0">
+                  <widget class="QLabel" name="label_so_vits_svc_wav_format">
+                   <property name="text">
+                    <string>输出音频格式</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="5" column="1">
+                  <widget class="QLineEdit" name="lineEdit_so_vits_svc_wav_format"/>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
              <widget class="QGroupBox" name="groupBox_sd">
               <property name="title">
                <string>Stable Diffusion</string>
@@ -1427,7 +1504,7 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
       </property>
       <property name="styleSheet">
        <string notr="true">border: 1px solid #dcdfe6;
-background-color: rgba(245, 46, 46, 255);
+background-color: #f56c6c;
 text-align: center;
 padding: 12px 16px;
 border-radius: 4px;
@@ -1445,7 +1522,7 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
       </property>
       <property name="styleSheet">
        <string notr="true">border: 1px solid #dcdfe6;
-background-color: rgba(230, 162, 60, 255);
+background-color: #e6a23c;
 text-align: center;
 padding: 12px 16px;
 border-radius: 4px;
@@ -1463,7 +1540,7 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
       </property>
       <property name="styleSheet">
        <string notr="true">border: 1px solid #dcdfe6;
-background-color: rgba(230, 162, 60, 255);
+background-color: #e6a23c;
 text-align: center;
 padding: 12px 16px;
 border-radius: 4px;

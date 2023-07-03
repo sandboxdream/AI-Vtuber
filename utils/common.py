@@ -5,6 +5,8 @@ from datetime import datetime
 from datetime import timedelta
 from datetime import timezone
 
+from urllib.parse import urlparse
+
 import langid
 
 from profanity import profanity
@@ -100,12 +102,15 @@ class Common:
 
     # 链接检测
     def is_url_check(self, text):
-        url_pattern = re.compile(r'(?i)((?:(?:https?|ftp):\/\/)?[^\s/$.?#]+\.[^\s>]+)')
+        parsed_url = urlparse(text)
+        return all([parsed_url.scheme, parsed_url.netloc])
 
-        if url_pattern.search(text):
-            return True
-        else:
-            return False
+        # url_pattern = re.compile(r'(?i)((?:(?:https?|ftp):\/\/)?[^\s/$.?#]+\.[^\s>]+)')
+
+        # if url_pattern.search(text):
+        #     return True
+        # else:
+        #     return False
 
 
     # 语言检测

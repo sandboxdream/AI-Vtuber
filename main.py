@@ -140,6 +140,9 @@ class AI_VTB(QMainWindow):
             # 点歌模式
             self.choose_song_config = config.get("choose_song")
 
+            self.so_vits_svc_config = config.get("so_vits_svc")
+
+            # SD
             self.sd_config = config.get("sd")
 
             self.header_config = config.get("header")
@@ -225,6 +228,15 @@ class AI_VTB(QMainWindow):
             self.ui.label_choose_song_song_path.setToolTip("歌曲音频路径（默认为本项目的song文件夹）")
             self.ui.label_choose_song_match_fail_copy.setToolTip("匹配失败返回的音频文案 注意 {content} 这个是用于替换用户发送的歌名的，请务必不要乱删！影响使用！")
 
+            # so-vits-svc
+            self.ui.label_so_vits_svc_enable.setToolTip("是否启用so-vits-svc进行音频的变声")
+            self.ui.label_so_vits_svc_config_path.setToolTip("模型配置文件config.json的路径")
+            self.ui.label_so_vits_svc_api_ip_port.setToolTip("flask_api_full_song服务运行的ip端口，例如：http://127.0.0.1:1145")
+            self.ui.label_so_vits_svc_spk.setToolTip("说话人，需要和配置文件内容对应")
+            self.ui.label_so_vits_svc_tran.setToolTip("音调设置，默认为1")
+            self.ui.label_so_vits_svc_wav_format.setToolTip("音频合成后输出的格式")
+
+            # SD
             self.ui.label_sd_enable.setToolTip("是否启用SD来进行画图")
             self.ui.label_sd_trigger.setToolTip("触发的关键词（弹幕头部触发）")
             self.ui.label_sd_ip.setToolTip("服务运行的IP地址")
@@ -444,6 +456,14 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_choose_song_stop_cmd.setText(self.choose_song_config['stop_cmd'])
             self.ui.lineEdit_choose_song_song_path.setText(self.choose_song_config['song_path'])
             self.ui.lineEdit_choose_song_match_fail_copy.setText(self.choose_song_config['match_fail_copy'])
+
+            if self.so_vits_svc_config['enable']:
+                self.ui.checkBox_so_vits_svc_enable.setChecked(True)
+            self.ui.lineEdit_so_vits_svc_config_path.setText(self.so_vits_svc_config['config_path'])
+            self.ui.lineEdit_so_vits_svc_api_ip_port.setText(self.so_vits_svc_config['api_ip_port'])
+            self.ui.lineEdit_so_vits_svc_spk.setText(self.so_vits_svc_config['spk'])
+            self.ui.lineEdit_so_vits_svc_tran.setText(str(self.so_vits_svc_config['tran']))
+            self.ui.lineEdit_so_vits_svc_wav_format.setText(self.so_vits_svc_config['wav_format'])
 
             # sd 配置回显部分
             if self.sd_config['enable']:
@@ -726,7 +746,7 @@ class AI_VTB(QMainWindow):
             vits_character = self.ui.lineEdit_vits_character.text()
             config_data["vits"]["character"] = vits_character
             vits_speed = self.ui.lineEdit_vits_speed.text()
-            config_data["vits"]["speed"] = float(vits_speed)
+            config_data["vits"]["speed"] = round(float(vits_speed), 1)
 
             edge_tts_voice = self.ui.comboBox_edge_tts_voice.currentText()
             config_data["edge-tts"]["voice"] = edge_tts_voice
@@ -748,6 +768,13 @@ class AI_VTB(QMainWindow):
             config_data["choose_song"]["stop_cmd"] = self.ui.lineEdit_choose_song_stop_cmd.text()
             config_data["choose_song"]["song_path"] = self.ui.lineEdit_choose_song_song_path.text()
             config_data["choose_song"]["match_fail_copy"] = self.ui.lineEdit_choose_song_match_fail_copy.text()
+
+            config_data["so_vits_svc"]["enable"] = self.ui.checkBox_so_vits_svc_enable.isChecked()
+            config_data["so_vits_svc"]["config_path"] = self.ui.lineEdit_so_vits_svc_config_path.text()
+            config_data["so_vits_svc"]["api_ip_port"] = self.ui.lineEdit_so_vits_svc_api_ip_port.text()
+            config_data["so_vits_svc"]["spk"] = self.ui.lineEdit_so_vits_svc_spk.text()
+            config_data["so_vits_svc"]["tran"] = round(float(self.ui.lineEdit_so_vits_svc_tran.text()), 1)
+            config_data["so_vits_svc"]["wav_format"] = self.ui.lineEdit_so_vits_svc_wav_format.text()
 
             # SD
             config_data["sd"]["enable"] = self.ui.checkBox_sd_enable.isChecked()
@@ -771,7 +798,7 @@ class AI_VTB(QMainWindow):
             config_data["sd"]["enable_hr"] = self.ui.checkBox_sd_enable_hr.isChecked()
             config_data["sd"]["hr_scale"] = int(self.ui.lineEdit_sd_hr_scale.text())
             config_data["sd"]["hr_second_pass_steps"] = int(self.ui.lineEdit_sd_hr_second_pass_steps.text())
-            config_data["sd"]["denoising_strength"] = float(self.ui.lineEdit_sd_denoising_strength.text())
+            config_data["sd"]["denoising_strength"] = round(float(self.ui.lineEdit_sd_denoising_strength.text()), 1)
 
             config_data["header"]["userAgent"] = self.ui.lineEdit_header_useragent.text()
             

@@ -59,6 +59,14 @@
     "character": "ikaros",
     "speed": 1
   },
+  "so-vits-svc": {
+    "enable": false,
+    "config_path": "D:\\so-vits-svc\\configs\\ikaros_v1.json",
+    "api_ip_port": "http://127.0.0.1:1145",
+    "spk": "ikaros",
+    "tran": 1.0,
+    "wav_format": "wav"
+  },
   "edge-tts": {
     "voice": "zh-CN-XiaoyiNeural",
     "rate": "+0%",
