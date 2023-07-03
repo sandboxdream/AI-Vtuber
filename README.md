@@ -21,7 +21,7 @@ _✨ AI Vtuber ✨_
 
 </div>
 
-AI Vtuber是一个由`ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text-generation-webui`驱动的虚拟主播（Live2D），可以在`Bilibili/抖音/快手`直播中与观众实时互动。它使用自然语言处理和文本转语音技术(`Edge-TTS/VITS-Fast/elevenlabs`)生成对观众问题的回答；通过特定指令协同`Stable Diffusion`进行画图展示。
+AI Vtuber是一个由`ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text-generation-webui`驱动的虚拟主播（Live2D），可以在`Bilibili/抖音/快手`直播中与观众实时互动。它使用自然语言处理和文本转语音技术(`Edge-TTS/VITS-Fast/elevenlabs`)生成对观众问题的回答并可以通过`so-vits-svc`变声；通过特定指令协同`Stable Diffusion`进行画图展示。
 
 ## 🕺🏻目录
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -36,6 +36,7 @@ AI Vtuber是一个由`ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
   - [chat_with_file 模式说明](#chat_with_file-%E6%A8%A1%E5%BC%8F%E8%AF%B4%E6%98%8E)
     - [模式简介](#%E6%A8%A1%E5%BC%8F%E7%AE%80%E4%BB%8B)
     - [模式配置](#%E6%A8%A1%E5%BC%8F%E9%85%8D%E7%BD%AE)
+      - [注意](#%E6%B3%A8%E6%84%8F)
 - [🎉使用](#%E4%BD%BF%E7%94%A8)
   - [哔哩哔哩版](#%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9%E7%89%88)
   - [抖音版](#%E6%8A%96%E9%9F%B3%E7%89%88)
@@ -71,6 +72,7 @@ AI Vtuber是一个由`ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
   - [ChatterBot](#chatterbot)
   - [Live2D](#live2d)
   - [Stable Diffusion](#stable-diffusion)
+  - [so-vits-svc](#so-vits-svc)
 - [待办事项](#%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9)
 - [📝 更新日志](#-%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97)
 - [许可证](#%E8%AE%B8%E5%8F%AF%E8%AF%81)
@@ -221,6 +223,21 @@ GUI程序运行后会自动加载配置文件，可以通过GUI程序进行配�
     "vits_api_ip_port": "http://127.0.0.1:7860",
     // 选择的说话人，配置文件中的speaker中的其中一个
     "character": "ikaros"
+  },
+  // so-vits-svc相关配置
+  "so_vits_svc": {
+    // 启用功能 true启用 false关闭
+    "enable": false,
+    // 模型配置文件路径
+    "config_path": "D:\\so-vits-svc\\configs\\ikaros_v1.json",
+    // 服务运行的ip端口（注意，请运行flask_api_full_song.py）
+    "api_ip_port": "http://127.0.0.1:1145",
+    // 说话人，源自配置文件
+    "spk": "ikaros",
+    // 音调
+    "tran": 1.0,
+    // 输出音频格式
+    "wav_format": "wav"
   },
   // edge-tts相关配置
   "edge-tts": {
@@ -621,6 +638,10 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 
 ### Stable Diffusion
 [stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui)
+
+### so-vits-svc
+官方仓库：[so-vits-svc](https://github.com/svc-develop-team/so-vits-svc)  
+我的视频教程：[传送门](https://www.bilibili.com/video/BV1k24y1F7Us)  
 
 ## 待办事项
 - 懒人包优化
