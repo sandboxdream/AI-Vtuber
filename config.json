@@ -26,7 +26,7 @@
   "openai": {
     "api": "https://api.openai.com/v1",
     "api_key": [
-      "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"
+      "你的api key"
     ],
     "model": "gpt-3.5-turbo-0301"
   },
