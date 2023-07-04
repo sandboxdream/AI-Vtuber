@@ -627,6 +627,12 @@ cmd输入命令即可：`doctoc /path/to/file`
 
 ### Claude
 [claude-api](https://github.com/bincooo/claude-api)  
+slack官网：[https://slack.com/intl/zh-cn/](https://slack.com/intl/zh-cn/)  
+添加claude到slack：[https://www.anthropic.com/claude-in-slack](https://www.anthropic.com/claude-in-slack)  
+
+视频教程：  
+[完美替代chatGPT！保姆级Claude注册教程及使用上的优点和缺点](https://www.bilibili.com/video/BV1PP41127mQ)  
+[解决现阶段slack新建工作区Claude不回复](https://www.bilibili.com/video/BV17k4y1H7aa)  
 
 ### ChatGLM
 [ChatGLM-6B](https://github.com/THUDM/ChatGLM-6B)  
