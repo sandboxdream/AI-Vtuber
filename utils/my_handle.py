@@ -243,8 +243,14 @@ class My_handle():
 
                     return
                 
+                resp_content = self.audio.search_files(self.choose_song_config['song_path'], song_filename)
+                if resp_content == []:
+                    return
+                logging.info(f"匹配到的音频原相对路径：{resp_content[0]}")
+
                 # 拼接音频文件路径
-                resp_content = f"{self.choose_song_config['song_path']}/{song_filename}"
+                resp_content = f"{self.choose_song_config['song_path']}/{resp_content[0]}"
+                logging.info(f"匹配到的音频路径：{resp_content}")
                 message = {
                     "type": "song",
                     "user_name": user_name,
