@@ -626,7 +626,7 @@ cmd输入命令即可：`doctoc /path/to/file`
 [kuaishou-live](https://github.com/YunzhiYike/kuaishou-live)  
 
 ### Claude
-[claude-api](https://github.com/bincooo/claude-api)  
+API申请方法：[claude-api](https://github.com/bincooo/claude-api)  
 slack官网：[https://slack.com/intl/zh-cn/](https://slack.com/intl/zh-cn/)  
 添加claude到slack：[https://www.anthropic.com/claude-in-slack](https://www.anthropic.com/claude-in-slack)  
 
