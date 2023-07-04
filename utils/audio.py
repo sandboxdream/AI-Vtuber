@@ -45,28 +45,41 @@ class Audio:
         self.only_play_audio_thread.start()
 
 
+    # 从指定文件夹中搜索指定文件，返回搜索到的文件路径
+    def search_files(self, root_dir, target_file):
+        matched_files = []
+        
+        for root, dirs, files in os.walk(root_dir):
+            for file in files:
+                if file == target_file:
+                    file_path = os.path.join(root, file)
+                    relative_path = os.path.relpath(file_path, root_dir)
+                    relative_path = relative_path.replace("\\", "/")  # 将反斜杠替换为斜杠
+                    matched_files.append(relative_path)
+        
+        return matched_files
+
+
     # 获取本地音频文件夹内所有的音频文件名
     def get_dir_songs_filename(self):
         try:
             song_path = self.config.get("choose_song", "song_path")
 
-            # 使用 glob 模块匹配指定文件夹下的所有音频文件
-            audio_files = glob.glob(os.path.join(song_path, '*.mp3')) + \
-                        glob.glob(os.path.join(song_path, '*.wav')) + \
-                        glob.glob(os.path.join(song_path, '*.flac')) + \
-                        glob.glob(os.path.join(song_path, '*.aac')) + \
-                        glob.glob(os.path.join(song_path, '*.ogg')) + \
-                        glob.glob(os.path.join(song_path, '*.m4a'))
-
+            # 使用 os.walk 遍历文件夹及其子文件夹
+            audio_files = []
+            for root, dirs, files in os.walk(song_path):
+                for file in files:
+                    if file.endswith(('.mp3', '.wav', '.flac', '.aac', '.ogg', '.m4a')):
+                        audio_files.append(os.path.join(root, file))
 
             # 提取文件名
             file_names = [os.path.basename(file) for file in audio_files]
-            # 提取文件名（去除文件后缀）
-            # file_names = [os.path.splitext(os.path.basename(file))[0] for file in audio_files]
+            # 保留子文件夹路径
+            # file_names = [os.path.relpath(file, song_path) for file in audio_files]
 
             logging.info("获取到本地音频文件名列表如下：")
             logging.info(file_names)
-        
+
             return file_names
         except Exception as e:
             logging.error(e)
