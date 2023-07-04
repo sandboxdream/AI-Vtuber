@@ -81,6 +81,7 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
     - [ChatterBot](#chatterbot)
     - [Live2D](#live2d)
     - [Stable Diffusion](#stable-diffusion)
+    - [VITS-fast-fine-tuning](#vits-fast-fine-tuning)
     - [so-vits-svc](#so-vits-svc)
   - [待办事项](#待办事项)
   - [📝 更新日志](#-更新日志)
@@ -98,6 +99,7 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
     - [2023-07-01](#2023-07-01)
     - [2023-07-02](#2023-07-02)
     - [2023-07-03](#2023-07-03)
+    - [2023-07-04](#2023-07-04)
   - [许可证](#许可证)
   - [Star 经历](#star-经历)
   - [🤝 贡献](#-贡献)
@@ -675,9 +677,15 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 ### Stable Diffusion
 [stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui)
 
+### VITS-fast-fine-tuning
+官方仓库：[VITS-fast-fine-tuning](https://github.com/Plachtaa/VITS-fast-fine-tuning)  
+个人提供的已训练好的模型：[点我跳转](https://github.com/Ikaros-521/VITS-fast-fine-tuning/releases)  
+视频教程：[【AI语音合成-数据集篇#00】模型使用简单讲解，手把手演示](https://www.bilibili.com/video/BV1Lm4y1r7Pi)  
+
 ### so-vits-svc
 官方仓库：[so-vits-svc](https://github.com/svc-develop-team/so-vits-svc)  
-我的视频教程：[传送门](https://www.bilibili.com/video/BV1k24y1F7Us)  
+个人提供的已训练好的模型：[点我跳转](https://github.com/Ikaros-521/so-vits-svc/releases)  
+视频教程：[【AI歌姬】so-vits-svc 简单使用讲解 + 伊卡洛斯 模型开源](https://www.bilibili.com/video/BV1k24y1F7Us)  
 
 ## 待办事项
 - 懒人包优化
@@ -775,6 +783,9 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 ### 2023-07-03
 - 新增so-vits-svc的接入，可以对edge-tts/vits-fast合成后的音频进行变声后在输出。
 - 优化链接过滤的实现，提升准确性。
+
+### 2023-07-04
+- 优化说明文档，以更利于用户通过文档解决相关问题、获得帮助。
 
 </details>
 
