@@ -569,6 +569,10 @@ ModuleNotFoundError: No module named 'ahocorasick'
 
 
 ## 开发&项目相关
+
+<details>
+<summary>展开/收起</summary>
+
 ### UI设计
 打开QT设计师~o( =∩ω∩= )m `pyqt5-tools designer`  
 生成UI代码 `pyuic5 -o UI_main.py ui\main.ui`  
@@ -605,8 +609,11 @@ node.js环境
 cmd输入命令即可：`doctoc /path/to/file`  
 例如：`doctoc README.md`  
 
+</details>
 
 ## 补充
+
+补充板块提供了对项目接入的第三方技术或应用的详细说明。如果您需要与第三方应用进行对接，您可以查阅此板块的内容，并访问第三方官方网站以了解其使用方法。  
 
 ### <span id="dy">抖音弹幕获取</span>
 `dy.py`稳定：[dy-barrage-grab](https://gitee.com/haodong108/dy-barrage-grab)  
