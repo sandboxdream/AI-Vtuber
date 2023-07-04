@@ -139,8 +139,8 @@ class Common:
         return profanity.contains_profanity(content)
 
 
-    # 中文语句切分
-    def split_sentences(self, text):
+    # 中文语句切分(只根据特定符号切分)
+    def split_sentences1(self, text):
         # 使用正则表达式切分句子
         # .的过滤可能会导致 序号类的回复被切分
         sentences = re.split('([。！？!?])', text)
@@ -155,6 +155,34 @@ class Common:
         # print(result)
         return result
     
+
+    def split_sentences(self, text):
+        # 使用正则表达式切分句子
+        # .的过滤可能会导致 序号类的回复被切分
+        sentences = re.split('([。！？!?])', text)
+        result = []
+        current_sentence = ""
+        for sentence in sentences:
+            if sentence not in ["。", "！", "？", ".", "!", "?", ""]:
+                # 去除换行和空格
+                sentence = sentence.replace('\n', '').replace(' ', '')
+                # 如果句子长度小于10个字，则与下一句合并
+                if len(current_sentence) < 10:
+                    current_sentence += sentence
+                    # 如果合并后的句子长度超过30个字，则截取前30个字作为句子
+                    if len(current_sentence) > 30:
+                        result.append(current_sentence[:30])
+                        current_sentence = current_sentence[30:]
+                else:
+                    result.append(current_sentence)
+                    current_sentence = sentence
+
+        # 添加最后一句
+        if current_sentence:
+            result.append(current_sentence)
+
+        return result
+
 
     # 字符串匹配算法来计算字符串之间的相似度，并选择匹配度最高的字符串作为结果
     def find_best_match(self, substring, string_list):

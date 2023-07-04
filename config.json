@@ -26,8 +26,8 @@
     "model": "gpt-3.5-turbo-0301"
   },
   "claude": {
-    "slack_user_token": "xoxp-5408795235075-5408920581074-5465524888785-46b44cb7c09462d0519ceb4492dcf504",
-    "bot_user_id": "U05CW9LJ30X"
+    "slack_user_token": "",
+    "bot_user_id": ""
   },
   "chatglm": {
     "api_ip_port": "http://127.0.0.1:8000",
