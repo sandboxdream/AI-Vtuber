@@ -22,3 +22,4 @@ webuiapi
 pyvirtualcam
 numpy
 faiss-cpu
+sentence_transformers
