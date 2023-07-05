@@ -229,7 +229,7 @@ class Audio:
                 # logging.info(data_json)
 
                 voice_tmp_path = data_json["data"][1]["name"]
-                # print(f"voice_tmp_path={voice_tmp_path}")
+                print(f"vits-fast合成成功，输出到={voice_tmp_path}")
 
                 if True == self.config.get("so_vits_svc", "enable"):
                     voice_tmp_path = await self.so_vits_svc_api(audio_path=voice_tmp_path)
@@ -248,7 +248,7 @@ class Audio:
                 communicate = edge_tts.Communicate(text=message["content"], voice=message["data"]["voice"], rate=message["data"]["rate"], volume=message["data"]["volume"])
                 await communicate.save(voice_tmp_path)
 
-                # logging.info(f"voice_tmp_path={voice_tmp_path}")
+                logging.info(f"edge-tts合成成功，输出到={voice_tmp_path}")
 
                 if True == self.config.get("so_vits_svc", "enable"):
                     voice_tmp_path = await self.so_vits_svc_api(audio_path=os.path.abspath(voice_tmp_path))
