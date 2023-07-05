@@ -246,7 +246,8 @@ class My_handle():
                 resp_content = self.audio.search_files(self.choose_song_config['song_path'], song_filename)
                 if resp_content == []:
                     return
-                logging.info(f"匹配到的音频原相对路径：{resp_content[0]}")
+                
+                logging.debug(f"匹配到的音频原相对路径：{resp_content[0]}")
 
                 # 拼接音频文件路径
                 resp_content = f"{self.choose_song_config['song_path']}/{resp_content[0]}"
@@ -263,7 +264,7 @@ class My_handle():
             elif content.startswith(self.choose_song_config["stop_cmd"]):
                 self.audio.stop_current_audio()
 
-                return
+            return
 
         # 3、画图模式 触发后不执行后面的其他功能
         if content.startswith(self.sd_config["trigger"]):
