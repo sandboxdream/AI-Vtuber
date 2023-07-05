@@ -260,11 +260,11 @@ class My_handle():
                 
                 # 音频合成（edge-tts / vits）并播放
                 self.audio.audio_synthesis(message)
+
+                return
             # 判断取消点歌命令是否正确
             elif content.startswith(self.choose_song_config["stop_cmd"]):
                 self.audio.stop_current_audio()
-
-            return
 
         # 3、画图模式 触发后不执行后面的其他功能
         if content.startswith(self.sd_config["trigger"]):
