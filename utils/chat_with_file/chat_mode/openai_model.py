@@ -38,11 +38,16 @@ class Openai_mode(Chat_model):
             project_path = store_path
             source_data = os.path.join(project_path, "source_data")
             os.makedirs(source_data)  # ./vector_base/source_data
+        else:
+            project_path = store_path
+            source_data = os.path.join(project_path, "source_data")
 
         # 解压数据包
         with zipfile.ZipFile(self.data_path, 'r') as zip_ref:
             # extract everything to "source_data"
             zip_ref.extractall(source_data)
+
+        logging.info(f"source_data={source_data}")
 
         # 处理不同的文本文件
         all_docs = []
