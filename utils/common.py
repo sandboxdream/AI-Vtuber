@@ -1,6 +1,7 @@
 # 导入所需的库
 import re
 import time
+import os
 import logging
 from datetime import datetime
 from datetime import timedelta
@@ -14,6 +15,9 @@ from profanity import profanity
 import ahocorasick
 
 import difflib
+
+import shutil
+from send2trash import send2trash
 
 class Common:
     # 获取北京时间
@@ -231,3 +235,35 @@ class Common:
             logging.error(f"无法写入文件:{file_path}\n{e}")
             return False
 
+    # 移动文件到指定路径 src dest
+    def move_file(self, source_path, destination_path, rename=None, format="wav"):
+        # if os.path.exists(destination_path):
+        #     # 如果目标位置已存在同名文件，则先将其移动到回收站
+        #     send2trash(destination_path)
+        
+        # if rename is not None:
+        #     destination_path = os.path.join(os.path.dirname(destination_path), rename)
+        
+        # shutil.move(source_path, destination_path)
+        # logging.info(f"文件移动成功：{source_path} -> {destination_path}")
+        destination_directory = os.path.dirname(destination_path)
+        destination_filename = os.path.basename(source_path)
+
+        if rename is not None:
+            destination_filename = rename + "." + format
+        
+        destination_path = os.path.join(destination_directory, destination_filename)
+        
+        if os.path.exists(destination_path):
+            # 如果目标位置已存在同名文件，则先删除
+            os.remove(destination_path)
+
+        shutil.move(source_path, destination_path)
+        print(f"文件移动成功：{source_path} -> {destination_path}")
+
+
+    # 从文件路径中提取出带有扩展名的文件名
+    def extract_filename(self, file_path):
+        file_name_with_extension = os.path.basename(file_path)
+        file_name_without_extension = os.path.splitext(file_name_with_extension)[0]
+        return file_name_without_extension

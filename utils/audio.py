@@ -13,6 +13,8 @@ import os
 
 from elevenlabs import generate, play, set_api_key
 
+from pydub import AudioSegment
+
 from .common import Common
 from .logger import Configure_logger
 from .config import Config
@@ -275,7 +277,7 @@ class Audio:
                 return
 
 
-    # 只进行音频合成   
+    # 只进行音频播放   
     def only_play_audio(self):
         try:
             pygame.mixer.init()
@@ -300,3 +302,160 @@ class Audio:
     # 停止当前播放的音频
     def stop_current_audio(self):
         pygame.mixer.music.fadeout(1000)
+
+
+    # 合并文案音频文件
+    def merge_audio_files(self, directory, base_filename, last_index, pause_duration=1, format="wav"):
+        merged_audio = None
+
+        for i in range(1, last_index+1):
+            filename = f"{base_filename}-{i}.{format}"  # 假设音频文件为 wav 格式
+            filepath = os.path.join(directory, filename)
+
+            if os.path.isfile(filepath):
+                audio_segment = AudioSegment.from_file(filepath)
+                
+                if pause_duration > 0 and merged_audio is not None:
+                    pause = AudioSegment.silent(duration=pause_duration * 1000)  # 将秒数转换为毫秒
+                    merged_audio += pause
+                
+                if merged_audio is None:
+                    merged_audio = audio_segment
+                else:
+                    merged_audio += audio_segment
+
+                os.remove(filepath)  # 删除已合并的音频文件
+
+        if merged_audio is not None:
+            merged_filename = f"{base_filename}.wav"  # 合并后的文件名
+            merged_filepath = os.path.join(directory, merged_filename)
+            merged_audio.export(merged_filepath, format="wav")
+            logging.info(f"音频文件合并成功：{merged_filepath}")
+        else:
+            logging.error("没有找到要合并的音频文件")
+
+
+    # 只进行文案音频合成
+    async def copywriting_synthesis_audio(self, file_path):
+        try:
+            max_len = self.config.get("filter", "max_len")
+            max_char_len = self.config.get("filter", "max_char_len")
+            audio_synthesis_type = self.config.get("audio_synthesis_type")
+            vits = self.config.get("vits")
+            copywriting = self.config.get("copywriting")
+            edge_tts_config = self.config.get("edge-tts")
+
+
+            file_path = os.path.join(copywriting["file_path"], file_path)
+            # 从文件路径提取文件名
+            file_name = self.common.extract_filename(file_path)
+            # 获取文件内容
+            content = self.common.read_file_return_content(file_path)
+
+            logging.debug(f"合成音频前的原始数据：{content}")
+            content = self.common.remove_extra_words(content, max_len, max_char_len)
+            # logging.info("裁剪后的合成文本:" + text)
+
+            content = content.replace('\n', '。')
+
+            # 文件名自增值，在后期多合一的时候起到排序作用
+            file_index = 0
+
+            # 同样进行文本切分
+            sentences = self.common.split_sentences(content)
+            # 遍历逐一合成文案音频
+            for content in sentences:
+                file_index = file_index + 1
+
+                if audio_synthesis_type == "vits":
+                    try:
+                        # 语言检测
+                        language = self.common.lang_check(content)
+
+                        # 自定义语言名称（需要匹配请求解析）
+                        language_name_dict = {"en": "英语", "zh": "中文", "jp": "日语"}  
+
+                        if language in language_name_dict:
+                            language = language_name_dict[language]
+                        else:
+                            language = "日语"  # 无法识别出语言代码时的默认值
+
+                        # logging.info("language=" + language)
+
+                        # 调用接口合成语音
+                        data_json = self.vits_fast_api(vits["api_ip_port"], vits["character"], language, content, vits["speed"])
+                        # logging.info(data_json)
+
+                        voice_tmp_path = data_json["data"][1]["name"]
+                        logging.info(f"vits-fast合成成功，输出到={voice_tmp_path}")
+
+                        if True == self.config.get("so_vits_svc", "enable"):
+                            voice_tmp_path = await self.so_vits_svc_api(audio_path=voice_tmp_path)
+                            logging.info(f"so-vits-svc合成成功，输出到={voice_tmp_path}")
+
+                        # 移动音频到 临时音频路径（本项目的out文件夹） 并重命名
+                        out_file_path = os.path.join(os.getcwd(), "out/")
+                        logging.info(f"out_file_path={out_file_path}")
+                        self.common.move_file(voice_tmp_path, out_file_path, file_name + "-" + str(file_index))
+
+                        # self.voice_tmp_path_queue.put(voice_tmp_path)
+                    except Exception as e:
+                        logging.error(e)
+                        return
+                elif audio_synthesis_type == "edge-tts":
+                    try:
+                        voice_tmp_path = './out/' + self.common.get_bj_time(4) + '.wav'
+                        # 过滤" '字符
+                        content = content.replace('"', '').replace("'", '').replace(" ", ',')
+                        # 使用 Edge TTS 生成回复消息的语音文件
+                        communicate = edge_tts.Communicate(text=content, voice=edge_tts_config["voice"], rate=edge_tts_config["rate"], volume=edge_tts_config["volume"])
+                        await communicate.save(voice_tmp_path)
+
+                        logging.info(f"edge-tts合成成功，输出到={voice_tmp_path}")
+
+                        if True == self.config.get("so_vits_svc", "enable"):
+                            voice_tmp_path = await self.so_vits_svc_api(audio_path=os.path.abspath(voice_tmp_path))
+                            logging.info(f"so-vits-svc合成成功，输出到={voice_tmp_path}")
+
+                        # 移动音频到 临时音频路径（本项目的out文件夹） 并重命名
+                        out_file_path = os.path.join(os.getcwd(), "out/")
+                        self.common.move_file(voice_tmp_path, out_file_path, file_name + "-" + str(file_index))
+
+                        # self.voice_tmp_path_queue.put(voice_tmp_path)
+                    except Exception as e:
+                        logging.error(e)
+                elif audio_synthesis_type == "elevenlabs":
+                    return
+                
+                    try:
+                        # 如果配置了密钥就设置上0.0
+                        if message["data"]["elevenlabs_api_key"] != "":
+                            set_api_key(message["data"]["elevenlabs_api_key"])
+
+                        audio = generate(
+                            text=message["content"],
+                            voice=message["data"]["elevenlabs_voice"],
+                            model=message["data"]["elevenlabs_model"]
+                        )
+
+                        # play(audio)
+                    except Exception as e:
+                        logging.error(e)
+                        return
+
+            # 进行音频合并 输出到文案音频路径
+            out_file_path = os.path.join(os.getcwd(), "out")
+            self.merge_audio_files(out_file_path, file_name, file_index)
+
+            file_path = os.path.join(os.getcwd(), "out/", file_name + ".wav")
+            logging.info(f"file_path={file_path}")
+            # 移动音频到 文案音频路径 
+            out_file_path = os.path.join(os.getcwd(), copywriting["audio_path"])
+            logging.info(f"out_file_path={out_file_path}")
+            self.common.move_file(file_path, out_file_path)
+            file_path = os.path.join(copywriting["audio_path"], file_name + ".wav")
+
+            return file_path
+        except Exception as e:
+            logging.error(e)
+            return None

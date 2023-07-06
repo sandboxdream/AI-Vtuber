@@ -118,3 +118,5 @@ faiss-cpu==1.7.4
 webuiapi==0.9.3
 pyvirtualcam==0.10.2
 numpy==1.25.0
+pydub==0.25.1
+send2trash==1.8.2

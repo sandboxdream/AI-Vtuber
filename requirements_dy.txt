@@ -22,3 +22,5 @@ pyvirtualcam
 numpy
 faiss-cpu
 sentence_transformers
+pydub
+send2trash
