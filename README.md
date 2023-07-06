@@ -779,6 +779,7 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 - 修复source_data因为路径已存在而没有定义的bug。
 - 音频合成输出日志，方便用户了解音频合成情况。
 - 修复点歌完成后，还进行LLM对话的bug。
+- 修复chat_with_file openai_gpt模式，数据切分丢失数据的恶性bug。
 
 </details>
 

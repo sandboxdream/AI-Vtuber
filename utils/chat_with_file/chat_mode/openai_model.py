@@ -62,6 +62,8 @@ class Openai_mode(Chat_model):
             docs = loader.load()
             all_docs = all_docs + docs
 
+        # logging.info(all_docs)
+
         # We need to split the text that we read into smaller chunks so that during information retreival we don't hit the token size limits. 
         # 我们需要将读取的文本分成更小的块，这样在信息检索过程中就不会达到令牌大小的限制。
         text_splitter = CharacterTextSplitter(
@@ -78,17 +80,26 @@ class Openai_mode(Chat_model):
             length_function=len,
         )
 
-        for idx, page in enumerate(tqdm(docs)):
+        texts = []
+
+        for idx, page in enumerate(tqdm(all_docs)):
             content = page.page_content
+
+            # logging.debug(f"[{content}]")
+
             if len(content) > self.chunk_size:
-                texts = text_splitter.split_text(content)
+                texts = texts + text_splitter.split_text(content)
 
         logging.info("共切分为" + str(len(texts)) + "块文本内容")
+
+        logging.debug(texts)
 
         # 创建了一个OpenAIEmbeddings实例，然后使用这个实例将一些文本转化为向量表示（嵌入）。
         # 然后，这些向量被加载到一个FAISS（Facebook AI Similarity Search）索引中，用于进行相似性搜索。
         # 这种索引允许你在大量向量中快速找到与给定向量最相似的向量。
         embeddings = OpenAIEmbeddings(openai_api_key=self.openai_api_key[0])
+        # 将字符串列表转换为 UTF-8 编码
+        # encode_texts = [s.encode('utf-8') for s in texts]
         self.docsearch = FAISS.from_texts(texts, embeddings)
 
         if self.chat_mode == "openai_gpt":
