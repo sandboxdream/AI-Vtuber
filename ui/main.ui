@@ -1502,52 +1502,24 @@ p, li { white-space: pre-wrap; }
           <property name="title">
            <string>文案</string>
           </property>
-          <layout class="QGridLayout" name="gridLayout_37" rowstretch="2,1,8,0,0,1" columnstretch="0,0,0,0,0,0,0">
-           <item row="5" column="4">
-            <widget class="QPushButton" name="pushButton_copywriting_synthetic_audio">
-             <property name="styleSheet">
-              <string notr="true">text-align: center;
-padding: 12px 16px;
-font: 80 10pt &quot;微软雅黑&quot;;</string>
+          <layout class="QGridLayout" name="gridLayout_37" rowstretch="1,1,1,1,7,1,1,1" columnstretch="0,0,0,0,0,0,0">
+           <item row="7" column="2">
+            <spacer name="horizontalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
              </property>
-             <property name="text">
-              <string>合成音频</string>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
              </property>
-            </widget>
+            </spacer>
            </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_copywriting_edit">
-             <property name="styleSheet">
-              <string notr="true">font: 80 12pt &quot;微软雅黑&quot;;</string>
-             </property>
-             <property name="text">
-              <string>编辑文案</string>
-             </property>
-            </widget>
+           <item row="3" column="1" rowspan="4" colspan="6">
+            <widget class="QTextEdit" name="textEdit_copywriting_edit"/>
            </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label_copywriting_select">
-             <property name="styleSheet">
-              <string notr="true">font: 80 12pt &quot;微软雅黑&quot;;</string>
-             </property>
-             <property name="text">
-              <string>选择文案</string>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="3">
-            <widget class="QPushButton" name="pushButton_copywriting_save">
-             <property name="styleSheet">
-              <string notr="true">text-align: center;
-padding: 12px 16px;
-font: 80 10pt &quot;微软雅黑&quot;;</string>
-             </property>
-             <property name="text">
-              <string>保存文案</string>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="0" colspan="2">
+           <item row="7" column="0" colspan="2">
             <spacer name="horizontalSpacer">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
@@ -1560,15 +1532,25 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
              </property>
             </spacer>
            </item>
-           <item row="5" column="5">
-            <widget class="QPushButton" name="pushButton_copywriting_loop_play">
+           <item row="2" column="1" colspan="5">
+            <widget class="QLineEdit" name="lineEdit_copywriting_select">
+             <property name="styleSheet">
+              <string notr="true">height:50px;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="3">
+            <widget class="QPushButton" name="pushButton_copywriting_save">
+             <property name="cursor">
+              <cursorShape>PointingHandCursor</cursorShape>
+             </property>
              <property name="styleSheet">
               <string notr="true">text-align: center;
 padding: 12px 16px;
 font: 80 10pt &quot;微软雅黑&quot;;</string>
              </property>
              <property name="text">
-              <string>循环播放</string>
+              <string>保存文案</string>
              </property>
             </widget>
            </item>
@@ -1582,36 +1564,11 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
              </property>
             </widget>
            </item>
-           <item row="5" column="2">
-            <spacer name="horizontalSpacer_2">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="5" column="6">
-            <widget class="QPushButton" name="pushButton_copywriting_stop_play">
-             <property name="styleSheet">
-              <string notr="true">text-align: center;
-padding: 12px 16px;
-font: 80 10pt &quot;微软雅黑&quot;;</string>
-             </property>
-             <property name="text">
-              <string>停止播放</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1" colspan="6">
-            <widget class="QTextEdit" name="textEdit_copywriting_edit"/>
-           </item>
-           <item row="1" column="6">
+           <item row="2" column="6">
             <widget class="QPushButton" name="pushButton_copywriting_select">
+             <property name="cursor">
+              <cursorShape>PointingHandCursor</cursorShape>
+             </property>
              <property name="styleSheet">
               <string notr="true">text-align: center;
 padding: 12px 16px;
@@ -1619,6 +1576,61 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
              </property>
              <property name="text">
               <string>加载</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_copywriting_select">
+             <property name="styleSheet">
+              <string notr="true">font: 80 12pt &quot;微软雅黑&quot;;</string>
+             </property>
+             <property name="text">
+              <string>选择文案</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="4">
+            <widget class="QPushButton" name="pushButton_copywriting_synthetic_audio">
+             <property name="cursor">
+              <cursorShape>PointingHandCursor</cursorShape>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">text-align: center;
+padding: 12px 16px;
+font: 80 10pt &quot;微软雅黑&quot;;</string>
+             </property>
+             <property name="text">
+              <string>合成音频</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="5">
+            <widget class="QPushButton" name="pushButton_copywriting_loop_play">
+             <property name="cursor">
+              <cursorShape>PointingHandCursor</cursorShape>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">text-align: center;
+padding: 12px 16px;
+font: 80 10pt &quot;微软雅黑&quot;;</string>
+             </property>
+             <property name="text">
+              <string>循环播放</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="6">
+            <widget class="QPushButton" name="pushButton_copywriting_stop_play">
+             <property name="cursor">
+              <cursorShape>PointingHandCursor</cursorShape>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">text-align: center;
+padding: 12px 16px;
+font: 80 10pt &quot;微软雅黑&quot;;</string>
+             </property>
+             <property name="text">
+              <string>停止播放</string>
              </property>
             </widget>
            </item>
@@ -1636,12 +1648,45 @@ p, li { white-space: pre-wrap; }
              </property>
             </widget>
            </item>
-           <item row="1" column="1" colspan="5">
-            <widget class="QLineEdit" name="lineEdit_copywriting_select">
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_copywriting_play_list">
              <property name="styleSheet">
-              <string notr="true">height:45px;</string>
+              <string notr="true">font: 80 12pt &quot;微软雅黑&quot;;</string>
+             </property>
+             <property name="text">
+              <string>播放列表</string>
              </property>
             </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="label_copywriting_edit">
+             <property name="styleSheet">
+              <string notr="true">font: 80 12pt &quot;微软雅黑&quot;;</string>
+             </property>
+             <property name="text">
+              <string>编辑文案</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1" colspan="3">
+            <widget class="QTextEdit" name="textEdit_copywriting_play_list"/>
+           </item>
+           <item row="1" column="4">
+            <widget class="QLabel" name="label_copywriting_audio_list">
+             <property name="layoutDirection">
+              <enum>Qt::LeftToRight</enum>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">font: 80 12pt &quot;微软雅黑&quot;;</string>
+             </property>
+             <property name="text">
+              <string>已合成
+音频列表</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="5" colspan="2">
+            <widget class="QTextEdit" name="textEdit_copywriting_audio_list"/>
            </item>
           </layout>
          </widget>
@@ -1705,7 +1750,10 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
      </widget>
     </item>
     <item row="5" column="1">
-     <widget class="QPushButton" name="pushButton_copywriting">
+     <widget class="QPushButton" name="pushButton_copywriting_page">
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
       <property name="styleSheet">
        <string notr="true">border: 1px solid #dcdfe6;
 background-color: #e6a23c;
