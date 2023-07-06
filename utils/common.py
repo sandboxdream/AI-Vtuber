@@ -1,6 +1,7 @@
 # 导入所需的库
 import re
 import time
+import logging
 from datetime import datetime
 from datetime import timedelta
 from datetime import timezone
@@ -205,3 +206,28 @@ class Common:
                 best_match = string
         
         return best_match
+    
+
+    # 读取指定文件中所有文本内容并返回
+    def read_file_return_content(self, file_path):
+        try:
+            with open(file_path, 'r', encoding='utf-8') as file:
+                content = file.read()
+            return content
+        except IOError as e:
+            logging.error(f"无法写入文件:{file_path}\n{e}")
+            return None
+
+
+    # 写入内容到指定文件中 返回T/F
+    def write_content_to_file(self, file_path, content):
+        try:
+            with open(file_path, 'w', encoding='utf-8') as file:
+                file.write(content)
+            logging.info(f"内容已成功写入文件:{file_path}")
+
+            return True
+        except IOError as e:
+            logging.error(f"无法写入文件:{file_path}\n{e}")
+            return False
+

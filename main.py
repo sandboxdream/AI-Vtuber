@@ -145,6 +145,9 @@ class AI_VTB(QMainWindow):
             # SD
             self.sd_config = config.get("sd")
 
+            # 文案
+            self.copywriting_config = config.get("copywriting")
+
             self.header_config = config.get("header")
 
             """
@@ -487,6 +490,18 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_sd_hr_second_pass_steps.setText(str(self.sd_config['hr_second_pass_steps']))
             self.ui.lineEdit_sd_denoising_strength.setText(str(self.sd_config['denoising_strength']))
             
+            # 文案数据回显到UI
+            copywriting_file_names = self.get_dir_txt_filename(self.copywriting_config['file_path'])
+            for tmp in copywriting_file_names:
+                tmp_str = tmp_str + tmp + "\n"
+            self.ui.textEdit_copywriting_list.setText(tmp_str)
+
+            # 文案音频数据回显到UI
+            copywriting_audio_file_names = self.get_dir_audio_filename(self.copywriting_config['audio_path'])
+            for tmp in copywriting_audio_file_names:
+                tmp_str = tmp_str + tmp + "\n"
+            self.ui.textEdit_copywriting_audio_list.setText(tmp_str)
+
             # 显隐各板块
             self.oncomboBox_chat_type_IndexChanged(chat_type_index)
             self.oncomboBox_audio_synthesis_type_IndexChanged(audio_synthesis_type_index)
@@ -540,12 +555,21 @@ class AI_VTB(QMainWindow):
         self.ui.pushButton_run.clicked.connect(self.on_pushButton_run_clicked)
         self.ui.pushButton_config_page.clicked.connect(self.on_pushButton_config_page_clicked)
         self.ui.pushButton_run_page.clicked.connect(self.on_pushButton_run_page_clicked)
+        # 文案页
+        self.ui.pushButton_copywriting_page.disconnect()
+        self.ui.pushButton_copywriting_select.disconnect()
+        self.ui.pushButton_copywriting_save.disconnect()
+        self.ui.pushButton_copywriting_page.clicked.connect(self.on_pushButton_copywriting_page_clicked)
+        self.ui.pushButton_copywriting_select.clicked.connect(self.on_pushButton_copywriting_select_clicked)
+        self.ui.pushButton_copywriting_save.clicked.connect(self.on_pushButton_copywriting_save_clicked)
 
+        # 下拉框相关槽函数
         self.ui.comboBox_chat_type.disconnect()
         self.ui.comboBox_audio_synthesis_type.disconnect()
         self.ui.comboBox_chat_type.currentIndexChanged.connect(lambda index: self.oncomboBox_chat_type_IndexChanged(index))
         self.ui.comboBox_audio_synthesis_type.currentIndexChanged.connect(lambda index: self.oncomboBox_audio_synthesis_type_IndexChanged(index))
 
+        # 顶部餐单栏槽函数
         self.ui.action_official_store.triggered.connect(self.openBrowser_github)
         self.ui.action_video_tutorials.triggered.connect(self.openBrowser_video)
         self.ui.action_exit.triggered.connect(self.exit_soft)
@@ -556,6 +580,9 @@ class AI_VTB(QMainWindow):
         self.throttled_run = self.throttle(self.run, 1)
         self.throttled_config_page = self.throttle(self.config_page, 0.5)
         self.throttled_run_page = self.throttle(self.run_page, 0.5)
+        self.throttled_copywriting_page = self.throttle(self.copywriting_page, 1)
+        self.throttled_copywriting_select = self.throttle(self.copywriting_select, 1)
+        self.throttled_copywriting_save = self.throttle(self.copywriting_save, 1)
 
 
 
@@ -826,6 +853,10 @@ class AI_VTB(QMainWindow):
             return False
 
 
+    '''
+        按钮相关的函数
+    '''
+
     # 恢复出厂配置
     def factory(self):
         result = QMessageBox.question(
@@ -901,6 +932,9 @@ class AI_VTB(QMainWindow):
     def run_page(self):
         self.ui.stackedWidget.setCurrentIndex(1)
 
+    # 切换至文案页面
+    def copywriting_page(self):
+        self.ui.stackedWidget.setCurrentIndex(2)
 
     # 保存配置
     def on_pushButton_save_clicked(self):
@@ -924,6 +958,54 @@ class AI_VTB(QMainWindow):
     def on_pushButton_run_page_clicked(self):
         self.throttled_run_page()
 
+
+    # 切换至文案页面
+    def on_pushButton_copywriting_page_clicked(self):
+        self.throttled_copywriting_page()
+
+
+    # 加载文案
+    def copywriting_select(self):
+        select_file_path = self.ui.lineEdit_copywriting_select.text()
+        if "" == select_file_path:
+            logging.warning(f"请输入 文案路径喵~")
+            self.show_message_box("警告", "请输入 文案路径喵~", QMessageBox.Critical, 3000)
+            return
+        
+        logging.info(f"准备加载 {self.copywriting_config['file_path']} 路径下的 [{select_file_path}]")
+        new_file_path = os.path.join(self.copywriting_config['file_path'], select_file_path)
+        content = common.read_file_return_content(new_file_path)
+        if content is None:
+            self.show_message_box("错误", "读取失败！请检测配置、文件路径、文件名", QMessageBox.Critical)
+            return
+        
+        self.ui.textEdit_copywriting_edit.setText(content)
+
+
+    # 加载文案按钮
+    def on_pushButton_copywriting_select_clicked(self):
+        self.throttled_copywriting_select()
+        
+
+    # 保存文案
+    def copywriting_save(self):
+        content = self.ui.textEdit_copywriting_edit.toPlainText()
+        select_file_path = self.ui.lineEdit_copywriting_select.text()
+        if "" == select_file_path:
+            logging.warning(f"请输入 文案路径喵~")
+            return
+        
+        new_file_path = os.path.join(self.copywriting_config['file_path'], select_file_path)
+        if True == common.write_content_to_file(new_file_path, content):
+            self.show_message_box("提示", "保存成功~", QMessageBox.Information, 3000)
+        else:
+            self.show_message_box("错误", "保存失败！请查看日志排查问题", QMessageBox.Critical)
+
+
+    # 保存文案按钮
+    def on_pushButton_copywriting_save_clicked(self):
+        self.throttled_copywriting_save()
+        
 
 
     '''
@@ -1055,6 +1137,54 @@ class AI_VTB(QMainWindow):
     '''
         通用的函数
     '''
+    # 获取本地音频文件夹内所有的txt文件名
+    def get_dir_txt_filename(self, txt_path):
+        try:
+            # 使用 os.walk 遍历文件夹及其子文件夹
+            txt_files = []
+            for root, dirs, files in os.walk(txt_path):
+                for file in files:
+                    if file.endswith(('.txt')):
+                        txt_files.append(os.path.join(root, file))
+
+            # 提取文件名
+            file_names = [os.path.basename(file) for file in txt_files]
+            # 保留子文件夹路径
+            # file_names = [os.path.relpath(file, txt_path) for file in txt_files]
+
+            logging.info("获取到文案文件名列表如下：")
+            logging.info(file_names)
+
+            return file_names
+        except Exception as e:
+            logging.error(e)
+            return None
+        
+
+    # 获取本地音频文件夹内所有的音频文件名
+    def get_dir_audio_filename(self, audio_path):
+        try:
+            # 使用 os.walk 遍历文件夹及其子文件夹
+            audio_files = []
+            for root, dirs, files in os.walk(audio_path):
+                for file in files:
+                    if file.endswith(('.mp3', '.wav', '.flac', '.aac', '.ogg', '.m4a')):
+                        audio_files.append(os.path.join(root, file))
+
+            # 提取文件名
+            audio_file_names = [os.path.basename(file) for file in audio_files]
+            # 保留子文件夹路径
+            # file_names = [os.path.relpath(file, song_path) for file in audio_audio_files]
+
+            logging.info("获取到本地文案音频文件名列表如下：")
+            logging.info(audio_file_names)
+
+            return audio_file_names
+        except Exception as e:
+            logging.error(e)
+            return None
+
+
     def restart_application(self):
         QApplication.exit()  # Exit the current application instance
         python = sys.executable

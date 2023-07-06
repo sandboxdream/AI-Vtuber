@@ -202,3 +202,5 @@ data/text2vec_models/
 !data/text2vec_models
 
 song/
+
+test.py

@@ -23,6 +23,26 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout_20 = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout_20.setObjectName("gridLayout_20")
+        self.pushButton_run_page = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_run_page.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.pushButton_run_page.setStyleSheet("border: 1px solid #dcdfe6;\n"
+"background-color: #e6a23c;\n"
+"text-align: center;\n"
+"padding: 12px 16px;\n"
+"border-radius: 4px;\n"
+"font: 75 12pt \"微软雅黑\";")
+        self.pushButton_run_page.setObjectName("pushButton_run_page")
+        self.gridLayout_20.addWidget(self.pushButton_run_page, 4, 1, 1, 1)
+        self.pushButton_save = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_save.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.pushButton_save.setStyleSheet("border: 1px solid #dcdfe6;\n"
+"background-color: rgba(64, 158, 255, 255);\n"
+"text-align: center;\n"
+"padding: 12px 16px;\n"
+"border-radius: 4px;\n"
+"font: 75 12pt \"微软雅黑\";")
+        self.pushButton_save.setObjectName("pushButton_save")
+        self.gridLayout_20.addWidget(self.pushButton_save, 0, 1, 1, 1)
         self.stackedWidget = QtWidgets.QStackedWidget(self.centralwidget)
         self.stackedWidget.setObjectName("stackedWidget")
         self.page = QtWidgets.QWidget()
@@ -37,7 +57,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -3160, 860, 4599))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 860, 4599))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout.setContentsMargins(35, 20, 35, 20)
@@ -756,17 +776,102 @@ class Ui_MainWindow(object):
         self.textBrowser.setObjectName("textBrowser")
         self.gridLayout_22.addWidget(self.textBrowser, 0, 0, 1, 1)
         self.stackedWidget.addWidget(self.page_2)
-        self.gridLayout_20.addWidget(self.stackedWidget, 0, 0, 8, 1)
-        self.pushButton_save = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_save.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.pushButton_save.setStyleSheet("border: 1px solid #dcdfe6;\n"
-"background-color: rgba(64, 158, 255, 255);\n"
-"text-align: center;\n"
+        self.page_3 = QtWidgets.QWidget()
+        self.page_3.setObjectName("page_3")
+        self.gridLayout_38 = QtWidgets.QGridLayout(self.page_3)
+        self.gridLayout_38.setObjectName("gridLayout_38")
+        self.groupBox_copywriting = QtWidgets.QGroupBox(self.page_3)
+        self.groupBox_copywriting.setObjectName("groupBox_copywriting")
+        self.gridLayout_37 = QtWidgets.QGridLayout(self.groupBox_copywriting)
+        self.gridLayout_37.setObjectName("gridLayout_37")
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_37.addItem(spacerItem, 7, 2, 1, 1)
+        self.textEdit_copywriting_edit = QtWidgets.QTextEdit(self.groupBox_copywriting)
+        self.textEdit_copywriting_edit.setObjectName("textEdit_copywriting_edit")
+        self.gridLayout_37.addWidget(self.textEdit_copywriting_edit, 3, 1, 4, 6)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_37.addItem(spacerItem1, 7, 0, 1, 2)
+        self.lineEdit_copywriting_select = QtWidgets.QLineEdit(self.groupBox_copywriting)
+        self.lineEdit_copywriting_select.setStyleSheet("height:50px;")
+        self.lineEdit_copywriting_select.setObjectName("lineEdit_copywriting_select")
+        self.gridLayout_37.addWidget(self.lineEdit_copywriting_select, 2, 1, 1, 5)
+        self.pushButton_copywriting_save = QtWidgets.QPushButton(self.groupBox_copywriting)
+        self.pushButton_copywriting_save.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.pushButton_copywriting_save.setStyleSheet("text-align: center;\n"
 "padding: 12px 16px;\n"
-"border-radius: 4px;\n"
-"font: 75 12pt \"微软雅黑\";")
-        self.pushButton_save.setObjectName("pushButton_save")
-        self.gridLayout_20.addWidget(self.pushButton_save, 0, 1, 1, 1)
+"font: 80 10pt \"微软雅黑\";")
+        self.pushButton_copywriting_save.setObjectName("pushButton_copywriting_save")
+        self.gridLayout_37.addWidget(self.pushButton_copywriting_save, 7, 3, 1, 1)
+        self.label_copywriting_list = QtWidgets.QLabel(self.groupBox_copywriting)
+        self.label_copywriting_list.setStyleSheet("font: 80 12pt \"微软雅黑\";")
+        self.label_copywriting_list.setObjectName("label_copywriting_list")
+        self.gridLayout_37.addWidget(self.label_copywriting_list, 0, 0, 1, 1)
+        self.pushButton_copywriting_select = QtWidgets.QPushButton(self.groupBox_copywriting)
+        self.pushButton_copywriting_select.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.pushButton_copywriting_select.setStyleSheet("text-align: center;\n"
+"padding: 12px 16px;\n"
+"font: 80 10pt \"微软雅黑\";")
+        self.pushButton_copywriting_select.setObjectName("pushButton_copywriting_select")
+        self.gridLayout_37.addWidget(self.pushButton_copywriting_select, 2, 6, 1, 1)
+        self.label_copywriting_select = QtWidgets.QLabel(self.groupBox_copywriting)
+        self.label_copywriting_select.setStyleSheet("font: 80 12pt \"微软雅黑\";")
+        self.label_copywriting_select.setObjectName("label_copywriting_select")
+        self.gridLayout_37.addWidget(self.label_copywriting_select, 2, 0, 1, 1)
+        self.pushButton_copywriting_synthetic_audio = QtWidgets.QPushButton(self.groupBox_copywriting)
+        self.pushButton_copywriting_synthetic_audio.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.pushButton_copywriting_synthetic_audio.setStyleSheet("text-align: center;\n"
+"padding: 12px 16px;\n"
+"font: 80 10pt \"微软雅黑\";")
+        self.pushButton_copywriting_synthetic_audio.setObjectName("pushButton_copywriting_synthetic_audio")
+        self.gridLayout_37.addWidget(self.pushButton_copywriting_synthetic_audio, 7, 4, 1, 1)
+        self.pushButton_copywriting_loop_play = QtWidgets.QPushButton(self.groupBox_copywriting)
+        self.pushButton_copywriting_loop_play.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.pushButton_copywriting_loop_play.setStyleSheet("text-align: center;\n"
+"padding: 12px 16px;\n"
+"font: 80 10pt \"微软雅黑\";")
+        self.pushButton_copywriting_loop_play.setObjectName("pushButton_copywriting_loop_play")
+        self.gridLayout_37.addWidget(self.pushButton_copywriting_loop_play, 7, 5, 1, 1)
+        self.pushButton_copywriting_stop_play = QtWidgets.QPushButton(self.groupBox_copywriting)
+        self.pushButton_copywriting_stop_play.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.pushButton_copywriting_stop_play.setStyleSheet("text-align: center;\n"
+"padding: 12px 16px;\n"
+"font: 80 10pt \"微软雅黑\";")
+        self.pushButton_copywriting_stop_play.setObjectName("pushButton_copywriting_stop_play")
+        self.gridLayout_37.addWidget(self.pushButton_copywriting_stop_play, 7, 6, 1, 1)
+        self.textEdit_copywriting_list = QtWidgets.QTextEdit(self.groupBox_copywriting)
+        self.textEdit_copywriting_list.setReadOnly(True)
+        self.textEdit_copywriting_list.setObjectName("textEdit_copywriting_list")
+        self.gridLayout_37.addWidget(self.textEdit_copywriting_list, 0, 1, 1, 6)
+        self.label_copywriting_play_list = QtWidgets.QLabel(self.groupBox_copywriting)
+        self.label_copywriting_play_list.setStyleSheet("font: 80 12pt \"微软雅黑\";")
+        self.label_copywriting_play_list.setObjectName("label_copywriting_play_list")
+        self.gridLayout_37.addWidget(self.label_copywriting_play_list, 1, 0, 1, 1)
+        self.label_copywriting_edit = QtWidgets.QLabel(self.groupBox_copywriting)
+        self.label_copywriting_edit.setStyleSheet("font: 80 12pt \"微软雅黑\";")
+        self.label_copywriting_edit.setObjectName("label_copywriting_edit")
+        self.gridLayout_37.addWidget(self.label_copywriting_edit, 4, 0, 1, 1)
+        self.textEdit_copywriting_play_list = QtWidgets.QTextEdit(self.groupBox_copywriting)
+        self.textEdit_copywriting_play_list.setObjectName("textEdit_copywriting_play_list")
+        self.gridLayout_37.addWidget(self.textEdit_copywriting_play_list, 1, 1, 1, 3)
+        self.label_copywriting_audio_list = QtWidgets.QLabel(self.groupBox_copywriting)
+        self.label_copywriting_audio_list.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.label_copywriting_audio_list.setStyleSheet("font: 80 12pt \"微软雅黑\";")
+        self.label_copywriting_audio_list.setObjectName("label_copywriting_audio_list")
+        self.gridLayout_37.addWidget(self.label_copywriting_audio_list, 1, 4, 1, 1)
+        self.textEdit_copywriting_audio_list = QtWidgets.QTextEdit(self.groupBox_copywriting)
+        self.textEdit_copywriting_audio_list.setObjectName("textEdit_copywriting_audio_list")
+        self.gridLayout_37.addWidget(self.textEdit_copywriting_audio_list, 1, 5, 1, 2)
+        self.gridLayout_37.setRowStretch(0, 1)
+        self.gridLayout_37.setRowStretch(1, 1)
+        self.gridLayout_37.setRowStretch(2, 1)
+        self.gridLayout_37.setRowStretch(3, 1)
+        self.gridLayout_37.setRowStretch(4, 7)
+        self.gridLayout_37.setRowStretch(5, 1)
+        self.gridLayout_37.setRowStretch(6, 1)
+        self.gridLayout_37.setRowStretch(7, 1)
+        self.gridLayout_38.addWidget(self.groupBox_copywriting, 0, 0, 1, 1)
+        self.stackedWidget.addWidget(self.page_3)
+        self.gridLayout_20.addWidget(self.stackedWidget, 0, 0, 9, 1)
         self.pushButton_run = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_run.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_run.setStyleSheet("border: 1px solid #dcdfe6;\n"
@@ -777,26 +882,6 @@ class Ui_MainWindow(object):
 "font: 75 12pt \"微软雅黑\";")
         self.pushButton_run.setObjectName("pushButton_run")
         self.gridLayout_20.addWidget(self.pushButton_run, 1, 1, 1, 1)
-        self.pushButton_factory = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_factory.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.pushButton_factory.setStyleSheet("border: 1px solid #dcdfe6;\n"
-"background-color: #f56c6c;\n"
-"text-align: center;\n"
-"padding: 12px 16px;\n"
-"border-radius: 4px;\n"
-"font: 75 12pt \"微软雅黑\";")
-        self.pushButton_factory.setObjectName("pushButton_factory")
-        self.gridLayout_20.addWidget(self.pushButton_factory, 6, 1, 1, 1)
-        self.pushButton_run_page = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_run_page.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.pushButton_run_page.setStyleSheet("border: 1px solid #dcdfe6;\n"
-"background-color: #e6a23c;\n"
-"text-align: center;\n"
-"padding: 12px 16px;\n"
-"border-radius: 4px;\n"
-"font: 75 12pt \"微软雅黑\";")
-        self.pushButton_run_page.setObjectName("pushButton_run_page")
-        self.gridLayout_20.addWidget(self.pushButton_run_page, 4, 1, 1, 1)
         self.pushButton_config_page = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_config_page.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_config_page.setStyleSheet("border: 1px solid #dcdfe6;\n"
@@ -807,6 +892,26 @@ class Ui_MainWindow(object):
 "font: 75 12pt \"微软雅黑\";")
         self.pushButton_config_page.setObjectName("pushButton_config_page")
         self.gridLayout_20.addWidget(self.pushButton_config_page, 3, 1, 1, 1)
+        self.pushButton_factory = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_factory.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.pushButton_factory.setStyleSheet("border: 1px solid #dcdfe6;\n"
+"background-color: #f56c6c;\n"
+"text-align: center;\n"
+"padding: 12px 16px;\n"
+"border-radius: 4px;\n"
+"font: 75 12pt \"微软雅黑\";")
+        self.pushButton_factory.setObjectName("pushButton_factory")
+        self.gridLayout_20.addWidget(self.pushButton_factory, 7, 1, 1, 1)
+        self.pushButton_copywriting_page = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_copywriting_page.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.pushButton_copywriting_page.setStyleSheet("border: 1px solid #dcdfe6;\n"
+"background-color: #e6a23c;\n"
+"text-align: center;\n"
+"padding: 12px 16px;\n"
+"border-radius: 4px;\n"
+"font: 75 12pt \"微软雅黑\";")
+        self.pushButton_copywriting_page.setObjectName("pushButton_copywriting_page")
+        self.gridLayout_20.addWidget(self.pushButton_copywriting_page, 5, 1, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1067, 26))
@@ -838,6 +943,8 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "AI Vtuber"))
+        self.pushButton_run_page.setText(_translate("MainWindow", "②运行页"))
+        self.pushButton_save.setText(_translate("MainWindow", "保存配置"))
         self.groupBox_claude.setTitle(_translate("MainWindow", "Claude"))
         self.label_claude_slack_user_token.setText(_translate("MainWindow", "slack_user_token"))
         self.label_claude_bot_user_id.setText(_translate("MainWindow", "bot_user_id"))
@@ -996,11 +1103,27 @@ class Ui_MainWindow(object):
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'仿宋\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'SimSun\'; font-size:9pt;\"><br /></p></body></html>"))
-        self.pushButton_save.setText(_translate("MainWindow", "保存配置"))
+        self.groupBox_copywriting.setTitle(_translate("MainWindow", "文案"))
+        self.pushButton_copywriting_save.setText(_translate("MainWindow", "保存文案"))
+        self.label_copywriting_list.setText(_translate("MainWindow", "文案列表"))
+        self.pushButton_copywriting_select.setText(_translate("MainWindow", "加载"))
+        self.label_copywriting_select.setText(_translate("MainWindow", "选择文案"))
+        self.pushButton_copywriting_synthetic_audio.setText(_translate("MainWindow", "合成音频"))
+        self.pushButton_copywriting_loop_play.setText(_translate("MainWindow", "循环播放"))
+        self.pushButton_copywriting_stop_play.setText(_translate("MainWindow", "停止播放"))
+        self.textEdit_copywriting_list.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'SimSun\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
+        self.label_copywriting_play_list.setText(_translate("MainWindow", "播放列表"))
+        self.label_copywriting_edit.setText(_translate("MainWindow", "编辑文案"))
+        self.label_copywriting_audio_list.setText(_translate("MainWindow", "已合成\n"
+"音频列表"))
         self.pushButton_run.setText(_translate("MainWindow", "运行"))
+        self.pushButton_config_page.setText(_translate("MainWindow", "①配置页"))
         self.pushButton_factory.setText(_translate("MainWindow", "恢复出厂配置"))
-        self.pushButton_run_page.setText(_translate("MainWindow", "☞运行页"))
-        self.pushButton_config_page.setText(_translate("MainWindow", "☜配置页"))
+        self.pushButton_copywriting_page.setText(_translate("MainWindow", "③文案页"))
         self.menu_about.setTitle(_translate("MainWindow", "关于"))
         self.menu.setTitle(_translate("MainWindow", "文件"))
         self.action_official_store.setText(_translate("MainWindow", "官方仓库"))
