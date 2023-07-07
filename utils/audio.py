@@ -3,13 +3,13 @@ import requests
 import json, threading
 import subprocess
 import pygame
-import queue
+from queue import Queue, Empty
 import edge_tts
 import asyncio
 from copy import deepcopy
 import aiohttp
 import glob
-import os
+import os, random
 
 from elevenlabs import generate, play, set_api_key
 
@@ -21,10 +21,16 @@ from .config import Config
 
 
 class Audio:
-    # 存储消息（待合成音频的弹幕）
-    messages = []
+    # 文案播放标志 0手动暂停 1临时暂停  2循环播放
+    copywriting_play_flag = -1
+    # 初始化多个pygame.mixer实例
+    mixer_normal = pygame.mixer
+    mixer_copywriting = pygame.mixer
 
-    def __init__(self, config_path):  
+    def __init__(self, config_path=None):  
+        if config_path is None:
+            return
+        
         self.common = Common()
         self.config = Config(config_path)
 
@@ -32,10 +38,11 @@ class Audio:
         file_path = "./log/log-" + self.common.get_bj_time(1) + ".txt"
         Configure_logger(file_path)
 
+
         # 创建消息队列
-        self.message_queue = queue.Queue()
+        self.message_queue = Queue()
         # 创建音频路径队列
-        self.voice_tmp_path_queue = queue.Queue()
+        self.voice_tmp_path_queue = Queue()
 
         # 旧版同步写法
         # threading.Thread(target=self.message_queue_thread).start()
@@ -45,6 +52,9 @@ class Audio:
         # 音频合成单独一个线程排队播放
         self.only_play_audio_thread = threading.Thread(target=self.only_play_audio)
         self.only_play_audio_thread.start()
+        # 文案单独一个线程排队播放
+        self.only_play_copywriting_thread = threading.Thread(target=self.only_play_copywriting)
+        self.only_play_copywriting_thread.start()
 
 
     # 从指定文件夹中搜索指定文件，返回搜索到的文件路径
@@ -102,6 +112,7 @@ class Audio:
                 time.sleep(0.5)
             except Exception as e:
                 logging.error(e)
+
 
     # 请求VITS接口获取合成后的音频路径
     def vits_fast_api(self, vits_api_ip_port="http://127.0.0.1:7860", character="ikaros", language="日语", text="こんにちわ。", speed=1):
@@ -279,29 +290,101 @@ class Audio:
 
     # 只进行音频播放   
     def only_play_audio(self):
-        try:
-            pygame.mixer.init()
-            while True:
-                voice_tmp_path = self.voice_tmp_path_queue.get()  # 从队列中获取音频文件路径
-                if voice_tmp_path is None:  # 队列为空时退出循环
-                    continue
-                
-                pygame.mixer.music.load(voice_tmp_path)
-                pygame.mixer.music.play()
-                while pygame.mixer.music.get_busy():
-                    pygame.time.Clock().tick(10)
-                pygame.mixer.music.stop()
+        Audio.mixer_normal.init()
+        while True:
+            voice_tmp_path = ""
 
-                time.sleep(1)  # 添加延时，暂停执行1秒钟
+            try:
+                voice_tmp_path = self.voice_tmp_path_queue.get(block=False, timeout=1)  # 从队列中获取音频文件路径
+            except Empty:
 
-            pygame.mixer.quit()
-        except Exception as e:
-            logging.error(e)
+                # 如果文案标志位为1，则说明在暂停中，需要恢复
+                if Audio.copywriting_play_flag == 1:
+                    # 等待一个切换时间
+                    time.sleep(float(self.config.get("copywriting", "switching_interval")))
+                    self.unpause_copywriting_play()
+                    
+                time.sleep(0.5)
+                continue
+
+            # 如果文案标志位为2，则说明在播放中，需要暂停
+            if Audio.copywriting_play_flag == 2:
+                # 文案暂停
+                self.pause_copywriting_play()
+                Audio.copywriting_play_flag = 1
+                # 等待一个切换时间
+                time.sleep(float(self.config.get("copywriting", "switching_interval")))
+
+            Audio.mixer_normal.music.load(voice_tmp_path)
+            Audio.mixer_normal.music.play()
+            while Audio.mixer_normal.music.get_busy():
+                pygame.time.Clock().tick(10)
+            Audio.mixer_normal.music.stop()
+
+            time.sleep(1)  # 添加延时，暂停执行1秒钟
+
+        Audio.mixer_normal.quit()
+
 
 
     # 停止当前播放的音频
     def stop_current_audio(self):
-        pygame.mixer.music.fadeout(1000)
+        Audio.mixer_normal.music.fadeout(1000)
+
+    """
+    文案板块
+    """
+
+    # 只进行文案播放   
+    def only_play_copywriting(self):
+        try:
+            Audio.mixer_copywriting.init()
+            while True:
+                # 判断播放标志位
+                if Audio.copywriting_play_flag in [0, 1, -1]:
+                    time.sleep(float(self.config.get("copywriting", "audio_interval")))  # 添加延迟减少循环频率
+                    continue
+                
+                play_list = self.config.get("copywriting", "play_list")
+                # 是否开启随机列表播放
+                if self.config.get("copywriting", "random_play"):
+                    random.shuffle(play_list)
+
+                for voice_tmp_path in play_list:
+                    if Audio.copywriting_play_flag in [0, 1, -1]:
+                        continue
+
+                    audio_path = os.path.join(self.config.get("copywriting", "audio_path"), voice_tmp_path)
+                    Audio.mixer_copywriting.music.load(audio_path)
+                    Audio.mixer_copywriting.music.play()
+                    while Audio.mixer_copywriting.music.get_busy():
+                        pygame.time.Clock().tick(10)
+                    Audio.mixer_copywriting.music.stop()
+
+                    # 添加延时，暂停执行n秒钟
+                    time.sleep(float(self.config.get("copywriting", "audio_interval")))  
+
+            Audio.mixer_copywriting.quit()
+        except Exception as e:
+            logging.error(e)
+
+
+    # 暂停文案播放
+    def pause_copywriting_play(self):
+        Audio.copywriting_play_flag = 0
+        Audio.mixer_copywriting.music.pause()
+
+    
+    # 恢复暂停文案播放
+    def unpause_copywriting_play(self):
+        Audio.copywriting_play_flag = 2
+        Audio.mixer_copywriting.music.unpause()
+
+    
+    # 停止文案播放
+    def stop_copywriting_play(self):
+        Audio.copywriting_play_flag = 0
+        Audio.mixer_copywriting.music.stop()
 
 
     # 合并文案音频文件

@@ -15,7 +15,7 @@
     "max_char_len": 200
   },
   "live2d": {
-    "enable": true,
+    "enable": false,
     "port": 12345
   },
   "openai": {
@@ -120,8 +120,15 @@
   },
   "copywriting": {
     "file_path": "data/copywriting/",
-    "list": [],
-    "audio_path": "out/copywriting/"
+    "play_list": [
+      "测试文案2.wav",
+      "测试文案3.wav",
+      "吐槽.wav"
+    ],
+    "audio_path": "out/copywriting/",
+    "audio_interval": 5,
+    "switching_interval": 5,
+    "random_play": true
   },
   "header": {
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.42"
