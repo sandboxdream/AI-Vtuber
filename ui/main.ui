@@ -1686,7 +1686,11 @@ p, li { white-space: pre-wrap; }
             </widget>
            </item>
            <item row="1" column="5" colspan="2">
-            <widget class="QTextEdit" name="textEdit_copywriting_audio_list"/>
+            <widget class="QTextEdit" name="textEdit_copywriting_audio_list">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>

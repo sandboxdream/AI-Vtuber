@@ -1,6 +1,7 @@
 import sys, os, json, subprocess, importlib, re
 import logging
 import time
+import asyncio
 # from functools import partial
 
 from utils.config import Config
@@ -16,6 +17,7 @@ import UI_main
 
 from utils.common import Common
 from utils.logger import Configure_logger
+from utils.audio import Audio
 
 
 
@@ -64,6 +66,7 @@ class AI_VTB(QMainWindow):
         self.init_config()
         # 初始化
         self.init_ui()
+
 
 
     # 设置实例 
@@ -491,12 +494,14 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_sd_denoising_strength.setText(str(self.sd_config['denoising_strength']))
             
             # 文案数据回显到UI
+            tmp_str = ""
             copywriting_file_names = self.get_dir_txt_filename(self.copywriting_config['file_path'])
             for tmp in copywriting_file_names:
                 tmp_str = tmp_str + tmp + "\n"
             self.ui.textEdit_copywriting_list.setText(tmp_str)
 
             # 文案音频数据回显到UI
+            tmp_str = ""
             copywriting_audio_file_names = self.get_dir_audio_filename(self.copywriting_config['audio_path'])
             for tmp in copywriting_audio_file_names:
                 tmp_str = tmp_str + tmp + "\n"
@@ -559,9 +564,11 @@ class AI_VTB(QMainWindow):
         self.ui.pushButton_copywriting_page.disconnect()
         self.ui.pushButton_copywriting_select.disconnect()
         self.ui.pushButton_copywriting_save.disconnect()
+        self.ui.pushButton_copywriting_synthetic_audio.disconnect()
         self.ui.pushButton_copywriting_page.clicked.connect(self.on_pushButton_copywriting_page_clicked)
         self.ui.pushButton_copywriting_select.clicked.connect(self.on_pushButton_copywriting_select_clicked)
         self.ui.pushButton_copywriting_save.clicked.connect(self.on_pushButton_copywriting_save_clicked)
+        self.ui.pushButton_copywriting_synthetic_audio.clicked.connect(self.on_pushButton_copywriting_synthetic_audio_clicked)
 
         # 下拉框相关槽函数
         self.ui.comboBox_chat_type.disconnect()
@@ -583,6 +590,7 @@ class AI_VTB(QMainWindow):
         self.throttled_copywriting_page = self.throttle(self.copywriting_page, 1)
         self.throttled_copywriting_select = self.throttle(self.copywriting_select, 1)
         self.throttled_copywriting_save = self.throttle(self.copywriting_save, 1)
+        self.throttled_copywriting_synthetic_audio = self.throttle(self.copywriting_synthetic_audio, 1)
 
 
 
@@ -1005,7 +1013,17 @@ class AI_VTB(QMainWindow):
     # 保存文案按钮
     def on_pushButton_copywriting_save_clicked(self):
         self.throttled_copywriting_save()
-        
+    
+
+    # 合成音频
+    def copywriting_synthetic_audio(self):
+        select_file_path = self.ui.lineEdit_copywriting_select.text()
+        asyncio.run(audio.copywriting_synthesis_audio(select_file_path))
+
+    
+    # 合成音频按钮
+    def on_pushButton_copywriting_synthetic_audio_clicked(self):
+        self.throttled_copywriting_synthetic_audio()
 
 
     '''
@@ -1308,6 +1326,8 @@ if __name__ == '__main__':
 
     # 配置文件路径
     config_path = os.path.join(file_relative_path, 'config.json')
+
+    audio = Audio(config_path)
 
     # 日志文件路径
     file_path = "./log/log-" + common.get_bj_time(1) + ".txt"

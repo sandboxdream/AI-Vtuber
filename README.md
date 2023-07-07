@@ -398,7 +398,7 @@ chat_with_file 目前支持以下模式，在相关配置下的 chat_mode 进行
 4. 也可以直接输入HuggingFace的模型名字，如 [GanymedeNil/text2vec-large-chinese](https://huggingface.co/GanymedeNil/text2vec-large-chinese)，项目会自动从远程仓库下载。
    1. 请确保能够连接上HuggingFace
    2. 远程仓库下载的模型，一般存储在系统cache中。win端一般是：C:\Users\用户\.cache\torch\sentence_transformers。也可以将其移动到项目模型存储目录下使用
-
+5. openai_vector_search和openai_gpt读取本地数据的内容默认以换行为分隔符，所以可能导致大标题数据丢失问题，需要注意你的数据内容在编辑时不要将核心的内容放在标题部分单独一行，导致丢失核心数据，尽量将标题和正文写在一行，在真的需要分割的部分进行换行。  
 
 
 ## 🎉使用
@@ -406,9 +406,8 @@ chat_with_file 目前支持以下模式，在相关配置下的 chat_mode 进行
 各版本都需要做的前期准备操作。  
 `chatterbot`相关安装参考[chatterbot/README.md](chatterbot/README.md)  
 
-修改`config.json`的配置，配好哈，注意JSON数据格式  
-
-弹幕自带过滤，且需要弹幕以。或.或？结尾才能触发，请注意。  
+启动GUI/手动修改`config.json`的配置，配好哈，注意JSON数据格式  
+ 
 
 ### 哔哩哔哩版
 
@@ -684,6 +683,7 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 - 本地的用户拉黑机制
 - 礼物互动机制（跳舞，唱歌）
 - 弹幕跳过机制
+- 点歌后的弹幕触发问题（如：只取最新的几个）
 
 ## 📝 更新日志
 
