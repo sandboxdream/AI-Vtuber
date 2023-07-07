@@ -619,6 +619,13 @@ cmd输入命令即可：`doctoc /path/to/file`
 ### 快手弹幕获取
 [kuaishou-live](https://github.com/YunzhiYike/kuaishou-live)  
 
+### ChatGPT
+官网：[https://chat.openai.com/chat](https://chat.openai.com/chat)  
+openai后台：[https://platform.openai.com/](https://platform.openai.com/)  
+新建API KEY：[https://platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys)  
+查看账号额度：[https://platform.openai.com/account/usage](https://platform.openai.com/account/usage)  
+官方API文档：[https://platform.openai.com/docs/api-reference](https://platform.openai.com/docs/api-reference)  
+
 ### Claude
 API申请方法：[claude-api](https://github.com/bincooo/claude-api)  
 slack官网：[https://slack.com/intl/zh-cn/](https://slack.com/intl/zh-cn/)  
@@ -629,7 +636,9 @@ slack官网：[https://slack.com/intl/zh-cn/](https://slack.com/intl/zh-cn/)
 [解决现阶段slack新建工作区Claude不回复](https://www.bilibili.com/video/BV17k4y1H7aa)  
 
 ### ChatGLM
-[ChatGLM-6B](https://github.com/THUDM/ChatGLM-6B)  
+官方仓库：[ChatGLM-6B](https://github.com/THUDM/ChatGLM-6B)  
+整合包：[【ChatGLM】本地版ChatGPT？6G显存可用！ChatGLM-6B 清华开源模型一键包发布 可更新](https://www.bilibili.com/video/BV1E24y1u7Go)  
+运行`api.py`，然后配置相关信息接入本项目。  
 
 ### chat_with_file
 参考：[LangChainSummarize](https://github.com/Ikaros-521/LangChainSummarize)
@@ -659,8 +668,12 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 ### Live2D
 源自：[CyberWaifu](https://github.com/jieran233/CyberWaifu)  
 
+第三方软件`Vtuber Studio`，配置教程：[【AI主播】虚拟人部分方案#1 基于Vtuber Studio的口型驱动](https://www.bilibili.com/video/BV1vs4y1k71M)
+
 ### Stable Diffusion
-[stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui)
+官方仓库：[stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui)  
+整合包：[【AI绘画】Stable Diffusion整合包v4.2发布！全新加速 解压即用 防爆显存 三分钟入门AI绘画 ☆可更新 ☆训练 ☆汉化](https://www.bilibili.com/video/BV1iM4y1y7oA)  
+启动API模式，填写相关配置即可接入。  
 
 ### VITS-fast-fine-tuning
 官方仓库：[VITS-fast-fine-tuning](https://github.com/Plachtaa/VITS-fast-fine-tuning)  
@@ -671,19 +684,28 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 官方仓库：[so-vits-svc](https://github.com/svc-develop-team/so-vits-svc)  
 个人提供的已训练好的模型：[点我跳转](https://github.com/Ikaros-521/so-vits-svc/releases)  
 视频教程：[【AI歌姬】so-vits-svc 简单使用讲解 + 伊卡洛斯 模型开源](https://www.bilibili.com/video/BV1k24y1F7Us)  
+目前仅支持4.0版本，修改`flask_api_full_song.py`最后几行中的模型和配置路径，运行，配置相关信息即可接入。  
+```
+if __name__ == '__main__':
+    model_name = "logs/44k/ikaros_G_54600.pth" # 你的模型地址
+    config_name = "configs/ikaros_v1.json"  # 你的config地址
+    svc_model = infer_tool.Svc(model_name, config_name)
+    app.run(port=1145, host="0.0.0.0", debug=False, threaded=False)
+```  
 
 ## 待办事项
-- 懒人包优化
-- 快手平台的重新兼容
-- 其他直播平台的适配
-- live2d的嘴型匹配
-- 接入更多的2/3D模型软件
-- 屏蔽词升级。如：可以根据屏蔽词库转拼音的二重屏蔽；接入第三方屏蔽词API等
-- 本机语音直接交流模式
-- 本地的用户拉黑机制
-- 礼物互动机制（跳舞，唱歌）
-- 弹幕跳过机制
-- 点歌后的弹幕触发问题（如：只取最新的几个）
+- [ ] 懒人包优化
+- [ ] 快手平台的重新兼容
+- [ ] 其他直播平台的适配
+- [ ] live2d的嘴型匹配
+- [ ] 接入更多的2/3D模型软件
+- [ ] 屏蔽词升级。如：可以根据屏蔽词库转拼音的二重屏蔽；接入第三方屏蔽词API等
+- [ ] 本机语音直接交流模式
+- [ ] 本地的用户拉黑机制
+- [ ] 礼物互动机制（跳舞，唱歌）
+- [ ] 弹幕跳过机制
+- [ ] 点歌后的弹幕触发问题（如：只取最新的几个）
+- [ ] 接入new bing
 
 ## 📝 更新日志
 
