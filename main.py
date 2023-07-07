@@ -92,7 +92,9 @@ class AI_VTB(QMainWindow):
         config = Config(config_path)
 
         try:
-            
+            # 运行标志位，避免重复运行
+            self.running_flag = 0
+
             # 设置会话初始值
             self.session_config = {'msg': [{"role": "system", "content": config.get('chatgpt', 'preset')}]}
             self.sessions = {}
@@ -493,19 +495,13 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_sd_hr_second_pass_steps.setText(str(self.sd_config['hr_second_pass_steps']))
             self.ui.lineEdit_sd_denoising_strength.setText(str(self.sd_config['denoising_strength']))
             
-            # 文案数据回显到UI
+            # 文案 刷新列表
+            self.copywriting_refresh_list()
             tmp_str = ""
-            copywriting_file_names = self.get_dir_txt_filename(self.copywriting_config['file_path'])
-            for tmp in copywriting_file_names:
+            for tmp in self.copywriting_config['play_list']:
                 tmp_str = tmp_str + tmp + "\n"
-            self.ui.textEdit_copywriting_list.setText(tmp_str)
+            self.ui.textEdit_copywriting_play_list.setText(tmp_str)
 
-            # 文案音频数据回显到UI
-            tmp_str = ""
-            copywriting_audio_file_names = self.get_dir_audio_filename(self.copywriting_config['audio_path'])
-            for tmp in copywriting_audio_file_names:
-                tmp_str = tmp_str + tmp + "\n"
-            self.ui.textEdit_copywriting_audio_list.setText(tmp_str)
 
             # 显隐各板块
             self.oncomboBox_chat_type_IndexChanged(chat_type_index)
@@ -563,12 +559,18 @@ class AI_VTB(QMainWindow):
         # 文案页
         self.ui.pushButton_copywriting_page.disconnect()
         self.ui.pushButton_copywriting_select.disconnect()
+        self.ui.pushButton_copywriting_refresh_list.disconnect()
         self.ui.pushButton_copywriting_save.disconnect()
         self.ui.pushButton_copywriting_synthetic_audio.disconnect()
+        self.ui.pushButton_copywriting_loop_play.disconnect()
+        self.ui.pushButton_copywriting_pause_play.disconnect()
         self.ui.pushButton_copywriting_page.clicked.connect(self.on_pushButton_copywriting_page_clicked)
         self.ui.pushButton_copywriting_select.clicked.connect(self.on_pushButton_copywriting_select_clicked)
+        self.ui.pushButton_copywriting_refresh_list.clicked.connect(self.on_pushButton_copywriting_refresh_list_clicked)
         self.ui.pushButton_copywriting_save.clicked.connect(self.on_pushButton_copywriting_save_clicked)
         self.ui.pushButton_copywriting_synthetic_audio.clicked.connect(self.on_pushButton_copywriting_synthetic_audio_clicked)
+        self.ui.pushButton_copywriting_loop_play.clicked.connect(self.on_pushButton_copywriting_loop_play_clicked)
+        self.ui.pushButton_copywriting_pause_play.clicked.connect(self.on_pushButton_copywriting_pasue_play_clicked)
 
         # 下拉框相关槽函数
         self.ui.comboBox_chat_type.disconnect()
@@ -589,8 +591,11 @@ class AI_VTB(QMainWindow):
         self.throttled_run_page = self.throttle(self.run_page, 0.5)
         self.throttled_copywriting_page = self.throttle(self.copywriting_page, 1)
         self.throttled_copywriting_select = self.throttle(self.copywriting_select, 1)
+        self.throttled_copywriting_refresh_list = self.throttle(self.copywriting_refresh_list, 1)
         self.throttled_copywriting_save = self.throttle(self.copywriting_save, 1)
         self.throttled_copywriting_synthetic_audio = self.throttle(self.copywriting_synthetic_audio, 1)
+        self.throttled_copywriting_loop_play = self.throttle(self.copywriting_loop_play, 1)
+        self.throttled_copywriting_pasue_play = self.throttle(self.copywriting_pasue_play, 1)
 
 
 
@@ -835,6 +840,13 @@ class AI_VTB(QMainWindow):
             config_data["sd"]["hr_second_pass_steps"] = int(self.ui.lineEdit_sd_hr_second_pass_steps.text())
             config_data["sd"]["denoising_strength"] = round(float(self.ui.lineEdit_sd_denoising_strength.text()), 1)
 
+            # 文案
+            copywriting_play_list = self.ui.textEdit_copywriting_play_list.toPlainText()
+            play_list = [token.strip() for separator in separators for part in copywriting_play_list.split(separator) if (token := part.strip())]
+            if 0 != len(play_list):
+                play_list = play_list[1:]
+            config_data["copywriting"]["play_list"] = play_list
+
             config_data["header"]["userAgent"] = self.ui.lineEdit_header_useragent.text()
             
 
@@ -891,11 +903,15 @@ class AI_VTB(QMainWindow):
 
     # 运行
     def run(self):
-        # if False == self.save():
-        #     return
+        if self.running_flag == 1:
+            self.show_message_box("提醒", "程序运行中，请勿重复运行，请耐心等待喵~如果卡死或者3分钟都没有运行日志，可以重启重新运行",
+                QMessageBox.Information, 3000)
+            return
+        
+        self.running_flag = 1
 
-        # 暂停程序执行 3 秒钟
-        # time.sleep(3)
+        self.show_message_box("提示", "3秒后开始运行，运行可能比较缓慢，请耐心等待，如果3分钟都没有运行日志输出，则可能是程序卡死，建议重启~",
+            QMessageBox.Information, 3000)
 
         def delayed_run():
             # 切换到索引为 1 的页面
@@ -984,6 +1000,7 @@ class AI_VTB(QMainWindow):
         new_file_path = os.path.join(self.copywriting_config['file_path'], select_file_path)
         content = common.read_file_return_content(new_file_path)
         if content is None:
+            logging.error(f"读取失败！请检测配置、文件路径、文件名")
             self.show_message_box("错误", "读取失败！请检测配置、文件路径、文件名", QMessageBox.Critical)
             return
         
@@ -993,7 +1010,29 @@ class AI_VTB(QMainWindow):
     # 加载文案按钮
     def on_pushButton_copywriting_select_clicked(self):
         self.throttled_copywriting_select()
-        
+    
+
+    # 刷新列表
+    def copywriting_refresh_list(self):
+        # 文案数据回显到UI
+        tmp_str = ""
+        copywriting_file_names = self.get_dir_txt_filename(self.copywriting_config['file_path'])
+        for tmp in copywriting_file_names:
+            tmp_str = tmp_str + tmp + "\n"
+        self.ui.textEdit_copywriting_list.setText(tmp_str)
+
+        # 文案音频数据回显到UI
+        tmp_str = ""
+        copywriting_audio_file_names = self.get_dir_audio_filename(self.copywriting_config['audio_path'])
+        for tmp in copywriting_audio_file_names:
+            tmp_str = tmp_str + tmp + "\n"
+        self.ui.textEdit_copywriting_audio_list.setText(tmp_str)
+
+
+    # 刷新列表按钮
+    def on_pushButton_copywriting_refresh_list_clicked(self):
+        self.throttled_copywriting_refresh_list()
+
 
     # 保存文案
     def copywriting_save(self):
@@ -1015,16 +1054,57 @@ class AI_VTB(QMainWindow):
         self.throttled_copywriting_save()
     
 
+    # 合成音频 正经版
+    async def copywriting_synthetic_audio_main(self):
+        select_file_path = self.ui.lineEdit_copywriting_select.text()
+        ret = await audio.copywriting_synthesis_audio(select_file_path)
+        if ret is None:
+            logging.error(f"合成失败！请排查原因")
+            self.show_message_box("错误", "合成失败！请排查原因", QMessageBox.Critical)
+        else:
+            logging.info(f"合成成功，文件输出到：{ret}")
+            self.show_message_box("提示", f"合成成功，文件输出到：{ret}", QMessageBox.Information, 3000)
+
+            # 刷新文案和音频列表
+            self.copywriting_refresh_list()
+
     # 合成音频
     def copywriting_synthetic_audio(self):
-        select_file_path = self.ui.lineEdit_copywriting_select.text()
-        asyncio.run(audio.copywriting_synthesis_audio(select_file_path))
+        result = QMessageBox.question(
+            None, "确认框", "开始合成后请勿做其他操作，耐心等待合成完成，您确定开始吗？", QMessageBox.Yes | QMessageBox.No
+        )
+        if result == QMessageBox.No:
+            return
+        
+        asyncio.run(self.copywriting_synthetic_audio_main())
+
 
     
     # 合成音频按钮
     def on_pushButton_copywriting_synthetic_audio_clicked(self):
         self.throttled_copywriting_synthetic_audio()
 
+
+    # 循环播放
+    def copywriting_loop_play(self):
+        self.show_message_box("提示", "3秒后开始循环播放文案~", QMessageBox.Information, 3000)
+        audio.unpause_copywriting_play()
+
+
+    # 循环播放按钮
+    def on_pushButton_copywriting_loop_play_clicked(self):
+        self.throttled_copywriting_loop_play()
+    
+
+    # 暂停播放
+    def copywriting_pasue_play(self):
+        audio.pause_copywriting_play()
+        self.show_message_box("提示", "暂停文案完毕~", QMessageBox.Information, 3000)
+
+
+    # 暂停播放按钮
+    def on_pushButton_copywriting_pasue_play_clicked(self):
+        self.throttled_copywriting_pasue_play()
 
     '''
         餐单栏相关的函数
@@ -1298,6 +1378,7 @@ class WebServerThread(QThread):
 # 程序入口
 if __name__ == '__main__':
     common = Common()
+    audio = Audio()
 
     if getattr(sys, 'frozen', False):
         # 当前是打包后的可执行文件
@@ -1326,8 +1407,6 @@ if __name__ == '__main__':
 
     # 配置文件路径
     config_path = os.path.join(file_relative_path, 'config.json')
-
-    audio = Audio(config_path)
 
     # 日志文件路径
     file_path = "./log/log-" + common.get_bj_time(1) + ".txt"
