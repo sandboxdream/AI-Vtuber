@@ -120,8 +120,8 @@
   },
   "copywriting": {
     "file_path": "data/copywriting/",
-    "play_list": [],
     "audio_path": "out/copywriting/",
+    "play_list": [],
     "audio_interval": 5,
     "switching_interval": 5,
     "random_play": true

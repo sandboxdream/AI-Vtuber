@@ -120,14 +120,14 @@
   },
   "copywriting": {
     "file_path": "data/copywriting/",
+    "audio_path": "out/copywriting/",
     "play_list": [
       "测试文案2.wav",
       "测试文案3.wav",
       "吐槽.wav"
     ],
-    "audio_path": "out/copywriting/",
-    "audio_interval": 5,
-    "switching_interval": 5,
+    "audio_interval": 5.0,
+    "switching_interval": 5.0,
     "random_play": true
   },
   "header": {
