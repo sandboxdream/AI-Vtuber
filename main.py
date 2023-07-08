@@ -1038,6 +1038,11 @@ class AI_VTB(QMainWindow):
         
         self.ui.textEdit_copywriting_edit.setText(content)
 
+        logging.info(f"成功加载文案：{select_file_path}")
+        self.show_message_box("提示", f"成功加载文案：{select_file_path}", QMessageBox.Information, 3000)
+
+        self.copywriting_refresh_list()
+
 
     # 加载文案按钮
     def on_pushButton_copywriting_select_clicked(self):
@@ -1046,19 +1051,25 @@ class AI_VTB(QMainWindow):
 
     # 刷新列表
     def copywriting_refresh_list(self):
-        # 文案数据回显到UI
-        tmp_str = ""
-        copywriting_file_names = self.get_dir_txt_filename(self.copywriting_config['file_path'])
-        for tmp in copywriting_file_names:
-            tmp_str = tmp_str + tmp + "\n"
-        self.ui.textEdit_copywriting_list.setText(tmp_str)
+        try:
+            # 文案数据回显到UI
+            tmp_str = ""
+            copywriting_file_names = self.get_dir_txt_filename(self.copywriting_config['file_path'])
+            for tmp in copywriting_file_names:
+                tmp_str = tmp_str + tmp + "\n"
+            self.ui.textEdit_copywriting_list.setText(tmp_str)
 
-        # 文案音频数据回显到UI
-        tmp_str = ""
-        copywriting_audio_file_names = self.get_dir_audio_filename(self.copywriting_config['audio_path'])
-        for tmp in copywriting_audio_file_names:
-            tmp_str = tmp_str + tmp + "\n"
-        self.ui.textEdit_copywriting_audio_list.setText(tmp_str)
+            # 文案音频数据回显到UI
+            tmp_str = ""
+            copywriting_audio_file_names = self.get_dir_audio_filename(self.copywriting_config['audio_path'])
+            for tmp in copywriting_audio_file_names:
+                tmp_str = tmp_str + tmp + "\n"
+            self.ui.textEdit_copywriting_audio_list.setText(tmp_str)
+
+            logging.info("刷新文件列表")
+        except Exception as e:
+            logging.error(e)
+            self.show_message_box("错误", f"刷新失败！{e}", QMessageBox.Critical)
 
 
     # 刷新列表按钮
