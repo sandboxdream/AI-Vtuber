@@ -1070,6 +1070,11 @@ class AI_VTB(QMainWindow):
 
     # 合成音频
     def copywriting_synthetic_audio(self):
+        if self.running_flag != 1:
+            self.show_message_box("提醒", "请先点击“运行”，然后再进行合成操作",
+                QMessageBox.Information, 3000)
+            return
+        
         result = QMessageBox.question(
             None, "确认框", "开始合成后请勿做其他操作，耐心等待合成完成，您确定开始吗？", QMessageBox.Yes | QMessageBox.No
         )
@@ -1087,6 +1092,11 @@ class AI_VTB(QMainWindow):
 
     # 循环播放
     def copywriting_loop_play(self):
+        if self.running_flag != 1:
+            self.show_message_box("提醒", "请先点击“运行”，然后再进行播放",
+                QMessageBox.Information, 3000)
+            return
+        
         self.show_message_box("提示", "3秒后开始循环播放文案~", QMessageBox.Information, 3000)
         audio.unpause_copywriting_play()
 
@@ -1098,6 +1108,11 @@ class AI_VTB(QMainWindow):
 
     # 暂停播放
     def copywriting_pasue_play(self):
+        if self.running_flag != 1:
+            self.show_message_box("提醒", "请先点击“运行”，然后再进行暂停",
+                QMessageBox.Information, 3000)
+            return
+        
         audio.pause_copywriting_play()
         self.show_message_box("提示", "暂停文案完毕~", QMessageBox.Information, 3000)
 
