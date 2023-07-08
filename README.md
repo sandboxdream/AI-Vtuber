@@ -34,60 +34,59 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [AI Vtuber](#ai-vtuber)
-  - [🕺🏻目录](#目录)
-  - [📖项目结构](#项目结构)
-  - [下载项目](#下载项目)
-  - [💿运行环境](#运行环境)
-  - [🔧配置](#配置)
-    - [chatgpt代理](#chatgpt代理)
-    - [chat\_with\_file 模式说明](#chat_with_file-模式说明)
-      - [模式简介](#模式简介)
-      - [模式配置](#模式配置)
-        - [注意](#注意)
-  - [🎉使用](#使用)
-    - [哔哩哔哩版](#哔哩哔哩版)
-    - [抖音版](#抖音版)
-    - [抖音版\_旧版（不稳定）](#抖音版_旧版不稳定)
-    - [快手版](#快手版)
-  - [效果图](#效果图)
-    - [GUI界面](#gui界面)
-    - [SD接入](#sd接入)
-  - [FAQ 常问问题](#faq-常问问题)
-    - [部署过程问题](#部署过程问题)
-      - [1.CondaSSLError: OpenSSL appears to be unavailable on this machine](#1condasslerror-openssl-appears-to-be-unavailable-on-this-machine)
-      - [2.ModuleNotFoundError: No module named 'xxx' 大同小异](#2modulenotfounderror-no-module-named-xxx-大同小异)
-        - [ModuleNotFoundError: No module named 'PyQt5'](#modulenotfounderror-no-module-named-pyqt5)
-        - [ModuleNotFoundError: No module named 'langid'](#modulenotfounderror-no-module-named-langid)
-        - [ModuleNotFoundError: No module named 'profanity'](#modulenotfounderror-no-module-named-profanity)
-        - [ModuleNotFoundError: No module named 'ahocorasick'](#modulenotfounderror-no-module-named-ahocorasick)
-    - [使用过程问题](#使用过程问题)
-      - [1.openai 接口报错:《empty message》](#1openai-接口报错empty-message)
-  - [开发\&项目相关](#开发项目相关)
-    - [UI设计](#ui设计)
-    - [打包懒人包](#打包懒人包)
-    - [MD目录自动生成](#md目录自动生成)
-      - [安装](#安装)
-      - [使用](#使用-1)
-  - [补充](#补充)
-    - [抖音弹幕获取](#抖音弹幕获取)
-    - [快手弹幕获取](#快手弹幕获取)
-    - [Claude](#claude)
-    - [ChatGLM](#chatglm)
-    - [chat\_with\_file](#chat_with_file)
-    - [text-generation-webui](#text-generation-webui)
-    - [elevenlabs](#elevenlabs)
-    - [ChatterBot](#chatterbot)
-    - [Live2D](#live2d)
-    - [Stable Diffusion](#stable-diffusion)
-    - [VITS-fast-fine-tuning](#vits-fast-fine-tuning)
-    - [so-vits-svc](#so-vits-svc)
-  - [待办事项](#待办事项)
-  - [📝 更新日志](#-更新日志)
-  - [许可证](#许可证)
-  - [Star 经历](#star-经历)
-  - [🤝 贡献](#-贡献)
-    - [🎉 鸣谢](#-鸣谢)
+- [📖项目结构](#%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84)
+- [下载项目](#%E4%B8%8B%E8%BD%BD%E9%A1%B9%E7%9B%AE)
+- [💿运行环境](#%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83)
+- [🔧配置](#%E9%85%8D%E7%BD%AE)
+  - [chatgpt代理](#chatgpt%E4%BB%A3%E7%90%86)
+  - [chat_with_file 模式说明](#chat_with_file-%E6%A8%A1%E5%BC%8F%E8%AF%B4%E6%98%8E)
+    - [模式简介](#%E6%A8%A1%E5%BC%8F%E7%AE%80%E4%BB%8B)
+    - [模式配置](#%E6%A8%A1%E5%BC%8F%E9%85%8D%E7%BD%AE)
+      - [注意](#%E6%B3%A8%E6%84%8F)
+- [🎉使用](#%E4%BD%BF%E7%94%A8)
+  - [哔哩哔哩版](#%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9%E7%89%88)
+  - [抖音版](#%E6%8A%96%E9%9F%B3%E7%89%88)
+  - [抖音版_旧版（不稳定）](#%E6%8A%96%E9%9F%B3%E7%89%88_%E6%97%A7%E7%89%88%E4%B8%8D%E7%A8%B3%E5%AE%9A)
+  - [快手版](#%E5%BF%AB%E6%89%8B%E7%89%88)
+- [效果图](#%E6%95%88%E6%9E%9C%E5%9B%BE)
+  - [GUI界面](#gui%E7%95%8C%E9%9D%A2)
+  - [SD接入](#sd%E6%8E%A5%E5%85%A5)
+- [FAQ 常问问题](#faq-%E5%B8%B8%E9%97%AE%E9%97%AE%E9%A2%98)
+  - [部署过程问题](#%E9%83%A8%E7%BD%B2%E8%BF%87%E7%A8%8B%E9%97%AE%E9%A2%98)
+    - [1.CondaSSLError: OpenSSL appears to be unavailable on this machine](#1condasslerror-openssl-appears-to-be-unavailable-on-this-machine)
+    - [2.ModuleNotFoundError: No module named 'xxx' 大同小异](#2modulenotfounderror-no-module-named-xxx-%E5%A4%A7%E5%90%8C%E5%B0%8F%E5%BC%82)
+      - [ModuleNotFoundError: No module named 'PyQt5'](#modulenotfounderror-no-module-named-pyqt5)
+      - [ModuleNotFoundError: No module named 'langid'](#modulenotfounderror-no-module-named-langid)
+      - [ModuleNotFoundError: No module named 'profanity'](#modulenotfounderror-no-module-named-profanity)
+      - [ModuleNotFoundError: No module named 'ahocorasick'](#modulenotfounderror-no-module-named-ahocorasick)
+  - [使用过程问题](#%E4%BD%BF%E7%94%A8%E8%BF%87%E7%A8%8B%E9%97%AE%E9%A2%98)
+    - [1.openai 接口报错:《empty message》](#1openai-%E6%8E%A5%E5%8F%A3%E6%8A%A5%E9%94%99empty-message)
+- [开发&项目相关](#%E5%BC%80%E5%8F%91%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3)
+  - [UI设计](#ui%E8%AE%BE%E8%AE%A1)
+  - [打包懒人包](#%E6%89%93%E5%8C%85%E6%87%92%E4%BA%BA%E5%8C%85)
+  - [MD目录自动生成](#md%E7%9B%AE%E5%BD%95%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90)
+    - [安装](#%E5%AE%89%E8%A3%85)
+    - [使用](#%E4%BD%BF%E7%94%A8)
+- [补充](#%E8%A1%A5%E5%85%85)
+  - [<span id="dy">抖音弹幕获取</span>](#span-iddy%E6%8A%96%E9%9F%B3%E5%BC%B9%E5%B9%95%E8%8E%B7%E5%8F%96span)
+  - [快手弹幕获取](#%E5%BF%AB%E6%89%8B%E5%BC%B9%E5%B9%95%E8%8E%B7%E5%8F%96)
+  - [ChatGPT](#chatgpt)
+  - [Claude](#claude)
+  - [ChatGLM](#chatglm)
+  - [chat_with_file](#chat_with_file)
+  - [text-generation-webui](#text-generation-webui)
+  - [elevenlabs](#elevenlabs)
+  - [ChatterBot](#chatterbot)
+  - [Live2D](#live2d)
+  - [Stable Diffusion](#stable-diffusion)
+  - [VITS-fast-fine-tuning](#vits-fast-fine-tuning)
+  - [so-vits-svc](#so-vits-svc)
+- [待办事项](#%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9)
+- [📝 更新日志](#-%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97)
+- [许可证](#%E8%AE%B8%E5%8F%AF%E8%AF%81)
+- [Star 经历](#star-%E7%BB%8F%E5%8E%86)
+- [🤝 贡献](#-%E8%B4%A1%E7%8C%AE)
+  - [🎉 鸣谢](#-%E9%B8%A3%E8%B0%A2)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -577,6 +576,13 @@ ModuleNotFoundError: No module named 'ahocorasick'
 [chatgpt-html](http://ikaros521.eu.org/chatgpt-html/)  
 [ChatGPT-Next-Web](https://chat-gpt-next-web-ikaros-521.vercel.app/)  
 
+#### 2.ERROR: Cannot install -r requirements_bilibili.txt (line 23), aiohttp and langchain==0.0.142 because these package versions have conflicting dependencies.
+依赖冲突问题。可以删除`requirements_bilibili.txt`中的`langchain==0.0.142`和`bilibili-api==9.1.0`，然后进行重新安装。安装完成后，手动安装这2个库。  
+```
+Miniconda3\python.exe -m pip install bilibili-api==9.1.0
+Miniconda3\python.exe -m pip install langchain==0.0.142
+```
+
 </details>
 
 
@@ -826,6 +832,7 @@ if __name__ == '__main__':
 - 修复 文案模式 合成音频失败的bug
 - 修复 文案模式 没有运行就可以进行合成、播放、暂停操作的bug
 - 优化 文案模式 音频播放部分的实现逻辑。新增加载文案不存在就创建的机制。追加了文案页的各个配置和相关说明。
+- 修复 audio子线程sleep阻塞主线程弹幕监听的问题。
 
 </details>
 

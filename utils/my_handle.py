@@ -173,6 +173,8 @@ class My_handle():
 
     # 弹幕处理
     def commit_handle(self, user_name, content):
+        logging.debug(f"[{user_name}]: {content}")
+
         # 1、匹配本地问答库 触发后不执行后面的其他功能
         if self.local_qa == True:
             # 输出当前用户发送的弹幕消息

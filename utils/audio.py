@@ -57,7 +57,7 @@ class Audio:
         self.only_play_audio_thread = threading.Thread(target=self.only_play_audio)
         self.only_play_audio_thread.start()
         # 文案单独一个线程排队播放
-        self.only_play_copywriting_thread = threading.Thread(target=self.only_play_copywriting)
+        self.only_play_copywriting_thread = threading.Thread(target=self.start_only_play_copywriting)
         self.only_play_copywriting_thread.start()
 
 
@@ -339,14 +339,19 @@ class Audio:
         Audio.unpause_copywriting_play_timer.start()
 
 
+    # 只进行文案播放 正经版
+    def start_only_play_copywriting(self):
+        asyncio.run(self.only_play_copywriting())
+
+
     # 只进行文案播放   
-    def only_play_copywriting(self):
+    async def only_play_copywriting(self):
         try:
             Audio.mixer_copywriting.init()
             while True:
                 # 判断播放标志位
                 if Audio.copywriting_play_flag in [0, 1, -1]:
-                    time.sleep(float(self.config.get("copywriting", "audio_interval")))  # 添加延迟减少循环频率
+                    await asyncio.sleep(float(self.config.get("copywriting", "audio_interval")))  # 添加延迟减少循环频率
                     continue
                 
                 play_list = self.config.get("copywriting", "play_list")
@@ -366,7 +371,7 @@ class Audio:
                     Audio.mixer_copywriting.music.stop()
 
                     # 添加延时，暂停执行n秒钟
-                    time.sleep(float(self.config.get("copywriting", "audio_interval")))  
+                    await asyncio.sleep(float(self.config.get("copywriting", "audio_interval")))  
 
             Audio.mixer_copywriting.quit()
         except Exception as e:
@@ -382,7 +387,7 @@ class Audio:
     
     # 恢复暂停文案播放
     def unpause_copywriting_play(self):
-        logging.info("恢复暂停文案播放")
+        logging.info("恢复文案播放")
         Audio.copywriting_play_flag = 2
         Audio.mixer_copywriting.music.unpause()
 
