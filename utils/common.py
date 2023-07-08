@@ -212,9 +212,16 @@ class Common:
         return best_match
     
 
-    # 读取指定文件中所有文本内容并返回
+    # 读取指定文件中所有文本内容并返回 如果文件不存在则创建
     def read_file_return_content(self, file_path):
         try:
+            if not os.path.exists(file_path):
+                logging.warning(f"文件不存在，将创建新文件: {file_path}")
+                # 创建文件
+                with open(file_path, 'w', encoding='utf-8') as file:
+                    content = ""
+                return content
+        
             with open(file_path, 'r', encoding='utf-8') as file:
                 content = file.read()
             return content

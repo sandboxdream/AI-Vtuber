@@ -26,6 +26,8 @@ class Audio:
     # 初始化多个pygame.mixer实例
     mixer_normal = pygame.mixer
     mixer_copywriting = pygame.mixer
+    # 全局变量用于保存恢复文案播放计时器对象
+    unpause_copywriting_play_timer = None
 
     def __init__(self, config_path, type=1):  
         self.config = Config(config_path)
@@ -294,20 +296,8 @@ class Audio:
     def only_play_audio(self):
         Audio.mixer_normal.init()
         while True:
-            voice_tmp_path = ""
-
-            try:
-                voice_tmp_path = self.voice_tmp_path_queue.get(block=False)  # 从队列中获取音频文件路径
-            except Empty:
-
-                # 如果文案标志位为1，则说明在暂停中，需要恢复
-                if Audio.copywriting_play_flag == 1:
-                    # 等待一个切换时间
-                    time.sleep(float(self.config.get("copywriting", "switching_interval")))
-                    self.unpause_copywriting_play()
-                    
-                time.sleep(0.5)
-                continue
+            # 从队列中获取音频文件路径 队列为空时阻塞等待
+            voice_tmp_path = self.voice_tmp_path_queue.get(block=True)
 
             # 如果文案标志位为2，则说明在播放中，需要暂停
             if Audio.copywriting_play_flag == 2:
@@ -323,7 +313,8 @@ class Audio:
                 pygame.time.Clock().tick(10)
             Audio.mixer_normal.music.stop()
 
-            time.sleep(1)  # 添加延时，暂停执行1秒钟
+            # 延时执行恢复文案播放
+            self.delayed_execution_unpause_copywriting_play()
 
         Audio.mixer_normal.quit()
 
@@ -336,6 +327,17 @@ class Audio:
     """
     文案板块
     """
+    # 延时执行恢复文案播放
+    def delayed_execution_unpause_copywriting_play(self):
+        # 如果已经有计时器在运行，则取消之前的计时器
+        if Audio.unpause_copywriting_play_timer is not None and Audio.unpause_copywriting_play_timer.is_alive():
+            Audio.unpause_copywriting_play_timer.cancel()
+
+        # 创建新的计时器并启动
+        Audio.unpause_copywriting_play_timer = threading.Timer(float(self.config.get("copywriting", "switching_interval")), 
+                                                               self.unpause_copywriting_play)
+        Audio.unpause_copywriting_play_timer.start()
+
 
     # 只进行文案播放   
     def only_play_copywriting(self):
@@ -373,18 +375,21 @@ class Audio:
 
     # 暂停文案播放
     def pause_copywriting_play(self):
+        logging.info("暂停文案播放")
         Audio.copywriting_play_flag = 0
         Audio.mixer_copywriting.music.pause()
 
     
     # 恢复暂停文案播放
     def unpause_copywriting_play(self):
+        logging.info("恢复暂停文案播放")
         Audio.copywriting_play_flag = 2
         Audio.mixer_copywriting.music.unpause()
 
     
     # 停止文案播放
     def stop_copywriting_play(self):
+        logging.info("停止文案播放")
         Audio.copywriting_play_flag = 0
         Audio.mixer_copywriting.music.stop()
 
@@ -423,15 +428,16 @@ class Audio:
     # 只进行文案音频合成
     async def copywriting_synthesis_audio(self, file_path):
         try:
+            file_path = os.path.join(copywriting["file_path"], file_path)
+            logging.info(f"即将合成的文案：{file_path}")
+
             max_len = self.config.get("filter", "max_len")
             max_char_len = self.config.get("filter", "max_char_len")
             audio_synthesis_type = self.config.get("audio_synthesis_type")
             vits = self.config.get("vits")
             copywriting = self.config.get("copywriting")
             edge_tts_config = self.config.get("edge-tts")
-
-
-            file_path = os.path.join(copywriting["file_path"], file_path)
+            
             # 从文件路径提取文件名
             file_name = self.common.extract_filename(file_path)
             # 获取文件内容

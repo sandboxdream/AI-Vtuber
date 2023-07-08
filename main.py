@@ -167,8 +167,8 @@ class AI_VTB(QMainWindow):
             self.ui.label_after_prompt.setToolTip("提示词后缀，会自带追加在弹幕后，主要用于追加一些特殊的限制")
             self.ui.label_commit_log_type.setToolTip("弹幕日志类型，用于记录弹幕触发时记录的内容，默认只记录回答，降低当用户使用弹幕日志显示在直播间时，因为用户的不良弹幕造成直播间被封禁问题")
 
-            self.ui.label_filter_before_must_str.setToolTip("本地违禁词数据路径（你如果不需要，可以清空文件内容）")
-            self.ui.label_filter_after_must_str.setToolTip("本地违禁词数据路径（你如果不需要，可以清空文件内容）")
+            self.ui.label_filter_before_must_str.setToolTip("弹幕过滤，必须携带的触发前缀字符串（任一）\n例如：配置#，那么就需要发送：#你好")
+            self.ui.label_filter_after_must_str.setToolTip("弹幕过滤，必须携带的触发后缀字符串（任一）\n例如：配置。那么就需要发送：你好。")
             self.ui.label_filter_badwords_path.setToolTip("本地违禁词数据路径（你如果不需要，可以清空文件内容）")
             self.ui.label_filter_max_len.setToolTip("最长阅读的英文单词数（空格分隔）")
             self.ui.label_filter_max_char_len.setToolTip("最长阅读的字符数，双重过滤，避免溢出")
@@ -262,6 +262,24 @@ class AI_VTB(QMainWindow):
             self.ui.label_sd_denoising_strength.setToolTip("去噪强度，用于控制生成图像中的噪点。")
 
             self.ui.label_header_useragent.setToolTip("请求头，暂时没有用到，备用")
+
+            # 文案
+            self.ui.label_copywriting_file_path.setToolTip("文案文件存储路径，默认不可编辑。不建议更改。")
+            self.ui.label_copywriting_audio_path.setToolTip("文案音频文件存储路径，默认不可编辑。不建议更改。")
+            self.ui.label_copywriting_audio_interval.setToolTip("文案音频播放之间的间隔时间。就是前一个文案播放完成后，到后一个文案开始播放之间的间隔时间。")
+            self.ui.label_copywriting_switching_interval.setToolTip("文案音频切换到弹幕音频的切换间隔时间（反之一样）。\n就是在播放文案时，有弹幕触发并合成完毕，此时会暂停文案播放，然后等待这个间隔时间后，再播放弹幕回复音频。")
+            self.ui.label_copywriting_switching_random_play.setToolTip("文案随机播放，就是不根据播放音频文件列表的顺序播放，而是随机打乱顺序进行播放。")
+            self.ui.label_copywriting_list.setToolTip("加载配置文件中配置的文案路径（data/copywriting/）下的所有文件，请勿放入其他非文案文件")
+            self.ui.label_copywriting_play_list.setToolTip("此处填写需要播放的音频文件全名，填写完毕后点击 保存配置。文件全名从音频列表中复制，换行分隔，请勿随意填写")
+            self.ui.label_copywriting_audio_list.setToolTip("加载配置文件中配置的音频路径（data/audio_path/）下的所有文件，请勿放入其他非音频文件")
+            self.ui.label_copywriting_select.setToolTip("输入要加载的文案文件全名，文件全名从文案列表中复制。如果文件不存在，则会自动创建")
+            self.ui.pushButton_copywriting_select.setToolTip("加载 左侧输入框中的文件内容输出到下方编辑框内。如果文件不存在，则会自动创建")
+            self.ui.pushButton_copywriting_refresh_list.setToolTip("刷新 文案列表、音频列表中的内容，用于加载新数据")
+            self.ui.label_copywriting_edit.setToolTip("此处由上方 选择的文案通过加载读取文件内容，在此可以修改文案内容，方便重新合成")
+            self.ui.pushButton_copywriting_save.setToolTip("保存上方 文案编辑框中的内容到文案文件中")
+            self.ui.pushButton_copywriting_synthetic_audio.setToolTip("读取当前选择的文案文件内容，通过配置的 语音合成模式来进行合成，和弹幕合成机制类似。\n需要注意，合成前记得保存文案，合成文案较多时，请耐心等待。建议：自行手动合成文案音频，放到文案音频目录中，这里合成感觉不太行")
+            self.ui.pushButton_copywriting_loop_play.setToolTip("循环播放 播放列表中配置的音频文件（记得保存配置）。")
+            self.ui.pushButton_copywriting_pause_play.setToolTip("暂停当前播放的音频")
 
 
             """
@@ -496,6 +514,12 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_sd_denoising_strength.setText(str(self.sd_config['denoising_strength']))
             
             # 文案 刷新列表
+            self.ui.lineEdit_copywriting_file_path.setText(self.copywriting_config['file_path'])
+            self.ui.lineEdit_copywriting_audio_path.setText(self.copywriting_config['audio_path'])
+            self.ui.lineEdit_copywriting_audio_interval.setText(str(self.copywriting_config['audio_interval']))
+            self.ui.lineEdit_copywriting_switching_interval.setText(str(self.copywriting_config['switching_interval']))
+            if self.copywriting_config['random_play']:
+                self.ui.checkBox_copywriting_switching_random_play.setChecked(True)
             self.copywriting_refresh_list()
             tmp_str = ""
             for tmp in self.copywriting_config['play_list']:
@@ -515,32 +539,34 @@ class AI_VTB(QMainWindow):
     
     # ui初始化
     def init_ui(self):
-        # 统一设置下样式先
-        common_css = "margin: 5px 0px; height: 40px;"
+        if False:
+            # 统一设置下样式先
+            common_css = "margin: 5px 0px; height: 40px;"
 
-        # 无效设置
-        font = QFont("微软雅黑", 14)  # 创建一个字体对象
-        font.setWeight(QFont.Bold)  # 设置字体粗细
+            # 无效设置
+            font = QFont("微软雅黑", 14)  # 创建一个字体对象
+            font.setWeight(QFont.Bold)  # 设置字体粗细
 
-        labels = self.findChildren(QLabel)
-        for label in labels:
-            label.setStyleSheet(common_css)
-            label.setFont(font)
+            labels = self.findChildren(QLabel)
+            for label in labels:
+                label.setStyleSheet(common_css)
+                label.setFont(font)
 
-        comboBoxs = self.findChildren(QComboBox)
-        for comboBox in comboBoxs:
-            comboBox.setStyleSheet(common_css)
-            comboBox.setFont(font)
+        
+            comboBoxs = self.findChildren(QComboBox)
+            for comboBox in comboBoxs:
+                comboBox.setStyleSheet(common_css)
+                comboBox.setFont(font)
 
-        lineEdits = self.findChildren(QLineEdit)
-        for lineEdit in lineEdits:
-            lineEdit.setStyleSheet(common_css)
-            lineEdit.setFont(font)
+            lineEdits = self.findChildren(QLineEdit)
+            for lineEdit in lineEdits:
+                lineEdit.setStyleSheet(common_css)
+                lineEdit.setFont(font)
 
-        textEdits = self.findChildren(QTextEdit)
-        for textEdit in textEdits:
-            textEdit.setStyleSheet(common_css)
-            textEdit.setFont(font)
+            textEdits = self.findChildren(QTextEdit)
+            for textEdit in textEdits:
+                textEdit.setStyleSheet(common_css)
+                textEdit.setFont(font)
         
 
         self.show()
@@ -841,6 +867,11 @@ class AI_VTB(QMainWindow):
             config_data["sd"]["denoising_strength"] = round(float(self.ui.lineEdit_sd_denoising_strength.text()), 1)
 
             # 文案
+            # config_data["copywriting"]["file_path"] = self.ui.lineEdit_copywriting_file_path.text()
+            # config_data["copywriting"]["audio_path"] = self.ui.lineEdit_copywriting_audio_path.text()
+            config_data["copywriting"]["audio_interval"] = round(float(self.ui.lineEdit_copywriting_audio_interval.text()), 1)
+            config_data["copywriting"]["switching_interval"] = round(float(self.ui.lineEdit_copywriting_switching_interval.text()), 1)
+            config_data["copywriting"]["random_play"] = self.ui.checkBox_copywriting_switching_random_play.isChecked()
             copywriting_play_list = self.ui.textEdit_copywriting_play_list.toPlainText()
             play_list = [token.strip() for separator in separators for part in copywriting_play_list.split(separator) if (token := part.strip())]
             if 0 != len(play_list):
@@ -998,6 +1029,7 @@ class AI_VTB(QMainWindow):
         
         logging.info(f"准备加载 {self.copywriting_config['file_path']} 路径下的 [{select_file_path}]")
         new_file_path = os.path.join(self.copywriting_config['file_path'], select_file_path)
+
         content = common.read_file_return_content(new_file_path)
         if content is None:
             logging.error(f"读取失败！请检测配置、文件路径、文件名")
