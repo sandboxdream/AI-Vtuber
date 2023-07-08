@@ -27,12 +27,14 @@ class Audio:
     mixer_normal = pygame.mixer
     mixer_copywriting = pygame.mixer
 
-    def __init__(self, config_path=None):  
-        if config_path is None:
-            return
-        
-        self.common = Common()
+    def __init__(self, config_path, type=1):  
         self.config = Config(config_path)
+        self.common = Common()
+
+        # 文案模式
+        if type == 2:
+            return
+    
 
         # 日志文件路径
         file_path = "./log/log-" + self.common.get_bj_time(1) + ".txt"
@@ -295,7 +297,7 @@ class Audio:
             voice_tmp_path = ""
 
             try:
-                voice_tmp_path = self.voice_tmp_path_queue.get(block=False, timeout=1)  # 从队列中获取音频文件路径
+                voice_tmp_path = self.voice_tmp_path_queue.get(block=False)  # 从队列中获取音频文件路径
             except Empty:
 
                 # 如果文案标志位为1，则说明在暂停中，需要恢复

@@ -1378,7 +1378,6 @@ class WebServerThread(QThread):
 # 程序入口
 if __name__ == '__main__':
     common = Common()
-    audio = Audio()
 
     if getattr(sys, 'frozen', False):
         # 当前是打包后的可执行文件
@@ -1407,6 +1406,8 @@ if __name__ == '__main__':
 
     # 配置文件路径
     config_path = os.path.join(file_relative_path, 'config.json')
+
+    audio = Audio(config_path, 2)
 
     # 日志文件路径
     file_path = "./log/log-" + common.get_bj_time(1) + ".txt"

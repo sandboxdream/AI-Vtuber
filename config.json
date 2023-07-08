@@ -48,7 +48,7 @@
     "local_max_query": 3,
     "local_vector_embedding_model": "sebastian-hofstaetter/distilbert-dot-tas_b-b256-msmarco"
   },
-  "audio_synthesis_type": "vits",
+  "audio_synthesis_type": "edge-tts",
   "vits": {
     "config_path": "D:\\GitHub_pro\\VITS-fast-fine-tuning\\inference\\finetune_speaker.json",
     "api_ip_port": "http://127.0.0.1:7860",
