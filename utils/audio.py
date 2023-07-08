@@ -313,8 +313,9 @@ class Audio:
                 pygame.time.Clock().tick(10)
             Audio.mixer_normal.music.stop()
 
-            # 延时执行恢复文案播放
-            self.delayed_execution_unpause_copywriting_play()
+            if Audio.copywriting_play_flag == 1:
+                # 延时执行恢复文案播放
+                self.delayed_execution_unpause_copywriting_play()
 
         Audio.mixer_normal.quit()
 
@@ -433,15 +434,15 @@ class Audio:
     # 只进行文案音频合成
     async def copywriting_synthesis_audio(self, file_path):
         try:
-            file_path = os.path.join(copywriting["file_path"], file_path)
-            logging.info(f"即将合成的文案：{file_path}")
-
             max_len = self.config.get("filter", "max_len")
             max_char_len = self.config.get("filter", "max_char_len")
             audio_synthesis_type = self.config.get("audio_synthesis_type")
             vits = self.config.get("vits")
             copywriting = self.config.get("copywriting")
             edge_tts_config = self.config.get("edge-tts")
+            file_path = os.path.join(copywriting["file_path"], file_path)
+
+            logging.info(f"即将合成的文案：{file_path}")
             
             # 从文件路径提取文件名
             file_name = self.common.extract_filename(file_path)
