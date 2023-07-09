@@ -21,7 +21,7 @@ _✨ AI Vtuber ✨_
 
 
 <p>
-AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text-generation-webui 做为"大脑"驱动的虚拟主播（Live2D），可以在 Bilibili/抖音/快手 直播中与观众实时互动。
+AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text-generation-webui 做为"大脑"驱动的虚拟主播（Live2D），可以在 Bilibili/抖音/快手 直播中与观众实时互动 或者 直接在本地和您进行聊天。
 它使用自然语言处理和文本转语音技术(Edge-TTS/VITS-Fast/elevenlabs)生成对观众问题的回答并可以通过so-vits-svc变声；另外还可以通过特定指令协同Stable Diffusion进行画图展示。  
 </p>
 
@@ -48,6 +48,7 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
   - [抖音版](#%E6%8A%96%E9%9F%B3%E7%89%88)
   - [抖音版_旧版（不稳定）](#%E6%8A%96%E9%9F%B3%E7%89%88_%E6%97%A7%E7%89%88%E4%B8%8D%E7%A8%B3%E5%AE%9A)
   - [快手版](#%E5%BF%AB%E6%89%8B%E7%89%88)
+  - [聊天模式-谷歌](#%E8%81%8A%E5%A4%A9%E6%A8%A1%E5%BC%8F-%E8%B0%B7%E6%AD%8C)
 - [效果图](#%E6%95%88%E6%9E%9C%E5%9B%BE)
   - [GUI界面](#gui%E7%95%8C%E9%9D%A2)
   - [SD接入](#sd%E6%8E%A5%E5%85%A5)
@@ -61,6 +62,7 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
       - [ModuleNotFoundError: No module named 'ahocorasick'](#modulenotfounderror-no-module-named-ahocorasick)
   - [使用过程问题](#%E4%BD%BF%E7%94%A8%E8%BF%87%E7%A8%8B%E9%97%AE%E9%A2%98)
     - [1.openai 接口报错:《empty message》](#1openai-%E6%8E%A5%E5%8F%A3%E6%8A%A5%E9%94%99empty-message)
+    - [2.ERROR: Cannot install -r requirements_bilibili.txt (line 23), aiohttp and langchain==0.0.142 because these package versions have conflicting dependencies.](#2error-cannot-install--r-requirements_bilibilitxt-line-23-aiohttp-and-langchain00142-because-these-package-versions-have-conflicting-dependencies)
 - [开发&项目相关](#%E5%BC%80%E5%8F%91%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3)
   - [UI设计](#ui%E8%AE%BE%E8%AE%A1)
   - [打包懒人包](#%E6%89%93%E5%8C%85%E6%87%92%E4%BA%BA%E5%8C%85)
@@ -95,9 +97,9 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
 - `config.json`，配置文件。
 - `main.py`，GUI主程序。会根据配置调用各平台程序
 - `utils`文件夹，存储聊天、音频、通用类相关功能的封装实现
-- `data`文件夹，存储数据文件和违禁词
+- `data`文件夹，存储数据文件、违禁词、文案等
 - `log`文件夹，存储运行日志
-- `out`文件夹，存储edge-tts输出的音频文件
+- `out`文件夹，存储edge-tts输出的音频文件，文案输出的音频文件
 - `Live2D`文件夹，存储Live2D源码及模型
 - `song`文件夹，存储点歌模式的歌曲
 
@@ -367,6 +369,18 @@ GUI程序运行后会自动加载配置文件，可以通过GUI程序进行配�
   },
   "header": {
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.42"
+  },
+  // 聊天模式相关配置
+  "talk": {
+    // 你的名称
+    "username": "主人",
+    // 谷歌语音识别
+    "google": {
+      // 录音后识别转换成的目标语言（就是你说的语言）
+      "tgt_lang": "zh-CN",
+      // 录音触发按键（长按此按键进行录音）
+      "trigger_key": "1"
+    }
   }
 }
 ```
@@ -477,6 +491,16 @@ protoc -I . --python_out=. ks.proto
 ps:依赖[golang](https://go.dev/dl/)环境，还没有的话，手动补一补[protobuf](https://github.com/protocolbuffers/protobuf/releases)  
 
 运行 `python main.py`  
+
+### 聊天模式-谷歌
+
+在命令行中使用以下命令安装所需库：
+```
+pip install -r requirements_talk_google.txt
+```
+
+运行GUI `python main.py`  
+单独运行 `python talk_google.py`  
 
 ## 效果图
 ### GUI界面  
@@ -835,6 +859,9 @@ if __name__ == '__main__':
 - 修复 audio子线程sleep阻塞主线程弹幕监听的问题。
 - 修复 文案音频暂停后 会被弹幕重新激活的bug。
 - 优化 文案模式 GUI相关交互
+
+### 2023-07-09
+- 新增 聊天模式-谷歌。可以本地直接与LLM进行语音聊天。（依赖魔法）
 
 </details>
 

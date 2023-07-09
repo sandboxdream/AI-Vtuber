@@ -39,6 +39,60 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
       </property>
      </widget>
     </item>
+    <item row="5" column="1">
+     <widget class="QPushButton" name="pushButton_copywriting_page">
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border: 1px solid #dcdfe6;
+background-color: #e6a23c;
+text-align: center;
+padding: 12px 16px;
+border-radius: 4px;
+font: 75 12pt &quot;微软雅黑&quot;;</string>
+      </property>
+      <property name="text">
+       <string>③文案页</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QPushButton" name="pushButton_run">
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border: 1px solid #dcdfe6;
+background-color: rgba(103, 194, 58, 255);
+text-align: center;
+padding: 12px 16px;
+border-radius: 4px;
+font: 75 12pt &quot;微软雅黑&quot;;</string>
+      </property>
+      <property name="text">
+       <string>运行</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QPushButton" name="pushButton_config_page">
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border: 1px solid #dcdfe6;
+background-color: #e6a23c;
+text-align: center;
+padding: 12px 16px;
+border-radius: 4px;
+font: 75 12pt &quot;微软雅黑&quot;;</string>
+      </property>
+      <property name="text">
+       <string>①配置页</string>
+      </property>
+     </widget>
+    </item>
     <item row="0" column="1">
      <widget class="QPushButton" name="pushButton_save">
       <property name="cursor">
@@ -57,7 +111,7 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
       </property>
      </widget>
     </item>
-    <item row="0" column="0" rowspan="9">
+    <item row="0" column="0" rowspan="10">
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
        <number>0</number>
@@ -653,6 +707,11 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                  <item>
                   <property name="text">
                    <string>快手</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>聊天模式-谷歌</string>
                   </property>
                  </item>
                 </widget>
@@ -1845,45 +1904,89 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="page_4">
+       <layout class="QGridLayout" name="gridLayout_39">
+        <item row="0" column="0">
+         <widget class="QScrollArea" name="scrollArea_3">
+          <property name="styleSheet">
+           <string notr="true">font: 75 14pt &quot;微软雅黑&quot;;
+</string>
+          </property>
+          <property name="widgetResizable">
+           <bool>true</bool>
+          </property>
+          <widget class="QWidget" name="scrollAreaWidgetContents_3">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>984</width>
+             <height>743</height>
+            </rect>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_3">
+            <item>
+             <widget class="QWidget" name="widget_2" native="true">
+              <layout class="QGridLayout" name="gridLayout_40" columnstretch="1,5">
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_talk_username">
+                 <property name="text">
+                  <string>你的名字</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="lineEdit_talk_username"/>
+               </item>
+               <item row="1" column="0" colspan="2">
+                <widget class="QGroupBox" name="groupBox_talk_google">
+                 <property name="title">
+                  <string>谷歌</string>
+                 </property>
+                 <layout class="QGridLayout" name="gridLayout_41" columnstretch="1,5">
+                  <item row="1" column="1">
+                   <widget class="QComboBox" name="comboBox_talk_google_tgt_lang"/>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QLabel" name="label_talk_google_trigger_key">
+                    <property name="text">
+                     <string>录音按键</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QLabel" name="label_talk_google_tgt_lang">
+                    <property name="text">
+                     <string>目标翻译语言</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="1">
+                   <widget class="QComboBox" name="comboBox_talk_google_trigger_key"/>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item row="2" column="0" colspan="2">
+                <widget class="QTextBrowser" name="textBrowser_talk_log">
+                 <property name="styleSheet">
+                  <string notr="true">font: 12pt &quot;仿宋&quot;;
+</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
-    <item row="1" column="1">
-     <widget class="QPushButton" name="pushButton_run">
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">border: 1px solid #dcdfe6;
-background-color: rgba(103, 194, 58, 255);
-text-align: center;
-padding: 12px 16px;
-border-radius: 4px;
-font: 75 12pt &quot;微软雅黑&quot;;</string>
-      </property>
-      <property name="text">
-       <string>运行</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="1">
-     <widget class="QPushButton" name="pushButton_config_page">
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">border: 1px solid #dcdfe6;
-background-color: #e6a23c;
-text-align: center;
-padding: 12px 16px;
-border-radius: 4px;
-font: 75 12pt &quot;微软雅黑&quot;;</string>
-      </property>
-      <property name="text">
-       <string>①配置页</string>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="1">
+    <item row="8" column="1">
      <widget class="QPushButton" name="pushButton_factory">
       <property name="cursor">
        <cursorShape>PointingHandCursor</cursorShape>
@@ -1901,8 +2004,8 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
       </property>
      </widget>
     </item>
-    <item row="5" column="1">
-     <widget class="QPushButton" name="pushButton_copywriting_page">
+    <item row="6" column="1">
+     <widget class="QPushButton" name="pushButton_talk_page">
       <property name="cursor">
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
@@ -1915,7 +2018,7 @@ border-radius: 4px;
 font: 75 12pt &quot;微软雅黑&quot;;</string>
       </property>
       <property name="text">
-       <string>③文案页</string>
+       <string>④聊天页</string>
       </property>
      </widget>
     </item>
