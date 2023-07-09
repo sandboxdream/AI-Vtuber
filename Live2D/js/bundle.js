@@ -26,9 +26,9 @@
         if (4 & e && "object" == typeof t && t && t.__esModule) return t;
         var r = Object.create(null);
         if (i.r(r), Object.defineProperty(r, "default", {
-                enumerable: !0,
-                value: t
-            }), 2 & e && "string" != typeof t)
+            enumerable: !0,
+            value: t
+        }), 2 & e && "string" != typeof t)
             for (var o in t) i.d(r, o, function (e) {
                 return t[e]
             }.bind(null, o));
@@ -56,18 +56,18 @@
         u = o.Live2DCubismFramework.CubismIdManager,
         l = n.Live2DCubismFramework.CubismRenderer;
     e.strtod = function (t, e) {
-            for (var i = 0, r = 1;; r++) {
-                var o = t.slice(r - 1, r);
-                if ("e" != o && "-" != o && "E" != o) {
-                    var n = t.substring(0, r),
-                        a = Number(n);
-                    if (isNaN(a)) break;
-                    i = r
-                }
+        for (var i = 0, r = 1; ; r++) {
+            var o = t.slice(r - 1, r);
+            if ("e" != o && "-" != o && "E" != o) {
+                var n = t.substring(0, r),
+                    a = Number(n);
+                if (isNaN(a)) break;
+                i = r
             }
-            var s = parseFloat(t);
-            return isNaN(s) && (s = NaN), e[0] = t.slice(i), s
-        },
+        }
+        var s = parseFloat(t);
+        return isNaN(s) && (s = NaN), e[0] = t.slice(i), s
+    },
         function (t) {
             var e = !1,
                 i = !1,
@@ -79,7 +79,7 @@
                 t && (t = void 0)
             };
             var n = function () {
-                function t() {}
+                function t() { }
                 return t.startUp = function (t) {
                     if (void 0 === t && (t = null), e) return a.CubismLogInfo("CubismFramework.startUp() is already done."), e;
                     if (null != (r = t) && Live2DCubismCore.Logging.csmSetLogFunction(r.logFunction), e = !0) {
@@ -111,7 +111,7 @@
             }();
             t.CubismFramework = n
         }(e.Live2DCubismFramework || (e.Live2DCubismFramework = {}));
-    var h, p = function () {};
+    var h, p = function () { };
     e.Option = p,
         function (t) {
             t[t.LogLevel_Verbose = 0] = "LogLevel_Verbose", t[t.LogLevel_Debug = 1] = "LogLevel_Debug", t[t.LogLevel_Info = 2] = "LogLevel_Info", t[t.LogLevel_Warning = 3] = "LogLevel_Warning", t[t.LogLevel_Error = 4] = "LogLevel_Error", t[t.LogLevel_Off = 5] = "LogLevel_Off"
@@ -119,8 +119,8 @@
 }, function (t, e, i) {
     "use strict";
     Object.defineProperty(e, "__esModule", {
-            value: !0
-        }),
+        value: !0
+    }),
         function (t) {
             var e = function () {
                 function t(t) {
@@ -219,60 +219,60 @@
     var r, o = i(0),
         n = i(19);
     e.CubismLogPrint = function (t, e, i) {
-            r.CubismDebug.print(t, "[CSM]" + e, i)
-        }, e.CubismLogPrintIn = function (t, i, r) {
-            e.CubismLogPrint(t, i + "\n", r)
-        }, e.CSM_ASSERT = function (t) {
-            console.assert(t)
-        }, n.CSM_LOG_LEVEL <= n.CSM_LOG_LEVEL_VERBOSE ? (e.CubismLogVerbose = function (t) {
-            for (var i = [], r = 1; r < arguments.length; r++) i[r - 1] = arguments[r];
-            e.CubismLogPrintIn(o.LogLevel.LogLevel_Verbose, "[V]" + t, i)
-        }, e.CubismLogDebug = function (t) {
-            for (var i = [], r = 1; r < arguments.length; r++) i[r - 1] = arguments[r];
-            e.CubismLogPrintIn(o.LogLevel.LogLevel_Debug, "[D]" + t, i)
-        }, e.CubismLogInfo = function (t) {
-            for (var i = [], r = 1; r < arguments.length; r++) i[r - 1] = arguments[r];
-            e.CubismLogPrintIn(o.LogLevel.LogLevel_Info, "[I]" + t, i)
-        }, e.CubismLogWarning = function (t) {
-            for (var i = [], r = 1; r < arguments.length; r++) i[r - 1] = arguments[r];
-            e.CubismLogPrintIn(o.LogLevel.LogLevel_Warning, "[W]" + t, i)
-        }, e.CubismLogError = function (t) {
-            for (var i = [], r = 1; r < arguments.length; r++) i[r - 1] = arguments[r];
-            e.CubismLogPrintIn(o.LogLevel.LogLevel_Error, "[E]" + t, i)
-        }) : n.CSM_LOG_LEVEL == n.CSM_LOG_LEVEL_DEBUG ? (e.CubismLogDebug = function (t) {
-            for (var i = [], r = 1; r < arguments.length; r++) i[r - 1] = arguments[r];
-            e.CubismLogPrintIn(o.LogLevel.LogLevel_Debug, "[D]" + t, i)
-        }, e.CubismLogInfo = function (t) {
-            for (var i = [], r = 1; r < arguments.length; r++) i[r - 1] = arguments[r];
-            e.CubismLogPrintIn(o.LogLevel.LogLevel_Info, "[I]" + t, i)
-        }, e.CubismLogWarning = function (t) {
-            for (var i = [], r = 1; r < arguments.length; r++) i[r - 1] = arguments[r];
-            e.CubismLogPrintIn(o.LogLevel.LogLevel_Warning, "[W]" + t, i)
-        }, e.CubismLogError = function (t) {
-            for (var i = [], r = 1; r < arguments.length; r++) i[r - 1] = arguments[r];
-            e.CubismLogPrintIn(o.LogLevel.LogLevel_Error, "[E]" + t, i)
-        }) : n.CSM_LOG_LEVEL == n.CSM_LOG_LEVEL_INFO ? (e.CubismLogInfo = function (t) {
-            for (var i = [], r = 1; r < arguments.length; r++) i[r - 1] = arguments[r];
-            e.CubismLogPrintIn(o.LogLevel.LogLevel_Info, "[I]" + t, i)
-        }, e.CubismLogWarning = function (t) {
-            for (var i = [], r = 1; r < arguments.length; r++) i[r - 1] = arguments[r];
-            e.CubismLogPrintIn(o.LogLevel.LogLevel_Warning, "[W]" + t, i)
-        }, e.CubismLogError = function (t) {
-            for (var i = [], r = 1; r < arguments.length; r++) i[r - 1] = arguments[r];
-            e.CubismLogPrintIn(o.LogLevel.LogLevel_Error, "[E]" + t, i)
-        }) : n.CSM_LOG_LEVEL == n.CSM_LOG_LEVEL_WARNING ? (e.CubismLogWarning = function (t) {
-            for (var i = [], r = 1; r < arguments.length; r++) i[r - 1] = arguments[r];
-            e.CubismLogPrintIn(o.LogLevel.LogLevel_Warning, "[W]" + t, i)
-        }, e.CubismLogError = function (t) {
-            for (var i = [], r = 1; r < arguments.length; r++) i[r - 1] = arguments[r];
-            e.CubismLogPrintIn(o.LogLevel.LogLevel_Error, "[E]" + t, i)
-        }) : n.CSM_LOG_LEVEL == n.CSM_LOG_LEVEL_ERROR && (e.CubismLogError = function (t) {
-            for (var i = [], r = 1; r < arguments.length; r++) i[r - 1] = arguments[r];
-            e.CubismLogPrintIn(o.LogLevel.LogLevel_Error, "[E]" + t, i)
-        }),
+        r.CubismDebug.print(t, "[CSM]" + e, i)
+    }, e.CubismLogPrintIn = function (t, i, r) {
+        e.CubismLogPrint(t, i + "\n", r)
+    }, e.CSM_ASSERT = function (t) {
+        console.assert(t)
+    }, n.CSM_LOG_LEVEL <= n.CSM_LOG_LEVEL_VERBOSE ? (e.CubismLogVerbose = function (t) {
+        for (var i = [], r = 1; r < arguments.length; r++) i[r - 1] = arguments[r];
+        e.CubismLogPrintIn(o.LogLevel.LogLevel_Verbose, "[V]" + t, i)
+    }, e.CubismLogDebug = function (t) {
+        for (var i = [], r = 1; r < arguments.length; r++) i[r - 1] = arguments[r];
+        e.CubismLogPrintIn(o.LogLevel.LogLevel_Debug, "[D]" + t, i)
+    }, e.CubismLogInfo = function (t) {
+        for (var i = [], r = 1; r < arguments.length; r++) i[r - 1] = arguments[r];
+        e.CubismLogPrintIn(o.LogLevel.LogLevel_Info, "[I]" + t, i)
+    }, e.CubismLogWarning = function (t) {
+        for (var i = [], r = 1; r < arguments.length; r++) i[r - 1] = arguments[r];
+        e.CubismLogPrintIn(o.LogLevel.LogLevel_Warning, "[W]" + t, i)
+    }, e.CubismLogError = function (t) {
+        for (var i = [], r = 1; r < arguments.length; r++) i[r - 1] = arguments[r];
+        e.CubismLogPrintIn(o.LogLevel.LogLevel_Error, "[E]" + t, i)
+    }) : n.CSM_LOG_LEVEL == n.CSM_LOG_LEVEL_DEBUG ? (e.CubismLogDebug = function (t) {
+        for (var i = [], r = 1; r < arguments.length; r++) i[r - 1] = arguments[r];
+        e.CubismLogPrintIn(o.LogLevel.LogLevel_Debug, "[D]" + t, i)
+    }, e.CubismLogInfo = function (t) {
+        for (var i = [], r = 1; r < arguments.length; r++) i[r - 1] = arguments[r];
+        e.CubismLogPrintIn(o.LogLevel.LogLevel_Info, "[I]" + t, i)
+    }, e.CubismLogWarning = function (t) {
+        for (var i = [], r = 1; r < arguments.length; r++) i[r - 1] = arguments[r];
+        e.CubismLogPrintIn(o.LogLevel.LogLevel_Warning, "[W]" + t, i)
+    }, e.CubismLogError = function (t) {
+        for (var i = [], r = 1; r < arguments.length; r++) i[r - 1] = arguments[r];
+        e.CubismLogPrintIn(o.LogLevel.LogLevel_Error, "[E]" + t, i)
+    }) : n.CSM_LOG_LEVEL == n.CSM_LOG_LEVEL_INFO ? (e.CubismLogInfo = function (t) {
+        for (var i = [], r = 1; r < arguments.length; r++) i[r - 1] = arguments[r];
+        e.CubismLogPrintIn(o.LogLevel.LogLevel_Info, "[I]" + t, i)
+    }, e.CubismLogWarning = function (t) {
+        for (var i = [], r = 1; r < arguments.length; r++) i[r - 1] = arguments[r];
+        e.CubismLogPrintIn(o.LogLevel.LogLevel_Warning, "[W]" + t, i)
+    }, e.CubismLogError = function (t) {
+        for (var i = [], r = 1; r < arguments.length; r++) i[r - 1] = arguments[r];
+        e.CubismLogPrintIn(o.LogLevel.LogLevel_Error, "[E]" + t, i)
+    }) : n.CSM_LOG_LEVEL == n.CSM_LOG_LEVEL_WARNING ? (e.CubismLogWarning = function (t) {
+        for (var i = [], r = 1; r < arguments.length; r++) i[r - 1] = arguments[r];
+        e.CubismLogPrintIn(o.LogLevel.LogLevel_Warning, "[W]" + t, i)
+    }, e.CubismLogError = function (t) {
+        for (var i = [], r = 1; r < arguments.length; r++) i[r - 1] = arguments[r];
+        e.CubismLogPrintIn(o.LogLevel.LogLevel_Error, "[E]" + t, i)
+    }) : n.CSM_LOG_LEVEL == n.CSM_LOG_LEVEL_ERROR && (e.CubismLogError = function (t) {
+        for (var i = [], r = 1; r < arguments.length; r++) i[r - 1] = arguments[r];
+        e.CubismLogPrintIn(o.LogLevel.LogLevel_Error, "[E]" + t, i)
+    }),
         function (t) {
             var e = function () {
-                function t() {}
+                function t() { }
                 return t.print = function (t, e, i) {
                     if (!(t < o.Live2DCubismFramework.CubismFramework.getLoggingLevel())) {
                         var r = o.Live2DCubismFramework.CubismFramework.coreLogFunction;
@@ -291,8 +291,8 @@
     "use strict";
     var r, o = this && this.__extends || (r = function (t, e) {
         return (r = Object.setPrototypeOf || {
-                __proto__: []
-            }
+            __proto__: []
+        }
             instanceof Array && function (t, e) {
                 t.__proto__ = e
             } || function (t, e) {
@@ -317,7 +317,7 @@
         g = n.Live2DCubismFramework.csmString;
     ! function (t) {
         var e = function () {
-            function t() {}
+            function t() { }
             return t.prototype.getRawString = function (t, e) {
                 return this.getString(t, e)
             }, t.prototype.toInt = function (t) {
@@ -487,28 +487,28 @@
                             this._lineCount++
                     }
                     if (!u) return this._error = "key not found",
-                    null;u = !1;t: for (; a < e; a++) switch (t[a]) {
-                        case ":":
-                            u = !0, a++;
-                            break t;
-                        case "}":
-                            this._error = "illegal '}' position";
-                            break;
-                        case "\n":
-                            this._lineCount++
-                    }
+                        null; u = !1; t: for (; a < e; a++) switch (t[a]) {
+                            case ":":
+                                u = !0, a++;
+                                break t;
+                            case "}":
+                                this._error = "illegal '}' position";
+                                break;
+                            case "\n":
+                                this._lineCount++
+                        }
                     if (!u) return this._error = "':' not found",
-                    null;
+                        null;
                     var l = this.parseValue(t, e, a, s);
-                    if (this._error) return null;a = s[0],
-                    o.put(n, l);t: for (; a < e; a++) switch (t[a]) {
-                        case ",":
-                            break t;
-                        case "}":
-                            return r[0] = a + 1, o;
-                        case "\n":
-                            this._lineCount++
-                    }
+                    if (this._error) return null; a = s[0],
+                        o.put(n, l); t: for (; a < e; a++) switch (t[a]) {
+                            case ",":
+                                break t;
+                            case "}":
+                                return r[0] = a + 1, o;
+                            case "\n":
+                                this._lineCount++
+                        }
                 }
                 return this._error = "illegal end of perseObject", null
             }, t.prototype.parseArray = function (t, e, i, r) {
@@ -693,8 +693,8 @@
 }, function (t, e, i) {
     "use strict";
     Object.defineProperty(e, "__esModule", {
-            value: !0
-        }),
+        value: !0
+    }),
         function (t) {
             var e = function () {
                 function t() {
@@ -882,8 +882,8 @@
 }, function (t, e, i) {
     "use strict";
     Object.defineProperty(e, "__esModule", {
-            value: !0
-        }),
+        value: !0
+    }),
         function (t) {
             var e = function () {
                 function t(t) {
@@ -1053,7 +1053,7 @@
     var r = i(10).Live2DCubismFramework.CubismVector2;
     ! function (t) {
         var e = function () {
-            function t() {}
+            function t() { }
             return t.range = function (t, e, i) {
                 return t < e ? t = e : t > i && (t = i), t
             }, t.sin = function (t) {
@@ -1092,8 +1092,8 @@
 }, function (t, e, i) {
     "use strict";
     Object.defineProperty(e, "__esModule", {
-            value: !0
-        }),
+        value: !0
+    }),
         function (t) {
             var e = function () {
                 function t(t, e) {
@@ -1138,7 +1138,7 @@
         value: !0
     });
     var r = function () {
-        function t() {}
+        function t() { }
         return t.loadFileAsBytes = function (t, e) {
             fetch(t).then((function (t) {
                 return t.arrayBuffer()
@@ -1160,7 +1160,20 @@
         value: !0
     });
     var r = i(0);
-    e.ViewMaxScale = 2, e.ViewMinScale = .8, e.ViewLogicalLeft = -1, e.ViewLogicalRight = 1, e.ViewLogicalMaxLeft = -2, e.ViewLogicalMaxRight = 2, e.ViewLogicalMaxBottom = -2, e.ViewLogicalMaxTop = 2, e.ResourcesPath = "live2d-model/", e.BackImageName = "back_class_normal.png", e.ModelDir = ["Hiyori"], e.ModelDirSize = e.ModelDir.length, e.MotionGroupIdle = "Idle", e.MotionGroupTapBody = "TapBody", e.MotionGroupTapHead = "TapHead", e.HitAreaNameHead = "Head", e.HitAreaNameBody = "Body", e.PriorityNone = 0, e.PriorityIdle = 1, e.PriorityNormal = 2, e.PriorityForce = 3, e.DebugLogEnable = !0, e.DebugTouchLogEnable = !1, e.CubismLoggingLevel = r.LogLevel.LogLevel_Verbose
+    // var model_name = "Haru";
+    // var xhr = new XMLHttpRequest();
+    // xhr.open('GET', '../../config.json', true);
+    // xhr.onreadystatechange = function () {
+    //     if (xhr.readyState === 4 && xhr.status === 200) {
+    //         var jsonData = JSON.parse(xhr.responseText);
+    //         // 在这里处理读取到的JSON数据
+    //         console.log(jsonData);
+    //         model_name = jsonData["live2d"]["name"];
+    //     }
+    // };
+    // xhr.send();
+    e.ViewMaxScale = 2, e.ViewMinScale = .8, e.ViewLogicalLeft = -1, e.ViewLogicalRight = 1, e.ViewLogicalMaxLeft = -2, e.ViewLogicalMaxRight = 2, e.ViewLogicalMaxBottom = -2, e.ViewLogicalMaxTop = 2, e.ResourcesPath = "live2d-model/", e.BackImageName = "back_class_normal.png", e.ModelDir = [model_name], e.ModelDirSize = e.ModelDir.length, e.MotionGroupIdle = "Idle", e.MotionGroupTapBody = "TapBody", e.MotionGroupTapHead = "TapHead", e.HitAreaNameHead = "Head", e.HitAreaNameBody = "Body", e.PriorityNone = 0, e.PriorityIdle = 1, e.PriorityNormal = 2, e.PriorityForce = 3, e.DebugLogEnable = !0, e.DebugTouchLogEnable = !1, 
+    e.CubismLoggingLevel = r.LogLevel.LogLevel_Verbose
 }, function (t, e, i) {
     "use strict";
     Object.defineProperty(e, "__esModule", {
@@ -1352,8 +1365,8 @@
 }, function (t, e, i) {
     "use strict";
     Object.defineProperty(e, "__esModule", {
-            value: !0
-        }),
+        value: !0
+    }),
         function (t) {
             var e = function () {
                 function t() {
@@ -1581,8 +1594,8 @@
     "use strict";
     var r, o = this && this.__extends || (r = function (t, e) {
         return (r = Object.setPrototypeOf || {
-                __proto__: []
-            }
+            __proto__: []
+        }
             instanceof Array && function (t, e) {
                 t.__proto__ = e
             } || function (t, e) {
@@ -1714,20 +1727,20 @@
 }, function (t, e, i) {
     "use strict";
     var r, o = this && this.__extends || (r = function (t, e) {
-            return (r = Object.setPrototypeOf || {
-                    __proto__: []
-                }
-                instanceof Array && function (t, e) {
-                    t.__proto__ = e
-                } || function (t, e) {
-                    for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i])
-                })(t, e)
-        }, function (t, e) {
-            function i() {
-                this.constructor = t
-            }
-            r(t, e), t.prototype = null === e ? Object.create(e) : (i.prototype = e.prototype, new i)
-        }),
+        return (r = Object.setPrototypeOf || {
+            __proto__: []
+        }
+            instanceof Array && function (t, e) {
+                t.__proto__ = e
+            } || function (t, e) {
+                for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i])
+            })(t, e)
+    }, function (t, e) {
+        function i() {
+            this.constructor = t
+        }
+        r(t, e), t.prototype = null === e ? Object.create(e) : (i.prototype = e.prototype, new i)
+    }),
         n = this && this.__importStar || function (t) {
             if (t && t.__esModule) return t;
             var e = {};
@@ -1791,20 +1804,20 @@
                 })), this._state = a.WaitLoadModel
             } else I.LAppPal.printMessage("Model data does not exist.");
             var r = function () {
-                    if (e._modelSetting.getExpressionCount() > 0) {
-                        for (var t = e._modelSetting.getExpressionCount(), i = function (i) {
-                                var r = e._modelSetting.getExpressionName(i),
-                                    n = e._modelSetting.getExpressionFileName(i);
-                                fetch(e._modelHomeDir + "/" + n).then((function (t) {
-                                    return t.arrayBuffer()
-                                })).then((function (i) {
-                                    var n = e.loadExpression(i, i.byteLength, r);
-                                    null != e._expressions.getValue(r) && (M.delete(e._expressions.getValue(r)), e._expressions.setValue(r, null)), e._expressions.setValue(r, n), e._expressionCount++, e._expressionCount >= t && (e._state = a.LoadPhysics, o())
-                                }))
-                            }, r = 0; r < t; r++) i(r);
-                        e._state = a.WaitLoadExpression
-                    } else e._state = a.LoadPhysics, o()
-                },
+                if (e._modelSetting.getExpressionCount() > 0) {
+                    for (var t = e._modelSetting.getExpressionCount(), i = function (i) {
+                        var r = e._modelSetting.getExpressionName(i),
+                            n = e._modelSetting.getExpressionFileName(i);
+                        fetch(e._modelHomeDir + "/" + n).then((function (t) {
+                            return t.arrayBuffer()
+                        })).then((function (i) {
+                            var n = e.loadExpression(i, i.byteLength, r);
+                            null != e._expressions.getValue(r) && (M.delete(e._expressions.getValue(r)), e._expressions.setValue(r, null)), e._expressions.setValue(r, n), e._expressionCount++, e._expressionCount >= t && (e._state = a.LoadPhysics, o())
+                        }))
+                    }, r = 0; r < t; r++) i(r);
+                    e._state = a.WaitLoadExpression
+                } else e._state = a.LoadPhysics, o()
+            },
                 o = function () {
                     if ("" != e._modelSetting.getPhysicsFileName()) {
                         var t = e._modelSetting.getPhysicsFileName();
@@ -1865,13 +1878,13 @@
             var t = this;
             if (this._state == a.LoadTexture) {
                 for (var e = this._modelSetting.getTextureCount(), i = function (i) {
-                        if ("" == r._modelSetting.getTextureFileName(i)) return console.log("getTextureFileName null"), "continue";
-                        var o = r._modelSetting.getTextureFileName(i);
-                        o = r._modelHomeDir + o;
-                        F.LAppDelegate.getInstance().getTextureManager().createTextureFromPngFile(o, !0, (function (r) {
-                            t.getRenderer().bindTexture(i, r.id), t._textureCount++, t._textureCount >= e && (t._state = a.CompleteSetup)
-                        })), r.getRenderer().setIsPremultipliedAlpha(!0)
-                    }, r = this, o = 0; o < e; o++) i(o);
+                    if ("" == r._modelSetting.getTextureFileName(i)) return console.log("getTextureFileName null"), "continue";
+                    var o = r._modelSetting.getTextureFileName(i);
+                    o = r._modelHomeDir + o;
+                    F.LAppDelegate.getInstance().getTextureManager().createTextureFromPngFile(o, !0, (function (r) {
+                        t.getRenderer().bindTexture(i, r.id), t._textureCount++, t._textureCount >= e && (t._state = a.CompleteSetup)
+                    })), r.getRenderer().setIsPremultipliedAlpha(!0)
+                }, r = this, o = 0; o < e; o++) i(o);
                 this._state = a.WaitLoadTexture
             }
         }, e.prototype.reloadRenderer = function () {
@@ -1925,16 +1938,16 @@
                 } return !1
         }, e.prototype.preLoadMotionGroup = function (t) {
             for (var e = this, i = function (i) {
-                    var o = r._modelSetting.getMotionFileName(t, i),
-                        n = t + "_" + i;
-                    r._debugMode && I.LAppPal.printMessage("[APP]load motion: " + o + " => [" + n + "]"), fetch(r._modelHomeDir + "/" + o).then((function (t) {
-                        return t.arrayBuffer()
-                    })).then((function (r) {
-                        var o = e.loadMotion(r, r.byteLength, n),
-                            s = e._modelSetting.getMotionFadeInTimeValue(t, i);
-                        s >= 0 && o.setFadeInTime(s), (s = e._modelSetting.getMotionFadeOutTimeValue(t, i)) >= 0 && o.setFadeOutTime(s), o.setEffectIds(e._eyeBlinkIds, e._lipSyncIds), null != e._motions.getValue(n) && M.delete(e._motions.getValue(n)), e._motions.setValue(n, o), e._motionCount++, e._motionCount >= e._allMotionCount && (e._state = a.LoadTexture, e._motionManager.stopAllMotions(), e._updating = !1, e._initialized = !0, e.createRenderer(), e.setupTextures(), e.getRenderer().startUp(F.gl))
-                    }))
-                }, r = this, o = 0; o < this._modelSetting.getMotionCount(t); o++) i(o)
+                var o = r._modelSetting.getMotionFileName(t, i),
+                    n = t + "_" + i;
+                r._debugMode && I.LAppPal.printMessage("[APP]load motion: " + o + " => [" + n + "]"), fetch(r._modelHomeDir + "/" + o).then((function (t) {
+                    return t.arrayBuffer()
+                })).then((function (r) {
+                    var o = e.loadMotion(r, r.byteLength, n),
+                        s = e._modelSetting.getMotionFadeInTimeValue(t, i);
+                    s >= 0 && o.setFadeInTime(s), (s = e._modelSetting.getMotionFadeOutTimeValue(t, i)) >= 0 && o.setFadeOutTime(s), o.setEffectIds(e._eyeBlinkIds, e._lipSyncIds), null != e._motions.getValue(n) && M.delete(e._motions.getValue(n)), e._motions.setValue(n, o), e._motionCount++, e._motionCount >= e._allMotionCount && (e._state = a.LoadTexture, e._motionManager.stopAllMotions(), e._updating = !1, e._initialized = !0, e.createRenderer(), e.setupTextures(), e.getRenderer().startUp(F.gl))
+                }))
+            }, r = this, o = 0; o < this._modelSetting.getMotionCount(t); o++) i(o)
         }, e.prototype.releaseMotions = function () {
             this._motions.clear()
         }, e.prototype.releaseExpressions = function () {
@@ -2049,8 +2062,8 @@
     "use strict";
     var r, o = this && this.__extends || (r = function (t, e) {
         return (r = Object.setPrototypeOf || {
-                __proto__: []
-            }
+            __proto__: []
+        }
             instanceof Array && function (t, e) {
                 t.__proto__ = e
             } || function (t, e) {
@@ -2189,8 +2202,8 @@
     "use strict";
     var r, o = this && this.__extends || (r = function (t, e) {
         return (r = Object.setPrototypeOf || {
-                __proto__: []
-            }
+            __proto__: []
+        }
             instanceof Array && function (t, e) {
                 t.__proto__ = e
             } || function (t, e) {
@@ -2458,8 +2471,8 @@
     "use strict";
     var r, o = this && this.__extends || (r = function (t, e) {
         return (r = Object.setPrototypeOf || {
-                __proto__: []
-            }
+            __proto__: []
+        }
             instanceof Array && function (t, e) {
                 t.__proto__ = e
             } || function (t, e) {
@@ -2609,10 +2622,10 @@
                 return this._loopDurationSeconds
             }, e.prototype.setParameterFadeInTime = function (t, e) {
                 for (var i = this._motionData.curves, r = 0; r < this._motionData.curveCount; ++r)
-                    if (t == i.at(r).id) return void(i.at(r).fadeInTime = e)
+                    if (t == i.at(r).id) return void (i.at(r).fadeInTime = e)
             }, e.prototype.setParameterFadeOutTime = function (t, e) {
                 for (var i = this._motionData.curves, r = 0; r < this._motionData.curveCount; ++r)
-                    if (t == i.at(r).id) return void(i.at(r).fadeOutTime = e)
+                    if (t == i.at(r).id) return void (i.at(r).fadeOutTime = e)
             }, e.prototype.getParameterFadeInTime = function (t) {
                 for (var e = this._motionData.curves, i = 0; i < this._motionData.curveCount; ++i)
                     if (t == e.at(i).id) return e.at(i).fadeInTime;
@@ -2737,9 +2750,9 @@
         ! function (t) {
             t[t.CubismMotionCurveTarget_Model = 0] = "CubismMotionCurveTarget_Model", t[t.CubismMotionCurveTarget_Parameter = 1] = "CubismMotionCurveTarget_Parameter", t[t.CubismMotionCurveTarget_PartOpacity = 2] = "CubismMotionCurveTarget_PartOpacity"
         }(e = t.CubismMotionCurveTarget || (t.CubismMotionCurveTarget = {})),
-        function (t) {
-            t[t.CubismMotionSegmentType_Linear = 0] = "CubismMotionSegmentType_Linear", t[t.CubismMotionSegmentType_Bezier = 1] = "CubismMotionSegmentType_Bezier", t[t.CubismMotionSegmentType_Stepped = 2] = "CubismMotionSegmentType_Stepped", t[t.CubismMotionSegmentType_InverseStepped = 3] = "CubismMotionSegmentType_InverseStepped"
-        }(t.CubismMotionSegmentType || (t.CubismMotionSegmentType = {}));
+            function (t) {
+                t[t.CubismMotionSegmentType_Linear = 0] = "CubismMotionSegmentType_Linear", t[t.CubismMotionSegmentType_Bezier = 1] = "CubismMotionSegmentType_Bezier", t[t.CubismMotionSegmentType_Stepped = 2] = "CubismMotionSegmentType_Stepped", t[t.CubismMotionSegmentType_InverseStepped = 3] = "CubismMotionSegmentType_InverseStepped"
+            }(t.CubismMotionSegmentType || (t.CubismMotionSegmentType = {}));
         var i = function () {
             this.time = 0, this.value = 0
         };
@@ -2765,8 +2778,8 @@
     "use strict";
     var r, o = this && this.__extends || (r = function (t, e) {
         return (r = Object.setPrototypeOf || {
-                __proto__: []
-            }
+            __proto__: []
+        }
             instanceof Array && function (t, e) {
                 t.__proto__ = e
             } || function (t, e) {
@@ -2831,7 +2844,7 @@
             function (t) {
                 t[t.ExpressionBlendType_Add = 0] = "ExpressionBlendType_Add", t[t.ExpressionBlendType_Multiply = 1] = "ExpressionBlendType_Multiply", t[t.ExpressionBlendType_Overwrite = 2] = "ExpressionBlendType_Overwrite"
             }(e = t.ExpressionBlendType || (t.ExpressionBlendType = {}));
-        var r = function () {};
+        var r = function () { };
         t.ExpressionParameter = r
     }(e.Live2DCubismFramework || (e.Live2DCubismFramework = {}))
 }, function (t, e, i) {
@@ -2959,7 +2972,7 @@
         u = o.Live2DCubismFramework.csmString,
         l = r.Live2DCubismFramework.CubismModelUserDataJson;
     ! function (t) {
-        var e = function () {};
+        var e = function () { };
         t.CubismModelUserDataNode = e;
         var i = function () {
             function t() {
@@ -3198,16 +3211,16 @@
         ! function (t) {
             t[t.CubismPhysicsTargetType_Parameter = 0] = "CubismPhysicsTargetType_Parameter"
         }(t.CubismPhysicsTargetType || (t.CubismPhysicsTargetType = {})),
-        function (t) {
-            t[t.CubismPhysicsSource_X = 0] = "CubismPhysicsSource_X", t[t.CubismPhysicsSource_Y = 1] = "CubismPhysicsSource_Y", t[t.CubismPhysicsSource_Angle = 2] = "CubismPhysicsSource_Angle"
-        }(t.CubismPhysicsSource || (t.CubismPhysicsSource = {}));
+            function (t) {
+                t[t.CubismPhysicsSource_X = 0] = "CubismPhysicsSource_X", t[t.CubismPhysicsSource_Y = 1] = "CubismPhysicsSource_Y", t[t.CubismPhysicsSource_Angle = 2] = "CubismPhysicsSource_Angle"
+            }(t.CubismPhysicsSource || (t.CubismPhysicsSource = {}));
         var e = function () {
             this.gravity = new n(0, 0), this.wind = new n(0, 0)
         };
         t.PhysicsJsonEffectiveForces = e;
-        var i = function () {};
+        var i = function () { };
         t.CubismPhysicsParameter = i;
-        var r = function () {};
+        var r = function () { };
         t.CubismPhysicsNormalization = r;
         var a = function () {
             this.initialPosition = new n(0, 0), this.position = new n(0, 0), this.lastPosition = new n(0, 0), this.lastGravity = new n(0, 0), this.force = new n(0, 0), this.velocity = new n(0, 0)
@@ -3320,8 +3333,8 @@
     "use strict";
     var r, o = this && this.__extends || (r = function (t, e) {
         return (r = Object.setPrototypeOf || {
-                __proto__: []
-            }
+            __proto__: []
+        }
             instanceof Array && function (t, e) {
                 t.__proto__ = e
             } || function (t, e) {
@@ -3452,13 +3465,13 @@
                         for (var s = 0; s < n; s++) {
                             u = ~~(u = s % 2), (h = this._clippingContextListForMask.at(r++))._layoutChannelNo = o, h._layoutBounds.x = .5 * u, h._layoutBounds.y = 0, h._layoutBounds.width = .5, h._layoutBounds.height = 1
                         } else if (n <= 4)
-                            for (s = 0; s < n; s++) {
-                                u = ~~(u = s % 2), l = ~~(l = s / 2), (h = this._clippingContextListForMask.at(r++))._layoutChannelNo = o, h._layoutBounds.x = .5 * u, h._layoutBounds.y = .5 * l, h._layoutBounds.width = .5, h._layoutBounds.height = .5
-                            } else if (n <= 9)
-                                for (s = 0; s < n; s++) {
-                                    var u, l, h;
-                                    u = ~~(u = s % 3), l = ~~(l = s / 3), (h = this._clippingContextListForMask.at(r++))._layoutChannelNo = o, h._layoutBounds.x = u / 3, h._layoutBounds.y = l / 3, h._layoutBounds.width = 1 / 3, h._layoutBounds.height = 1 / 3
-                                } else p.CubismLogError("not supported mask count : {0}", n)
+                        for (s = 0; s < n; s++) {
+                            u = ~~(u = s % 2), l = ~~(l = s / 2), (h = this._clippingContextListForMask.at(r++))._layoutChannelNo = o, h._layoutBounds.x = .5 * u, h._layoutBounds.y = .5 * l, h._layoutBounds.width = .5, h._layoutBounds.height = .5
+                        } else if (n <= 9)
+                        for (s = 0; s < n; s++) {
+                            var u, l, h;
+                            u = ~~(u = s % 3), l = ~~(l = s / 3), (h = this._clippingContextListForMask.at(r++))._layoutChannelNo = o, h._layoutBounds.x = u / 3, h._layoutBounds.y = l / 3, h._layoutBounds.width = 1 / 3, h._layoutBounds.height = 1 / 3
+                        } else p.CubismLogError("not supported mask count : {0}", n)
                 }
             }, t.prototype.getColorBuffer = function () {
                 return this._colorBuffer
@@ -3559,7 +3572,7 @@
             }, i
         }();
         t.CubismShader_WebGL = u;
-        var l, h = function () {};
+        var l, h = function () { };
         t.CubismShaderSet = h,
             function (t) {
                 t[t.ShaderNames_SetupMask = 0] = "ShaderNames_SetupMask", t[t.ShaderNames_NormalPremultipliedAlpha = 1] = "ShaderNames_NormalPremultipliedAlpha", t[t.ShaderNames_NormalMaskedPremultipliedAlpha = 2] = "ShaderNames_NormalMaskedPremultipliedAlpha", t[t.ShaderNames_NomralMaskedInvertedPremultipliedAlpha = 3] = "ShaderNames_NomralMaskedInvertedPremultipliedAlpha", t[t.ShaderNames_AddPremultipliedAlpha = 4] = "ShaderNames_AddPremultipliedAlpha", t[t.ShaderNames_AddMaskedPremultipliedAlpha = 5] = "ShaderNames_AddMaskedPremultipliedAlpha", t[t.ShaderNames_AddMaskedPremultipliedAlphaInverted = 6] = "ShaderNames_AddMaskedPremultipliedAlphaInverted", t[t.ShaderNames_MultPremultipliedAlpha = 7] = "ShaderNames_MultPremultipliedAlpha", t[t.ShaderNames_MultMaskedPremultipliedAlpha = 8] = "ShaderNames_MultMaskedPremultipliedAlpha", t[t.ShaderNames_MultMaskedPremultipliedAlphaInverted = 9] = "ShaderNames_MultMaskedPremultipliedAlphaInverted"
@@ -3624,8 +3637,8 @@
 }, function (t, e, i) {
     "use strict";
     Object.defineProperty(e, "__esModule", {
-            value: !0
-        }),
+        value: !0
+    }),
         function (t) {
             var e = function () {
                 function t(t, e, i, r) {
@@ -3651,8 +3664,8 @@
     "use strict";
     var r, o = this && this.__extends || (r = function (t, e) {
         return (r = Object.setPrototypeOf || {
-                __proto__: []
-            }
+            __proto__: []
+        }
             instanceof Array && function (t, e) {
                 t.__proto__ = e
             } || function (t, e) {
@@ -3820,17 +3833,17 @@
 }, function (t, e, i) {
     "use strict";
     Object.defineProperty(e, "__esModule", {
-            value: !0
-        }),
+        value: !0
+    }),
         function (t) {
-            var e = function () {};
+            var e = function () { };
             t.ICubismModelSetting = e
         }(e.Live2DCubismFramework || (e.Live2DCubismFramework = {}))
 }, function (t, e, i) {
     "use strict";
     Object.defineProperty(e, "__esModule", {
-            value: !0
-        }),
+        value: !0
+    }),
         function (t) {
             t.HitAreaPrefix = "HitArea", t.HitAreaHead = "Head", t.HitAreaBody = "Body", t.PartsIdCore = "Parts01Core", t.PartsArmPrefix = "Parts01Arm_", t.PartsArmLPrefix = "Parts01ArmL_", t.PartsArmRPrefix = "Parts01ArmR_", t.ParamAngleX = "ParamAngleX", t.ParamAngleY = "ParamAngleY", t.ParamAngleZ = "ParamAngleZ", t.ParamEyeLOpen = "ParamEyeLOpen", t.ParamEyeLSmile = "ParamEyeLSmile", t.ParamEyeROpen = "ParamEyeROpen", t.ParamEyeRSmile = "ParamEyeRSmile", t.ParamEyeBallX = "ParamEyeBallX", t.ParamEyeBallY = "ParamEyeBallY", t.ParamEyeBallForm = "ParamEyeBallForm", t.ParamBrowLY = "ParamBrowLY", t.ParamBrowRY = "ParamBrowRY", t.ParamBrowLX = "ParamBrowLX", t.ParamBrowRX = "ParamBrowRX", t.ParamBrowLAngle = "ParamBrowLAngle", t.ParamBrowRAngle = "ParamBrowRAngle", t.ParamBrowLForm = "ParamBrowLForm", t.ParamBrowRForm = "ParamBrowRForm", t.ParamMouthForm = "ParamMouthForm", t.ParamMouthOpenY = "ParamMouthOpenY", t.ParamCheek = "ParamCheek", t.ParamBodyAngleX = "ParamBodyAngleX", t.ParamBodyAngleY = "ParamBodyAngleY", t.ParamBodyAngleZ = "ParamBodyAngleZ", t.ParamBreath = "ParamBreath", t.ParamArmLA = "ParamArmLA", t.ParamArmRA = "ParamArmRA", t.ParamArmLB = "ParamArmLB", t.ParamArmRB = "ParamArmRB", t.ParamHandL = "ParamHandL", t.ParamHandR = "ParamHandR", t.ParamHairFront = "ParamHairFront", t.ParamHairSide = "ParamHairSide", t.ParamHairBack = "ParamHairBack", t.ParamHairFluffy = "ParamHairFluffy", t.ParamShoulderY = "ParamShoulderY", t.ParamBustX = "ParamBustX", t.ParamBustY = "ParamBustY", t.ParamBaseX = "ParamBaseX", t.ParamBaseY = "ParamBaseY", t.ParamNONE = "NONE:"
         }(e.Live2DCubismFramework || (e.Live2DCubismFramework = {}))
@@ -4104,12 +4117,12 @@
                 this._textures = null
             }, t.prototype.createTextureFromPngFile = function (t, e, i) {
                 for (var r = this, n = function (r) {
-                        if (r.ptr().fileName == t && r.ptr().usePremultply == e) return r.ptr().img = new Image, r.ptr().img.onload = function () {
-                            return i(r.ptr())
-                        }, r.ptr().img.src = t, {
-                            value: void 0
-                        }
-                    }, s = this._textures.begin(); s.notEqual(this._textures.end()); s.preIncrement()) {
+                    if (r.ptr().fileName == t && r.ptr().usePremultply == e) return r.ptr().img = new Image, r.ptr().img.onload = function () {
+                        return i(r.ptr())
+                    }, r.ptr().img.src = t, {
+                        value: void 0
+                    }
+                }, s = this._textures.begin(); s.notEqual(this._textures.end()); s.preIncrement()) {
                     var u = n(s);
                     if ("object" == typeof u) return u.value
                 }
