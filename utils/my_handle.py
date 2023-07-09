@@ -82,6 +82,12 @@ class My_handle():
         GPT_MODEL.set_model_config("chatglm", self.chatglm_config)
         GPT_MODEL.set_model_config("text_generation_webui", self.text_generation_webui_config)
 
+        self.chatgpt = None
+        self.claude = None
+        self.chatglm = None
+        self.chat_with_file = None
+        self.text_generation_webui = None
+
         # 聊天相关类实例化
         if self.chat_type == "chatgpt":
             self.chatgpt = GPT_MODEL.get("chatgpt")
@@ -284,7 +290,69 @@ class My_handle():
                 # 输出当前用户发送的弹幕消息
                 logging.info(f"[{user_name}]: {content}")
 
-                self.sd.process_input(content[3:])
+                content = content[len(self.sd_config["trigger"]):]
+
+                # 根据设定的LLM
+                if self.sd_config["prompt_llm"]["type"] == "chatgpt":
+                    if self.chatgpt is None:
+                        self.chatgpt = GPT_MODEL.get("chatgpt")
+
+                    content = self.sd_config["prompt_llm"]["before_prompt"] + \
+                        content + self.after_prompt
+                    # 调用gpt接口，获取返回内容
+                    resp_content = self.chatgpt.get_gpt_resp(user_name, content)
+                    if resp_content is not None:
+                        # 输出 ChatGPT 返回的回复消息
+                        logging.info(f"[AI回复{user_name}]：{resp_content}")
+                    else:
+                        resp_content = ""
+                        logging.warning("警告：chatgpt无返回")
+                elif self.sd_config["prompt_llm"]["type"] == "claude":
+                    if self.claude is None:
+                        self.claude = GPT_MODEL.get(self.chat_type)
+
+                        # 初次运行 先重置下会话
+                        if not self.claude.reset_claude():
+                            logging.error("重置Claude会话失败喵~")
+                        
+                    content = self.before_prompt + content + self.after_prompt
+                    resp_content = self.claude.get_claude_resp(content)
+                    if resp_content is not None:
+                        # 输出 返回的回复消息
+                        logging.info(f"[AI回复{user_name}]：{resp_content}")
+                    else:
+                        resp_content = ""
+                        logging.warning("警告：claude无返回")
+                elif self.sd_config["prompt_llm"]["type"] == "chatglm":
+                    if self.chatglm is None:
+                        self.chatglm = GPT_MODEL.get(self.chat_type)
+
+                    # 生成回复
+                    resp_content = self.chatglm.get_chatglm_resp(content)
+                    if resp_content is not None:
+                        # 输出 返回的回复消息
+                        logging.info(f"[AI回复{user_name}]：{resp_content}")
+                    else:
+                        resp_content = ""
+                        logging.warning("警告：chatglm无返回")
+                elif self.sd_config["prompt_llm"]["type"] == "text_generation_webui":
+                    if self.text_generation_webui is None:
+                        self.text_generation_webui = GPT_MODEL.get(self.chat_type)
+
+                    # 生成回复
+                    resp_content = self.text_generation_webui.get_text_generation_webui_resp(content)
+                    if resp_content is not None:
+                        # 输出 返回的回复消息
+                        logging.info(f"[AI回复{user_name}]：{resp_content}")
+                    else:
+                        resp_content = ""
+                        logging.warning("警告：text_generation_webui无返回")
+                elif self.sd_config["prompt_llm"]["type"] == "none":
+                    resp_content = content
+                else:
+                    resp_content = content
+
+                self.sd.process_input(resp_content)
                 return None
 
         # 判断弹幕是否以xx起始，如果不是则返回
@@ -339,7 +407,7 @@ class My_handle():
                 logging.info(f"[AI回复{user_name}]：{resp_content}")
             else:
                 resp_content = ""
-                logging.info("警告：chatgpt无返回")
+                logging.warning("警告：chatgpt无返回")
         elif self.chat_type == "claude":
             content = self.before_prompt + content + self.after_prompt
             resp_content = self.claude.get_claude_resp(content)
@@ -348,7 +416,7 @@ class My_handle():
                 logging.info(f"[AI回复{user_name}]：{resp_content}")
             else:
                 resp_content = ""
-                logging.info("警告：claude无返回")
+                logging.warning("警告：claude无返回")
         elif self.chat_type == "chatterbot":
             # 生成回复
             resp_content = self.bot.get_response(content).text
@@ -357,7 +425,12 @@ class My_handle():
         elif self.chat_type == "chatglm":
             # 生成回复
             resp_content = self.chatglm.get_chatglm_resp(content)
-            logging.info(f"[AI回复{user_name}]：{resp_content}")
+            if resp_content is not None:
+                # 输出 返回的回复消息
+                logging.info(f"[AI回复{user_name}]：{resp_content}")
+            else:
+                resp_content = ""
+                logging.warning("警告：chatglm无返回")
 
         elif self.chat_type == "chat_with_file":
             resp_content = self.chat_with_file.get_model_resp(content)
@@ -366,7 +439,12 @@ class My_handle():
         elif self.chat_type == "text_generation_webui":
             # 生成回复
             resp_content = self.text_generation_webui.get_text_generation_webui_resp(content)
-            logging.info(f"[AI回复{user_name}]：{resp_content}")
+            if resp_content is not None:
+                # 输出 返回的回复消息
+                logging.info(f"[AI回复{user_name}]：{resp_content}")
+            else:
+                resp_content = ""
+                logging.warning("警告：text_generation_webui无返回")
 
         elif self.chat_type == "game":
             return
