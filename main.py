@@ -155,6 +155,9 @@ class AI_VTB(QMainWindow):
 
             self.header_config = config.get("header")
 
+            # 聊天
+            self.talk_config = config.get("talk")
+
             """
                 配置Label提示
             """
@@ -281,20 +284,27 @@ class AI_VTB(QMainWindow):
             self.ui.pushButton_copywriting_loop_play.setToolTip("循环播放 播放列表中配置的音频文件（记得保存配置）。")
             self.ui.pushButton_copywriting_pause_play.setToolTip("暂停当前播放的音频")
 
+            # 聊天
+            self.ui.label_talk_username.setToolTip("日志中你的名字，暂时没有实质作用")
+            self.ui.label_talk_google_tgt_lang.setToolTip("录音后识别转换成的目标语言（就是你说的语言）")
+            self.ui.label_talk_google_trigger_key.setToolTip("录音触发按键（单击此按键进行录音）")
+
 
             """
                 配置同步UI
             """
             # 修改下拉框内容
             self.ui.comboBox_platform.clear()
-            self.ui.comboBox_platform.addItems(["哔哩哔哩", "抖音", "快手"])
+            self.ui.comboBox_platform.addItems(["哔哩哔哩", "抖音", "快手", "聊天模式-谷歌"])
             platform_index = 0
             if self.platform == "bilibili":
                 platform_index = 0
             elif self.platform == "dy":
                 platform_index = 1
             elif self.platform == "ks":
-                platform_index = 2 
+                platform_index = 2
+            elif self.platform == "talk_google":
+                platform_index = 3
             self.ui.comboBox_platform.setCurrentIndex(platform_index)
             
             # 修改输入框内容
@@ -526,6 +536,29 @@ class AI_VTB(QMainWindow):
                 tmp_str = tmp_str + tmp + "\n"
             self.ui.textEdit_copywriting_play_list.setText(tmp_str)
 
+            # 聊天
+            self.ui.lineEdit_talk_username.setText(self.talk_config['username'])
+            self.ui.comboBox_talk_google_tgt_lang.clear()
+            self.ui.comboBox_talk_google_tgt_lang.addItems(["zh-CN", "en-US", "ja-JP"])
+            talk_google_tgt_lang_index = 0
+            if self.talk_config['google']['tgt_lang'] == "zh-CN":
+                talk_google_tgt_lang_index = 0
+            elif self.talk_config['google']['tgt_lang'] == "en-US":
+                talk_google_tgt_lang_index = 1
+            elif self.talk_config['google']['tgt_lang'] == "ja-JP":
+                talk_google_tgt_lang_index = 2 
+            self.ui.comboBox_talk_google_tgt_lang.setCurrentIndex(talk_google_tgt_lang_index)
+            self.ui.comboBox_talk_google_trigger_key.clear()
+            with open('data\keyboard.txt', 'r') as file:
+                file_content = file.read()
+            # 按行分割内容，并去除每行末尾的换行符
+            lines = file_content.strip().split('\n')
+            # 存储到字符串数组中
+            trigger_keys = [line for line in lines]
+            # print(trigger_keys)
+            self.ui.comboBox_talk_google_trigger_key.addItems(trigger_keys)
+            trigger_key_index = trigger_keys.index(self.talk_config['google']['trigger_key'])
+            self.ui.comboBox_talk_google_trigger_key.setCurrentIndex(trigger_key_index)
 
             # 显隐各板块
             self.oncomboBox_chat_type_IndexChanged(chat_type_index)
@@ -577,20 +610,24 @@ class AI_VTB(QMainWindow):
         self.ui.pushButton_run.disconnect()
         self.ui.pushButton_config_page.disconnect()
         self.ui.pushButton_run_page.disconnect()
+        self.ui.pushButton_copywriting_page.disconnect()
+        self.ui.pushButton_talk_page.disconnect()
         self.ui.pushButton_save.clicked.connect(self.on_pushButton_save_clicked)
         self.ui.pushButton_factory.clicked.connect(self.on_pushButton_factory_clicked)
         self.ui.pushButton_run.clicked.connect(self.on_pushButton_run_clicked)
-        self.ui.pushButton_config_page.clicked.connect(self.on_pushButton_config_page_clicked)
-        self.ui.pushButton_run_page.clicked.connect(self.on_pushButton_run_page_clicked)
+        self.ui.pushButton_config_page.clicked.connect(lambda: self.on_pushButton_change_page_clicked(0))
+        self.ui.pushButton_run_page.clicked.connect(lambda: self.on_pushButton_change_page_clicked(1))
+        self.ui.pushButton_copywriting_page.clicked.connect(lambda: self.on_pushButton_change_page_clicked(2))
+        self.ui.pushButton_talk_page.clicked.connect(lambda: self.on_pushButton_change_page_clicked(3))
+
+
         # 文案页
-        self.ui.pushButton_copywriting_page.disconnect()
         self.ui.pushButton_copywriting_select.disconnect()
         self.ui.pushButton_copywriting_refresh_list.disconnect()
         self.ui.pushButton_copywriting_save.disconnect()
         self.ui.pushButton_copywriting_synthetic_audio.disconnect()
         self.ui.pushButton_copywriting_loop_play.disconnect()
         self.ui.pushButton_copywriting_pause_play.disconnect()
-        self.ui.pushButton_copywriting_page.clicked.connect(self.on_pushButton_copywriting_page_clicked)
         self.ui.pushButton_copywriting_select.clicked.connect(self.on_pushButton_copywriting_select_clicked)
         self.ui.pushButton_copywriting_refresh_list.clicked.connect(self.on_pushButton_copywriting_refresh_list_clicked)
         self.ui.pushButton_copywriting_save.clicked.connect(self.on_pushButton_copywriting_save_clicked)
@@ -613,9 +650,7 @@ class AI_VTB(QMainWindow):
         self.throttled_save = self.throttle(self.save, 1)
         self.throttled_factory = self.throttle(self.factory, 1)
         self.throttled_run = self.throttle(self.run, 1)
-        self.throttled_config_page = self.throttle(self.config_page, 0.5)
-        self.throttled_run_page = self.throttle(self.run_page, 0.5)
-        self.throttled_copywriting_page = self.throttle(self.copywriting_page, 1)
+        self.throttled_change_page = self.throttle(self.change_page, 0.5)
         self.throttled_copywriting_select = self.throttle(self.copywriting_select, 1)
         self.throttled_copywriting_refresh_list = self.throttle(self.copywriting_refresh_list, 1)
         self.throttled_copywriting_save = self.throttle(self.copywriting_save, 1)
@@ -648,6 +683,8 @@ class AI_VTB(QMainWindow):
                 config_data["platform"] = "dy"
             elif platform == "快手":
                 config_data["platform"] = "ks"
+            elif platform == "聊天模式-谷歌":
+                config_data["platform"] = "talk_google"
 
             # 获取单行文本输入框的内容
             room_display_id = self.ui.lineEdit_room_display_id.text()
@@ -688,14 +725,6 @@ class AI_VTB(QMainWindow):
                 config_data["need_lang"] = "jp"
 
             config_data["commit_log_type"] = self.ui.comboBox_commit_log_type.currentText()
-
-            platform = self.ui.comboBox_platform.currentText()
-            if platform == "哔哩哔哩":
-                config_data["platform"] = "bilibili"
-            elif platform == "抖音":
-                config_data["platform"] = "dy"
-            elif platform == "快手":
-                config_data["platform"] = "ks"
 
             # 通用多行分隔符
             separators = [" ", "\n"]
@@ -880,6 +909,11 @@ class AI_VTB(QMainWindow):
 
             config_data["header"]["userAgent"] = self.ui.lineEdit_header_useragent.text()
             
+            # 聊天
+            config_data["talk"]["username"] = self.ui.lineEdit_talk_username.text()
+            config_data["talk"]["google"]["tgt_lang"] = self.ui.comboBox_talk_google_tgt_lang.currentText()
+            config_data["talk"]["google"]["trigger_key"] = self.ui.comboBox_talk_google_trigger_key.currentText()
+
 
             # logging.info(config_data)
         except Exception as e:
@@ -978,18 +1012,10 @@ class AI_VTB(QMainWindow):
         QTimer.singleShot(100, delayed_run)
 
 
-    # 切换至配置页面
-    def config_page(self):
-        self.ui.stackedWidget.setCurrentIndex(0)
+    # 切换至index页面
+    def change_page(self, index):
+        self.ui.stackedWidget.setCurrentIndex(index)
 
-
-    # 切换至运行页面
-    def run_page(self):
-        self.ui.stackedWidget.setCurrentIndex(1)
-
-    # 切换至文案页面
-    def copywriting_page(self):
-        self.ui.stackedWidget.setCurrentIndex(2)
 
     # 保存配置
     def on_pushButton_save_clicked(self):
@@ -1003,20 +1029,9 @@ class AI_VTB(QMainWindow):
     def on_pushButton_run_clicked(self):
         self.throttled_run()
 
-
-    # 切换至配置页面
-    def on_pushButton_config_page_clicked(self):
-        self.throttled_config_page()
-
-    
-    # 切换至运行页面
-    def on_pushButton_run_page_clicked(self):
-        self.throttled_run_page()
-
-
-    # 切换至文案页面
-    def on_pushButton_copywriting_page_clicked(self):
-        self.throttled_copywriting_page()
+    # 切换页面
+    def on_pushButton_change_page_clicked(self, index):
+        self.throttled_change_page(index)
 
 
     # 加载文案
@@ -1262,32 +1277,42 @@ class AI_VTB(QMainWindow):
 
         # 记录当前的滚动位置
         scroll_position = self.ui.textBrowser.verticalScrollBar().value()
+        scroll_position_talk_log = self.ui.textBrowser_talk_log.verticalScrollBar().value()
 
         # 加载文件的最后1000行文本
         last_lines = self.load_last_lines(file_path)
 
         # 获取当前文本光标
         cursor = self.ui.textBrowser.textCursor()
+        cursor_talk_log = self.ui.textBrowser_talk_log.textCursor()
 
         # 获取当前选中的文本
         selected_text = cursor.selectedText()
+        selected_text_talk_log = cursor_talk_log.selectedText()
 
         # 判断是否有选中的文本
         has_selection = len(selected_text) > 0
+        has_selection_talk_log = len(selected_text_talk_log) > 0
 
         # 清空 textBrowser
         self.ui.textBrowser.clear()
+        self.ui.textBrowser_talk_log.clear()
 
         # 设置文本浏览器打开外部链接功能
         self.ui.textBrowser.setOpenExternalLinks(True)
+        self.ui.textBrowser_talk_log.setOpenExternalLinks(True)
 
         # 将文本逐行添加到 textBrowser 中
         for line in last_lines:
             self.ui.textBrowser.insertPlainText(line)
+            self.ui.textBrowser_talk_log.insertPlainText(line)
 
         # 恢复滚动位置
         if not has_selection:
             self.ui.textBrowser.verticalScrollBar().setValue(scroll_position)
+
+        if not has_selection_talk_log:
+            self.ui.textBrowser_talk_log.verticalScrollBar().setValue(scroll_position_talk_log)
 
 
     '''

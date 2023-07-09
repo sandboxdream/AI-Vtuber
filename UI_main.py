@@ -33,6 +33,36 @@ class Ui_MainWindow(object):
 "font: 75 12pt \"微软雅黑\";")
         self.pushButton_run_page.setObjectName("pushButton_run_page")
         self.gridLayout_20.addWidget(self.pushButton_run_page, 4, 1, 1, 1)
+        self.pushButton_copywriting_page = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_copywriting_page.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.pushButton_copywriting_page.setStyleSheet("border: 1px solid #dcdfe6;\n"
+"background-color: #e6a23c;\n"
+"text-align: center;\n"
+"padding: 12px 16px;\n"
+"border-radius: 4px;\n"
+"font: 75 12pt \"微软雅黑\";")
+        self.pushButton_copywriting_page.setObjectName("pushButton_copywriting_page")
+        self.gridLayout_20.addWidget(self.pushButton_copywriting_page, 5, 1, 1, 1)
+        self.pushButton_run = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_run.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.pushButton_run.setStyleSheet("border: 1px solid #dcdfe6;\n"
+"background-color: rgba(103, 194, 58, 255);\n"
+"text-align: center;\n"
+"padding: 12px 16px;\n"
+"border-radius: 4px;\n"
+"font: 75 12pt \"微软雅黑\";")
+        self.pushButton_run.setObjectName("pushButton_run")
+        self.gridLayout_20.addWidget(self.pushButton_run, 1, 1, 1, 1)
+        self.pushButton_config_page = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_config_page.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.pushButton_config_page.setStyleSheet("border: 1px solid #dcdfe6;\n"
+"background-color: #e6a23c;\n"
+"text-align: center;\n"
+"padding: 12px 16px;\n"
+"border-radius: 4px;\n"
+"font: 75 12pt \"微软雅黑\";")
+        self.pushButton_config_page.setObjectName("pushButton_config_page")
+        self.gridLayout_20.addWidget(self.pushButton_config_page, 3, 1, 1, 1)
         self.pushButton_save = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_save.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_save.setStyleSheet("border: 1px solid #dcdfe6;\n"
@@ -308,6 +338,7 @@ class Ui_MainWindow(object):
         self.comboBox_platform = QtWidgets.QComboBox(self.formWidget)
         self.comboBox_platform.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.comboBox_platform.setObjectName("comboBox_platform")
+        self.comboBox_platform.addItem("")
         self.comboBox_platform.addItem("")
         self.comboBox_platform.addItem("")
         self.comboBox_platform.addItem("")
@@ -936,27 +967,61 @@ class Ui_MainWindow(object):
         self.scrollArea_2.setWidget(self.scrollAreaWidgetContents_2)
         self.gridLayout_38.addWidget(self.scrollArea_2, 0, 0, 1, 1)
         self.stackedWidget.addWidget(self.page_3)
-        self.gridLayout_20.addWidget(self.stackedWidget, 0, 0, 9, 1)
-        self.pushButton_run = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_run.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.pushButton_run.setStyleSheet("border: 1px solid #dcdfe6;\n"
-"background-color: rgba(103, 194, 58, 255);\n"
-"text-align: center;\n"
-"padding: 12px 16px;\n"
-"border-radius: 4px;\n"
-"font: 75 12pt \"微软雅黑\";")
-        self.pushButton_run.setObjectName("pushButton_run")
-        self.gridLayout_20.addWidget(self.pushButton_run, 1, 1, 1, 1)
-        self.pushButton_config_page = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_config_page.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.pushButton_config_page.setStyleSheet("border: 1px solid #dcdfe6;\n"
-"background-color: #e6a23c;\n"
-"text-align: center;\n"
-"padding: 12px 16px;\n"
-"border-radius: 4px;\n"
-"font: 75 12pt \"微软雅黑\";")
-        self.pushButton_config_page.setObjectName("pushButton_config_page")
-        self.gridLayout_20.addWidget(self.pushButton_config_page, 3, 1, 1, 1)
+        self.page_4 = QtWidgets.QWidget()
+        self.page_4.setObjectName("page_4")
+        self.gridLayout_39 = QtWidgets.QGridLayout(self.page_4)
+        self.gridLayout_39.setObjectName("gridLayout_39")
+        self.scrollArea_3 = QtWidgets.QScrollArea(self.page_4)
+        self.scrollArea_3.setStyleSheet("font: 75 14pt \"微软雅黑\";\n"
+"")
+        self.scrollArea_3.setWidgetResizable(True)
+        self.scrollArea_3.setObjectName("scrollArea_3")
+        self.scrollAreaWidgetContents_3 = QtWidgets.QWidget()
+        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 984, 743))
+        self.scrollAreaWidgetContents_3.setObjectName("scrollAreaWidgetContents_3")
+        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_3)
+        self.verticalLayout_3.setObjectName("verticalLayout_3")
+        self.widget_2 = QtWidgets.QWidget(self.scrollAreaWidgetContents_3)
+        self.widget_2.setObjectName("widget_2")
+        self.gridLayout_40 = QtWidgets.QGridLayout(self.widget_2)
+        self.gridLayout_40.setObjectName("gridLayout_40")
+        self.label_talk_username = QtWidgets.QLabel(self.widget_2)
+        self.label_talk_username.setObjectName("label_talk_username")
+        self.gridLayout_40.addWidget(self.label_talk_username, 0, 0, 1, 1)
+        self.lineEdit_talk_username = QtWidgets.QLineEdit(self.widget_2)
+        self.lineEdit_talk_username.setObjectName("lineEdit_talk_username")
+        self.gridLayout_40.addWidget(self.lineEdit_talk_username, 0, 1, 1, 1)
+        self.groupBox_talk_google = QtWidgets.QGroupBox(self.widget_2)
+        self.groupBox_talk_google.setObjectName("groupBox_talk_google")
+        self.gridLayout_41 = QtWidgets.QGridLayout(self.groupBox_talk_google)
+        self.gridLayout_41.setObjectName("gridLayout_41")
+        self.comboBox_talk_google_tgt_lang = QtWidgets.QComboBox(self.groupBox_talk_google)
+        self.comboBox_talk_google_tgt_lang.setObjectName("comboBox_talk_google_tgt_lang")
+        self.gridLayout_41.addWidget(self.comboBox_talk_google_tgt_lang, 1, 1, 1, 1)
+        self.label_talk_google_trigger_key = QtWidgets.QLabel(self.groupBox_talk_google)
+        self.label_talk_google_trigger_key.setObjectName("label_talk_google_trigger_key")
+        self.gridLayout_41.addWidget(self.label_talk_google_trigger_key, 2, 0, 1, 1)
+        self.label_talk_google_tgt_lang = QtWidgets.QLabel(self.groupBox_talk_google)
+        self.label_talk_google_tgt_lang.setObjectName("label_talk_google_tgt_lang")
+        self.gridLayout_41.addWidget(self.label_talk_google_tgt_lang, 1, 0, 1, 1)
+        self.comboBox_talk_google_trigger_key = QtWidgets.QComboBox(self.groupBox_talk_google)
+        self.comboBox_talk_google_trigger_key.setObjectName("comboBox_talk_google_trigger_key")
+        self.gridLayout_41.addWidget(self.comboBox_talk_google_trigger_key, 2, 1, 1, 1)
+        self.gridLayout_41.setColumnStretch(0, 1)
+        self.gridLayout_41.setColumnStretch(1, 5)
+        self.gridLayout_40.addWidget(self.groupBox_talk_google, 1, 0, 1, 2)
+        self.textBrowser_talk_log = QtWidgets.QTextBrowser(self.widget_2)
+        self.textBrowser_talk_log.setStyleSheet("font: 12pt \"仿宋\";\n"
+"")
+        self.textBrowser_talk_log.setObjectName("textBrowser_talk_log")
+        self.gridLayout_40.addWidget(self.textBrowser_talk_log, 2, 0, 1, 2)
+        self.gridLayout_40.setColumnStretch(0, 1)
+        self.gridLayout_40.setColumnStretch(1, 5)
+        self.verticalLayout_3.addWidget(self.widget_2)
+        self.scrollArea_3.setWidget(self.scrollAreaWidgetContents_3)
+        self.gridLayout_39.addWidget(self.scrollArea_3, 0, 0, 1, 1)
+        self.stackedWidget.addWidget(self.page_4)
+        self.gridLayout_20.addWidget(self.stackedWidget, 0, 0, 10, 1)
         self.pushButton_factory = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_factory.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_factory.setStyleSheet("border: 1px solid #dcdfe6;\n"
@@ -966,17 +1031,17 @@ class Ui_MainWindow(object):
 "border-radius: 4px;\n"
 "font: 75 12pt \"微软雅黑\";")
         self.pushButton_factory.setObjectName("pushButton_factory")
-        self.gridLayout_20.addWidget(self.pushButton_factory, 7, 1, 1, 1)
-        self.pushButton_copywriting_page = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_copywriting_page.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.pushButton_copywriting_page.setStyleSheet("border: 1px solid #dcdfe6;\n"
+        self.gridLayout_20.addWidget(self.pushButton_factory, 8, 1, 1, 1)
+        self.pushButton_talk_page = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_talk_page.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.pushButton_talk_page.setStyleSheet("border: 1px solid #dcdfe6;\n"
 "background-color: #e6a23c;\n"
 "text-align: center;\n"
 "padding: 12px 16px;\n"
 "border-radius: 4px;\n"
 "font: 75 12pt \"微软雅黑\";")
-        self.pushButton_copywriting_page.setObjectName("pushButton_copywriting_page")
-        self.gridLayout_20.addWidget(self.pushButton_copywriting_page, 5, 1, 1, 1)
+        self.pushButton_talk_page.setObjectName("pushButton_talk_page")
+        self.gridLayout_20.addWidget(self.pushButton_talk_page, 6, 1, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1191, 26))
@@ -1009,6 +1074,9 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "AI Vtuber"))
         self.pushButton_run_page.setText(_translate("MainWindow", "②运行页"))
+        self.pushButton_copywriting_page.setText(_translate("MainWindow", "③文案页"))
+        self.pushButton_run.setText(_translate("MainWindow", "运行"))
+        self.pushButton_config_page.setText(_translate("MainWindow", "①配置页"))
         self.pushButton_save.setText(_translate("MainWindow", "保存配置"))
         self.groupBox_claude.setTitle(_translate("MainWindow", "Claude"))
         self.label_claude_slack_user_token.setText(_translate("MainWindow", "slack_user_token"))
@@ -1078,6 +1146,7 @@ class Ui_MainWindow(object):
         self.comboBox_platform.setItemText(0, _translate("MainWindow", "哔哩哔哩"))
         self.comboBox_platform.setItemText(1, _translate("MainWindow", "抖音"))
         self.comboBox_platform.setItemText(2, _translate("MainWindow", "快手"))
+        self.comboBox_platform.setItemText(3, _translate("MainWindow", "聊天模式-谷歌"))
         self.groupBox_live2d.setTitle(_translate("MainWindow", "Live2D"))
         self.label_live2d_enable.setText(_translate("MainWindow", "启用"))
         self.checkBox_live2d_enable.setText(_translate("MainWindow", "是"))
@@ -1191,10 +1260,12 @@ class Ui_MainWindow(object):
         self.checkBox_copywriting_switching_random_play.setText(_translate("MainWindow", "启用"))
         self.label_copywriting_audio_list.setText(_translate("MainWindow", "已合成\n"
 "音频列表"))
-        self.pushButton_run.setText(_translate("MainWindow", "运行"))
-        self.pushButton_config_page.setText(_translate("MainWindow", "①配置页"))
+        self.label_talk_username.setText(_translate("MainWindow", "你的名字"))
+        self.groupBox_talk_google.setTitle(_translate("MainWindow", "谷歌"))
+        self.label_talk_google_trigger_key.setText(_translate("MainWindow", "录音按键"))
+        self.label_talk_google_tgt_lang.setText(_translate("MainWindow", "目标翻译语言"))
         self.pushButton_factory.setText(_translate("MainWindow", "恢复出厂配置"))
-        self.pushButton_copywriting_page.setText(_translate("MainWindow", "③文案页"))
+        self.pushButton_talk_page.setText(_translate("MainWindow", "④聊天页"))
         self.menu_about.setTitle(_translate("MainWindow", "关于"))
         self.menu.setTitle(_translate("MainWindow", "文件"))
         self.action_official_store.setText(_translate("MainWindow", "官方仓库"))
