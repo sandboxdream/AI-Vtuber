@@ -249,6 +249,9 @@ class AI_VTB(QMainWindow):
 
             # SD
             self.ui.label_sd_enable.setToolTip("是否启用SD来进行画图")
+            self.ui.label_prompt_llm_type.setToolTip("选择LLM来对提示词进行优化")
+            self.ui.label_prompt_llm_before_prompt.setToolTip("LLM提示词前缀")
+            self.ui.label_prompt_llm_after_prompt.setToolTip("LLM提示词后缀")
             self.ui.label_sd_trigger.setToolTip("触发的关键词（弹幕头部触发）")
             self.ui.label_sd_ip.setToolTip("服务运行的IP地址")
             self.ui.label_sd_port.setToolTip("服务运行的端口")
@@ -505,6 +508,22 @@ class AI_VTB(QMainWindow):
             if self.sd_config['enable']:
                 self.ui.checkBox_sd_enable.setChecked(True)
             self.ui.lineEdit_sd_trigger.setText(self.sd_config['trigger'])
+            self.ui.comboBox_prompt_llm_type.clear()
+            self.ui.comboBox_prompt_llm_type.addItems(["chatgpt", "claude", "chatglm", "text_generation_webui", "none"])
+            prompt_llm_type_index = 0
+            if self.sd_config['prompt_llm']['type'] == "chatgpt":
+                prompt_llm_type_index = 0
+            elif self.sd_config['prompt_llm']['type'] == "claude":
+                prompt_llm_type_index = 1
+            elif self.sd_config['prompt_llm']['type'] == "chatglm":
+                prompt_llm_type_index = 2 
+            elif self.sd_config['prompt_llm']['type'] == "text_generation_webui":
+                prompt_llm_type_index = 3
+            elif self.sd_config['prompt_llm']['type'] == "none":
+                prompt_llm_type_index = 4
+            self.ui.comboBox_prompt_llm_type.setCurrentIndex(prompt_llm_type_index)
+            self.ui.lineEdit_prompt_llm_before_prompt.setText(self.sd_config['prompt_llm']['before_prompt'])
+            self.ui.lineEdit_prompt_llm_after_prompt.setText(self.sd_config['prompt_llm']['after_prompt'])
             self.ui.lineEdit_sd_ip.setText(self.sd_config['ip'])
             self.ui.lineEdit_sd_port.setText(str(self.sd_config['port']))
             self.ui.lineEdit_sd_negative_prompt.setText(self.sd_config['negative_prompt'])
@@ -873,6 +892,9 @@ class AI_VTB(QMainWindow):
 
             # SD
             config_data["sd"]["enable"] = self.ui.checkBox_sd_enable.isChecked()
+            config_data["sd"]["prompt_llm"]["type"] = self.ui.comboBox_prompt_llm_type.currentText()
+            config_data["sd"]["prompt_llm"]["before_prompt"] = self.ui.lineEdit_prompt_llm_before_prompt.text()
+            config_data["sd"]["prompt_llm"]["after_prompt"] = self.ui.lineEdit_prompt_llm_after_prompt.text()
             config_data["sd"]["trigger"] = self.ui.lineEdit_sd_trigger.text()
             config_data["sd"]["ip"] = self.ui.lineEdit_sd_ip.text()
             sd_port = self.ui.lineEdit_sd_port.text()
