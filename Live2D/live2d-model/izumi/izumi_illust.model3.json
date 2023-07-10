@@ -1,0 +1,114 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "izumi_illust.moc3",
+		"Textures": [
+			"izumi_illust.1024/texture_00.png",
+			"izumi_illust.1024/texture_01.png",
+			"izumi_illust.1024/texture_02.png",
+			"izumi_illust.1024/texture_03.png"
+		],
+		"Physics": "izumi_illust.physics3.json",
+		"DisplayInfo": "izumi_illust.cdi3.json",
+		"Expressions": [
+			{
+				"Name": "Angry.exp3.json",
+				"File": "expressions/Angry.exp3.json"
+			},
+			{
+				"Name": "Blushing.exp3.json",
+				"File": "expressions/Blushing.exp3.json"
+			},
+			{
+				"Name": "f01.exp3.json",
+				"File": "expressions/f01.exp3.json"
+			},
+			{
+				"Name": "Normal.exp3.json",
+				"File": "expressions/Normal.exp3.json"
+			},
+			{
+				"Name": "Sad.exp3.json",
+				"File": "expressions/Sad.exp3.json"
+			},
+			{
+				"Name": "Smile.exp3.json",
+				"File": "expressions/Smile.exp3.json"
+			},
+			{
+				"Name": "Surprised.exp3.json",
+				"File": "expressions/Surprised.exp3.json"
+			}
+		],
+		"Motions": {
+			"FlickRight": [
+				{
+					"File": "motion/izumi_01.motion3.json",
+					"Sound": "sounds/izumi_01.wav"
+				},
+				{
+					"File": "motion/izumi_04.motion3.json",
+					"Sound": "sounds/izumi_04.wav"
+				}
+			],
+			"Tap": [
+				{
+					"File": "motion/izumi_02.motion3.json",
+					"Sound": "sounds/izumi_02.wav"
+				},
+				{
+					"File": "motion/izumi_05.motion3.json",
+					"Sound": "sounds/izumi_05.wav"
+				},
+				{
+					"File": "motion/izumi_09.motion3.json",
+					"Sound": "sounds/izumi_09.wav"
+				}
+			],
+			"Idle": [
+				{
+					"File": "motion/izumi_03.motion3.json",
+					"Sound": "sounds/izumi_03.wav"
+				},
+				{
+					"File": "motion/izumi_07.motion3.json",
+					"Sound": "sounds/izumi_07.wav"
+				},
+				{
+					"File": "motion/izumi_10.motion3.json",
+					"Sound": "sounds/izumi_10.wav"
+				}
+			],
+			"FlickLeft": [
+				{
+					"File": "motion/izumi_06.motion3.json",
+					"Sound": "sounds/izumi_06.wav"
+				}
+			],
+			"Shake": [
+				{
+					"File": "motion/izumi_08.motion3.json",
+					"Sound": "sounds/izumi_08.wav"
+				}
+			]
+		}
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": [
+				"PARAM_MOUTH_OPEN_Y"
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": [
+				"PARAM_EYE_L_OPEN",
+				"PARAM_EYE_R_OPEN"
+			]
+		}
+	],
+	"HitAreas": []
+}

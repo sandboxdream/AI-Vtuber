@@ -1,0 +1,159 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "tsumiki.moc3",
+		"Textures": [
+			"tsumiki.2048/texture_00.png",
+			"tsumiki.2048/texture_01.png"
+		],
+		"Physics": "tsumiki.physics3.json",
+		"DisplayInfo": "tsumiki.cdi3.json",
+		"Expressions": [
+			{
+				"Name": "Angry",
+				"File": "expressions/Angry.exp3.json"
+			},
+			{
+				"Name": "Blushing",
+				"File": "expressions/Blushing.exp3.json"
+			},
+			{
+				"Name": "f01",
+				"File": "expressions/f01.exp3.json"
+			},
+			{
+				"Name": "f02",
+				"File": "expressions/f02.exp3.json"
+			},
+			{
+				"Name": "f03",
+				"File": "expressions/f03.exp3.json"
+			},
+			{
+				"Name": "f04",
+				"File": "expressions/f04.exp3.json"
+			},
+			{
+				"Name": "f05",
+				"File": "expressions/f05.exp3.json"
+			},
+			{
+				"Name": "Normal",
+				"File": "expressions/Normal.exp3.json"
+			},
+			{
+				"Name": "Sad",
+				"File": "expressions/Sad.exp3.json"
+			},
+			{
+				"Name": "Surprised",
+				"File": "expressions/Surprised.exp3.json"
+			}
+		],
+		"Motions": {
+			"Flick3": [
+				{
+					"File": "motion/tsumiki_m_01_df.motion3.json"
+				},
+				{
+					"File": "motion/tsumiki_m_09.motion3.json"
+				},
+				{
+					"File": "motion/tsumiki_m_10.motion3.json"
+				},
+				{
+					"File": "motion/tsumiki_m_20.motion3.json"
+				}
+			],
+			"FlickDown": [
+				{
+					"File": "motion/tsumiki_m_03.motion3.json"
+				},
+				{
+					"File": "motion/tsumiki_m_18.motion3.json"
+				},
+				{
+					"File": "motion/tsumiki_m_13.motion3.json"
+				}
+			],
+			"FlickUp": [
+				{
+					"File": "motion/tsumiki_m_21.motion3.json"
+				},
+				{
+					"File": "motion/tsumiki_m_05.motion3.json"
+				},
+				{
+					"File": "motion/tsumiki_m_22.motion3.json"
+				}
+			],
+			"Tap": [
+				{
+					"File": "motion/tsumiki_m_11.motion3.json"
+				},
+				{
+					"File": "motion/tsumiki_m_12.motion3.json"
+				},
+				{
+					"File": "motion/tsumiki_m_02.motion3.json"
+				},
+				{
+					"File": "motion/tsumiki_m_08.motion3.json"
+				},
+				{
+					"File": "motion/tsumiki_m_14.motion3.json"
+				}
+			],
+			"FlickRight": [
+				{
+					"File": "motion/tsumiki_m_15.motion3.json"
+				},
+				{
+					"File": "motion/tsumiki_m_06.motion3.json"
+				}
+			],
+			"FlickLeft": [
+				{
+					"File": "motion/tsumiki_m_16.motion3.json"
+				},
+				{
+					"File": "motion/tsumiki_m_01.motion3.json"
+				}
+			],
+			"Idle": [
+				{
+					"File": "motion/tsumiki_m_17.motion3.json"
+				},
+				{
+					"File": "motion/tsumiki_idle_01.motion3.json"
+				},
+				{
+					"File": "motion/tsumiki_m_04.motion3.json"
+				}
+			],
+			"Shake": [
+				{
+					"File": "motion/tsumiki_m_19.motion3.json"
+				}
+			]
+		}
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": [
+				"PARAM_MOUTH_OPEN_Y"
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": [
+				"PARAM_EYE_L_OPEN",
+				"PARAM_EYE_R_OPEN"
+			]
+		}
+	],
+	"HitAreas": []
+}

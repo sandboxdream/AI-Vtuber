@@ -1,0 +1,111 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "nico/nico.moc3",
+		"Textures": [
+			"nico/nico.2048/texture_00.png",
+			"nico/nico.2048/texture_01.png",
+			"nico/nico.2048/texture_02.png"
+		],
+		"Pose": "nico/nico.pose3.json",
+		"DisplayInfo": "nico/nico.cdi3.json",
+		"Motions": {
+			"Idle": [
+				{
+					"File": "motion/00_idle.motion3.json"
+				},
+				{
+					"File": "motion/05_fun.motion3.json"
+				},
+				{
+					"File": "motion/14_ sigh.motion3.json"
+				},
+				{
+					"File": "motion/20_sleep.motion3.json"
+				}
+			],
+			"FlickUp": [
+				{
+					"File": "motion/07_bye.motion3.json"
+				},
+				{
+					"File": "motion/01_happy.motion3.json"
+				},
+				{
+					"File": "motion/16_menace.motion3.json"
+				}
+			],
+			"Tap": [
+				{
+					"File": "motion/02_angry.motion3.json"
+				},
+				{
+					"File": "motion/08_sad.motion3.json"
+				},
+				{
+					"File": "motion/13_cry.motion3.json"
+				},
+				{
+					"File": "motion/15_joy.motion3.json"
+				},
+				{
+					"File": "motion/17_yes.motion3.json"
+				}
+			],
+			"FlickDown": [
+				{
+					"File": "motion/11_muscle.motion3.json"
+				},
+				{
+					"File": "motion/03_fear.motion3.json"
+				}
+			],
+			"FlickRight": [
+				{
+					"File": "motion/04_surprise.motion3.json"
+				}
+			],
+			"Flick3": [
+				{
+					"File": "motion/06_love.motion3.json"
+				},
+				{
+					"File": "motion/09_yawn.motion3.json"
+				}
+			],
+			"FlickLeft": [
+				{
+					"File": "motion/10_yeah.motion3.json"
+				},
+				{
+					"File": "motion/19_walk.motion3.json"
+				}
+			],
+			"Shake": [
+				{
+					"File": "motion/12_stagger.motion3.json"
+				},
+				{
+					"File": "motion/18_no.motion3.json"
+				}
+			]
+		}
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": [
+				"PARAM_MOUTH_OPEN_Y"
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": [
+				"PARAM_EYE_L_OPEN",
+				"PARAM_EYE_R_OPEN"
+			]
+		}
+	]
+}

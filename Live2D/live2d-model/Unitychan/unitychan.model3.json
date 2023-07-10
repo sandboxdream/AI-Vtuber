@@ -1,0 +1,95 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "unitychan.moc3",
+		"Textures": [
+			"unitychan.2048/texture_00.png"
+		],
+		"Physics": "unitychan.physics3.json",
+		"DisplayInfo": "unitychan.cdi3.json",
+		"Motions": {
+			"Idle": [
+				{
+					"File": "motion/idle_01.motion3.json"
+				},
+				{
+					"File": "motion/idle_02.motion3.json"
+				},
+				{
+					"File": "motion/m_09.motion3.json"
+				}
+			],
+			"FlickDown": [
+				{
+					"File": "motion/m_01.motion3.json"
+				},
+				{
+					"File": "motion/m_08.motion3.json"
+				}
+			],
+			"FlickLeft": [
+				{
+					"File": "motion/m_02.motion3.json"
+				}
+			],
+			"FlickRight": [
+				{
+					"File": "motion/m_03.motion3.json"
+				}
+			],
+			"FlickUp": [
+				{
+					"File": "motion/m_04.motion3.json"
+				},
+				{
+					"File": "motion/m_06.motion3.json"
+				},
+				{
+					"File": "motion/m_13.motion3.json"
+				}
+			],
+			"Shake": [
+				{
+					"File": "motion/m_05.motion3.json"
+				}
+			],
+			"Flick3": [
+				{
+					"File": "motion/m_07.motion3.json"
+				},
+				{
+					"File": "motion/m_11.motion3.json"
+				}
+			],
+			"Tap": [
+				{
+					"File": "motion/m_10.motion3.json"
+				},
+				{
+					"File": "motion/m_12.motion3.json"
+				},
+				{
+					"File": "motion/m_14.motion3.json"
+				}
+			]
+		}
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": [
+				"PARAM_EYE_L_OPEN",
+				"PARAM_EYE_R_OPEN"
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": [
+				"PARAM_MOUTH_OPEN_Y"
+			]
+		}
+	],
+	"HitAreas": []
+}

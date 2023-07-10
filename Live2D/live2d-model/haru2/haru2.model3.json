@@ -1,0 +1,127 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "haru.moc3",
+		"Textures": [
+			"haru.1024/texture_00.png",
+			"haru.1024/texture_01.png",
+			"haru.1024/texture_02.png"
+		],
+		"Physics": "haru.physics3.json",
+		"Pose": "haru.pose3.json",
+		"DisplayInfo": "haru.cdi3.json",
+		"Motions": {
+			"Idle": [
+				{
+					"File": "motion/haru_idle_01.motion3.json"
+				},
+				{
+					"File": "motion/haru_idle_02.motion3.json"
+				},
+				{
+					"File": "motion/haru_idle_03.motion3.json"
+				}
+			],
+			"Flick": [
+				{
+					"File": "motion/haru_m_01.motion3.json"
+				},
+				{
+					"File": "motion/haru_m_03.motion3.json"
+				},
+				{
+					"File": "motion/haru_m_04.motion3.json"
+				}
+			],
+			"Tap": [
+				{
+					"File": "motion/haru_m_02.motion3.json"
+				},
+				{
+					"File": "motion/haru_m_06.motion3.json"
+				},
+				{
+					"File": "motion/haru_m_07.motion3.json"
+				},
+				{
+					"File": "motion/haru_m_10.motion3.json"
+				},
+				{
+					"File": "motion/haru_normal_02.motion3.json",
+					"Sound": "sounds/haru_normal_02.wav"
+				},
+				{
+					"File": "motion/haru_normal_05.motion3.json",
+					"Sound": "sounds/haru_normal_05.wav"
+				}
+			],
+			"FlickRight": [
+				{
+					"File": "motion/haru_m_05.motion3.json"
+				},
+				{
+					"File": "motion/haru_normal_03.motion3.json",
+					"Sound": "sounds/haru_normal_03.wav"
+				},
+				{
+					"File": "motion/haru_normal_04.motion3.json",
+					"Sound": "sounds/haru_normal_04.wav"
+				}
+			],
+			"Flick3": [
+				{
+					"File": "motion/haru_m_08.motion3.json"
+				},
+				{
+					"File": "motion/haru_normal_01.motion3.json",
+					"Sound": "sounds/haru_normal_01.wav"
+				},
+				{
+					"File": "motion/haru_normal_06.motion3.json",
+					"Sound": "sounds/haru_normal_06.wav"
+				}
+			],
+			"FlickLeft": [
+				{
+					"File": "motion/haru_m_09.motion3.json"
+				},
+				{
+					"File": "motion/haru_normal_09.motion3.json",
+					"Sound": "sounds/haru_normal_09.wav"
+				},
+				{
+					"File": "motion/haru_normal_10.motion3.json",
+					"Sound": "sounds/haru_normal_10.wav"
+				}
+			],
+			"Shake": [
+				{
+					"File": "motion/haru_normal_07.motion3.json",
+					"Sound": "sounds/haru_normal_07.wav"
+				},
+				{
+					"File": "motion/haru_normal_08.motion3.json",
+					"Sound": "sounds/haru_normal_08.wav"
+				}
+			]
+		}
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": [
+				"PARAM_MOUTH_OPEN_Y"
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": [
+				"PARAM_EYE_L_OPEN",
+				"PARAM_EYE_R_OPEN"
+			]
+		}
+	],
+	"HitAreas": []
+}

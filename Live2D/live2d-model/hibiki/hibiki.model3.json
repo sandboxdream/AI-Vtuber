@@ -1,0 +1,73 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "hibiki.moc3",
+		"Textures": [
+			"hibiki.2048/texture_00.png"
+		],
+		"Physics": "hibiki.physics3.json",
+		"DisplayInfo": "hibiki.cdi3.json",
+		"Expressions": [
+			{
+				"Name": "Angry",
+				"File": "expressions/Angry.exp3.json"
+			},
+			{
+				"Name": "Blushing",
+				"File": "expressions/Blushing.exp3.json"
+			},
+			{
+				"Name": "f01",
+				"File": "expressions/f01.exp3.json"
+			},
+			{
+				"Name": "Normal",
+				"File": "expressions/Normal.exp3.json"
+			},
+			{
+				"Name": "Sad",
+				"File": "expressions/Sad.exp3.json"
+			},
+			{
+				"Name": "Surprised",
+				"File": "expressions/Surprised.exp3.json"
+			}
+		],
+		"Motions": {
+			"Idle": [
+				{
+					"File": "motion/hibiki_01.motion3.json",
+					"Sound": "sounds/hibiki_01.wav"
+				},
+				{
+					"File": "motion/hibiki_02.motion3.json",
+					"Sound": "sounds/hibiki_02.wav"
+				},
+				{
+					"File": "motion/hibiki_05.motion3.json",
+					"Sound": "sounds/hibiki_05.wav"
+				}
+			],
+			"Flick": [
+				{
+					"File": "motion/hibiki_03.motion3.json",
+					"Sound": "sounds/hibiki_03.wav"
+				}
+			],
+			"Tap": [
+				{
+					"File": "motion/hibiki_04.motion3.json",
+					"Sound": "sounds/hibiki_04.wav"
+				}
+			]
+		}
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		}
+	],
+	"HitAreas": []
+}

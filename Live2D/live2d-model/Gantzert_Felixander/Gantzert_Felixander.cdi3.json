@@ -1,0 +1,458 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "PARAM_ANGLE_X",
+			"GroupId": "",
+			"Name": "角度 X"
+		},
+		{
+			"Id": "PARAM_ANGLE_Y",
+			"GroupId": "",
+			"Name": "角度 Y"
+		},
+		{
+			"Id": "PARAM_ANGLE_Z",
+			"GroupId": "",
+			"Name": "角度 Z"
+		},
+		{
+			"Id": "PARAM_EYE_L_OPEN",
+			"GroupId": "",
+			"Name": "左目　開閉"
+		},
+		{
+			"Id": "PARAM_EYE_R_OPEN",
+			"GroupId": "",
+			"Name": "右目　開閉"
+		},
+		{
+			"Id": "PARAM_EYE_BALL_X",
+			"GroupId": "",
+			"Name": "目玉 X"
+		},
+		{
+			"Id": "PARAM_EYE_BALL_Y",
+			"GroupId": "",
+			"Name": "目玉 Y"
+		},
+		{
+			"Id": "PARAM_BROW_FORM",
+			"GroupId": "",
+			"Name": "眉　変形"
+		},
+		{
+			"Id": "PARAM_MOUTH_FORM",
+			"GroupId": "",
+			"Name": "口　変形"
+		},
+		{
+			"Id": "PARAM_MOUTH_OPEN_Y",
+			"GroupId": "",
+			"Name": "口　開閉"
+		},
+		{
+			"Id": "PARAM_BODY_ANGLE_X",
+			"GroupId": "",
+			"Name": "体の回転　X"
+		},
+		{
+			"Id": "PARAM_BODY_ANGLE_Y",
+			"GroupId": "",
+			"Name": "体の回転　Y"
+		},
+		{
+			"Id": "PARAM_BODY_ANGLE_Z",
+			"GroupId": "",
+			"Name": "体の回転　Z"
+		},
+		{
+			"Id": "PARAM_BREATH",
+			"GroupId": "",
+			"Name": "呼吸"
+		},
+		{
+			"Id": "PARAM_HAIR_FRONT",
+			"GroupId": "",
+			"Name": "髪揺れ　前"
+		},
+		{
+			"Id": "PARAM_HAIR_SIDE",
+			"GroupId": "",
+			"Name": "髪揺れ　横"
+		},
+		{
+			"Id": "PARAM_HAIR_BACK",
+			"GroupId": "",
+			"Name": "髪揺れ　後"
+		},
+		{
+			"Id": "PARAM_HAIR_PLUS",
+			"GroupId": "",
+			"Name": "髪揺れ　追加"
+		},
+		{
+			"Id": "PARAM_BEARD",
+			"GroupId": "",
+			"Name": "ひげ揺れ"
+		},
+		{
+			"Id": "PARAM_ERI_A",
+			"GroupId": "",
+			"Name": "襟揺れ A"
+		},
+		{
+			"Id": "PARAM_ERI_B",
+			"GroupId": "",
+			"Name": "襟揺れ B"
+		},
+		{
+			"Id": "PARAM_OUTER_A",
+			"GroupId": "",
+			"Name": "上着揺れ A"
+		},
+		{
+			"Id": "PARAM_OUTER_B",
+			"GroupId": "",
+			"Name": "上着揺れ B"
+		},
+		{
+			"Id": "PARAM_SUSO_A",
+			"GroupId": "",
+			"Name": "裾 A"
+		},
+		{
+			"Id": "PARAM_SUSO_B",
+			"GroupId": "",
+			"Name": "裾 B"
+		},
+		{
+			"Id": "PARAM_SUSO_PLUS",
+			"GroupId": "",
+			"Name": "裾 追加揺れ"
+		},
+		{
+			"Id": "PARAM_ARM_R_A",
+			"GroupId": "",
+			"Name": "右腕 上腕"
+		},
+		{
+			"Id": "PARAM_ARM_R_B",
+			"GroupId": "",
+			"Name": "右腕 前腕"
+		},
+		{
+			"Id": "PARAM_HAND_R",
+			"GroupId": "",
+			"Name": "右手 回転"
+		},
+		{
+			"Id": "PARAM_ARM_R_ANGLE_A",
+			"GroupId": "",
+			"Name": "右腕 角度"
+		},
+		{
+			"Id": "PARAM_ARM_R_ANGLE_B",
+			"GroupId": "",
+			"Name": "右腕 振り"
+		},
+		{
+			"Id": "PARAM_ARM_R_ANGLE_B_PLUS",
+			"GroupId": "",
+			"Name": "右腕 振り奥行き"
+		},
+		{
+			"Id": "PARAM_ARM_R_ANGLE_C",
+			"GroupId": "",
+			"Name": "右腕 振り上げ"
+		},
+		{
+			"Id": "PARAM_ARM_R_ANGLE_D",
+			"GroupId": "",
+			"Name": "右腕 振上角度追加"
+		},
+		{
+			"Id": "PARAM_BRADE_AFTER",
+			"GroupId": "",
+			"Name": "剣　残像"
+		},
+		{
+			"Id": "PARAM_BRADE_AFTER_ONOFF",
+			"GroupId": "",
+			"Name": "剣　残像のON/OFF"
+		},
+		{
+			"Id": "PARAM_BRADE",
+			"GroupId": "",
+			"Name": "剣　光"
+		},
+		{
+			"Id": "PARAM_BRADE_LIGHT",
+			"GroupId": "",
+			"Name": "剣　光　透明度"
+		},
+		{
+			"Id": "PARAM_ARM_L_A",
+			"GroupId": "",
+			"Name": "左腕 上腕"
+		},
+		{
+			"Id": "PARAM_ARM_L_B",
+			"GroupId": "",
+			"Name": "左腕 前腕"
+		},
+		{
+			"Id": "PARAM_HAND_L_ANGLE",
+			"GroupId": "",
+			"Name": "左手 回転"
+		},
+		{
+			"Id": "PARAM_HAND_L",
+			"GroupId": "",
+			"Name": "左手 変形"
+		},
+		{
+			"Id": "PARAM_DRAGON",
+			"GroupId": "",
+			"Name": "竜"
+		},
+		{
+			"Id": "PARAM_DRAGON_ANGLE",
+			"GroupId": "",
+			"Name": "竜 角度"
+		},
+		{
+			"Id": "PARAM_GRAGON_HEAD",
+			"GroupId": "",
+			"Name": "竜 頭"
+		},
+		{
+			"Id": "PARAM_DRAGON_EYE_OPEN",
+			"GroupId": "",
+			"Name": "竜 目 開閉"
+		},
+		{
+			"Id": "PARAM_DRAGON_EYE",
+			"GroupId": "",
+			"Name": "竜 目"
+		},
+		{
+			"Id": "PARAM_DRAGON_WING",
+			"GroupId": "",
+			"Name": "竜 翼角度"
+		},
+		{
+			"Id": "PARAM_DRAGON_WING_B",
+			"GroupId": "",
+			"Name": "竜 はばたき手羽先"
+		},
+		{
+			"Id": "PARAM_DRAGON_WING_B2",
+			"GroupId": "",
+			"Name": "竜 はばたき手羽元"
+		},
+		{
+			"Id": "PARAM_DRAGON_WING_B3",
+			"GroupId": "",
+			"Name": "竜 はばたき全体"
+		},
+		{
+			"Id": "PARAM_DRAGON_FOAM",
+			"GroupId": "",
+			"Name": "竜 反り"
+		},
+		{
+			"Id": "PARAM_DRAGON_HAND",
+			"GroupId": "",
+			"Name": "竜 手"
+		},
+		{
+			"Id": "PARAM_DRAGON_LEG",
+			"GroupId": "",
+			"Name": "竜 足"
+		},
+		{
+			"Id": "PARAM_DRAGON_TAIL_A",
+			"GroupId": "",
+			"Name": "竜 尾 A"
+		},
+		{
+			"Id": "PARAM_DRAGON_TAIL_B",
+			"GroupId": "",
+			"Name": "竜 尾 B"
+		},
+		{
+			"Id": "PARAM_DRAGON_TURN",
+			"GroupId": "",
+			"Name": "竜 回転"
+		},
+		{
+			"Id": "PARAM_DRAGON_TURN_P",
+			"GroupId": "",
+			"Name": "竜 位置回転"
+		},
+		{
+			"Id": "PARAM_DRAGON_X",
+			"GroupId": "",
+			"Name": "竜 位置X"
+		},
+		{
+			"Id": "PARAM_DRAGON_Y",
+			"GroupId": "",
+			"Name": "竜 位置Y"
+		},
+		{
+			"Id": "PARAM_DRAGON_FIRE_A",
+			"GroupId": "",
+			"Name": "竜 炎 A"
+		},
+		{
+			"Id": "PARAM_DRAGON_FIRE_B",
+			"GroupId": "",
+			"Name": "竜 炎 B"
+		},
+		{
+			"Id": "PARAM_DRAGON_FIRE",
+			"GroupId": "",
+			"Name": "竜 炎 角度"
+		},
+		{
+			"Id": "PARAM_DRAGON_FIRE_SIZE",
+			"GroupId": "",
+			"Name": "竜 炎 拡縮"
+		},
+		{
+			"Id": "PARAM_DRAGON_FIRE_START",
+			"GroupId": "",
+			"Name": "竜 炎 溜め"
+		},
+		{
+			"Id": "PARAM_DRAGON_FIRE_X",
+			"GroupId": "",
+			"Name": "竜 炎 位置X"
+		},
+		{
+			"Id": "PARAM_DRAGON_FIRE_Y",
+			"GroupId": "",
+			"Name": "竜 炎 位置Y"
+		},
+		{
+			"Id": "PARAM_CLOUD_A",
+			"GroupId": "",
+			"Name": "雲 A"
+		},
+		{
+			"Id": "PARAM_CLOUD_B",
+			"GroupId": "",
+			"Name": "雲 B"
+		},
+		{
+			"Id": "PARAM_CLOUD_C",
+			"GroupId": "",
+			"Name": "雲 C"
+		},
+		{
+			"Id": "PARAM_CLOUD_D",
+			"GroupId": "",
+			"Name": "雲 D"
+		},
+		{
+			"Id": "PARAM_THUNDER",
+			"GroupId": "",
+			"Name": "雷"
+		},
+		{
+			"Id": "PARAM_POSITION_X",
+			"GroupId": "",
+			"Name": "全体の位置 X"
+		},
+		{
+			"Id": "PARAM_POSITION_Y",
+			"GroupId": "",
+			"Name": "全体の位置 Y"
+		}
+	],
+	"ParameterGroups": [],
+	"Parts": [
+		{
+			"Id": "PARTS_01_SKETCH",
+			"Name": "[ 下絵 ]"
+		},
+		{
+			"Id": "PARTS_01_BACKGROUND",
+			"Name": "背景"
+		},
+		{
+			"Id": "PARTS_BODY_BACK",
+			"Name": "裾"
+		},
+		{
+			"Id": "PARTS_FIRE",
+			"Name": "炎"
+		},
+		{
+			"Id": "PARTS_DRAGON",
+			"Name": "ドラゴン"
+		},
+		{
+			"Id": "PARTS_SOARD",
+			"Name": "剣"
+		},
+		{
+			"Id": "PARTS_ARM_L",
+			"Name": "左腕"
+		},
+		{
+			"Id": "PARTS_ARM_R",
+			"Name": "右腕"
+		},
+		{
+			"Id": "PARTS_01_BODY",
+			"Name": "体"
+		},
+		{
+			"Id": "PARTS_01_NECK",
+			"Name": "首"
+		},
+		{
+			"Id": "PARTS_01_HAIR_BACK_001",
+			"Name": "後ろ髪"
+		},
+		{
+			"Id": "PARTS_01_HAIR_SIDE_001",
+			"Name": "横髪"
+		},
+		{
+			"Id": "PARTS_01_HAIR_FRONT_001",
+			"Name": "前髪"
+		},
+		{
+			"Id": "PARTS_01_NOSE_001",
+			"Name": "鼻"
+		},
+		{
+			"Id": "PARTS_01_MOUTH_001",
+			"Name": "口"
+		},
+		{
+			"Id": "PARTS_01_BROW_001",
+			"Name": "まゆ毛"
+		},
+		{
+			"Id": "PARTS_01_EYE_001",
+			"Name": "目"
+		},
+		{
+			"Id": "PARTS_01_FACE_001",
+			"Name": "顔"
+		},
+		{
+			"Id": "PARTS_CORE",
+			"Name": "コアパーツ"
+		},
+		{
+			"Id": "ROUGH",
+			"Name": "ラフ"
+		}
+	]
+}
