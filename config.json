@@ -14,6 +14,13 @@
     "max_len": 80,
     "max_char_len": 200
   },
+  "thanks": {
+    "entrance_enable": true,
+    "gift_enable": true,
+    "entrance_copy": "欢迎 {username}",
+    "gift_copy": "感谢 {username} 送的 {gift_name}",
+    "lowest_price": 1.0
+  },
   "live2d": {
     "enable": true,
     "port": 12345
@@ -37,7 +44,7 @@
     "max_new_tokens": 250
   },
   "chat_with_file": {
-    "chat_mode": "claude",
+    "chat_mode": "",
     "data_path": "data/伊卡洛斯百度百科.zip",
     "separator": "\n",
     "chunk_size": 100,
@@ -53,7 +60,7 @@
     "config_path": "D:\\GitHub_pro\\VITS-fast-fine-tuning\\inference\\finetune_speaker.json",
     "api_ip_port": "http://127.0.0.1:7860",
     "character": "ikaros",
-    "speed": 1.0
+    "speed": 1
   },
   "so_vits_svc": {
     "enable": false,
@@ -112,7 +119,7 @@
     "ip": "127.0.0.1",
     "port": 7860,
     "negative_prompt": "ufsw, longbody, lowres, bad anatomy, bad hands, missing fingers, pubic hair,extra digit, fewer digits, cropped, worst quality, low quality",
-    "seed": -1.0,
+    "seed": -1,
     "styles": [],
     "cfg_scale": 7,
     "steps": 30,
@@ -127,8 +134,8 @@
     "file_path": "data/copywriting/",
     "audio_path": "out/copywriting/",
     "play_list": [],
-    "audio_interval": 5.0,
-    "switching_interval": 5.0,
+    "audio_interval": 5,
+    "switching_interval": 5,
     "random_play": true
   },
   "header": {

@@ -14,6 +14,13 @@
     "max_len": 80,
     "max_char_len": 200
   },
+  "thanks": {
+    "entrance_enable": true,
+    "gift_enable": true,
+    "entrance_copy": "欢迎 {username}",
+    "gift_copy": "感谢 {username} 送的 {gift_name}",
+    "lowest_price": 1.0
+  },
   "live2d": {
     "enable": true,
     "port": 12345

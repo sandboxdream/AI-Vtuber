@@ -100,6 +100,7 @@ class Common:
 
         # 在文本中搜索违禁词
         for _, found_word in automaton.iter(text):
+            logging.warning(f"命中本地违禁词：{found_word}")
             return True
 
         return False
