@@ -134,9 +134,9 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-3783</y>
+             <y>-604</y>
              <width>980</width>
-             <height>5019</height>
+             <height>5062</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -724,19 +724,15 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                  <layout class="QGridLayout" name="gridLayout_30">
                   <item row="0" column="0">
                    <layout class="QGridLayout" name="gridLayout_29" columnstretch="1,8">
-                    <item row="0" column="0">
-                     <widget class="QLabel" name="label_live2d_enable">
-                      <property name="text">
-                       <string>启用</string>
-                      </property>
-                     </widget>
-                    </item>
                     <item row="0" column="1">
                      <widget class="QCheckBox" name="checkBox_live2d_enable">
                       <property name="text">
                        <string>是</string>
                       </property>
                      </widget>
+                    </item>
+                    <item row="1" column="1">
+                     <widget class="QLineEdit" name="lineEdit_live2d_port"/>
                     </item>
                     <item row="1" column="0">
                      <widget class="QLabel" name="label_live2d_port">
@@ -745,8 +741,22 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                       </property>
                      </widget>
                     </item>
-                    <item row="1" column="1">
-                     <widget class="QLineEdit" name="lineEdit_live2d_port"/>
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label_live2d_enable">
+                      <property name="text">
+                       <string>启用</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="2" column="0">
+                     <widget class="QLabel" name="label_live2d_name">
+                      <property name="text">
+                       <string>模型名</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="2" column="1">
+                     <widget class="QComboBox" name="comboBox_live2d_name"/>
                     </item>
                    </layout>
                   </item>
@@ -1602,7 +1612,7 @@ p, li { white-space: pre-wrap; }
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>963</width>
+             <width>712</width>
              <height>1072</height>
             </rect>
            </property>
@@ -1950,8 +1960,8 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>984</width>
-             <height>743</height>
+             <width>328</width>
+             <height>314</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_3">

@@ -178,6 +178,7 @@ class AI_VTB(QMainWindow):
 
             self.ui.label_live2d_enable.setToolTip("启动web服务，用于加载本地Live2D模型")
             self.ui.label_live2d_port.setToolTip("web服务运行的端口号，默认：12345，范围:0-65535，没事不要乱改就好")
+            self.ui.label_live2d_name.setToolTip("模型名称，模型存放于Live2D\live2d-model路径下，请注意路径和模型内容是否匹配")
 
             self.ui.label_audio_synthesis_type.setToolTip("语音合成的类型")
 
@@ -369,6 +370,13 @@ class AI_VTB(QMainWindow):
             if self.live2d_config['enable']:
                 self.ui.checkBox_live2d_enable.setChecked(True)
             self.ui.lineEdit_live2d_port.setText(str(self.live2d_config['port']))
+            self.ui.comboBox_live2d_name.clear()
+            names = common.get_folder_names("Live2D/live2d-model") # 路径写死
+            logging.info(f"本地Live2D模型名列表：{names}")
+            self.ui.comboBox_live2d_name.addItems(names)
+            model_name = common.get_live2d_model_name("Live2D/js/model_name.js") # 路径写死
+            live2d_name_index = names.index(model_name)
+            self.ui.comboBox_live2d_name.setCurrentIndex(live2d_name_index)
 
             self.ui.lineEdit_header_useragent.setText(self.header_config['userAgent'])
 
@@ -583,6 +591,11 @@ class AI_VTB(QMainWindow):
             self.oncomboBox_chat_type_IndexChanged(chat_type_index)
             self.oncomboBox_audio_synthesis_type_IndexChanged(audio_synthesis_type_index)
 
+            # 打开Live2D页面
+            # if self.live2d_config["enable"]:
+            #     url = QUrl("http://127.0.0.1:12345/Live2D/")  # 指定要打开的网页地址
+            #     QDesktopServices.openUrl(url)
+
             logging.info("配置文件加载成功。")
         except Exception as e:
             logging.info(e)
@@ -769,6 +782,8 @@ class AI_VTB(QMainWindow):
             config_data["live2d"]["enable"] = live2d_enable
             live2d_port = self.ui.lineEdit_live2d_port.text()
             config_data["live2d"]["port"] = int(live2d_port)
+            tmp_str = f"var model_name = \"{self.ui.comboBox_live2d_name.currentText()}\";"
+            common.write_content_to_file("Live2D/js/model_name.js", tmp_str)
 
             openai_api = self.ui.lineEdit_openai_api.text()
             config_data["openai"]["api"] = openai_api

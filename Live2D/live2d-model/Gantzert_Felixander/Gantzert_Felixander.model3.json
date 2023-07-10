@@ -1,0 +1,63 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "Gantzert_Felixander.moc3",
+		"Textures": [
+			"Gantzert_Felixander.2048/texture_00.png",
+			"Gantzert_Felixander.2048/texture_01.png",
+			"Gantzert_Felixander.2048/texture_02.png",
+			"Gantzert_Felixander.2048/texture_03.png",
+			"Gantzert_Felixander.2048/texture_04.png",
+			"Gantzert_Felixander.2048/texture_05.png",
+			"Gantzert_Felixander.2048/texture_06.png"
+		],
+		"DisplayInfo": "Gantzert_Felixander.cdi3.json",
+		"Motions": {
+			"Idle": [
+				{
+					"File": "motion/A_00_idle.motion3.json"
+				},
+				{
+					"File": "motion/A_02.motion3.json"
+				},
+				{
+					"File": "motion/A_03.motion3.json"
+				}
+			],
+			"Tap": [
+				{
+					"File": "motion/A_01.motion3.json"
+				}
+			],
+			"FlickUp": [
+				{
+					"File": "motion/A_04.motion3.json"
+				}
+			],
+			"FlickRight": [
+				{
+					"File": "motion/A_05.motion3.json"
+				}
+			]
+		}
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": [
+				"PARAM_MOUTH_OPEN_Y"
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": [
+				"PARAM_EYE_L_OPEN",
+				"PARAM_EYE_R_OPEN",
+				"PARAM_DRAGON_EYE_OPEN"
+			]
+		}
+	],
+	"HitAreas": []
+}

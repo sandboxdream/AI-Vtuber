@@ -274,3 +274,26 @@ class Common:
         file_name_with_extension = os.path.basename(file_path)
         file_name_without_extension = os.path.splitext(file_name_with_extension)[0]
         return file_name_without_extension
+
+
+    # 获取指定文件夹下的所有文件夹的名称
+    def get_folder_names(self, path):
+        folder_names = next(os.walk(path))[1]
+        return folder_names
+
+
+    # 获取Live2D模型名
+    def get_live2d_model_name(self, path):
+        content = self.read_file_return_content(path)
+        if content is None:
+            logging.error(f"读取Live2D模型名失败")
+            return None
+        
+        pattern = r'"(.*?)"'
+        result = re.search(pattern, content)
+
+        if result:
+            content = result.group(1)
+            return content
+        else:
+            return None

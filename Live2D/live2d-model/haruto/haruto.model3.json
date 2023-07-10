@@ -1,0 +1,59 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "haruto.moc3",
+		"Textures": [
+			"haruto.2048/texture_00.png"
+		],
+		"Physics": "haruto.physics3.json",
+		"DisplayInfo": "haruto.cdi3.json",
+		"Motions": {
+			"Tap": [
+				{
+					"File": "motion/01.motion3.json"
+				},
+				{
+					"File": "motion/02.motion3.json"
+				},
+				{
+					"File": "motion/03.motion3.json"
+				},
+				{
+					"File": "motion/05.motion3.json"
+				}
+			],
+			"FlickLeft": [
+				{
+					"File": "motion/04.motion3.json"
+				}
+			],
+			"Idle": [
+				{
+					"File": "motion/06.motion3.json"
+				},
+				{
+					"File": "motion/idle.motion3.json"
+				},
+				{
+					"File": "motion/idle_02.motion3.json"
+				}
+			],
+			"FlickUp": [
+				{
+					"File": "motion/07.motion3.json"
+				}
+			],
+			"FlickDown": [
+				{
+					"File": "motion/08.motion3.json"
+				}
+			],
+			"FlickRight": [
+				{
+					"File": "motion/09.motion3.json"
+				}
+			]
+		}
+	},
+	"HitAreas": []
+}

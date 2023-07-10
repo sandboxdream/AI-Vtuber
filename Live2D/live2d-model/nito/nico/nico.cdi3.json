@@ -1,0 +1,490 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "PARAM_ANGLE_Y",
+			"GroupId": "",
+			"Name": "角度 Y"
+		},
+		{
+			"Id": "PARAM_ANGLE_Z",
+			"GroupId": "",
+			"Name": "角度 Z"
+		},
+		{
+			"Id": "PARAM_EYE_L_OPEN",
+			"GroupId": "",
+			"Name": "左目　開閉"
+		},
+		{
+			"Id": "PARAM_EYE_L_SMILE",
+			"GroupId": "",
+			"Name": "左目　笑顔"
+		},
+		{
+			"Id": "PARAM_EYE_R_OPEN",
+			"GroupId": "",
+			"Name": "右目　開閉"
+		},
+		{
+			"Id": "PARAM_EYE_R_SMILE",
+			"GroupId": "",
+			"Name": "右目　笑顔"
+		},
+		{
+			"Id": "PARAM_EYE_SIZE",
+			"GroupId": "",
+			"Name": "目元縮小"
+		},
+		{
+			"Id": "PARAM_EYE_BALL_Y",
+			"GroupId": "",
+			"Name": "目玉 Y"
+		},
+		{
+			"Id": "PARAM_EYELOOP1",
+			"GroupId": "",
+			"Name": "目ループ1"
+		},
+		{
+			"Id": "PARAM_EYELOOP2",
+			"GroupId": "",
+			"Name": "目ループ2"
+		},
+		{
+			"Id": "PARAM_MOUTH_FORM",
+			"GroupId": "",
+			"Name": "口　変形"
+		},
+		{
+			"Id": "PARAM_MOUTH_OPEN_Y",
+			"GroupId": "",
+			"Name": "口　開閉"
+		},
+		{
+			"Id": "PARAM_INMOUTH",
+			"GroupId": "",
+			"Name": "口内表示"
+		},
+		{
+			"Id": "PARAM_FACE_RED",
+			"GroupId": "",
+			"Name": "顔色"
+		},
+		{
+			"Id": "PARAM_CHEEK",
+			"GroupId": "",
+			"Name": "照れ"
+		},
+		{
+			"Id": "PARAM_TEAR",
+			"GroupId": "",
+			"Name": "涙"
+		},
+		{
+			"Id": "PARAM_EAR_FORM",
+			"GroupId": "",
+			"Name": "耳変形"
+		},
+		{
+			"Id": "PARAM_EAR",
+			"GroupId": "",
+			"Name": "耳ゆれ"
+		},
+		{
+			"Id": "PARAM_GLASS",
+			"GroupId": "",
+			"Name": "グラサン"
+		},
+		{
+			"Id": "PARAM_BODY_UD",
+			"GroupId": "",
+			"Name": "体の上下"
+		},
+		{
+			"Id": "PARAM_BREATH",
+			"GroupId": "",
+			"Name": "呼吸"
+		},
+		{
+			"Id": "PARAM_BODY_ANGLE_Y",
+			"GroupId": "",
+			"Name": "体の回転　Y"
+		},
+		{
+			"Id": "PARAM_BODY_ANGLE_Z",
+			"GroupId": "",
+			"Name": "体の回転　Z"
+		},
+		{
+			"Id": "PARAM_HAIR_FRONT",
+			"GroupId": "",
+			"Name": "前髪ゆれ"
+		},
+		{
+			"Id": "PARAM_HAIR_SIDE",
+			"GroupId": "",
+			"Name": "横髪ゆれ"
+		},
+		{
+			"Id": "PARAM_ACC",
+			"GroupId": "",
+			"Name": "アクセ揺れ"
+		},
+		{
+			"Id": "PARAM_TAIL_FORM",
+			"GroupId": "",
+			"Name": "尻尾変形"
+		},
+		{
+			"Id": "PARAM_TAIL",
+			"GroupId": "",
+			"Name": "尻尾揺れ"
+		},
+		{
+			"Id": "PARAM_ACC1L",
+			"GroupId": "",
+			"Name": "腕1_幣揺れ左"
+		},
+		{
+			"Id": "PARAM_ACC1R",
+			"GroupId": "",
+			"Name": "腕1_幣揺れ右"
+		},
+		{
+			"Id": "PARAM_ACC2L",
+			"GroupId": "",
+			"Name": "腕2_幣揺れ左"
+		},
+		{
+			"Id": "PARAM_ACC2R",
+			"GroupId": "",
+			"Name": "腕2_幣揺れ右"
+		},
+		{
+			"Id": "PARAM_HAIR_ROLL",
+			"GroupId": "",
+			"Name": "ロールゆれ"
+		},
+		{
+			"Id": "PARAM_ROLL_FUWA",
+			"GroupId": "",
+			"Name": "ロールふわ"
+		},
+		{
+			"Id": "PARAM_ACC_2",
+			"GroupId": "",
+			"Name": "アクセ揺れ2"
+		},
+		{
+			"Id": "PARAM_LEG_L_Z",
+			"GroupId": "",
+			"Name": "左足のZ回転"
+		},
+		{
+			"Id": "PARAM_LEG_L",
+			"GroupId": "",
+			"Name": "左足"
+		},
+		{
+			"Id": "PARAM_LEG_R_Z",
+			"GroupId": "",
+			"Name": "右足のZ回転"
+		},
+		{
+			"Id": "PARAM_LEG_R",
+			"GroupId": "",
+			"Name": "右足"
+		},
+		{
+			"Id": "PARAM_SHOULDER",
+			"GroupId": "",
+			"Name": "肩上下"
+		},
+		{
+			"Id": "PARAM_ARM_L",
+			"GroupId": "",
+			"Name": "左腕"
+		},
+		{
+			"Id": "PARAM_ARM_L_FORM1",
+			"GroupId": "",
+			"Name": "左腕変形1"
+		},
+		{
+			"Id": "PARAM_ARM_L_FORM2",
+			"GroupId": "",
+			"Name": "左腕変形2"
+		},
+		{
+			"Id": "PARAM_ARM_R",
+			"GroupId": "",
+			"Name": "右腕"
+		},
+		{
+			"Id": "PARAM_ARM_R_FORM1",
+			"GroupId": "",
+			"Name": "右腕変形1"
+		},
+		{
+			"Id": "PARAM_ARM_R_ROFM2",
+			"GroupId": "",
+			"Name": "右腕変形2"
+		},
+		{
+			"Id": "PARAM_ARCH_L",
+			"GroupId": "",
+			"Name": "左腕アーチ"
+		},
+		{
+			"Id": "PARAM_ARCH_R",
+			"GroupId": "",
+			"Name": "右腕アーチ"
+		},
+		{
+			"Id": "PARAM_JOY_ON",
+			"GroupId": "",
+			"Name": "喜びON"
+		},
+		{
+			"Id": "PARAM_JOY1",
+			"GroupId": "",
+			"Name": "喜び1"
+		},
+		{
+			"Id": "PARAM_JOY2",
+			"GroupId": "",
+			"Name": "喜び2"
+		},
+		{
+			"Id": "PARAM_ANGER_ON",
+			"GroupId": "",
+			"Name": "怒りON"
+		},
+		{
+			"Id": "PARAM_ANGER1",
+			"GroupId": "",
+			"Name": "怒り1"
+		},
+		{
+			"Id": "PARAM_ANGER2",
+			"GroupId": "",
+			"Name": "怒り2"
+		},
+		{
+			"Id": "PARAM_FEAR_ON",
+			"GroupId": "",
+			"Name": "怖いON"
+		},
+		{
+			"Id": "PARAM_FEAR1",
+			"GroupId": "",
+			"Name": "怖い1"
+		},
+		{
+			"Id": "PARAM_FEAR2",
+			"GroupId": "",
+			"Name": "怖い2"
+		},
+		{
+			"Id": "PARAM_SURP_ON",
+			"GroupId": "",
+			"Name": "驚きON"
+		},
+		{
+			"Id": "PARAM_SURP1",
+			"GroupId": "",
+			"Name": "驚き1"
+		},
+		{
+			"Id": "PARAM_SURP2",
+			"GroupId": "",
+			"Name": "驚き2"
+		},
+		{
+			"Id": "PARAM_CRY_ON",
+			"GroupId": "",
+			"Name": "号泣ON"
+		},
+		{
+			"Id": "PARAM_CRY1",
+			"GroupId": "",
+			"Name": "号泣1"
+		},
+		{
+			"Id": "PARAM_CRY2",
+			"GroupId": "",
+			"Name": "号泣2"
+		},
+		{
+			"Id": "PARAM_HANA_ON",
+			"GroupId": "",
+			"Name": "鼻ちょうちんON"
+		},
+		{
+			"Id": "PARAM_HANA",
+			"GroupId": "",
+			"Name": "鼻ちょうちん"
+		},
+		{
+			"Id": "PARAM_HANA_2",
+			"GroupId": "",
+			"Name": "鼻ちょうちん2"
+		}
+	],
+	"ParameterGroups": [],
+	"Parts": [
+		{
+			"Id": "PARTS_05_ARMS_002",
+			"Name": "腕_2_05"
+		},
+		{
+			"Id": "PARTS_05_ARMS_001",
+			"Name": "腕_1_05"
+		},
+		{
+			"Id": "PARTS_05_BODY",
+			"Name": "体_05"
+		},
+		{
+			"Id": "PARTS_05_EYE_001",
+			"Name": "目"
+		},
+		{
+			"Id": "PARTS_05_FACE_001",
+			"Name": "顔_05"
+		},
+		{
+			"Id": "PARTS_NIETZSCHE",
+			"Name": "+++NIETZSCHE+++"
+		},
+		{
+			"Id": "PARTS_04_ARMS_002",
+			"Name": "腕_2_04"
+		},
+		{
+			"Id": "PARTS_04_ARMS_001",
+			"Name": "腕_1_04"
+		},
+		{
+			"Id": "PARTS_04_BODY",
+			"Name": "体_04"
+		},
+		{
+			"Id": "PARTS_04_EYE_001",
+			"Name": "目"
+		},
+		{
+			"Id": "PARTS_04_FACE_001",
+			"Name": "顔_04"
+		},
+		{
+			"Id": "PARTS_NI_J",
+			"Name": "+++NI-J+++"
+		},
+		{
+			"Id": "PARTS_03_ARMS_002",
+			"Name": "腕_2_03"
+		},
+		{
+			"Id": "PARTS_03_ARMS_001",
+			"Name": "腕_1_03"
+		},
+		{
+			"Id": "PARTS_03_BODY_01",
+			"Name": "体_03"
+		},
+		{
+			"Id": "PARTS_03_EYE_001",
+			"Name": "目"
+		},
+		{
+			"Id": "PARTS_03_FACE_001",
+			"Name": "顔_03"
+		},
+		{
+			"Id": "PARTS_NICO",
+			"Name": "+++NICO+++"
+		},
+		{
+			"Id": "PARTS_02_ARMS_002",
+			"Name": "腕_2_02"
+		},
+		{
+			"Id": "PARTS_02_ARMS_001",
+			"Name": "腕_1_02"
+		},
+		{
+			"Id": "PARTS_02_BODY_01",
+			"Name": "体_02"
+		},
+		{
+			"Id": "PARTS_02_EYE_001",
+			"Name": "目"
+		},
+		{
+			"Id": "PARTS_02_FACE_001",
+			"Name": "顔_02"
+		},
+		{
+			"Id": "PARTS_NIP",
+			"Name": "+++NIPSILON+++"
+		},
+		{
+			"Id": "PARTS_01_ARMS_002",
+			"Name": "腕_2"
+		},
+		{
+			"Id": "PARTS_01_ARMS_001",
+			"Name": "腕_1"
+		},
+		{
+			"Id": "PARTS_01_BODY",
+			"Name": "体"
+		},
+		{
+			"Id": "PARTS_01_EYE_001",
+			"Name": "目"
+		},
+		{
+			"Id": "PARTS_01_FACE_001",
+			"Name": "顔"
+		},
+		{
+			"Id": "PARTS_01_HAT_001",
+			"Name": "帽子"
+		},
+		{
+			"Id": "PARTS_NITO",
+			"Name": "+++NITO+++"
+		},
+		{
+			"Id": "PARTS_01_EYE_004",
+			"Name": "目_4"
+		},
+		{
+			"Id": "PARTS_01_EYE_003",
+			"Name": "目_3"
+		},
+		{
+			"Id": "PARTS_01_EYE_002",
+			"Name": "目_2"
+		},
+		{
+			"Id": "PARTS_01_CHEEK_TEARS",
+			"Name": "頬 涙"
+		},
+		{
+			"Id": "PARTS_01_EFFECT_001",
+			"Name": "感情エフェクト"
+		},
+		{
+			"Id": "PARTS_CORE",
+			"Name": "コア"
+		},
+		{
+			"Id": "PARTS_COMMON",
+			"Name": "+++COMMON+++"
+		}
+	]
+}
