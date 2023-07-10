@@ -39,6 +39,8 @@ class My_handle():
 
             # 过滤配置
             self.filter_config = self.config.get("filter")
+            # 答谢
+            self.thanks_config = self.config.get("thanks")
 
             self.chat_type = self.config.get("chat_type")
 
@@ -179,6 +181,15 @@ class My_handle():
 
     # 弹幕处理
     def commit_handle(self, user_name, content):
+        """弹幕处理
+
+        Args:
+            user_name (str): 用户名
+            content (str): 弹幕内容
+
+        Returns:
+            _type_: 寂寞
+        """
         logging.debug(f"[{user_name}]: {content}")
 
         # 1、匹配本地问答库 触发后不执行后面的其他功能
@@ -487,3 +498,55 @@ class My_handle():
 
         # 音频合成（edge-tts / vits）并播放
         self.audio.audio_synthesis(message)
+
+
+    # 礼物处理
+    def gift_handle(self, data):
+        logging.debug(f"[{data['username']}]: {data}")
+
+        try:
+            if False == self.thanks_config["gift_enable"]:
+                return
+
+            # 如果礼物总价低于设置的礼物感谢最低值
+            if data["total_price"] < self.thanks_config["lowest_price"]:
+                return
+
+            resp_content = self.thanks_config["gift_copy"].format(username=data["username"], gift_name=data["gift_name"])
+
+            message = {
+                "type": self.audio_synthesis_type,
+                "data": self.config.get(self.audio_synthesis_type),
+                "config": self.filter_config,
+                "user_name": data["username"],
+                "content": resp_content
+            }
+
+            # 音频合成（edge-tts / vits）并播放
+            self.audio.audio_synthesis(message)
+        except Exception as e:
+            logging.error(e)
+
+
+    # 入场处理
+    def entrance_handle(self, data):
+        logging.debug(f"[{data['username']}]: {data['content']}")
+
+        try:
+            if False == self.thanks_config["entrance_enable"]:
+                return
+
+            resp_content = self.thanks_config["entrance_copy"].format(username=data["username"])
+
+            message = {
+                "type": self.audio_synthesis_type,
+                "data": self.config.get(self.audio_synthesis_type),
+                "config": self.filter_config,
+                "user_name": data['username'],
+                "content": resp_content
+            }
+
+            # 音频合成（edge-tts / vits）并播放
+            self.audio.audio_synthesis(message)
+        except Exception as e:
+            logging.error(e)
