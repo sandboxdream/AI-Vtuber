@@ -120,3 +120,6 @@ pyvirtualcam==0.10.2
 numpy==1.25.0
 pydub==0.25.1
 send2trash==1.8.2
+keyboard==0.13.5
+PyAudio==0.2.13
+SpeechRecognition==3.10.0
