@@ -1,1 +1,1 @@
-var model_name = "haru2";
+var model_name = "hijiki";
