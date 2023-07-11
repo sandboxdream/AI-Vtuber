@@ -49,10 +49,10 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
   - [抖音版_旧版（不稳定）](#%E6%8A%96%E9%9F%B3%E7%89%88_%E6%97%A7%E7%89%88%E4%B8%8D%E7%A8%B3%E5%AE%9A)
   - [快手版](#%E5%BF%AB%E6%89%8B%E7%89%88)
   - [聊天模式-谷歌](#%E8%81%8A%E5%A4%A9%E6%A8%A1%E5%BC%8F-%E8%B0%B7%E6%AD%8C)
-- [效果图](#%E6%95%88%E6%9E%9C%E5%9B%BE)
+- [🃏效果图](#%E6%95%88%E6%9E%9C%E5%9B%BE)
   - [GUI界面](#gui%E7%95%8C%E9%9D%A2)
   - [SD接入](#sd%E6%8E%A5%E5%85%A5)
-- [FAQ 常问问题](#faq-%E5%B8%B8%E9%97%AE%E9%97%AE%E9%A2%98)
+- [❓️FAQ 常问问题](#%EF%B8%8Ffaq-%E5%B8%B8%E9%97%AE%E9%97%AE%E9%A2%98)
   - [部署过程问题](#%E9%83%A8%E7%BD%B2%E8%BF%87%E7%A8%8B%E9%97%AE%E9%A2%98)
     - [1.CondaSSLError: OpenSSL appears to be unavailable on this machine](#1condasslerror-openssl-appears-to-be-unavailable-on-this-machine)
     - [2.ModuleNotFoundError: No module named 'xxx' 大同小异](#2modulenotfounderror-no-module-named-xxx-%E5%A4%A7%E5%90%8C%E5%B0%8F%E5%BC%82)
@@ -63,13 +63,7 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
   - [使用过程问题](#%E4%BD%BF%E7%94%A8%E8%BF%87%E7%A8%8B%E9%97%AE%E9%A2%98)
     - [1.openai 接口报错:《empty message》](#1openai-%E6%8E%A5%E5%8F%A3%E6%8A%A5%E9%94%99empty-message)
     - [2.ERROR: Cannot install -r requirements_bilibili.txt (line 23), aiohttp and langchain==0.0.142 because these package versions have conflicting dependencies.](#2error-cannot-install--r-requirements_bilibilitxt-line-23-aiohttp-and-langchain00142-because-these-package-versions-have-conflicting-dependencies)
-- [开发&项目相关](#%E5%BC%80%E5%8F%91%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3)
-  - [UI设计](#ui%E8%AE%BE%E8%AE%A1)
-  - [打包懒人包](#%E6%89%93%E5%8C%85%E6%87%92%E4%BA%BA%E5%8C%85)
-  - [MD目录自动生成](#md%E7%9B%AE%E5%BD%95%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90)
-    - [安装](#%E5%AE%89%E8%A3%85)
-    - [使用](#%E4%BD%BF%E7%94%A8)
-- [补充](#%E8%A1%A5%E5%85%85)
+- [♏️补充](#%E8%A1%A5%E5%85%85)
   - [<span id="dy">抖音弹幕获取</span>](#span-iddy%E6%8A%96%E9%9F%B3%E5%BC%B9%E5%B9%95%E8%8E%B7%E5%8F%96span)
   - [快手弹幕获取](#%E5%BF%AB%E6%89%8B%E5%BC%B9%E5%B9%95%E8%8E%B7%E5%8F%96)
   - [ChatGPT](#chatgpt)
@@ -83,12 +77,18 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
   - [Stable Diffusion](#stable-diffusion)
   - [VITS-fast-fine-tuning](#vits-fast-fine-tuning)
   - [so-vits-svc](#so-vits-svc)
-- [待办事项](#%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9)
-- [📝 更新日志](#-%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97)
-- [许可证](#%E8%AE%B8%E5%8F%AF%E8%AF%81)
-- [Star 经历](#star-%E7%BB%8F%E5%8E%86)
-- [🤝 贡献](#-%E8%B4%A1%E7%8C%AE)
-  - [🎉 鸣谢](#-%E9%B8%A3%E8%B0%A2)
+- [🀅开发&项目相关](#%F0%9F%80%85%E5%BC%80%E5%8F%91%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3)
+  - [UI设计](#ui%E8%AE%BE%E8%AE%A1)
+  - [打包懒人包](#%E6%89%93%E5%8C%85%E6%87%92%E4%BA%BA%E5%8C%85)
+  - [MD目录自动生成](#md%E7%9B%AE%E5%BD%95%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90)
+    - [安装](#%E5%AE%89%E8%A3%85)
+    - [使用](#%E4%BD%BF%E7%94%A8)
+- [🖹待办事项](#%F0%9F%96%B9%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9)
+- [📝更新日志](#%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97)
+- [🉑许可证](#%E8%AE%B8%E5%8F%AF%E8%AF%81)
+- [⭐️Star 经历](#%EF%B8%8Fstar-%E7%BB%8F%E5%8E%86)
+- [🤝贡献](#%E8%B4%A1%E7%8C%AE)
+  - [🎉鸣谢](#%E9%B8%A3%E8%B0%A2)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -623,49 +623,6 @@ Miniconda3\python.exe -m pip install langchain==0.0.142
 </details>
 
 
-## 🀅开发&项目相关
-
-<details>
-<summary>展开/收起</summary>
-
-### UI设计
-打开QT设计师~o( =∩ω∩= )m `pyqt5-tools designer`  
-生成UI代码 `pyuic5 -o UI_main.py ui\main.ui`  
-对UI做改动时，加入新的配置，一般需要修改init_config和save部分，新配置的读取和写入部分。  
-
-
-### 打包懒人包
-
-1、直接在懒人包中安装miniconda  
-2、激活base虚拟环境（使用写好的激活脚本）  
-3、安装依赖  
-`pip install -r requirements_bilibili.txt -i https://pypi.tuna.tsinghua.edu.cn/simple`  
-`pip install -r requirements_dy.txt -i https://pypi.tuna.tsinghua.edu.cn/simple`  
-`pip install -r requirements_ks.txt -i https://pypi.tuna.tsinghua.edu.cn/simple`  
-4、安装chatterbot（可选）
-`pip install spacy SQLAlchemy==1.3.24 -i https://pypi.tuna.tsinghua.edu.cn/simple`  
-前提是你在当前目录下有clone chatterbot的项目（自行调整路径关系）  
-`python setup.py install`  
-
-### MD目录自动生成
-
-[doctoc](https://github.com/thlorenz/doctoc),在本地git存储库中生成降价文件的目录。链接通过命令行标志兼容github或其他网站生成的锚。
-
-#### 安装
-node.js环境  
-进入包含本地git项目的目录，键入: `npm install -g doctoc`  
-
-#### 使用
-在`README.md`中，找个生成目录位置，写入如下代码，确认生成位置：
-```
-<!-- START doctoc -->
-<!-- END doctoc -->
-```
-cmd输入命令即可：`doctoc /path/to/file`  
-例如：`doctoc README.md`  
-
-</details>
-
 ## ♏️补充
 
 补充板块提供了对项目接入的第三方技术或应用的详细说明。如果您需要与第三方应用进行对接，您可以查阅此板块的内容，并访问第三方官方网站以了解其使用方法。  
@@ -753,6 +710,49 @@ if __name__ == '__main__':
     svc_model = infer_tool.Svc(model_name, config_name)
     app.run(port=1145, host="0.0.0.0", debug=False, threaded=False)
 ```  
+
+## 🀅开发&项目相关
+
+<details>
+<summary>展开/收起</summary>
+
+### UI设计
+打开QT设计师~o( =∩ω∩= )m `pyqt5-tools designer`  
+生成UI代码 `pyuic5 -o UI_main.py ui\main.ui`  
+对UI做改动时，加入新的配置，一般需要修改init_config和save部分，新配置的读取和写入部分。  
+
+
+### 打包懒人包
+
+1、直接在懒人包中安装miniconda  
+2、激活base虚拟环境（使用写好的激活脚本）  
+3、安装依赖  
+`pip install -r requirements_bilibili.txt -i https://pypi.tuna.tsinghua.edu.cn/simple`  
+`pip install -r requirements_dy.txt -i https://pypi.tuna.tsinghua.edu.cn/simple`  
+`pip install -r requirements_ks.txt -i https://pypi.tuna.tsinghua.edu.cn/simple`  
+4、安装chatterbot（可选）
+`pip install spacy SQLAlchemy==1.3.24 -i https://pypi.tuna.tsinghua.edu.cn/simple`  
+前提是你在当前目录下有clone chatterbot的项目（自行调整路径关系）  
+`python setup.py install`  
+
+### MD目录自动生成
+
+[doctoc](https://github.com/thlorenz/doctoc),在本地git存储库中生成降价文件的目录。链接通过命令行标志兼容github或其他网站生成的锚。
+
+#### 安装
+node.js环境  
+进入包含本地git项目的目录，键入: `npm install -g doctoc`  
+
+#### 使用
+在`README.md`中，找个生成目录位置，写入如下代码，确认生成位置：
+```
+<!-- START doctoc -->
+<!-- END doctoc -->
+```
+cmd输入命令即可：`doctoc /path/to/file`  
+例如：`doctoc README.md`  
+
+</details>
 
 ## 🖹待办事项
 - [ ] 懒人包优化
