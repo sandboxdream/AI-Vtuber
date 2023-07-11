@@ -614,11 +614,16 @@ ModuleNotFoundError: No module named 'ahocorasick'
 [ChatGPT-Next-Web](https://chat-gpt-next-web-ikaros-521.vercel.app/)  
 
 #### 2.ERROR: Cannot install -r requirements_bilibili.txt (line 23), aiohttp and langchain==0.0.142 because these package versions have conflicting dependencies.
-依赖冲突问题。可以删除`requirements_bilibili.txt`中的`langchain==0.0.142`和`bilibili-api==9.1.0`，然后进行重新安装。安装完成后，手动安装这2个库。  
+依赖冲突问题。可以删除`requirements_bilibili.txt`中的`langchain==0.0.142`和`bilibili-api==9.1.0`，然后进行重新安装。安装完成后，手动安装这2个库（按顺序安装）。  
 ```
 Miniconda3\python.exe -m pip install bilibili-api==9.1.0
 Miniconda3\python.exe -m pip install langchain==0.0.142
 ```
+
+#### 3.ERROR: Conmunicate.`__init__`() got an unexpected keyword argument 'text'
+问题根因：Edge-TTS版本过低  
+解决方案：升级到指定版本 `pip install edge-tts==6.1.6`  
+
 
 </details>
 
