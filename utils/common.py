@@ -164,21 +164,34 @@ class Common:
 
     def split_sentences(self, text):
         # 使用正则表达式切分句子
-        # .的过滤可能会导致 序号类的回复被切分
         sentences = re.split('([。！？!?])', text)
         result = []
         current_sentence = ""
-        for sentence in sentences:
-            if sentence not in ["。", "！", "？", ".", "!", "?", ""]:
+        for i in range(len(sentences)):
+            if sentences[i] not in ["。", "！", "？", ".", "!", "?", ""]:
                 # 去除换行和空格
-                sentence = sentence.replace('\n', '').replace(' ', '')
+                sentence = sentences[i].replace('\n', '').replace(' ', '')
                 # 如果句子长度小于10个字，则与下一句合并
                 if len(current_sentence) < 10:
                     current_sentence += sentence
-                    # 如果合并后的句子长度超过30个字，则截取前30个字作为句子
+                    # 如果合并后的句子长度超过30个字，则进行二次切分
                     if len(current_sentence) > 30:
-                        result.append(current_sentence[:30])
-                        current_sentence = current_sentence[30:]
+                        # 判断是否有分隔符可用于二次切分
+                        if i+1 < len(sentences) and len(sentences[i+1]) > 0 and sentences[i+1][0] not in ["。", "！", "？", ".", "!", "?"]:
+                            next_sentence = sentences[i+1].replace('\n', '').replace(' ', '')
+                            # 寻找常用分隔符进行二次切分
+                            for separator in [",", "，", ";", "；"]:
+                                if separator in next_sentence:
+                                    split_index = next_sentence.index(separator) + 1
+                                    current_sentence += next_sentence[:split_index]
+                                    result.append(current_sentence)
+                                    current_sentence = next_sentence[split_index:]
+                                    break
+                        else:
+                            # 如果合并后的句子长度超过30个字，进行二次切分
+                            while len(current_sentence) > 30:
+                                result.append(current_sentence[:30])
+                                current_sentence = current_sentence[30:]
                 else:
                     result.append(current_sentence)
                     current_sentence = sentence
@@ -187,7 +200,16 @@ class Common:
         if current_sentence:
             result.append(current_sentence)
 
-        return result
+        # 2次切分长字符串
+        result2 = []
+        for string in result:
+            if len(string) > 30:
+                split_strings = re.split(r"[,，;；。！!]", string)
+                result2.extend(split_strings)
+            else:
+                result2.append(string)
+
+        return result2
 
 
     # 字符串匹配算法来计算字符串之间的相似度，并选择匹配度最高的字符串作为结果
