@@ -25,7 +25,8 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
 它使用自然语言处理和文本转语音技术(Edge-TTS/VITS-Fast/elevenlabs)生成对观众问题的回答并可以通过so-vits-svc变声；另外还可以通过特定指令协同Stable Diffusion进行画图展示。  
 </p>
 
-<a href="https://space.bilibili.com/3709626/channel/collectiondetail?sid=1422512" target="_blank"><img src="https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/4384e236-337b-4119-8525-8830671e671a" style="width:100px;"><span style="vertical-align: super;">视频教程合集</span></a>
+<img src="https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/4384e236-337b-4119-8525-8830671e671a" style="width:100px;"><span style="vertical-align: super;">
+<a href="https://space.bilibili.com/3709626/channel/collectiondetail?sid=1422512" target="_blank">视频教程合集</span></a>
 
 </div>
 
