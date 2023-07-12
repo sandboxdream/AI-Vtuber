@@ -106,6 +106,7 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
 - `out`文件夹，存储edge-tts输出的音频文件，文案输出的音频文件
 - `Live2D`文件夹，存储Live2D源码及模型
 - `song`文件夹，存储点歌模式的歌曲
+- `docs`文件夹，存储项目相关文档
 
 
 ## 下载项目
@@ -902,6 +903,9 @@ cmd输入命令即可：`doctoc /path/to/file`
 
 ### 2023-07-11
 - 优化文本切分算法
+
+### 2023-07-12
+- 增加项目的思维导图
 
 </details>
 
