@@ -723,6 +723,10 @@ if __name__ == '__main__':
 
 ## 🀅开发&项目相关
 
+### 简易流程图
+
+![简易流程图](docs/简易流程图.jpg)
+
 <details>
 <summary>展开/收起</summary>
 
