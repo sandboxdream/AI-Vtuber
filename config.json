@@ -44,7 +44,7 @@
     "max_new_tokens": 250
   },
   "chat_with_file": {
-    "chat_mode": "",
+    "chat_mode": "claude",
     "data_path": "data/伊卡洛斯百度百科.zip",
     "separator": "\n",
     "chunk_size": 100,
@@ -55,12 +55,12 @@
     "local_max_query": 3,
     "local_vector_embedding_model": "sebastian-hofstaetter/distilbert-dot-tas_b-b256-msmarco"
   },
-  "audio_synthesis_type": "edge-tts",
+  "audio_synthesis_type": "genshinvoice_top",
   "vits": {
     "config_path": "D:\\GitHub_pro\\VITS-fast-fine-tuning\\inference\\finetune_speaker.json",
     "api_ip_port": "http://127.0.0.1:7860",
     "character": "ikaros",
-    "speed": 1
+    "speed": 1.0
   },
   "so_vits_svc": {
     "enable": false,
@@ -79,6 +79,13 @@
     "api_key": "",
     "voice": "Domi",
     "model": "eleven_monolingual_v1"
+  },
+  "genshinvoice_top": {
+    "speaker": "神里绫华",
+    "format": "wav",
+    "length": "1.25",
+    "noise": "0.2",
+    "noisew": "0.9"
   },
   "chatterbot": {
     "name": "bot",
@@ -119,7 +126,7 @@
     "ip": "127.0.0.1",
     "port": 7860,
     "negative_prompt": "ufsw, longbody, lowres, bad anatomy, bad hands, missing fingers, pubic hair,extra digit, fewer digits, cropped, worst quality, low quality",
-    "seed": -1,
+    "seed": -1.0,
     "styles": [],
     "cfg_scale": 7,
     "steps": 30,
@@ -134,8 +141,8 @@
     "file_path": "data/copywriting/",
     "audio_path": "out/copywriting/",
     "play_list": [],
-    "audio_interval": 5,
-    "switching_interval": 5,
+    "audio_interval": 5.0,
+    "switching_interval": 5.0,
     "random_play": true
   },
   "header": {

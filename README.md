@@ -686,6 +686,11 @@ API调用demo：[api-examples](https://github.com/oobabooga/text-generation-webu
 [官方文档](https://docs.elevenlabs.io/api-reference/quick-start/introduction)  
 不注册账号也可以使用，不过应该是有限制的（具体多少未知）。免费账号拥有每月1万字的额度。  
 
+### genshinvoice.top
+[在线体验官网](http://genshinvoice.top/)  
+[官方GitHub仓库](https://github.com/Stardust-minus/vits)，内含api使用说明  
+官方视频讲解：[【在线合成&效果优化】基于VITS的米哈游全角色语音合成现已发布](https://www.bilibili.com/video/BV1Sg4y1K7kg)  
+
 ### ChatterBot
 [官方仓库](https://github.com/gunthercox/ChatterBot)  
 ChatterBot 是一个开源的 Python 聊天机器人框架，使用机器学习算法（尤其是自然语言处理、文本语义分析等）来实现基于规则和语境的自动聊天系统。它可以让开发者通过简单的配置和训练，构建出各种类型的聊天机器人，包括问答机器人、任务型机器人、闲聊机器人等。
@@ -917,6 +922,9 @@ cmd输入命令即可：`doctoc /path/to/file`
 ### 2023-07-13
 - 聊天页新增聊天框，在运行后可以直接使用聊天框进行聊天
 - 修改audio、sd、claude中所有的time.sleep为异步睡眠
+
+### 2023-07-14
+- 新增TTS模式 genshinvoice_top,调用第三方接口完成语音合成
 
 </details>
 

@@ -134,9 +134,9 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>0</y>
-             <width>1000</width>
-             <height>4587</height>
+             <y>-140</y>
+             <width>980</width>
+             <height>5611</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -511,6 +511,11 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                  <item>
                   <property name="text">
                    <string>elevenlabs</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>genshinvoice_top</string>
                   </property>
                  </item>
                 </widget>
@@ -1224,6 +1229,69 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
              </widget>
             </item>
             <item>
+             <widget class="QGroupBox" name="groupBox_genshinvoice_top">
+              <property name="title">
+               <string>genshinvoice_top</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_44">
+               <item row="0" column="0">
+                <layout class="QGridLayout" name="gridLayout_43">
+                 <item row="1" column="1">
+                  <widget class="QLineEdit" name="lineEdit_genshinvoice_top_noise"/>
+                 </item>
+                 <item row="4" column="0">
+                  <widget class="QLabel" name="label_genshinvoice_top_format">
+                   <property name="text">
+                    <string>格式</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_genshinvoice_top_speaker">
+                   <property name="text">
+                    <string>角色</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="QLabel" name="label_genshinvoice_top_noisew">
+                   <property name="text">
+                    <string>音素长度</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="label_genshinvoice_top_noise">
+                   <property name="text">
+                    <string>感情</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QComboBox" name="comboBox_genshinvoice_top_speaker"/>
+                 </item>
+                 <item row="3" column="0">
+                  <widget class="QLabel" name="label_genshinvoice_top_length">
+                   <property name="text">
+                    <string>语速</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QLineEdit" name="lineEdit_genshinvoice_top_noisew"/>
+                 </item>
+                 <item row="3" column="1">
+                  <widget class="QLineEdit" name="lineEdit_genshinvoice_top_length"/>
+                 </item>
+                 <item row="4" column="1">
+                  <widget class="QLineEdit" name="lineEdit_genshinvoice_top_format"/>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
              <widget class="QGroupBox" name="groupBox_elevenlabs">
               <property name="title">
                <string>elevenlabs</string>
@@ -1679,8 +1747,8 @@ p, li { white-space: pre-wrap; }
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>1000</width>
-             <height>1051</height>
+             <width>963</width>
+             <height>1072</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -2027,8 +2095,8 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>1017</width>
-             <height>757</height>
+             <width>984</width>
+             <height>743</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -2054,6 +2122,9 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
                </item>
                <item row="2" column="2">
                 <widget class="QPushButton" name="pushButton_talk_chat_box_send">
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
                  <property name="styleSheet">
                   <string notr="true">text-align: center;
 padding: 12px 16px;
@@ -2159,7 +2230,7 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
      <x>0</x>
      <y>0</y>
      <width>1191</width>
-     <height>23</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_about">

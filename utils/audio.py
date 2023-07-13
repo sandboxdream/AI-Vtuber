@@ -160,6 +160,39 @@ class Audio:
             return None
     
 
+    # 请求genshinvoice.top的api
+    async def genshinvoice_top_api(self, text):
+        url = 'https://genshinvoice.top/api'
+
+        genshinvoice_top = self.config.get("genshinvoice_top")
+
+        params = {
+            'speaker': genshinvoice_top['speaker'],
+            'text': text,
+            'format': genshinvoice_top['format'],
+            'length': genshinvoice_top['length'],
+            'noise': genshinvoice_top['noise'],
+            'noisew': genshinvoice_top['noisew']
+        }
+
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.get(url, params=params) as response:
+                    response = await response.read()
+                    voice_tmp_path = './out/genshinvoice_top_' + self.common.get_bj_time(4) + '.wav'
+                    with open(voice_tmp_path, 'wb') as f:
+                        f.write(response)
+                    
+                    return voice_tmp_path
+        except aiohttp.ClientError as e:
+            logging.error(f'genshinvoice.top请求失败: {e}')
+        except Exception as e:
+            logging.error(f'genshinvoice.top未知错误: {e}')
+        
+        return None
+
+
+
     # 调用so-vits-svc的api
     async def so_vits_svc_api(self, audio_path=""):
         try:
@@ -288,6 +321,22 @@ class Audio:
                 )
 
                 play(audio)
+            except Exception as e:
+                logging.error(e)
+                return
+        elif message["type"] == "genshinvoice_top":
+            try:
+                voice_tmp_path = await self.genshinvoice_top_api(message["content"])
+                print(f"genshinvoice.top合成成功，输出到={voice_tmp_path}")
+
+                if voice_tmp_path is None:
+                    return
+
+                if True == self.config.get("so_vits_svc", "enable"):
+                    voice_tmp_path = await self.so_vits_svc_api(audio_path=voice_tmp_path)
+                    # print(f"voice_tmp_path={voice_tmp_path}")
+
+                self.voice_tmp_path_queue.put(voice_tmp_path)
             except Exception as e:
                 logging.error(e)
                 return
