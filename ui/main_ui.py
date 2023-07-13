@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ui\main.ui'
+# Form implementation generated from reading ui file 'f:\github_pro\AI-Vtuber-20230711\ui\main.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #

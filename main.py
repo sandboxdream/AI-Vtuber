@@ -301,7 +301,9 @@ class AI_VTB(QMainWindow):
             self.ui.label_talk_username.setToolTip("日志中你的名字，暂时没有实质作用")
             self.ui.label_talk_google_tgt_lang.setToolTip("录音后识别转换成的目标语言（就是你说的语言）")
             self.ui.label_talk_google_trigger_key.setToolTip("录音触发按键（单击此按键进行录音）")
-
+            self.ui.label_talk_chat_box.setToolTip("此处填写对话内容可以直接进行对话（前面配置好聊天模式，记得运行先）")
+            self.ui.pushButton_talk_chat_box_send.setToolTip("点击发送聊天框内的内容")
+            
 
             """
                 配置同步UI
@@ -685,6 +687,10 @@ class AI_VTB(QMainWindow):
         self.ui.pushButton_copywriting_loop_play.clicked.connect(self.on_pushButton_copywriting_loop_play_clicked)
         self.ui.pushButton_copywriting_pause_play.clicked.connect(self.on_pushButton_copywriting_pasue_play_clicked)
 
+        # 聊天页
+        self.ui.pushButton_talk_chat_box_send.disconnect()
+        self.ui.pushButton_talk_chat_box_send.clicked.connect(self.on_pushButton_talk_chat_box_send_clicked)
+
         # 下拉框相关槽函数
         self.ui.comboBox_chat_type.disconnect()
         self.ui.comboBox_audio_synthesis_type.disconnect()
@@ -707,6 +713,7 @@ class AI_VTB(QMainWindow):
         self.throttled_copywriting_synthetic_audio = self.throttle(self.copywriting_synthetic_audio, 1)
         self.throttled_copywriting_loop_play = self.throttle(self.copywriting_loop_play, 1)
         self.throttled_copywriting_pasue_play = self.throttle(self.copywriting_pasue_play, 1)
+        self.throttled_talk_chat_box_send = self.throttle(self.talk_chat_box_send, 0.5)
 
 
 
@@ -1240,6 +1247,43 @@ class AI_VTB(QMainWindow):
     def on_pushButton_copywriting_pasue_play_clicked(self):
         self.throttled_copywriting_pasue_play()
 
+
+    '''
+        聊天页相关的函数
+    '''
+    # 发送 聊天框内容
+    def talk_chat_box_send(self):
+        global my_handle
+        
+        if self.running_flag != 1:
+            self.show_message_box("提醒", "请先点击“运行”，然后再进行聊天",
+                QMessageBox.Information, 3000)
+            return
+        
+        if my_handle is None:
+            from utils.my_handle import My_handle
+        
+            my_handle = My_handle(config_path)
+            if my_handle is None:
+                logging.error("程序初始化失败！")
+                self.show_message_box("错误", "程序初始化失败！请排查原因", QMessageBox.Critical)
+                exit(0)
+        
+        # 获取用户名和文本内容
+        user_name = self.ui.lineEdit_talk_username.text()
+        content = self.ui.textEdit_talk_chat_box.toPlainText()
+        
+        # 清空聊天框
+        self.ui.textEdit_talk_chat_box.setText("")
+        
+        # 正义执行
+        my_handle.commit_handle(user_name, content)
+    
+    
+    def on_pushButton_talk_chat_box_send_clicked(self):
+        self.throttled_talk_chat_box_send()
+    
+
     '''
         餐单栏相关的函数
     '''
@@ -1522,6 +1566,7 @@ class WebServerThread(QThread):
 # 程序入口
 if __name__ == '__main__':
     common = Common()
+    my_handle = None
 
     if getattr(sys, 'frozen', False):
         # 当前是打包后的可执行文件

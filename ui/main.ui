@@ -134,9 +134,9 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-408</y>
-             <width>980</width>
-             <height>5327</height>
+             <y>0</y>
+             <width>1000</width>
+             <height>4587</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -1679,8 +1679,8 @@ p, li { white-space: pre-wrap; }
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>963</width>
-             <height>1072</height>
+             <width>1000</width>
+             <height>1051</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -2027,14 +2027,14 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>984</width>
-             <height>743</height>
+             <width>1017</width>
+             <height>757</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_3">
             <item>
              <widget class="QWidget" name="widget_2" native="true">
-              <layout class="QGridLayout" name="gridLayout_40" columnstretch="1,5">
+              <layout class="QGridLayout" name="gridLayout_40" rowstretch="1,1,1,6" columnstretch="1,6,1" rowminimumheight="1,1,1,1">
                <item row="0" column="0">
                 <widget class="QLabel" name="label_talk_username">
                  <property name="text">
@@ -2042,15 +2042,34 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1">
-                <widget class="QLineEdit" name="lineEdit_talk_username"/>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_talk_chat_box">
+                 <property name="text">
+                  <string>聊天框</string>
+                 </property>
+                </widget>
                </item>
-               <item row="1" column="0" colspan="2">
+               <item row="2" column="1">
+                <widget class="QTextEdit" name="textEdit_talk_chat_box"/>
+               </item>
+               <item row="2" column="2">
+                <widget class="QPushButton" name="pushButton_talk_chat_box_send">
+                 <property name="styleSheet">
+                  <string notr="true">text-align: center;
+padding: 12px 16px;
+font: 80 10pt &quot;微软雅黑&quot;;</string>
+                 </property>
+                 <property name="text">
+                  <string>发送</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0" colspan="3">
                 <widget class="QGroupBox" name="groupBox_talk_google">
                  <property name="title">
                   <string>谷歌</string>
                  </property>
-                 <layout class="QGridLayout" name="gridLayout_41" columnstretch="1,5">
+                 <layout class="QGridLayout" name="gridLayout_41" columnstretch="1,8">
                   <item row="1" column="1">
                    <widget class="QComboBox" name="comboBox_talk_google_tgt_lang"/>
                   </item>
@@ -2074,7 +2093,10 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
                  </layout>
                 </widget>
                </item>
-               <item row="2" column="0" colspan="2">
+               <item row="0" column="1" colspan="2">
+                <widget class="QLineEdit" name="lineEdit_talk_username"/>
+               </item>
+               <item row="3" column="0" colspan="3">
                 <widget class="QTextBrowser" name="textBrowser_talk_log">
                  <property name="styleSheet">
                   <string notr="true">font: 12pt &quot;仿宋&quot;;
@@ -2137,7 +2159,7 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
      <x>0</x>
      <y>0</y>
      <width>1191</width>
-     <height>26</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_about">

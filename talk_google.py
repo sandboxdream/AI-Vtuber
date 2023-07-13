@@ -23,7 +23,7 @@ def start_server():
 
     my_handle = My_handle(config_path)
     if my_handle is None:
-        logging.info("程序初始化失败！")
+        logging.error("程序初始化失败！")
         exit(0)
 
 
