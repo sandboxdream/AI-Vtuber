@@ -80,6 +80,13 @@
     "voice": "Domi",
     "model": "eleven_monolingual_v1"
   },
+  "genshinvoice_top": {
+    "speaker": "神里绫华",
+    "format": "wav",
+    "length": "1.25",
+    "noise": "0.2",
+    "noisew": "0.9"
+  },
   "chatterbot": {
     "name": "bot",
     "db_path": "db.sqlite3"

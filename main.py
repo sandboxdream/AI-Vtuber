@@ -144,6 +144,7 @@ class AI_VTB(QMainWindow):
             self.edge_tts_config = config.get("edge-tts")
             self.vits_config = config.get("vits")
             self.elevenlabs_config = config.get("elevenlabs")
+            self.genshinvoice_top_config = config.get("genshinvoice_top")
             
             # 点歌模式
             self.choose_song_config = config.get("choose_song")
@@ -242,6 +243,12 @@ class AI_VTB(QMainWindow):
             self.ui.label_elevenlabs_api_key.setToolTip("elevenlabs密钥，可以不填，默认也有一定额度的免费使用权限，具体多少不知道")
             self.ui.label_elevenlabs_voice.setToolTip("选择的说话人名")
             self.ui.label_elevenlabs_model.setToolTip("选择的模型")
+
+            self.ui.label_genshinvoice_top_speaker.setToolTip("生成对应角色的语音")
+            self.ui.label_genshinvoice_top_noise.setToolTip("控制感情变化程度，默认为0.2")
+            self.ui.label_genshinvoice_top_noisew.setToolTip("控制音节发音长度变化程度，默认为0.9")
+            self.ui.label_genshinvoice_top_length.setToolTip("可用于控制整体语速。默认为1.2")
+            self.ui.label_genshinvoice_top_format.setToolTip("原有接口以WAV格式合成语音，在MP3格式合成语音的情况下，涉及到音频格式转换合成速度会变慢，建议选择WAV格式")
 
             self.ui.label_choose_song_enable.setToolTip("是否启用点歌模式")
             self.ui.label_choose_song_start_cmd.setToolTip("点歌触发命令（完全匹配才行）")
@@ -483,14 +490,16 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_text_generation_webui_your_name.setText(str(self.text_generation_webui_config['your_name']))
 
             self.ui.comboBox_audio_synthesis_type.clear()
-            self.ui.comboBox_audio_synthesis_type.addItems(["Edge-TTS", "VITS-Fast", "elevenlabs"])
+            self.ui.comboBox_audio_synthesis_type.addItems(["Edge-TTS", "VITS-Fast", "elevenlabs", "genshinvoice_top"])
             audio_synthesis_type_index = 0
             if self.audio_synthesis_type == "edge-tts":
                 audio_synthesis_type_index = 0
             elif self.audio_synthesis_type == "vits":
                 audio_synthesis_type_index = 1
             elif self.audio_synthesis_type == "elevenlabs":
-                audio_synthesis_type_index = 2 
+                audio_synthesis_type_index = 2
+            elif self.audio_synthesis_type == "genshinvoice_top":
+                audio_synthesis_type_index = 3
             self.ui.comboBox_audio_synthesis_type.setCurrentIndex(audio_synthesis_type_index)
 
             self.ui.lineEdit_vits_config_path.setText(self.vits_config['config_path'])
@@ -515,6 +524,22 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_elevenlabs_api_key.setText(self.elevenlabs_config['api_key'])
             self.ui.lineEdit_elevenlabs_voice.setText(self.elevenlabs_config['voice'])
             self.ui.lineEdit_elevenlabs_model.setText(self.elevenlabs_config['model'])
+
+            self.ui.comboBox_genshinvoice_top_speaker.clear()
+            with open('data\genshinvoice_top_speak_list.txt', 'r', encoding='utf-8') as file:
+                file_content = file.read()
+            # 按行分割内容，并去除每行末尾的换行符
+            lines = file_content.strip().split('\n')
+            # 存储到字符串数组中
+            genshinvoice_top_speaker = [line for line in lines]
+            # print(genshinvoice_top_speaker)
+            self.ui.comboBox_genshinvoice_top_speaker.addItems(genshinvoice_top_speaker)
+            genshinvoice_top_speaker_index = genshinvoice_top_speaker.index(self.genshinvoice_top_config['speaker'])
+            self.ui.comboBox_genshinvoice_top_speaker.setCurrentIndex(genshinvoice_top_speaker_index)
+            self.ui.lineEdit_genshinvoice_top_noise.setText(self.genshinvoice_top_config['noise'])
+            self.ui.lineEdit_genshinvoice_top_noisew.setText(self.genshinvoice_top_config['noisew'])
+            self.ui.lineEdit_genshinvoice_top_length.setText(self.genshinvoice_top_config['length'])
+            self.ui.lineEdit_genshinvoice_top_format.setText(self.genshinvoice_top_config['format'])
 
             # 点歌模式 配置回显部分
             if self.choose_song_config['enable']:
@@ -898,6 +923,8 @@ class AI_VTB(QMainWindow):
                 config_data["audio_synthesis_type"] = "vits"
             elif audio_synthesis_type == "elevenlabs":
                 config_data["audio_synthesis_type"] = "elevenlabs"
+            elif audio_synthesis_type == "genshinvoice_top":
+                config_data["audio_synthesis_type"] = "genshinvoice_top"
 
             vits_config_path = self.ui.lineEdit_vits_config_path.text()
             config_data["vits"]["config_path"] = vits_config_path
@@ -908,19 +935,19 @@ class AI_VTB(QMainWindow):
             vits_speed = self.ui.lineEdit_vits_speed.text()
             config_data["vits"]["speed"] = round(float(vits_speed), 1)
 
-            edge_tts_voice = self.ui.comboBox_edge_tts_voice.currentText()
-            config_data["edge-tts"]["voice"] = edge_tts_voice
-            edge_tts_rate = self.ui.lineEdit_edge_tts_rate.text()
-            config_data["edge-tts"]["rate"] = edge_tts_rate
-            edge_tts_volume = self.ui.lineEdit_edge_tts_volume.text()
-            config_data["edge-tts"]["volume"] = edge_tts_volume
+            config_data["edge-tts"]["voice"] = self.ui.comboBox_edge_tts_voice.currentText()
+            config_data["edge-tts"]["rate"] = self.ui.lineEdit_edge_tts_rate.text()
+            config_data["edge-tts"]["volume"] = self.ui.lineEdit_edge_tts_volume.text()
 
-            elevenlabs_api_key = self.ui.lineEdit_elevenlabs_api_key.text()
-            config_data["elevenlabs"]["api_key"] = elevenlabs_api_key
-            elevenlabs_voice = self.ui.lineEdit_elevenlabs_voice.text()
-            config_data["elevenlabs"]["voice"] = elevenlabs_voice
-            elevenlabs_model = self.ui.lineEdit_elevenlabs_model.text()
-            config_data["elevenlabs"]["model"] = elevenlabs_model
+            config_data["elevenlabs"]["api_key"] = self.ui.lineEdit_elevenlabs_api_key.text()
+            config_data["elevenlabs"]["voice"] = self.ui.lineEdit_elevenlabs_voice.text()
+            config_data["elevenlabs"]["model"] = self.ui.lineEdit_elevenlabs_model.text()
+
+            config_data["genshinvoice_top"]["speaker"] = self.ui.comboBox_genshinvoice_top_speaker.currentText()
+            config_data["genshinvoice_top"]["noise"] = self.ui.lineEdit_genshinvoice_top_noise.text()
+            config_data["genshinvoice_top"]["noisew"] = self.ui.lineEdit_genshinvoice_top_noisew.text()
+            config_data["genshinvoice_top"]["length"] = self.ui.lineEdit_genshinvoice_top_length.text()
+            config_data["genshinvoice_top"]["format"] = self.ui.lineEdit_genshinvoice_top_format.text()
 
             # 点歌
             config_data["choose_song"]["enable"] = self.ui.checkBox_choose_song_enable.isChecked()
@@ -1330,16 +1357,18 @@ class AI_VTB(QMainWindow):
     def oncomboBox_audio_synthesis_type_IndexChanged(self, index):
         # 各index对应的groupbox的显隐值
         visibility_map = {
-            0: (1, 0, 0),
-            1: (0, 1, 0),
-            2: (0, 0, 1)
+            0: (1, 0, 0, 0),
+            1: (0, 1, 0, 0),
+            2: (0, 0, 1, 0),
+            3: (0, 0, 0, 1)
         }
 
-        visibility_values = visibility_map.get(index, (0, 0, 0))
+        visibility_values = visibility_map.get(index, (0, 0, 0, 0))
 
         self.ui.groupBox_edge_tts.setVisible(visibility_values[0])
         self.ui.groupBox_vits_fast.setVisible(visibility_values[1])
         self.ui.groupBox_elevenlabs.setVisible(visibility_values[2])
+        self.ui.groupBox_genshinvoice_top.setVisible(visibility_values[3])
 
 
     # 输出文本到运行页的textbrowser

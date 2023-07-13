@@ -918,6 +918,9 @@ cmd输入命令即可：`doctoc /path/to/file`
 - 聊天页新增聊天框，在运行后可以直接使用聊天框进行聊天
 - 修改audio、sd、claude中所有的time.sleep为异步睡眠
 
+### 2023-07-14
+- 新增TTS模式 genshinvoice_top,调用第三方接口完成语音合成
+
 </details>
 
 
