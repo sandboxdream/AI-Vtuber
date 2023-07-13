@@ -54,8 +54,9 @@ class Audio:
         threading.Thread(target=lambda: asyncio.run(self.message_queue_thread())).start()
 
         # 音频合成单独一个线程排队播放
-        self.only_play_audio_thread = threading.Thread(target=self.only_play_audio)
-        self.only_play_audio_thread.start()
+        threading.Thread(target=lambda: asyncio.run(self.only_play_audio())).start()
+        # self.only_play_audio_thread = threading.Thread(target=self.only_play_audio)
+        # self.only_play_audio_thread.start()
         # 文案单独一个线程排队播放
         self.only_play_copywriting_thread = threading.Thread(target=self.start_only_play_copywriting)
         self.only_play_copywriting_thread.start()
@@ -113,7 +114,7 @@ class Audio:
                 self.message_queue.task_done()
 
                 # 加个延时 降低点edge-tts的压力
-                time.sleep(0.5)
+                await asyncio.sleep(0.5)
             except Exception as e:
                 logging.error(e)
 
@@ -293,7 +294,7 @@ class Audio:
 
 
     # 只进行音频播放   
-    def only_play_audio(self):
+    async def only_play_audio(self):
         Audio.mixer_normal.init()
         while True:
             # 从队列中获取音频文件路径 队列为空时阻塞等待
@@ -305,7 +306,7 @@ class Audio:
                 self.pause_copywriting_play()
                 Audio.copywriting_play_flag = 1
                 # 等待一个切换时间
-                time.sleep(float(self.config.get("copywriting", "switching_interval")))
+                await asyncio.sleep(float(self.config.get("copywriting", "switching_interval")))
 
             Audio.mixer_normal.music.load(voice_tmp_path)
             Audio.mixer_normal.music.play()

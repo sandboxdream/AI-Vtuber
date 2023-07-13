@@ -916,6 +916,7 @@ cmd输入命令即可：`doctoc /path/to/file`
 
 ### 2023-07-13
 - 聊天页新增聊天框，在运行后可以直接使用聊天框进行聊天
+- 修改audio中所有的time.sleep为异步睡眠
 
 </details>
 
