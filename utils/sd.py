@@ -5,6 +5,7 @@ import pyvirtualcam
 import numpy as np
 import time
 import logging
+import asyncio
 
 from .common import Common
 from .logger import Configure_logger
@@ -26,11 +27,12 @@ class SD:
             self.api = webuiapi.WebUIApi(host=data["ip"], port=data["port"])
 
             # 在单独的线程中更新虚拟摄像头
-            threading.Thread(target=self.update_virtual_camera).start()
+            threading.Thread(target=lambda: asyncio.run(self.update_virtual_camera())).start()
+            # threading.Thread(target=self.update_virtual_camera).start()
         except Exception as e:
             logging.error(e)
 
-    def update_virtual_camera(self):
+    async def update_virtual_camera(self):
         # 创建虚拟摄像头
         with pyvirtualcam.Camera(width=512, height=512, fps=1) as cam:
             while True:
@@ -46,7 +48,7 @@ class SD:
                     cam.send(frame)
 
                 # 暂停一段时间
-                time.sleep(0.1)  # 这里使用示例等待时间，可以根据需要进行调整
+                await asyncio.sleep(0.1)
 
 
     def process_input(self, user_input):

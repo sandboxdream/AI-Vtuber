@@ -1,4 +1,5 @@
 import time, logging
+import asyncio
 
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
@@ -40,11 +41,13 @@ class Claude:
             logging.error(f"Error sending message: {e}")
             return None
 
+
     def fetch_messages(self, channel, last_message_timestamp):
         response = self.client.conversations_history(channel=channel, oldest=last_message_timestamp)
         return [msg['text'] for msg in response['messages'] if msg['user'] == self.bot_user_id]
 
-    def get_new_messages(self, channel, last_message_timestamp):
+
+    async def get_new_messages(self, channel, last_message_timestamp):
         timeout = 60  # 超时时间设置为60秒
         start_time = time.time()
 
@@ -55,7 +58,8 @@ class Claude:
             if time.time() - start_time > timeout:
                 return None
 
-            time.sleep(5)
+            await asyncio.sleep(5)
+
 
     def find_direct_message_channel(self, user_id):
         try:
@@ -73,7 +77,7 @@ class Claude:
         else:
             return None
 
-        new_message = self.get_new_messages(self.dm_channel_id, last_message_timestamp)
+        new_message = asyncio.run(self.get_new_messages(self.dm_channel_id, last_message_timestamp))
         if new_message is not None:
             return new_message
         return None
