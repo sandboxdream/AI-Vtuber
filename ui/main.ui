@@ -2094,15 +2094,15 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>0</y>
+             <y>-93</y>
              <width>963</width>
-             <height>1035</height>
+             <height>836</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_3">
             <item>
              <widget class="QWidget" name="widget_2" native="true">
-              <layout class="QGridLayout" name="gridLayout_40" rowstretch="1,0,0,0,0,0,0,0,0,0,0" columnstretch="1,8,1">
+              <layout class="QGridLayout" name="gridLayout_40" rowstretch="1,1,1,1,1,1,1,1,1,1,5" columnstretch="1,8,1" rowminimumheight="1,1,1,1,1,1,1,1,1,1,1">
                <item row="3" column="1" colspan="2">
                 <widget class="QComboBox" name="comboBox_talk_type"/>
                </item>
@@ -2240,7 +2240,7 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
                 <widget class="QTextBrowser" name="textBrowser_talk_log">
                  <property name="styleSheet">
                   <string notr="true">font: 12pt &quot;仿宋&quot;;
-height:200px;
+min-height:200px;
 </string>
                  </property>
                 </widget>
