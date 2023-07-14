@@ -715,6 +715,8 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 
 ### Live2D
 源自：[CyberWaifu](https://github.com/jieran233/CyberWaifu)  
+官方免费模型下载：[releases/tag/live2d](https://github.com/Ikaros-521/AI-Vtuber/releases/tag/live2d)  
+官网：[https://www.live2d.com/zh-CHS](https://www.live2d.com/zh-CHS)  
 
 第三方软件`Vtuber Studio`，配置教程：[【AI主播】虚拟人部分方案#1 基于Vtuber Studio的口型驱动](https://www.bilibili.com/video/BV1vs4y1k71M)
 
