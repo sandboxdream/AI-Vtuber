@@ -24,3 +24,5 @@ langchain==0.0.142
 keyboard
 PyAudio
 SpeechRecognition
+baidu-aip
+chardet

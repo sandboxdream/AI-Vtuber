@@ -3,8 +3,10 @@ import pyaudio
 import wave
 import numpy as np
 import speech_recognition as sr
-import logging
+import logging, time
 import threading
+
+from aip import AipSpeech
 
 from utils.common import Common
 from utils.logger import Configure_logger
@@ -25,6 +27,10 @@ def start_server():
     if my_handle is None:
         logging.error("程序初始化失败！")
         exit(0)
+
+
+    cooldown = 0.3 # 冷却时间 0.3 秒
+    last_pressed = 0
 
 
     # 录音功能(录音时间过短进入openai的语音转文字会报错，请一定注意)
@@ -69,17 +75,15 @@ def start_server():
             return 0
 
 
-    def audio_listen():
+    # THRESHOLD 设置音量阈值,默认值800.0,根据实际情况调整  silence_threshold 设置沉默阈值，根据实际情况调整
+    def audio_listen(volume_threshold=800.0, silence_threshold=15):
         audio = pyaudio.PyAudio()
 
         # 设置音频参数
         FORMAT = pyaudio.paInt16
         CHANNELS = 1
-        RATE = 44100
+        RATE = 16000
         CHUNK = 1024
-        SILENCE_THRESHOLD = 80     # 设置沉默阈值，根据实际情况调整
-        THRESHOLD = 800.0            # 设置音量阈值，根据实际情况调整
-        WAVE_OUTPUT_FILENAME = "out/record.wav"
 
         stream = audio.open(
             format=FORMAT,
@@ -93,15 +97,15 @@ def start_server():
 
         is_speaking = False  # 是否在说话
         silent_count = 0  # 沉默计数
+        speaking_flag = False   #录入标志位 不重要
 
-        print("[等待语音输入]")
         while True:
             # 读取音频数据
             data = stream.read(CHUNK)
             audio_data = np.frombuffer(data, dtype=np.short)
             max_dB = np.max(audio_data)
             # print(max_dB)
-            if max_dB > THRESHOLD:
+            if max_dB > volume_threshold:
                 is_speaking = True
                 silent_count = 0
             elif is_speaking is True:
@@ -109,59 +113,111 @@ def start_server():
 
             if is_speaking is True:
                 frames.append(data)
+                if speaking_flag is False:
+                    logging.info("[录入中……]")
+                    speaking_flag = True
 
-            if silent_count >= SILENCE_THRESHOLD:
+            if silent_count >= silence_threshold:
                 break
-        print("[语音输入完成]")
+
+        logging.info("[语音录入完成]")
+
         # 将音频保存为WAV文件
-        with wave.open(WAVE_OUTPUT_FILENAME, 'wb') as wf:
+        '''with wave.open(WAVE_OUTPUT_FILENAME, 'wb') as wf:
             wf.setnchannels(CHANNELS)
             wf.setsampwidth(pyaudio.get_sample_size(FORMAT))
             wf.setframerate(RATE)
-            wf.writeframes(b''.join(frames))
-
-        # print("音频保存完成：", WAVE_OUTPUT_FILENAME)
+            wf.writeframes(b''.join(frames))'''
+        return frames
     
 
-    def on_key_press_goole(event):
-        # 创建Recognizer对象
-        r = sr.Recognizer()
+    def on_key_press(event):
+        current_time = time.time()
+        if current_time - last_pressed < cooldown:
+            return
+        
+        if event.name != trigger_key:
+            return
 
-        try:
-            # 打开麦克风进行录音
-            with sr.Microphone() as source:
-                if event.name == trigger_key:
+        logging.info(f'检测到单击键盘 {trigger_key}，开始录音喵~')
+
+        if "baidu" == talk_config["type"]:
+            # 设置音频参数
+            FORMAT = pyaudio.paInt16
+            CHANNELS = 1
+            RATE = 16000
+            WAVE_OUTPUT_FILENAME = './out/baidu_' + common.get_bj_time(4) + '.wav'
+
+            frames = audio_listen(talk_config["volume_threshold"], talk_config["silence_threshold"])
+
+            # 将音频保存为WAV文件
+            with wave.open(WAVE_OUTPUT_FILENAME, 'wb') as wf:
+                wf.setnchannels(CHANNELS)
+                wf.setsampwidth(pyaudio.get_sample_size(FORMAT))
+                wf.setframerate(RATE)
+                wf.writeframes(b''.join(frames))
+
+            # 读取音频文件
+            with open(WAVE_OUTPUT_FILENAME, 'rb') as fp:
+                audio = fp.read()
+
+            # 初始化 AipSpeech 对象
+            baidu_client = AipSpeech(talk_config["baidu"]["app_id"], talk_config["baidu"]["api_key"], talk_config["baidu"]["secret_key"])
+
+            # 识别音频文件
+            res = baidu_client.asr(audio, 'wav', 16000, {
+                'dev_pid': 1536,
+            })
+            if res['err_no'] == 0:
+                content = res['result'][0]
+            else:
+                logging.error(f"百度接口报错：{res}")
+
+                return
+            
+            # 输出识别结果
+            logging.info("识别结果：" + content)
+            user_name = config.get("talk", "username")
+
+            my_handle.commit_handle(user_name, content)
+        elif "google" == talk_config["type"]:
+            # 创建Recognizer对象
+            r = sr.Recognizer()
+
+            try:
+                # 打开麦克风进行录音
+                with sr.Microphone() as source:
                     logging.info(f'录音中...')
                     # 从麦克风获取音频数据
                     audio = r.listen(source)
                     logging.info("成功录制")
-                    # 进行实时语音识别 en-US zh-CN ja-JP
-                    text = r.recognize_google(audio, language=config.get("talk", "google", "tgt_lang"))
-                    # 输出识别结果
-                    # logging.info("识别结果：" + text)
 
-                    content = text
+                    # 进行谷歌实时语音识别 en-US zh-CN ja-JP
+                    content = r.recognize_google(audio, language=config.get("talk", "google", "tgt_lang"))
+
+                    # 输出识别结果
+                    # logging.info("识别结果：" + content)
                     user_name = config.get("talk", "username")
 
                     my_handle.commit_handle(user_name, content)
 
                     return
-        except sr.UnknownValueError:
-            logging.warning("无法识别输入的语音")
-        except sr.RequestError as e:
-            logging.error("请求出错：" + str(e))
+            except sr.UnknownValueError:
+                logging.warning("无法识别输入的语音")
+            except sr.RequestError as e:
+                logging.error("请求出错：" + str(e))
 
 
     def key_listener():
         # 注册按键按下事件的回调函数
-        keyboard.on_press(on_key_press_goole)
+        keyboard.on_press(on_key_press)
 
         # 进入监听状态，等待按键按下
         keyboard.wait()
 
-
+    talk_config = config.get("talk")
     # 从配置文件中读取触发键的字符串配置
-    trigger_key = config.get("talk", "google", "trigger_key")
+    trigger_key = talk_config["trigger_key"]
 
     logging.info(f'单击键盘 {trigger_key} 按键进行录音喵~')
 
