@@ -634,6 +634,17 @@ Miniconda3\python.exe -m pip install langchain==0.0.142
 解决方案：升级到指定版本 `pip install edge-tts==6.1.6`  
 
 
+#### 4.File ".\flask_api_full_song.py", line 38, in wav2wav  out_audio, out_sr = svc_model.infer(spk, tran, raw_path) ValueError: too many values to unpack (expected 2)
+注意！！！如果你是`4.1`版本的整合包，很可能就有这个bug，需要修改`flask_api_full_song.py`的38行左右：  
+改  
+```
+out_audio, out_sr = svc_model.infer(spk, tran, raw_path)
+```
+为
+```
+out_audio, out_sr, n_frames = svc_model.infer(spk, tran, raw_path)
+```
+
 </details>
 
 
@@ -721,7 +732,7 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 官方仓库：[so-vits-svc](https://github.com/svc-develop-team/so-vits-svc)  
 个人提供的已训练好的模型：[点我跳转](https://github.com/Ikaros-521/so-vits-svc/releases)  
 视频教程：[【AI歌姬】so-vits-svc 简单使用讲解 + 伊卡洛斯 模型开源](https://www.bilibili.com/video/BV1k24y1F7Us)  
-目前仅支持4.0版本，修改`flask_api_full_song.py`最后几行中的模型和配置路径，运行，配置相关信息即可接入。  
+修改`flask_api_full_song.py`最后几行中的模型和配置路径，运行，配置相关信息即可接入。  
 ```
 if __name__ == '__main__':
     model_name = "logs/44k/ikaros_G_54600.pth" # 你的模型地址
@@ -729,6 +740,15 @@ if __name__ == '__main__':
     svc_model = infer_tool.Svc(model_name, config_name)
     app.run(port=1145, host="0.0.0.0", debug=False, threaded=False)
 ```  
+注意！！！如果你是`4.1`版本的整合包，还需要修改`flask_api_full_song.py`的38行左右：  
+改  
+```
+out_audio, out_sr = svc_model.infer(spk, tran, raw_path)
+```
+为
+```
+out_audio, out_sr, n_frames = svc_model.infer(spk, tran, raw_path)
+```
 
 ## 🀅开发&项目相关
 
