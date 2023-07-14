@@ -60,6 +60,9 @@ class AI_VTB(QMainWindow):
 
         # self.resize(self.width, self.height)
 
+        # 页面索引
+        self.stackedWidget_index = 0
+
         # 设置实例
         self.CreateItems()
         # 读取配置文件 进行初始化
@@ -1074,8 +1077,11 @@ class AI_VTB(QMainWindow):
             QMessageBox.Information, 3000)
 
         def delayed_run():
-            # 切换到索引为 1 的页面
-            self.ui.stackedWidget.setCurrentIndex(1)
+            # 判断当前位于的页面，如果是聊天页，则不跳转到运行页
+            if self.stackedWidget_index != 3:
+                # 切换到索引为 1 的页面 运行页
+                self.ui.stackedWidget.setCurrentIndex(1)
+
             # 开冲！
             try:
                 # self.run_external_command()
@@ -1090,8 +1096,9 @@ class AI_VTB(QMainWindow):
                 self.my_thread.platform = self.platform
                 # 启动线程执行 run_external_command()
                 self.my_thread.start()
-                # 设置定时器间隔为 100 毫秒
-                self.timer.setInterval(100)
+
+                # 设置定时器间隔为 300 毫秒
+                self.timer.setInterval(300)
                 # 每次定时器触发时调用 update_text_browser 函数
                 self.timer.timeout.connect(self.update_text_browser)
                 # 启动定时器
@@ -1109,6 +1116,7 @@ class AI_VTB(QMainWindow):
 
     # 切换至index页面
     def change_page(self, index):
+        self.stackedWidget_index = index
         self.ui.stackedWidget.setCurrentIndex(index)
 
 
@@ -1412,6 +1420,8 @@ class AI_VTB(QMainWindow):
         # 记录当前的滚动位置
         scroll_position = self.ui.textBrowser.verticalScrollBar().value()
         scroll_position_talk_log = self.ui.textBrowser_talk_log.verticalScrollBar().value()
+
+        # print(f"scroll_position={scroll_position}, scroll_position_talk_log={scroll_position_talk_log}")
 
         # 加载文件的最后1000行文本
         last_lines = self.load_last_lines(file_path)
