@@ -561,8 +561,14 @@ pip install -r requirements_talk.txt
 
 ## 🃏效果图
 ### GUI界面  
-#### 配置页
+
 ![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/a4b18914-1454-444c-9c42-33d7a835da5a)
+
+<details>
+<summary>展开/收起详细截图</summary>
+
+#### 配置页
+
 ![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/a0550dba-52d7-4594-a804-98181ec3f80c)
 
 #### 运行页
@@ -574,6 +580,7 @@ pip install -r requirements_talk.txt
 #### 聊天页
 ![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/ae888ce2-f507-4c00-b728-f9ee4228db2a)
 
+</details>
 
 ### SD接入
 ![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/a3e4b3b7-96d1-41b1-b45e-f2725acee27c)
@@ -802,7 +809,17 @@ out_audio, out_sr, n_frames = svc_model.infer(spk, tran, raw_path)
 ### 聊天模式 百度
 新用户+实名认证后有半年的免费额度可以使用。  
 申请地址：[https://console.bce.baidu.com/ai/#/ai/speech/overview/index](https://console.bce.baidu.com/ai/#/ai/speech/overview/index)  
+<details>
+<summary>展开/收起详细教程</summary>
 
+![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/a91e9dcb-c894-4844-885c-89b8f9f78e6e)
+![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/355e4d12-d854-4249-a736-03c2c93017db)
+![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/3028e135-0791-4638-b56f-028b8397f35f)
+![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/7731d5a0-72f5-4a07-bf98-4f6e34f8ef32)
+![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/6c2fca12-5c6b-478e-a1d3-d3dead79f192)
+
+
+</details>
 
 ## 🀅开发&项目相关
 
