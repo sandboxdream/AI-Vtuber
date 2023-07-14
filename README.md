@@ -78,6 +78,7 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
   - [chat_with_file](#chat_with_file)
   - [text-generation-webui](#text-generation-webui)
   - [elevenlabs](#elevenlabs)
+  - [genshinvoice.top](#genshinvoicetop)
   - [ChatterBot](#chatterbot)
   - [Live2D](#live2d)
   - [Stable Diffusion](#stable-diffusion)
