@@ -53,9 +53,13 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
   - [抖音版](#%E6%8A%96%E9%9F%B3%E7%89%88)
   - [抖音版_旧版（不稳定）](#%E6%8A%96%E9%9F%B3%E7%89%88_%E6%97%A7%E7%89%88%E4%B8%8D%E7%A8%B3%E5%AE%9A)
   - [快手版](#%E5%BF%AB%E6%89%8B%E7%89%88)
-  - [聊天模式-谷歌](#%E8%81%8A%E5%A4%A9%E6%A8%A1%E5%BC%8F-%E8%B0%B7%E6%AD%8C)
+  - [聊天模式](#%E8%81%8A%E5%A4%A9%E6%A8%A1%E5%BC%8F)
 - [🃏效果图](#%E6%95%88%E6%9E%9C%E5%9B%BE)
   - [GUI界面](#gui%E7%95%8C%E9%9D%A2)
+    - [配置页](#%E9%85%8D%E7%BD%AE%E9%A1%B5)
+    - [运行页](#%E8%BF%90%E8%A1%8C%E9%A1%B5)
+    - [文案页](#%E6%96%87%E6%A1%88%E9%A1%B5)
+    - [聊天页](#%E8%81%8A%E5%A4%A9%E9%A1%B5)
   - [SD接入](#sd%E6%8E%A5%E5%85%A5)
 - [❓️FAQ 常问问题](#%EF%B8%8Ffaq-%E5%B8%B8%E9%97%AE%E9%97%AE%E9%A2%98)
   - [部署过程问题](#%E9%83%A8%E7%BD%B2%E8%BF%87%E7%A8%8B%E9%97%AE%E9%A2%98)
@@ -69,6 +73,7 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
     - [1.openai 接口报错:《empty message》](#1openai-%E6%8E%A5%E5%8F%A3%E6%8A%A5%E9%94%99empty-message)
     - [2.ERROR: Cannot install -r requirements_bilibili.txt (line 23), aiohttp and langchain==0.0.142 because these package versions have conflicting dependencies.](#2error-cannot-install--r-requirements_bilibilitxt-line-23-aiohttp-and-langchain00142-because-these-package-versions-have-conflicting-dependencies)
     - [3.ERROR: Conmunicate.`__init__`() got an unexpected keyword argument 'text'](#3error-conmunicate__init__-got-an-unexpected-keyword-argument-text)
+    - [4.File ".\flask_api_full_song.py", line 38, in wav2wav  out_audio, out_sr = svc_model.infer(spk, tran, raw_path) ValueError: too many values to unpack (expected 2)](#4file-%5Cflask_api_full_songpy-line-38-in-wav2wav--out_audio-out_sr--svc_modelinferspk-tran-raw_path-valueerror-too-many-values-to-unpack-expected-2)
 - [♏️补充](#%E8%A1%A5%E5%85%85)
   - [<span id="dy">抖音弹幕获取</span>](#span-iddy%E6%8A%96%E9%9F%B3%E5%BC%B9%E5%B9%95%E8%8E%B7%E5%8F%96span)
   - [快手弹幕获取](#%E5%BF%AB%E6%89%8B%E5%BC%B9%E5%B9%95%E8%8E%B7%E5%8F%96)
@@ -84,6 +89,7 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
   - [Stable Diffusion](#stable-diffusion)
   - [VITS-fast-fine-tuning](#vits-fast-fine-tuning)
   - [so-vits-svc](#so-vits-svc)
+  - [聊天模式 百度](#%E8%81%8A%E5%A4%A9%E6%A8%A1%E5%BC%8F-%E7%99%BE%E5%BA%A6)
 - [🀅开发&项目相关](#%F0%9F%80%85%E5%BC%80%E5%8F%91%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3)
   - [简易流程图](#%E7%AE%80%E6%98%93%E6%B5%81%E7%A8%8B%E5%9B%BE)
   - [UI设计](#ui%E8%AE%BE%E8%AE%A1)
@@ -91,6 +97,7 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
   - [MD目录自动生成](#md%E7%9B%AE%E5%BD%95%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90)
     - [安装](#%E5%AE%89%E8%A3%85)
     - [使用](#%E4%BD%BF%E7%94%A8)
+  - [测试](#%E6%B5%8B%E8%AF%95)
 - [🖹待办事项](#%F0%9F%96%B9%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9)
 - [📝更新日志](#%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97)
 - [🉑许可证](#%E8%AE%B8%E5%8F%AF%E8%AF%81)
@@ -292,6 +299,19 @@ GUI程序运行后会自动加载配置文件，可以通过GUI程序进行配�
     // 选择的模型
     "model": "eleven_monolingual_v1"
   },
+  // genshinvoice.top相关配置
+  "genshinvoice_top": {
+    // 说话人
+    "speaker": "神里绫华",
+    // 输出音频格式 不建议修改
+    "format": "wav",
+    // 可用于控制整体语速。默认为1.2
+    "length": "1.25",
+    // 控制感情变化程度，默认为0.2
+    "noise": "0.2",
+    // 控制音节发音长度变化程度，默认为0.9
+    "noisew": "0.9"
+  },
   // chatterbot相关配置
   "chatterbot": {
     // 机器人名
@@ -396,12 +416,27 @@ GUI程序运行后会自动加载配置文件，可以通过GUI程序进行配�
   "talk": {
     // 你的名称
     "username": "主人",
+    // 使用的语音识别类型 baidu / google
+    "type": "google",
+    // 录音触发按键（长按此按键进行录音）
+    "trigger_key": "1",
+    // 音量阈值，指的是触发录音的起始音量值，请根据自己的麦克风进行微调到最佳
+    "volume_threshold": 800,
+    // 沉默阈值，指的是触发停止路径的最低音量值，请根据自己的麦克风进行微调到最佳
+    "silence_threshold": 15,
+    // 百度语音识别 申请：https://console.bce.baidu.com/ai/#/ai/speech/overview/index
+    "baidu": {
+      // 百度云 语音识别应用的 AppID
+      "app_id": "",
+      // 百度云 语音识别应用的 API Key
+      "api_key": "",
+      // 百度云 语音识别应用的 Secret Key
+      "secret_key": ""
+    },
     // 谷歌语音识别
     "google": {
       // 录音后识别转换成的目标语言（就是你说的语言）
-      "tgt_lang": "zh-CN",
-      // 录音触发按键（长按此按键进行录音）
-      "trigger_key": "1"
+      "tgt_lang": "zh-CN"
     }
   }
 }
@@ -514,15 +549,15 @@ ps:依赖[golang](https://go.dev/dl/)环境，还没有的话，手动补一补[
 
 运行 `python main.py`  
 
-### 聊天模式-谷歌
+### 聊天模式
 
 在命令行中使用以下命令安装所需库：
 ```
-pip install -r requirements_talk_google.txt
+pip install -r requirements_talk.txt
 ```
 
 运行GUI `python main.py`  
-单独运行 `python talk_google.py`  
+单独运行 `python talk.py`  
 
 ## 🃏效果图
 ### GUI界面  
@@ -764,6 +799,11 @@ out_audio, out_sr = svc_model.infer(spk, tran, raw_path)
 out_audio, out_sr, n_frames = svc_model.infer(spk, tran, raw_path)
 ```
 
+### 聊天模式 百度
+新用户+实名认证后有半年的免费额度可以使用。  
+申请地址：[https://console.bce.baidu.com/ai/#/ai/speech/overview/index](https://console.bce.baidu.com/ai/#/ai/speech/overview/index)  
+
+
 ## 🀅开发&项目相关
 
 ### 简易流程图
@@ -965,6 +1005,9 @@ cmd输入命令即可：`doctoc /path/to/file`
 
 ### 2023-07-14
 - 新增TTS模式 genshinvoice_top,调用第三方接口完成语音合成
+
+### 2023-07-15
+- 修改 聊天模式-谷歌 为 聊天模式，新增语音识别 百度接口。
 
 </details>
 

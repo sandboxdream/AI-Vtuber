@@ -309,8 +309,14 @@ class AI_VTB(QMainWindow):
 
             # 聊天
             self.ui.label_talk_username.setToolTip("日志中你的名字，暂时没有实质作用")
+            self.ui.label_talk_trigger_key.setToolTip("录音触发按键（单击此按键进行录音）")
+            self.ui.label_talk_type.setToolTip("选择的语音识别类型")
+            self.ui.label_talk_volume_threshold.setToolTip("音量阈值，指的是触发录音的起始音量值，请根据自己的麦克风进行微调到最佳")
+            self.ui.label_talk_silence_threshold.setToolTip("沉默阈值，指的是触发停止路径的最低音量值，请根据自己的麦克风进行微调到最佳")
+            self.ui.label_talk_baidu_app_id.setToolTip("百度云 语音识别应用的 AppID")
+            self.ui.label_talk_baidu_api_key.setToolTip("百度云 语音识别应用的 API Key")
+            self.ui.label_talk_baidu_secret_key.setToolTip("百度云 语音识别应用的 Secret Key")
             self.ui.label_talk_google_tgt_lang.setToolTip("录音后识别转换成的目标语言（就是你说的语言）")
-            self.ui.label_talk_google_trigger_key.setToolTip("录音触发按键（单击此按键进行录音）")
             self.ui.label_talk_chat_box.setToolTip("此处填写对话内容可以直接进行对话（前面配置好聊天模式，记得运行先）")
             self.ui.pushButton_talk_chat_box_send.setToolTip("点击发送聊天框内的内容")
             
@@ -320,7 +326,7 @@ class AI_VTB(QMainWindow):
             """
             # 修改下拉框内容
             self.ui.comboBox_platform.clear()
-            self.ui.comboBox_platform.addItems(["哔哩哔哩", "抖音", "快手", "聊天模式-谷歌"])
+            self.ui.comboBox_platform.addItems(["哔哩哔哩", "抖音", "快手", "聊天模式"])
             platform_index = 0
             if self.platform == "bilibili":
                 platform_index = 0
@@ -328,7 +334,7 @@ class AI_VTB(QMainWindow):
                 platform_index = 1
             elif self.platform == "ks":
                 platform_index = 2
-            elif self.platform == "talk_google":
+            elif self.platform == "talk":
                 platform_index = 3
             self.ui.comboBox_platform.setCurrentIndex(platform_index)
             
@@ -613,6 +619,30 @@ class AI_VTB(QMainWindow):
 
             # 聊天
             self.ui.lineEdit_talk_username.setText(self.talk_config['username'])
+            self.ui.comboBox_talk_trigger_key.clear()
+            with open('data\keyboard.txt', 'r') as file:
+                file_content = file.read()
+            # 按行分割内容，并去除每行末尾的换行符
+            lines = file_content.strip().split('\n')
+            # 存储到字符串数组中
+            trigger_keys = [line for line in lines]
+            # print(trigger_keys)
+            self.ui.comboBox_talk_trigger_key.addItems(trigger_keys)
+            trigger_key_index = trigger_keys.index(self.talk_config['trigger_key'])
+            self.ui.comboBox_talk_trigger_key.setCurrentIndex(trigger_key_index)
+            self.ui.comboBox_talk_type.clear()
+            self.ui.comboBox_talk_type.addItems(["baidu", "google"])
+            talk_type_index = 0
+            if self.talk_config['type'] == "baidu":
+                talk_type_index = 0
+            elif self.talk_config['type'] == "google":
+                talk_type_index = 1
+            self.ui.comboBox_talk_type.setCurrentIndex(talk_type_index)
+            self.ui.lineEdit_talk_volume_threshold.setText(str(self.talk_config['volume_threshold']))
+            self.ui.lineEdit_talk_silence_threshold.setText(str(self.talk_config['silence_threshold']))
+            self.ui.lineEdit_talk_baidu_app_id.setText(self.talk_config['baidu']['app_id'])
+            self.ui.lineEdit_talk_baidu_api_key.setText(self.talk_config['baidu']['api_key'])
+            self.ui.lineEdit_talk_baidu_secret_key.setText(self.talk_config['baidu']['secret_key'])
             self.ui.comboBox_talk_google_tgt_lang.clear()
             self.ui.comboBox_talk_google_tgt_lang.addItems(["zh-CN", "en-US", "ja-JP"])
             talk_google_tgt_lang_index = 0
@@ -623,21 +653,12 @@ class AI_VTB(QMainWindow):
             elif self.talk_config['google']['tgt_lang'] == "ja-JP":
                 talk_google_tgt_lang_index = 2 
             self.ui.comboBox_talk_google_tgt_lang.setCurrentIndex(talk_google_tgt_lang_index)
-            self.ui.comboBox_talk_google_trigger_key.clear()
-            with open('data\keyboard.txt', 'r') as file:
-                file_content = file.read()
-            # 按行分割内容，并去除每行末尾的换行符
-            lines = file_content.strip().split('\n')
-            # 存储到字符串数组中
-            trigger_keys = [line for line in lines]
-            # print(trigger_keys)
-            self.ui.comboBox_talk_google_trigger_key.addItems(trigger_keys)
-            trigger_key_index = trigger_keys.index(self.talk_config['google']['trigger_key'])
-            self.ui.comboBox_talk_google_trigger_key.setCurrentIndex(trigger_key_index)
+            
 
             # 显隐各板块
             self.oncomboBox_chat_type_IndexChanged(chat_type_index)
             self.oncomboBox_audio_synthesis_type_IndexChanged(audio_synthesis_type_index)
+            self.oncomboBox_talk_type_IndexChanged(talk_type_index)
 
             # 打开Live2D页面
             # if self.live2d_config["enable"]:
@@ -722,8 +743,10 @@ class AI_VTB(QMainWindow):
         # 下拉框相关槽函数
         self.ui.comboBox_chat_type.disconnect()
         self.ui.comboBox_audio_synthesis_type.disconnect()
+        self.ui.comboBox_talk_type.disconnect()
         self.ui.comboBox_chat_type.currentIndexChanged.connect(lambda index: self.oncomboBox_chat_type_IndexChanged(index))
         self.ui.comboBox_audio_synthesis_type.currentIndexChanged.connect(lambda index: self.oncomboBox_audio_synthesis_type_IndexChanged(index))
+        self.ui.comboBox_talk_type.currentIndexChanged.connect(lambda index: self.oncomboBox_talk_type_IndexChanged(index))
 
         # 顶部餐单栏槽函数
         self.ui.action_official_store.triggered.connect(self.openBrowser_github)
@@ -768,8 +791,8 @@ class AI_VTB(QMainWindow):
                 config_data["platform"] = "dy"
             elif platform == "快手":
                 config_data["platform"] = "ks"
-            elif platform == "聊天模式-谷歌":
-                config_data["platform"] = "talk_google"
+            elif platform == "聊天模式":
+                config_data["platform"] = "talk"
 
             # 获取单行文本输入框的内容
             room_display_id = self.ui.lineEdit_room_display_id.text()
@@ -1009,8 +1032,15 @@ class AI_VTB(QMainWindow):
             
             # 聊天
             config_data["talk"]["username"] = self.ui.lineEdit_talk_username.text()
+            config_data["talk"]["trigger_key"] = self.ui.comboBox_talk_trigger_key.currentText()
+            config_data["talk"]["type"] = self.ui.comboBox_talk_type.currentText()
+            config_data["talk"]["volume_threshold"] = round(float(self.ui.lineEdit_talk_volume_threshold.text()), 1)
+            config_data["talk"]["silence_threshold"] = round(float(self.ui.lineEdit_talk_silence_threshold.text()), 1)
+            config_data["talk"]["baidu"]["app_id"] = self.ui.lineEdit_talk_baidu_app_id.text()
+            config_data["talk"]["baidu"]["api_key"] = self.ui.lineEdit_talk_baidu_api_key.text()
+            config_data["talk"]["baidu"]["secret_key"] = self.ui.lineEdit_talk_baidu_secret_key.text()
             config_data["talk"]["google"]["tgt_lang"] = self.ui.comboBox_talk_google_tgt_lang.currentText()
-            config_data["talk"]["google"]["trigger_key"] = self.ui.comboBox_talk_google_trigger_key.currentText()
+            
 
 
             # logging.info(config_data)
@@ -1377,6 +1407,20 @@ class AI_VTB(QMainWindow):
         self.ui.groupBox_vits_fast.setVisible(visibility_values[1])
         self.ui.groupBox_elevenlabs.setVisible(visibility_values[2])
         self.ui.groupBox_genshinvoice_top.setVisible(visibility_values[3])
+
+
+    # 语音识别类型改变 加载显隐不同groupBox
+    def oncomboBox_talk_type_IndexChanged(self, index):
+        # 各index对应的groupbox的显隐值
+        visibility_map = {
+            0: (1, 0),
+            1: (0, 1)
+        }
+
+        visibility_values = visibility_map.get(index, (0, 0))
+
+        self.ui.groupBox_talk_baidu.setVisible(visibility_values[0])
+        self.ui.groupBox_talk_google.setVisible(visibility_values[1])
 
 
     # 输出文本到运行页的textbrowser
