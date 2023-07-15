@@ -463,6 +463,8 @@ GUI程序运行后会自动加载配置文件，可以通过GUI程序进行配�
 
 如何配置呢？  
 GUI中openai api地址配置为：`https://openai-pag.wangzhishi.net/v1`  
+![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/ce47dd53-118e-488a-94d6-0d837db23e6c)
+
 
 ### chat_with_file 模式说明
 #### 模式简介
