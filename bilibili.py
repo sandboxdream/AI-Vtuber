@@ -1,4 +1,4 @@
-import logging
+import logging, os
 
 # 导入所需的库
 from bilibili_api import live, sync
@@ -17,7 +17,7 @@ def start_server():
     my_handle = My_handle("config.json")
     if my_handle is None:
         logging.info("程序初始化失败！")
-        exit(0)
+        os._exit(0)
 
     # 初始化 Bilibili 直播间
     room = live.LiveDanmaku(my_handle.get_room_id())
@@ -166,7 +166,7 @@ def start_server():
         logging.warning('程序被强行退出')
     finally:
         logging.warning('关闭连接...')
-        exit(0)
+        os._exit(0)
 
 
 if __name__ == '__main__':

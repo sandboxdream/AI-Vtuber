@@ -5,6 +5,8 @@ import numpy as np
 import speech_recognition as sr
 import logging, time
 import threading
+import sys, os
+import signal
 
 from aip import AipSpeech
 
@@ -15,6 +17,8 @@ from utils.my_handle import My_handle
 
 
 def start_server():
+    global thread
+
     common = Common()
     # 日志文件路径
     log_path = "./log/log-" + common.get_bj_time(1) + ".txt"
@@ -27,7 +31,6 @@ def start_server():
     if my_handle is None:
         logging.error("程序初始化失败！")
         exit(0)
-
 
     cooldown = 0.3 # 冷却时间 0.3 秒
     last_pressed = 0
@@ -100,6 +103,10 @@ def start_server():
         speaking_flag = False   #录入标志位 不重要
 
         while True:
+            if terminate_event.is_set():
+                # 进行退出处理
+                break
+
             # 读取音频数据
             data = stream.read(CHUNK)
             audio_data = np.frombuffer(data, dtype=np.short)
@@ -132,10 +139,17 @@ def start_server():
     
 
     def on_key_press(event):
+        if (event.name == 'c' and keyboard.is_pressed('ctrl')) or \
+            (event.name == 'z' and keyboard.is_pressed('ctrl')):
+            print("退出程序")
+
+            os._exit(0)
+        
         current_time = time.time()
         if current_time - last_pressed < cooldown:
             return
-        
+         
+        # 不是触发按键不响应
         if event.name != trigger_key:
             return
 
@@ -208,12 +222,16 @@ def start_server():
                 logging.error("请求出错：" + str(e))
 
 
+    # 按键监听
     def key_listener():
         # 注册按键按下事件的回调函数
         keyboard.on_press(on_key_press)
 
-        # 进入监听状态，等待按键按下
-        keyboard.wait()
+        try:
+            # 进入监听状态，等待按键按下
+            keyboard.wait()
+        except KeyboardInterrupt:
+            os._exit(0)
 
     talk_config = config.get("talk")
     # 从配置文件中读取触发键的字符串配置
@@ -230,5 +248,24 @@ def start_server():
     # audio_listen_google()
 
 
+# 退出程序
+def exit_handler(signum, frame):
+    print("Received signal:", signum)
+
+    threading.current_thread().exit()
+
+    os._exit(0)
+
+
 if __name__ == '__main__':
+    # 键盘监听线程
+    thread = None
+
+    signal.signal(signal.SIGINT, exit_handler)
+    signal.signal(signal.SIGTERM, exit_handler)
+
     start_server()
+
+    thread.join() # 等待子线程退出
+
+    os._exit(0)
