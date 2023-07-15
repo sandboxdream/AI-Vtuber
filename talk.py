@@ -139,22 +139,32 @@ def start_server():
     
 
     def on_key_press(event):
-        if (event.name == 'c' and keyboard.is_pressed('ctrl')) or \
-            (event.name == 'z' and keyboard.is_pressed('ctrl')):
+        if event.name in ['z', 'Z', 'c', 'C'] and keyboard.is_pressed('ctrl'):
             print("退出程序")
 
             os._exit(0)
         
+        # 按键CD
         current_time = time.time()
         if current_time - last_pressed < cooldown:
             return
          
-        # 不是触发按键不响应
-        if event.name != trigger_key:
-            return
+        # trigger_key是字母, 整个小写
+        if trigger_key.isalpha():
+            trigger_key_lower = trigger_key.lower()
+        
+        if trigger_key_lower:
+            # 不是触发按键则不响应
+            if event.name != trigger_key and event.name != trigger_key_lower:
+                return
+        else:
+            # 不是触发按键则不响应
+            if event.name != trigger_key:
+                return
 
         logging.info(f'检测到单击键盘 {trigger_key}，开始录音喵~')
 
+        # 根据接入的语音识别类型执行
         if "baidu" == talk_config["type"]:
             # 设置音频参数
             FORMAT = pyaudio.paInt16
