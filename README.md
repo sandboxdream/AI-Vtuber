@@ -461,6 +461,9 @@ GUI程序运行后会自动加载配置文件，可以通过GUI程序进行配�
 或者纯代理的镜像站：  
 - https://openai-pag.wangzhishi.net/
 
+如何配置呢？  
+GUI中openai api地址配置为：`https://openai-pag.wangzhishi.net/v1`  
+
 ### chat_with_file 模式说明
 #### 模式简介
 用户上传预先设定好的“人物设定”文件（pdf、txt等文本文件），让用户自定义配置角色背景信息、设定
