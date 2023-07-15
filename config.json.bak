@@ -44,7 +44,7 @@
     "max_new_tokens": 250
   },
   "chat_with_file": {
-    "chat_mode": "",
+    "chat_mode": "openai_gpt",
     "data_path": "data/伊卡洛斯百度百科.zip",
     "separator": "\n",
     "chunk_size": 100,

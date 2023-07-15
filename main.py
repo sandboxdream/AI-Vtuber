@@ -1,4 +1,4 @@
-import sys, os, json, subprocess, importlib, re
+import sys, os, json, subprocess, importlib, re, threading, signal
 import logging
 import time
 import asyncio
@@ -28,8 +28,12 @@ class AI_VTB(QMainWindow):
     #     "https": "http://127.0.0.1:10809"
     # }
 
-    # 线程
-    my_thread = None
+    # 平台端线程
+    platform_thread = None
+    # 平台端进程
+    platform_process = None
+
+    terminate_event = threading.Event()
     
     '''
         初始化
@@ -71,6 +75,25 @@ class AI_VTB(QMainWindow):
         self.init_ui()
 
 
+    def closeEvent(self, event):
+        global web_server_thread
+
+        AI_VTB.terminate_event.set()
+
+        if AI_VTB.platform_process:
+            # 终止进程
+            AI_VTB.platform_process.terminate()
+
+        if AI_VTB.platform_thread:
+            # 停止线程
+            AI_VTB.platform_thread.terminate()
+
+        if config.get("live2d", "enable"):
+            web_server_thread.terminate()
+        
+        # 关闭窗口
+        event.accept() 
+
 
     # 设置实例 
     def CreateItems(self):
@@ -89,7 +112,7 @@ class AI_VTB(QMainWindow):
         if not os.path.exists(config_path):
             logging.error("配置文件不存在！！！请恢复")
             self.show_message_box("错误", f"配置文件不存在！！！请恢复", QMessageBox.Critical)
-            exit(0)
+            os._exit(0)
             
 
         config = Config(config_path)
@@ -1122,10 +1145,10 @@ class AI_VTB(QMainWindow):
                 # thread.output_ready.connect(self.update_textbrowser)
 
                 # 创建线程对象
-                self.my_thread = ExternalCommandThread()
-                self.my_thread.platform = self.platform
+                self.platform_thread = ExternalCommandThread()
+                self.platform_thread.platform = self.platform
                 # 启动线程执行 run_external_command()
-                self.my_thread.start()
+                self.platform_thread.start()
 
                 # 设置定时器间隔为 300 毫秒
                 self.timer.setInterval(300)
@@ -1138,7 +1161,7 @@ class AI_VTB(QMainWindow):
             except Exception as e:
                 logging.error("平台配置出错，程序自爆~\n{e}")
                 self.show_message_box("错误", f"平台配置出错，程序自爆~\n{e}", QMessageBox.Critical)
-                exit(0)
+                os._exit(0)
 
         # 启动定时器，延迟  秒后触发函数执行
         QTimer.singleShot(100, delayed_run)
@@ -1332,7 +1355,7 @@ class AI_VTB(QMainWindow):
             if my_handle is None:
                 logging.error("程序初始化失败！")
                 self.show_message_box("错误", "程序初始化失败！请排查原因", QMessageBox.Critical)
-                exit(0)
+                os._exit(0)
         
         # 获取用户名和文本内容
         user_name = self.ui.lineEdit_talk_username.text()
@@ -1361,7 +1384,7 @@ class AI_VTB(QMainWindow):
         QDesktopServices.openUrl(url)
 
     def exit_soft(self):
-        exit(0)
+        os._exit(0)
 
     '''
         UI操作的函数
@@ -1584,8 +1607,9 @@ class AI_VTB(QMainWindow):
     # 套娃运行喵（会卡死）
     def run_external_command(self):
         module = importlib.import_module(self.platform)
-        process = subprocess.Popen([sys.executable, '-c', 'import {}'.format(module.__name__)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        output, _ = process.communicate()
+        platform_process = subprocess.Popen([sys.executable, '-c', 'import {}'.format(module.__name__)], stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                            args=(AI_VTB.terminate_event,))
+        output, _ = platform_process.communicate()
         output_text = output.decode("utf-8")  # 将字节流解码为字符串
         self.output_to_textbrowser(output_text)
 
@@ -1625,8 +1649,8 @@ class ExternalCommandThread(QThread):
         logging.debug(f"platform={self.platform}")
 
         module = importlib.import_module(self.platform)
-        process = subprocess.Popen([sys.executable, '-c', 'import {}'.format(module.__name__)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        output, _ = process.communicate()
+        AI_VTB.platform_process = subprocess.Popen([sys.executable, '-c', 'import {}'.format(module.__name__)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        output, _ = AI_VTB.platform_process.communicate()
         # logging.debug(output)
         # output_text = output.decode("utf-8")  # 将字节流解码为字符串
 
@@ -1644,6 +1668,12 @@ class WebServerThread(QThread):
             logging.info(f"可以直接访问Live2D页， http://127.0.0.1:{web_server_port}/Live2D/")
             httpd.serve_forever()
 
+
+# 退出程序
+def exit_handler(signum, frame):
+    print("收到信号:", signum)
+
+    os._exit(0)
 
 
 # 程序入口
@@ -1757,7 +1787,10 @@ if __name__ == '__main__':
             web_server_thread.start()
     except Exception as e:
         logging.error(e)
-        exit(0)
+        os._exit(0)
+
+    signal.signal(signal.SIGINT, exit_handler)
+    signal.signal(signal.SIGTERM, exit_handler)
 
     e = AI_VTB()
 

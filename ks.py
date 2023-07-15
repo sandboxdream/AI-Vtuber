@@ -1,6 +1,6 @@
 
 import binascii
-import json
+import json, os
 import logging
 import random
 import re
@@ -10,9 +10,6 @@ import requests
 import _thread
 from protobuf_inspector.types import StandardParser
 from google.protobuf import json_format
-
-# 导入所需的库
-import json, re
 
 from protobuf_inspector.types import StandardParser
 from google.protobuf import json_format
@@ -37,7 +34,7 @@ Configure_logger(file_path)
 my_handle = My_handle("config.json")
 if my_handle is None:
     print("程序初始化失败！")
-    exit(0)
+    os._exit(0)
 
 
 liveRoomId = None
@@ -315,4 +312,4 @@ except KeyboardInterrupt:
     print('程序被强行退出')
 finally:
     print('关闭连接...可能是直播已经结束或网络问题可能是直播间不存在或下播或网络问题')
-    exit(0)
+    os._exit(0)

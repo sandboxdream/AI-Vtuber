@@ -1,5 +1,5 @@
 import websocket
-import json, logging
+import json, logging, os
 
 from utils.common import Common
 from utils.logger import Configure_logger
@@ -15,7 +15,7 @@ def start_server():
     my_handle = My_handle("config.json")
     if my_handle is None:
         logging.error("程序初始化失败！")
-        exit(0)
+        os._exit(0)
 
 
     # 设置根日志记录器的等级
@@ -103,7 +103,7 @@ def start_server():
         logging.warning('程序被强行退出')
     finally:
         logging.info('关闭连接...可能是直播间不存在或下播或网络问题')
-        exit(0)
+        os._exit(0)
 
 
 if __name__ == '__main__':
