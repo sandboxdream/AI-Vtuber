@@ -151,9 +151,11 @@
   "talk": {
     "username": "主人",
     "type": "google",
-    "trigger_key": "1",
-    "volume_threshold": 800,
-    "silence_threshold": 15,
+    "continuous_talk": false,
+    "trigger_key": "Q",
+    "stop_trigger_key": "S",
+    "volume_threshold": 800.0,
+    "silence_threshold": 15.0,
     "baidu": {
       "app_id": "",
       "api_key": "",

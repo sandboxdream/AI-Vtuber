@@ -17,7 +17,11 @@ from utils.my_handle import My_handle
 
 
 def start_server():
-    global thread
+    global thread, do_listen_and_commit_thread, stop_do_listen_and_commit_thread_event
+
+    thread = None
+    do_listen_and_commit_thread = None
+    stop_do_listen_and_commit_thread_event = threading.Event()
 
     common = Common()
     # 日志文件路径
@@ -103,10 +107,6 @@ def start_server():
         speaking_flag = False   #录入标志位 不重要
 
         while True:
-            if terminate_event.is_set():
-                # 进行退出处理
-                break
-
             # 读取音频数据
             data = stream.read(CHUNK)
             audio_data = np.frombuffer(data, dtype=np.short)
@@ -138,88 +138,139 @@ def start_server():
         return frames
     
 
+    # 执行录音、识别&提交
+    def do_listen_and_commit(status=True):
+        global stop_do_listen_and_commit_thread_event
+
+        while True:
+            # 检查是否收到停止事件
+            if stop_do_listen_and_commit_thread_event.is_set():
+                logging.info(f'停止录音~')
+                break
+        
+            # 根据接入的语音识别类型执行
+            if "baidu" == talk_config["type"]:
+                # 设置音频参数
+                FORMAT = pyaudio.paInt16
+                CHANNELS = 1
+                RATE = 16000
+                WAVE_OUTPUT_FILENAME = './out/baidu_' + common.get_bj_time(4) + '.wav'
+
+                frames = audio_listen(talk_config["volume_threshold"], talk_config["silence_threshold"])
+
+                # 将音频保存为WAV文件
+                with wave.open(WAVE_OUTPUT_FILENAME, 'wb') as wf:
+                    wf.setnchannels(CHANNELS)
+                    wf.setsampwidth(pyaudio.get_sample_size(FORMAT))
+                    wf.setframerate(RATE)
+                    wf.writeframes(b''.join(frames))
+
+                # 读取音频文件
+                with open(WAVE_OUTPUT_FILENAME, 'rb') as fp:
+                    audio = fp.read()
+
+                # 初始化 AipSpeech 对象
+                baidu_client = AipSpeech(talk_config["baidu"]["app_id"], talk_config["baidu"]["api_key"], talk_config["baidu"]["secret_key"])
+
+                # 识别音频文件
+                res = baidu_client.asr(audio, 'wav', 16000, {
+                    'dev_pid': 1536,
+                })
+                if res['err_no'] == 0:
+                    content = res['result'][0]
+
+                    # 输出识别结果
+                    logging.info("识别结果：" + content)
+                    user_name = config.get("talk", "username")
+
+                    my_handle.commit_handle(user_name, content)
+                else:
+                    logging.error(f"百度接口报错：{res}")  
+            elif "google" == talk_config["type"]:
+                # 创建Recognizer对象
+                r = sr.Recognizer()
+
+                try:
+                    # 打开麦克风进行录音
+                    with sr.Microphone() as source:
+                        logging.info(f'录音中...')
+                        # 从麦克风获取音频数据
+                        audio = r.listen(source)
+                        logging.info("成功录制")
+
+                        # 进行谷歌实时语音识别 en-US zh-CN ja-JP
+                        content = r.recognize_google(audio, language=config.get("talk", "google", "tgt_lang"))
+
+                        # 输出识别结果
+                        # logging.info("识别结果：" + content)
+                        user_name = config.get("talk", "username")
+
+                        my_handle.commit_handle(user_name, content)
+                except sr.UnknownValueError:
+                    logging.warning("无法识别输入的语音")
+                except sr.RequestError as e:
+                    logging.error("请求出错：" + str(e))
+            
+            if not status:
+                return
+
+
     def on_key_press(event):
-        if (event.name == 'c' and keyboard.is_pressed('ctrl')) or \
-            (event.name == 'z' and keyboard.is_pressed('ctrl')):
+        global do_listen_and_commit_thread, stop_do_listen_and_commit_thread_event
+
+        if event.name in ['z', 'Z', 'c', 'C'] and keyboard.is_pressed('ctrl'):
             print("退出程序")
 
             os._exit(0)
         
+        # 按键CD
         current_time = time.time()
         if current_time - last_pressed < cooldown:
             return
-         
-        # 不是触发按键不响应
-        if event.name != trigger_key:
-            return
+        
 
-        logging.info(f'检测到单击键盘 {trigger_key}，开始录音喵~')
+        """
+        触发按键部分的判断
+        """
+        trigger_key_lower = None
+        stop_trigger_key_lower = None
 
-        if "baidu" == talk_config["type"]:
-            # 设置音频参数
-            FORMAT = pyaudio.paInt16
-            CHANNELS = 1
-            RATE = 16000
-            WAVE_OUTPUT_FILENAME = './out/baidu_' + common.get_bj_time(4) + '.wav'
+        # trigger_key是字母, 整个小写
+        if trigger_key.isalpha():
+            trigger_key_lower = trigger_key.lower()
 
-            frames = audio_listen(talk_config["volume_threshold"], talk_config["silence_threshold"])
-
-            # 将音频保存为WAV文件
-            with wave.open(WAVE_OUTPUT_FILENAME, 'wb') as wf:
-                wf.setnchannels(CHANNELS)
-                wf.setsampwidth(pyaudio.get_sample_size(FORMAT))
-                wf.setframerate(RATE)
-                wf.writeframes(b''.join(frames))
-
-            # 读取音频文件
-            with open(WAVE_OUTPUT_FILENAME, 'rb') as fp:
-                audio = fp.read()
-
-            # 初始化 AipSpeech 对象
-            baidu_client = AipSpeech(talk_config["baidu"]["app_id"], talk_config["baidu"]["api_key"], talk_config["baidu"]["secret_key"])
-
-            # 识别音频文件
-            res = baidu_client.asr(audio, 'wav', 16000, {
-                'dev_pid': 1536,
-            })
-            if res['err_no'] == 0:
-                content = res['result'][0]
-            else:
-                logging.error(f"百度接口报错：{res}")
-
+        # stop_trigger_key是字母, 整个小写
+        if stop_trigger_key.isalpha():
+            stop_trigger_key_lower = stop_trigger_key.lower()
+        
+        if trigger_key_lower:
+            if event.name == trigger_key or event.name == trigger_key_lower:
+                logging.info(f'检测到单击键盘 {event.name}，即将开始录音~')
+            elif event.name == stop_trigger_key or event.name == stop_trigger_key_lower:
+                logging.info(f'检测到单击键盘 {event.name}，即将停止录音~')
+                stop_do_listen_and_commit_thread_event.set()
                 return
-            
-            # 输出识别结果
-            logging.info("识别结果：" + content)
-            user_name = config.get("talk", "username")
+            else:
+                return
+        else:
+            if event.name == trigger_key:
+                logging.info(f'检测到单击键盘 {event.name}，即将开始录音~')
+            elif event.name == stop_trigger_key:
+                logging.info(f'检测到单击键盘 {event.name}，即将停止录音~')
+                stop_do_listen_and_commit_thread_event.set()
+                return
+            else:
+                return
 
-            my_handle.commit_handle(user_name, content)
-        elif "google" == talk_config["type"]:
-            # 创建Recognizer对象
-            r = sr.Recognizer()
-
-            try:
-                # 打开麦克风进行录音
-                with sr.Microphone() as source:
-                    logging.info(f'录音中...')
-                    # 从麦克风获取音频数据
-                    audio = r.listen(source)
-                    logging.info("成功录制")
-
-                    # 进行谷歌实时语音识别 en-US zh-CN ja-JP
-                    content = r.recognize_google(audio, language=config.get("talk", "google", "tgt_lang"))
-
-                    # 输出识别结果
-                    # logging.info("识别结果：" + content)
-                    user_name = config.get("talk", "username")
-
-                    my_handle.commit_handle(user_name, content)
-
-                    return
-            except sr.UnknownValueError:
-                logging.warning("无法识别输入的语音")
-            except sr.RequestError as e:
-                logging.error("请求出错：" + str(e))
+        # 是否启用连续对话模式
+        if talk_config["continuous_talk"]:
+            stop_do_listen_and_commit_thread_event.clear()
+            do_listen_and_commit_thread = threading.Thread(target=do_listen_and_commit, args=(True,))
+            do_listen_and_commit_thread.start()
+        else:
+            stop_do_listen_and_commit_thread_event.clear()
+            do_listen_and_commit_thread = threading.Thread(target=do_listen_and_commit, args=(False,))
+            do_listen_and_commit_thread.start()
 
 
     # 按键监听
@@ -236,6 +287,7 @@ def start_server():
     talk_config = config.get("talk")
     # 从配置文件中读取触发键的字符串配置
     trigger_key = talk_config["trigger_key"]
+    stop_trigger_key = talk_config["stop_trigger_key"]
 
     logging.info(f'单击键盘 {trigger_key} 按键进行录音喵~')
 
@@ -260,6 +312,8 @@ def exit_handler(signum, frame):
 if __name__ == '__main__':
     # 键盘监听线程
     thread = None
+    do_listen_and_commit_thread = None
+    stop_do_listen_and_commit_thread_event = None
 
     signal.signal(signal.SIGINT, exit_handler)
     signal.signal(signal.SIGTERM, exit_handler)

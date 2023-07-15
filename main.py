@@ -75,6 +75,7 @@ class AI_VTB(QMainWindow):
         self.init_ui()
 
 
+    # 关闭窗口
     def closeEvent(self, event):
         global web_server_thread
 
@@ -332,7 +333,9 @@ class AI_VTB(QMainWindow):
 
             # 聊天
             self.ui.label_talk_username.setToolTip("日志中你的名字，暂时没有实质作用")
+            self.ui.label_talk_continuous_talk.setToolTip("是否开启连续对话模式，点击触发按键后可以持续进行录音，点击停录按键停止录音")
             self.ui.label_talk_trigger_key.setToolTip("录音触发按键（单击此按键进行录音）")
+            self.ui.label_talk_stop_trigger_key.setToolTip("停止录音按键（单击此按键停止下一次录音）")
             self.ui.label_talk_type.setToolTip("选择的语音识别类型")
             self.ui.label_talk_volume_threshold.setToolTip("音量阈值，指的是触发录音的起始音量值，请根据自己的麦克风进行微调到最佳")
             self.ui.label_talk_silence_threshold.setToolTip("沉默阈值，指的是触发停止路径的最低音量值，请根据自己的麦克风进行微调到最佳")
@@ -642,6 +645,8 @@ class AI_VTB(QMainWindow):
 
             # 聊天
             self.ui.lineEdit_talk_username.setText(self.talk_config['username'])
+            if self.talk_config['continuous_talk']:
+                self.ui.checkBox_talk_continuous_talk.setChecked(True)
             self.ui.comboBox_talk_trigger_key.clear()
             with open('data\keyboard.txt', 'r') as file:
                 file_content = file.read()
@@ -653,6 +658,10 @@ class AI_VTB(QMainWindow):
             self.ui.comboBox_talk_trigger_key.addItems(trigger_keys)
             trigger_key_index = trigger_keys.index(self.talk_config['trigger_key'])
             self.ui.comboBox_talk_trigger_key.setCurrentIndex(trigger_key_index)
+            self.ui.comboBox_talk_stop_trigger_key.clear()
+            self.ui.comboBox_talk_stop_trigger_key.addItems(trigger_keys)
+            stop_trigger_key_index = trigger_keys.index(self.talk_config['stop_trigger_key'])
+            self.ui.comboBox_talk_stop_trigger_key.setCurrentIndex(stop_trigger_key_index)
             self.ui.comboBox_talk_type.clear()
             self.ui.comboBox_talk_type.addItems(["baidu", "google"])
             talk_type_index = 0
@@ -1055,7 +1064,9 @@ class AI_VTB(QMainWindow):
             
             # 聊天
             config_data["talk"]["username"] = self.ui.lineEdit_talk_username.text()
+            config_data["talk"]["continuous_talk"] = self.ui.checkBox_talk_continuous_talk.isChecked()
             config_data["talk"]["trigger_key"] = self.ui.comboBox_talk_trigger_key.currentText()
+            config_data["talk"]["stop_trigger_key"] = self.ui.comboBox_talk_stop_trigger_key.currentText()
             config_data["talk"]["type"] = self.ui.comboBox_talk_type.currentText()
             config_data["talk"]["volume_threshold"] = round(float(self.ui.lineEdit_talk_volume_threshold.text()), 1)
             config_data["talk"]["silence_threshold"] = round(float(self.ui.lineEdit_talk_silence_threshold.text()), 1)
