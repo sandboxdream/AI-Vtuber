@@ -1,11 +1,13 @@
 import time, logging
-import asyncio
+import asyncio, threading
+import concurrent.futures
 
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 
 from utils.common import Common
 from utils.logger import Configure_logger
+from utils.thread import RunThread
 
 
 class Claude:
@@ -14,6 +16,7 @@ class Claude:
     client = None
     last_message_timestamp = None
     dm_channel_id = None
+    
 
     def __init__(self, data):
         self.common = Common()
@@ -32,6 +35,8 @@ class Claude:
         if not self.dm_channel_id:
             logging.error("Could not find DM channel with the bot.")
             return None
+        
+        loop = asyncio.new_event_loop()
 
     ### claude
     def send_message(self, channel, text):
@@ -57,9 +62,9 @@ class Claude:
                 return messages[-1]
             if time.time() - start_time > timeout:
                 return None
-
-            await asyncio.sleep(5)
-
+            
+            await asyncio.sleep(3)
+    
 
     def find_direct_message_channel(self, user_id):
         try:
@@ -77,7 +82,19 @@ class Claude:
         else:
             return None
 
-        new_message = asyncio.run(self.get_new_messages(self.dm_channel_id, last_message_timestamp))
+        try:
+            loop = asyncio.get_running_loop()
+        except RuntimeError:
+            loop = None
+        if loop and loop.is_running():
+            thread = RunThread(self.get_new_messages(self.dm_channel_id, last_message_timestamp))
+            thread.start()
+            thread.join()
+            new_message = thread.result
+            thread.close()
+        else:
+            new_message = asyncio.run(self.get_new_messages(self.dm_channel_id, last_message_timestamp))
+            
         if new_message is not None:
             return new_message
         return None

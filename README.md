@@ -729,6 +729,7 @@ openai后台：[https://platform.openai.com/](https://platform.openai.com/)
 官方API文档：[https://platform.openai.com/docs/api-reference](https://platform.openai.com/docs/api-reference)  
 
 ### Claude
+实现参考：[claude-in-slack-api](https://github.com/yokonsan/claude-in-slack-api)  
 API申请方法：[claude-api](https://github.com/bincooo/claude-api)  
 slack官网：[https://slack.com/intl/zh-cn/](https://slack.com/intl/zh-cn/)  
 添加claude到slack：[https://www.anthropic.com/claude-in-slack](https://www.anthropic.com/claude-in-slack)  
