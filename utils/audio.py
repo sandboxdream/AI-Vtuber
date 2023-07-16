@@ -108,13 +108,13 @@ class Audio:
         logging.info("创建音频合成消息队列线程")
         while True:  # 无限循环，直到队列为空时退出
             try:
-                message = self.message_queue.get()
+                message = self.message_queue.get(block=True)
                 logging.debug(message)
                 await self.my_play_voice(message)
                 self.message_queue.task_done()
 
                 # 加个延时 降低点edge-tts的压力
-                await asyncio.sleep(0.5)
+                # await asyncio.sleep(0.5)
             except Exception as e:
                 logging.error(e)
 
@@ -231,7 +231,13 @@ class Audio:
 
             # 判断是否是点歌模式
             if message['type'] == "song":
-                self.voice_tmp_path_queue.put(message['content'])
+                # 拼接json数据，存入队列
+                data_json = {
+                    "voice_path": message['content'],
+                    "content": message["content"]
+                }
+
+                self.voice_tmp_path_queue.put(data_json)
                 return
 
             # 中文语句切分
@@ -286,7 +292,13 @@ class Audio:
                     voice_tmp_path = await self.so_vits_svc_api(audio_path=voice_tmp_path)
                     # print(f"voice_tmp_path={voice_tmp_path}")
 
-                self.voice_tmp_path_queue.put(voice_tmp_path)
+                # 拼接json数据，存入队列
+                data_json = {
+                    "voice_path": voice_tmp_path,
+                    "content": message["content"]
+                }
+
+                self.voice_tmp_path_queue.put(data_json)
             except Exception as e:
                 logging.error(e)
                 return
@@ -305,7 +317,13 @@ class Audio:
                     voice_tmp_path = await self.so_vits_svc_api(audio_path=os.path.abspath(voice_tmp_path))
                     # print(f"voice_tmp_path={voice_tmp_path}")
 
-                self.voice_tmp_path_queue.put(voice_tmp_path)
+                # 拼接json数据，存入队列
+                data_json = {
+                    "voice_path": voice_tmp_path,
+                    "content": message["content"]
+                }
+
+                self.voice_tmp_path_queue.put(data_json)
             except Exception as e:
                 logging.error(e)
         elif message["type"] == "elevenlabs":
@@ -336,7 +354,13 @@ class Audio:
                     voice_tmp_path = await self.so_vits_svc_api(audio_path=voice_tmp_path)
                     # print(f"voice_tmp_path={voice_tmp_path}")
 
-                self.voice_tmp_path_queue.put(voice_tmp_path)
+                # 拼接json数据，存入队列
+                data_json = {
+                    "voice_path": voice_tmp_path,
+                    "content": message["content"]
+                }
+
+                self.voice_tmp_path_queue.put(data_json)
             except Exception as e:
                 logging.error(e)
                 return
@@ -347,7 +371,8 @@ class Audio:
         Audio.mixer_normal.init()
         while True:
             # 从队列中获取音频文件路径 队列为空时阻塞等待
-            voice_tmp_path = self.voice_tmp_path_queue.get(block=True)
+            data_json = self.voice_tmp_path_queue.get(block=True)
+            voice_tmp_path = data_json["voice_path"]
 
             # 如果文案标志位为2，则说明在播放中，需要暂停
             if Audio.copywriting_play_flag == 2:
@@ -357,11 +382,20 @@ class Audio:
                 # 等待一个切换时间
                 await asyncio.sleep(float(self.config.get("copywriting", "switching_interval")))
 
+            # 输出当前播放的音频文件的文本内容到字幕文件中
+            self.common.write_content_to_file("./log/danmu.txt", data_json["content"], write_log=False)
+
+            # 不仅仅是说话间隔，还是
+            await asyncio.sleep(0.5)
+
             Audio.mixer_normal.music.load(voice_tmp_path)
             Audio.mixer_normal.music.play()
             while Audio.mixer_normal.music.get_busy():
                 pygame.time.Clock().tick(10)
             Audio.mixer_normal.music.stop()
+
+            # 清空字幕文件
+            # self.common.write_content_to_file("./log/danmu.txt", "")
 
             if Audio.copywriting_play_flag == 1:
                 # 延时执行恢复文案播放

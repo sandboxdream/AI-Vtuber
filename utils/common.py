@@ -254,7 +254,7 @@ class Common:
 
 
     # 写入内容到指定文件中 返回T/F
-    def write_content_to_file(self, file_path, content):
+    def write_content_to_file(self, file_path, content, write_log=True):
         try:
             with open(file_path, 'w', encoding='utf-8') as file:
                 file.write(content)
