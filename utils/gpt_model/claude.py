@@ -47,7 +47,7 @@ class Claude:
         return [msg['text'] for msg in response['messages'] if msg['user'] == self.bot_user_id]
 
 
-    async def get_new_messages(self, channel, last_message_timestamp):
+    def get_new_messages(self, channel, last_message_timestamp):
         timeout = 60  # 超时时间设置为60秒
         start_time = time.time()
 
@@ -58,7 +58,7 @@ class Claude:
             if time.time() - start_time > timeout:
                 return None
 
-            await asyncio.sleep(5)
+            #await asyncio.sleep(3)
 
 
     def find_direct_message_channel(self, user_id):
@@ -77,7 +77,8 @@ class Claude:
         else:
             return None
 
-        new_message = asyncio.run(self.get_new_messages(self.dm_channel_id, last_message_timestamp))
+        new_message = self.get_new_messages(self.dm_channel_id, last_message_timestamp)
+        #new_message = asyncio.run(self.get_new_messages(self.dm_channel_id, last_message_timestamp))
         if new_message is not None:
             return new_message
         return None
