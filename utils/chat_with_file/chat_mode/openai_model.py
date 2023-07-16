@@ -103,13 +103,15 @@ class Openai_mode(Chat_model):
         self.docsearch = FAISS.from_texts(texts, embeddings)
 
         if self.chat_mode == "openai_gpt":
+            # 此处的提示词模板可以自己修改，如Use the following context to answer the final question first. Then summarize and answer based on your own knowledge
             # 使用以下上下文来回答最后的问题。如果你不知道答案，就说你不知道或者你在文章中找不到答案，不要试图编造答案。
-            prompt_template = """Use the following pieces of context to answer the question at the end. If you don't know the answer, just say that you don't know or you can't find the answer in the article, don't try to make up an answer.
+            # Use the following pieces of context to answer the question at the end. If you don't know the answer, just say that you don't know or you can't find the answer in the article, don't try to make up an answer
+            prompt_template = self.question_prompt + """
+            
+            content：{context}
 
-            {context}
-
-            Question: {question}
-            Answer in Chinese:"""
+            question: {question}
+            """
             PROMPT = PromptTemplate(
                 template=prompt_template, input_variables=["context", "question"]
             )
