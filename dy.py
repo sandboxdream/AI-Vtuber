@@ -19,7 +19,7 @@ def start_server():
 
 
     # 设置根日志记录器的等级
-    logging.basicConfig(level=logging.WARNING)
+    logging.basicConfig(level=logging.INFO)
 
     # 创建日志记录器
     logger = logging.getLogger(__name__)
@@ -46,20 +46,51 @@ def start_server():
                 pass
 
             elif type == 2:
-                logging.debug(f'[👍直播间点赞消息] {data_json["User"]["Nickname"]} 点赞了直播间')
+                user_name = data_json["User"]["Nickname"]
+                count = data_json["Count"]
 
-                pass
-                
+                logging.debug(f'[👍直播间点赞消息] {user_name} 点了{count}赞')                
 
             elif type == 3:
-                logging.debug(f'[🚹🚺直播间成员加入消息] 欢迎 {data_json["User"]["Nickname"]} 进入直播间')
+                user_name = data_json["User"]["Nickname"]
 
-                pass
+                logging.debug(f'[🚹🚺直播间成员加入消息] 欢迎 {user_name} 进入直播间')
+
+                data = {
+                    "username": user_name,
+                    "content": "进入直播间"
+                }
+
+                my_handle.entrance_handle(data)
 
             elif type == 4:
                 logging.debug(f'[➕直播间关注消息] 感谢 {data_json["User"]["Nickname"]} 的关注')
 
                 pass
+
+            elif type == 5:
+                gift_name = data_json["GiftName"]
+                user_name = data_json["User"]["Nickname"]
+                # 礼物数量
+                num = data_json["GiftCount"]
+                # 礼物重复数量
+                repeat_count = data_json["RepeatCount"]
+                # 单个礼物金额 需要自己维护礼物价值表
+                discount_price = 1
+                # 总金额
+                combo_total_coin = repeat_count * discount_price
+
+                logging.info(f'[🎁直播间礼物消息] 用户：{user_name} 赠送 {num} 个 {gift_name}，单价 {discount_price}电池，总计 {combo_total_coin}电池')
+
+                data = {
+                    "gift_name": gift_name,
+                    "username": user_name,
+                    "num": num,
+                    "unit_price": discount_price,
+                    "total_price": combo_total_coin
+                }
+
+                my_handle.gift_handle(data)
 
             elif type == 6:
                 logging.debug(f'[直播间数据] {data_json["Content"]}')
