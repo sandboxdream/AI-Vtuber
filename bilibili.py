@@ -31,6 +31,8 @@ def start_server():
         content = event["data"]["info"][1]  # 获取弹幕内容
         user_name = event["data"]["info"][2][1]  # 获取发送弹幕的用户昵称
 
+        logging.info(f"[{user_name}]: {content}")
+
         my_handle.commit_handle(user_name, content)
 
     @room.on('COMBO_SEND')
