@@ -383,9 +383,9 @@ class Audio:
                 await asyncio.sleep(float(self.config.get("copywriting", "switching_interval")))
 
             # 输出当前播放的音频文件的文本内容到字幕文件中
-            self.common.write_content_to_file("./log/danmu.txt", data_json["content"], write_log=False)
+            self.common.write_content_to_file("./log/字幕.txt", data_json["content"], write_log=False)
 
-            # 不仅仅是说话间隔，还是
+            # 不仅仅是说话间隔，还是等待文本捕获刷新数据
             await asyncio.sleep(0.5)
 
             Audio.mixer_normal.music.load(voice_tmp_path)
