@@ -204,6 +204,7 @@ class AI_VTB(QMainWindow):
             self.ui.label_filter_before_must_str.setToolTip("弹幕过滤，必须携带的触发前缀字符串（任一）\n例如：配置#，那么就需要发送：#你好")
             self.ui.label_filter_after_must_str.setToolTip("弹幕过滤，必须携带的触发后缀字符串（任一）\n例如：配置。那么就需要发送：你好。")
             self.ui.label_filter_badwords_path.setToolTip("本地违禁词数据路径（你如果不需要，可以清空文件内容）")
+            self.ui.label_filter_bad_pinyin_path.setToolTip("本地违禁拼音数据路径（你如果不需要，可以清空文件内容）")
             self.ui.label_filter_max_len.setToolTip("最长阅读的英文单词数（空格分隔）")
             self.ui.label_filter_max_char_len.setToolTip("最长阅读的字符数，双重过滤，避免溢出")
 
@@ -417,6 +418,7 @@ class AI_VTB(QMainWindow):
                 tmp_str = tmp_str + tmp + "\n"
             self.ui.textEdit_filter_after_must_str.setText(tmp_str)
             self.ui.lineEdit_filter_badwords_path.setText(self.filter_config['badwords_path'])
+            self.ui.lineEdit_filter_bad_pinyin_path.setText(self.filter_config['bad_pinyin_path'])
             self.ui.lineEdit_filter_max_len.setText(str(self.filter_config['max_len']))
             self.ui.lineEdit_filter_max_char_len.setText(str(self.filter_config['max_char_len']))
 
@@ -881,6 +883,8 @@ class AI_VTB(QMainWindow):
             config_data["filter"]["after_must_str"] = after_must_strs
             badwords_path = self.ui.lineEdit_filter_badwords_path.text()
             config_data["filter"]["badwords_path"] = badwords_path
+            bad_pinyin_path = self.ui.lineEdit_filter_bad_pinyin_path.text()
+            config_data["filter"]["bad_pinyin_path"] = bad_pinyin_path
             max_len = self.ui.lineEdit_filter_max_len.text()
             config_data["filter"]["max_len"] = int(max_len)
             max_char_len = self.ui.lineEdit_filter_max_char_len.text()

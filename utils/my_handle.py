@@ -394,6 +394,11 @@ class My_handle():
         # 换行转为,
         content = content.replace('\n', ',')
 
+        # 语言检测
+        if self.common.lang_check(content, self.need_lang) is None:
+            logging.warning("语言检测不通过，已过滤")
+            return
+        
         # 含有违禁词/链接
         if self.common.profanity_content(content) or self.common.check_sensitive_words2(
                 self.filter_config["badwords_path"], content) or \
@@ -401,10 +406,11 @@ class My_handle():
             logging.warning(f"违禁词/链接：{content}")
             return
 
-        # 语言检测
-        if self.common.lang_check(content, self.need_lang) is None:
-            logging.warning("语言检测不通过，已过滤")
-            return
+        # 同拼音违禁词过滤
+        if self.filter_config["bad_pinyin_path"] != "":
+            if self.common.check_sensitive_words3(self.filter_config["bad_pinyin_path"], content):
+                logging.warning(f"同音违禁词：{content}")
+                return
 
         # 根据聊天类型执行不同逻辑
         if self.chat_type == "chatgpt":

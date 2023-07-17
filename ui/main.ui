@@ -136,7 +136,7 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
              <x>0</x>
              <y>0</y>
              <width>980</width>
-             <height>5611</height>
+             <height>5654</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -285,12 +285,8 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                  <layout class="QGridLayout" name="gridLayout_26">
                   <item row="0" column="0">
                    <layout class="QGridLayout" name="gridLayout_25">
-                    <item row="4" column="0">
-                     <widget class="QLabel" name="label_filter_max_char_len">
-                      <property name="text">
-                       <string>最大字符数</string>
-                      </property>
-                     </widget>
+                    <item row="0" column="1">
+                     <widget class="QTextEdit" name="textEdit_filter_before_must_str"/>
                     </item>
                     <item row="2" column="0">
                      <widget class="QLabel" name="label_filter_badwords_path">
@@ -299,28 +295,18 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                       </property>
                      </widget>
                     </item>
-                    <item row="3" column="0">
-                     <widget class="QLabel" name="label_filter_max_len">
-                      <property name="text">
-                       <string>最大单词数</string>
-                      </property>
-                     </widget>
+                    <item row="3" column="1">
+                     <widget class="QLineEdit" name="lineEdit_filter_bad_pinyin_path"/>
                     </item>
                     <item row="4" column="1">
-                     <widget class="QLineEdit" name="lineEdit_filter_max_char_len"/>
+                     <widget class="QLineEdit" name="lineEdit_filter_max_len"/>
                     </item>
-                    <item row="0" column="0">
-                     <widget class="QLabel" name="label_filter_before_must_str">
+                    <item row="5" column="0">
+                     <widget class="QLabel" name="label_filter_max_char_len">
                       <property name="text">
-                       <string>弹幕前缀</string>
+                       <string>最大字符数</string>
                       </property>
                      </widget>
-                    </item>
-                    <item row="2" column="1">
-                     <widget class="QLineEdit" name="lineEdit_filter_badwords_path"/>
-                    </item>
-                    <item row="3" column="1">
-                     <widget class="QLineEdit" name="lineEdit_filter_max_len"/>
                     </item>
                     <item row="1" column="0">
                      <widget class="QLabel" name="label_filter_after_must_str">
@@ -329,11 +315,35 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                       </property>
                      </widget>
                     </item>
-                    <item row="0" column="1">
-                     <widget class="QTextEdit" name="textEdit_filter_before_must_str"/>
-                    </item>
                     <item row="1" column="1">
                      <widget class="QTextEdit" name="textEdit_filter_after_must_str"/>
+                    </item>
+                    <item row="4" column="0">
+                     <widget class="QLabel" name="label_filter_max_len">
+                      <property name="text">
+                       <string>最大单词数</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label_filter_before_must_str">
+                      <property name="text">
+                       <string>弹幕前缀</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="5" column="1">
+                     <widget class="QLineEdit" name="lineEdit_filter_max_char_len"/>
+                    </item>
+                    <item row="2" column="1">
+                     <widget class="QLineEdit" name="lineEdit_filter_badwords_path"/>
+                    </item>
+                    <item row="3" column="0">
+                     <widget class="QLabel" name="label_filter_bad_pinyin_path">
+                      <property name="text">
+                       <string>违禁拼音路径</string>
+                      </property>
+                     </widget>
                     </item>
                    </layout>
                   </item>
@@ -1747,7 +1757,7 @@ p, li { white-space: pre-wrap; }
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>963</width>
+             <width>706</width>
              <height>1022</height>
             </rect>
            </property>
@@ -2095,7 +2105,7 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>963</width>
+             <width>328</width>
              <height>919</height>
             </rect>
            </property>

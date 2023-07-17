@@ -19,6 +19,9 @@ import difflib
 import shutil
 from send2trash import send2trash
 
+from pypinyin import pinyin, Style
+
+
 class Common:
     # 获取北京时间
     def get_bj_time(self, type=0):
@@ -111,6 +114,23 @@ class Common:
         for _, found_word in automaton.iter(text):
             logging.warning(f"命中本地违禁词：{found_word}")
             return True
+
+        return False
+
+
+    # 本地敏感词转拼音检测 传入敏感词库文件路径和待检查的文本
+    def check_sensitive_words3(self, file_path, text):
+        with open(file_path, 'r', encoding='utf-8') as file:
+            sensitive_words = [line.strip() for line in file.readlines()]
+
+        pinyin_text = self.text2pinyin(text)
+        # logging.info(f"pinyin_text={pinyin_text}")
+
+        for word in sensitive_words:
+            pinyin_word = self.text2pinyin(word)
+            if pinyin_word in pinyin_text:
+                logging.warning(f"同音违禁拼音：{pinyin_word}")
+                return True
 
         return False
 
@@ -329,3 +349,29 @@ class Common:
             return content
         else:
             return None
+
+
+    def text2pinyin(self, text):
+        """文本转拼音
+
+        Args:
+            text (str): 传入待转换的文本
+
+        Returns:
+            str: 拼音字符串
+        """
+        pinyin_list = []
+        for char in text:
+            # 把每个汉字转为拼音
+            char_pinyin_list = pinyin(char, style=Style.NORMAL)
+            if char_pinyin_list:
+                _pinyin = char_pinyin_list[0][0]
+            else:
+                _pinyin = char
+            
+            # 将ü等转换为v
+            _pinyin = re.sub(r"ü", "v", _pinyin)
+            
+            pinyin_list.append(_pinyin)
+
+        return " ".join(pinyin_list)
