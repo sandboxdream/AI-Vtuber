@@ -718,6 +718,9 @@ out_audio, out_sr, n_frames = svc_model.infer(spk, tran, raw_path)
 
 补充板块提供了对项目接入的第三方技术或应用的详细说明。如果您需要与第三方应用进行对接，您可以查阅此板块的内容，并访问第三方官方网站以了解其使用方法。  
 
+### b站直播监听
+[bilibili-api](https://github.com/Nemo2011/bilibili-api)  
+
 ### <span id="dy">抖音弹幕获取</span>
 `dy.py`稳定：[dy-barrage-grab](https://gitee.com/haodong108/dy-barrage-grab)  
 请到此仓库的releases下载官方软件包，并仔细阅读官方的使用说明，运行后能在cmd看到弹幕消息的话，即为成功。  
@@ -907,6 +910,7 @@ cmd输入命令即可：`doctoc /path/to/file`
 - [ ] TTS合成时，语句切分算法有待优化
 - [ ] 压力测试
 - [ ] chat_with_file在匹配不到结果时继续使用LLM进行回答
+- [ ] 文案拒绝打断机制
 
 ## 📝更新日志
 
@@ -1050,6 +1054,8 @@ cmd输入命令即可：`doctoc /path/to/file`
 
 ### 2023-07-17
 - 抖音版增加入场欢迎和礼物答谢（礼物答谢的金额需要手动维护价格表）
+- 新增 同拼音的违禁拼音过滤机制
+- GUI适配字幕日志的配置
 
 </details>
 

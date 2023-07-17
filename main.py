@@ -137,6 +137,9 @@ class AI_VTB(QMainWindow):
 
             self.commit_log_type = config.get("commit_log_type")
 
+            # 日志
+            self.captions_config = config.get("captions")
+
             # 过滤配置
             self.filter_config = config.get("filter")
 
@@ -201,9 +204,13 @@ class AI_VTB(QMainWindow):
             self.ui.label_after_prompt.setToolTip("提示词后缀，会自带追加在弹幕后，主要用于追加一些特殊的限制")
             self.ui.label_commit_log_type.setToolTip("弹幕日志类型，用于记录弹幕触发时记录的内容，默认只记录回答，降低当用户使用弹幕日志显示在直播间时，因为用户的不良弹幕造成直播间被封禁问题")
 
+            self.ui.label_captions_enable.setToolTip("是否启用字幕日志记录，字幕输出内容为当前合成播放的音频的文本")
+            self.ui.label_captions_file_path.setToolTip("字幕日志存储路径")
+
             self.ui.label_filter_before_must_str.setToolTip("弹幕过滤，必须携带的触发前缀字符串（任一）\n例如：配置#，那么就需要发送：#你好")
             self.ui.label_filter_after_must_str.setToolTip("弹幕过滤，必须携带的触发后缀字符串（任一）\n例如：配置。那么就需要发送：你好。")
             self.ui.label_filter_badwords_path.setToolTip("本地违禁词数据路径（你如果不需要，可以清空文件内容）")
+            self.ui.label_filter_bad_pinyin_path.setToolTip("本地违禁拼音数据路径（你如果不需要，可以清空文件内容）")
             self.ui.label_filter_max_len.setToolTip("最长阅读的英文单词数（空格分隔）")
             self.ui.label_filter_max_char_len.setToolTip("最长阅读的字符数，双重过滤，避免溢出")
 
@@ -408,6 +415,11 @@ class AI_VTB(QMainWindow):
             commit_log_type_index = commit_log_types.index(self.commit_log_type)
             self.ui.comboBox_commit_log_type.setCurrentIndex(commit_log_type_index)
 
+            # 日志
+            if self.captions_config['enable']:
+                self.ui.checkBox_captions_enable.setChecked(True)
+            self.ui.lineEdit_captions_file_path.setText(self.captions_config['file_path'])
+
             tmp_str = ""
             for tmp in self.filter_config['before_must_str']:
                 tmp_str = tmp_str + tmp + "\n"
@@ -417,6 +429,7 @@ class AI_VTB(QMainWindow):
                 tmp_str = tmp_str + tmp + "\n"
             self.ui.textEdit_filter_after_must_str.setText(tmp_str)
             self.ui.lineEdit_filter_badwords_path.setText(self.filter_config['badwords_path'])
+            self.ui.lineEdit_filter_bad_pinyin_path.setText(self.filter_config['bad_pinyin_path'])
             self.ui.lineEdit_filter_max_len.setText(str(self.filter_config['max_len']))
             self.ui.lineEdit_filter_max_char_len.setText(str(self.filter_config['max_char_len']))
 
@@ -866,6 +879,10 @@ class AI_VTB(QMainWindow):
 
             config_data["commit_log_type"] = self.ui.comboBox_commit_log_type.currentText()
 
+            # 日志
+            config_data["captions"]["enable"] = self.ui.checkBox_captions_enable.isChecked()
+            config_data["captions"]["file_path"] = self.ui.lineEdit_captions_file_path.text()
+
             # 通用多行分隔符
             separators = [" ", "\n"]
 
@@ -881,6 +898,8 @@ class AI_VTB(QMainWindow):
             config_data["filter"]["after_must_str"] = after_must_strs
             badwords_path = self.ui.lineEdit_filter_badwords_path.text()
             config_data["filter"]["badwords_path"] = badwords_path
+            bad_pinyin_path = self.ui.lineEdit_filter_bad_pinyin_path.text()
+            config_data["filter"]["bad_pinyin_path"] = bad_pinyin_path
             max_len = self.ui.lineEdit_filter_max_len.text()
             config_data["filter"]["max_len"] = int(max_len)
             max_char_len = self.ui.lineEdit_filter_max_char_len.text()

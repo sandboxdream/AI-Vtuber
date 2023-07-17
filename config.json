@@ -11,6 +11,7 @@
     "before_must_str": [],
     "after_must_str": [],
     "badwords_path": "data/badwords.txt",
+    "bad_pinyin_path": "data/违禁拼音.txt",
     "max_len": 80,
     "max_char_len": 200
   },
