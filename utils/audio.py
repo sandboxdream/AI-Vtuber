@@ -368,41 +368,49 @@ class Audio:
 
     # 只进行音频播放   
     async def only_play_audio(self):
-        Audio.mixer_normal.init()
-        while True:
-            # 从队列中获取音频文件路径 队列为空时阻塞等待
-            data_json = self.voice_tmp_path_queue.get(block=True)
-            voice_tmp_path = data_json["voice_path"]
+        try:
+            captions_config = self.config.get("captions")
+    
+            Audio.mixer_normal.init()
+            while True:
+                # 从队列中获取音频文件路径 队列为空时阻塞等待
+                data_json = self.voice_tmp_path_queue.get(block=True)
+                voice_tmp_path = data_json["voice_path"]
 
-            # 如果文案标志位为2，则说明在播放中，需要暂停
-            if Audio.copywriting_play_flag == 2:
-                # 文案暂停
-                self.pause_copywriting_play()
-                Audio.copywriting_play_flag = 1
-                # 等待一个切换时间
-                await asyncio.sleep(float(self.config.get("copywriting", "switching_interval")))
+                # 如果文案标志位为2，则说明在播放中，需要暂停
+                if Audio.copywriting_play_flag == 2:
+                    # 文案暂停
+                    self.pause_copywriting_play()
+                    Audio.copywriting_play_flag = 1
+                    # 等待一个切换时间
+                    await asyncio.sleep(float(self.config.get("copywriting", "switching_interval")))
 
-            # 输出当前播放的音频文件的文本内容到字幕文件中
-            self.common.write_content_to_file("./log/字幕.txt", data_json["content"], write_log=False)
+                # 是否启用字幕输出
+                if captions_config["enable"]:
+                    # 输出当前播放的音频文件的文本内容到字幕文件中
+                    self.common.write_content_to_file(captions_config["file_path"], data_json["content"], write_log=False)
 
-            # 不仅仅是说话间隔，还是等待文本捕获刷新数据
-            await asyncio.sleep(0.5)
+                # 不仅仅是说话间隔，还是等待文本捕获刷新数据
+                await asyncio.sleep(0.5)
 
-            Audio.mixer_normal.music.load(voice_tmp_path)
-            Audio.mixer_normal.music.play()
-            while Audio.mixer_normal.music.get_busy():
-                pygame.time.Clock().tick(10)
-            Audio.mixer_normal.music.stop()
+                Audio.mixer_normal.music.load(voice_tmp_path)
+                Audio.mixer_normal.music.play()
+                while Audio.mixer_normal.music.get_busy():
+                    pygame.time.Clock().tick(10)
+                Audio.mixer_normal.music.stop()
 
-            # 清空字幕文件
-            # self.common.write_content_to_file("./log/danmu.txt", "")
+                # 是否启用字幕输出
+                #if captions_config["enable"]:
+                    # 清空字幕文件
+                    # self.common.write_content_to_file(captions_config["file_path"], "")
 
-            if Audio.copywriting_play_flag == 1:
-                # 延时执行恢复文案播放
-                self.delayed_execution_unpause_copywriting_play()
+                if Audio.copywriting_play_flag == 1:
+                    # 延时执行恢复文案播放
+                    self.delayed_execution_unpause_copywriting_play()
 
-        Audio.mixer_normal.quit()
-
+            Audio.mixer_normal.quit()
+        except Exception as e:
+            logging.error(e)
 
 
     # 停止当前播放的音频

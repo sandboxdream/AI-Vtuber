@@ -164,5 +164,9 @@
     "google": {
       "tgt_lang": "zh-CN"
     }
+  },
+  "captions": {
+    "enable": true,
+    "file_path": "log/字幕.txt"
   }
 }
