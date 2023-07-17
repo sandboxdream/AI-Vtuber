@@ -137,6 +137,9 @@ class AI_VTB(QMainWindow):
 
             self.commit_log_type = config.get("commit_log_type")
 
+            # 日志
+            self.captions_config = config.get("captions")
+
             # 过滤配置
             self.filter_config = config.get("filter")
 
@@ -200,6 +203,9 @@ class AI_VTB(QMainWindow):
             self.ui.label_before_prompt.setToolTip("提示词前缀，会自带追加在弹幕前，主要用于追加一些特殊的限制")
             self.ui.label_after_prompt.setToolTip("提示词后缀，会自带追加在弹幕后，主要用于追加一些特殊的限制")
             self.ui.label_commit_log_type.setToolTip("弹幕日志类型，用于记录弹幕触发时记录的内容，默认只记录回答，降低当用户使用弹幕日志显示在直播间时，因为用户的不良弹幕造成直播间被封禁问题")
+
+            self.ui.label_captions_enable.setToolTip("是否启用字幕日志记录，字幕输出内容为当前合成播放的音频的文本")
+            self.ui.label_captions_file_path.setToolTip("字幕日志存储路径")
 
             self.ui.label_filter_before_must_str.setToolTip("弹幕过滤，必须携带的触发前缀字符串（任一）\n例如：配置#，那么就需要发送：#你好")
             self.ui.label_filter_after_must_str.setToolTip("弹幕过滤，必须携带的触发后缀字符串（任一）\n例如：配置。那么就需要发送：你好。")
@@ -408,6 +414,11 @@ class AI_VTB(QMainWindow):
             self.ui.comboBox_commit_log_type.addItems(commit_log_types)
             commit_log_type_index = commit_log_types.index(self.commit_log_type)
             self.ui.comboBox_commit_log_type.setCurrentIndex(commit_log_type_index)
+
+            # 日志
+            if self.captions_config['enable']:
+                self.ui.checkBox_captions_enable.setChecked(True)
+            self.ui.lineEdit_captions_file_path.setText(self.captions_config['file_path'])
 
             tmp_str = ""
             for tmp in self.filter_config['before_must_str']:
@@ -867,6 +878,10 @@ class AI_VTB(QMainWindow):
                 config_data["need_lang"] = "jp"
 
             config_data["commit_log_type"] = self.ui.comboBox_commit_log_type.currentText()
+
+            # 日志
+            config_data["captions"]["enable"] = self.ui.checkBox_captions_enable.isChecked()
+            config_data["captions"]["file_path"] = self.ui.lineEdit_captions_file_path.text()
 
             # 通用多行分隔符
             separators = [" ", "\n"]
