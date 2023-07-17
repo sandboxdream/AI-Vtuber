@@ -22,11 +22,20 @@ from send2trash import send2trash
 class Common:
     # 获取北京时间
     def get_bj_time(self, type=0):
+        """获取北京时间
+
+        Args:
+            type (int, optional): 返回时间类型. 默认为 0.
+                0 返回数据：年-月-日 时:分:秒
+                1 返回数据：年-月-日
+                2 返回数据：当前时间的秒
+                3 返回数据：自1970年1月1日以来的秒数
+                4 返回数据：返回自1970年1月1日以来的毫秒数 % 100
+
+        Returns:
+            str: 返回指定格式的时间字符串
+        """
         if type == 0:
-            """
-            获取北京时间
-            :return: 当前北京时间，格式为 '%Y-%m-%d %H:%M:%S'
-            """
             utc_now = datetime.utcnow().replace(tzinfo=timezone.utc)  # 获取当前 UTC 时间
             SHA_TZ = timezone(
                 timedelta(hours=8),
