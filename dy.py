@@ -18,19 +18,9 @@ def start_server():
         os._exit(0)
 
 
-    # 设置根日志记录器的等级
-    logging.basicConfig(level=logging.INFO)
-
-    # 创建日志记录器
-    logger = logging.getLogger(__name__)
-
-    # 设置日志记录器的等级
-    logger.setLevel(logging.INFO)
-
-
     def on_message(ws, message):
         message_json = json.loads(message)
-        logging.debug(message_json)
+        # logging.debug(message_json)
         if "Type" in message_json:
             type = message_json["Type"]
             data_json = json.loads(message_json["Data"])
@@ -49,12 +39,12 @@ def start_server():
                 user_name = data_json["User"]["Nickname"]
                 count = data_json["Count"]
 
-                logging.debug(f'[👍直播间点赞消息] {user_name} 点了{count}赞')                
+                logging.info(f'[👍直播间点赞消息] {user_name} 点了{count}赞')                
 
             elif type == 3:
                 user_name = data_json["User"]["Nickname"]
 
-                logging.debug(f'[🚹🚺直播间成员加入消息] 欢迎 {user_name} 进入直播间')
+                logging.info(f'[🚹🚺直播间成员加入消息] 欢迎 {user_name} 进入直播间')
 
                 data = {
                     "username": user_name,
@@ -64,7 +54,7 @@ def start_server():
                 my_handle.entrance_handle(data)
 
             elif type == 4:
-                logging.debug(f'[➕直播间关注消息] 感谢 {data_json["User"]["Nickname"]} 的关注')
+                logging.info(f'[➕直播间关注消息] 感谢 {data_json["User"]["Nickname"]} 的关注')
 
                 pass
 
@@ -75,30 +65,49 @@ def start_server():
                 num = data_json["GiftCount"]
                 # 礼物重复数量
                 repeat_count = data_json["RepeatCount"]
-                # 单个礼物金额 需要自己维护礼物价值表
-                discount_price = 1
+
+                try:
+                    # 暂时是写死的
+                    data_path = "data/抖音礼物价格表.json"
+
+                    # 读取JSON文件
+                    with open(data_path, "r", encoding="utf-8") as file:
+                        # 解析JSON数据
+                        data_json = json.load(file)
+
+                    if gift_name in data_json:
+                        # 单个礼物金额 需要自己维护礼物价值表
+                        discount_price = data_json[gift_name]
+                    else:
+                        logging.warning(f"数据文件：{data_path} 中，没有 {gift_name} 对应的价值，请手动补充数据")
+                        discount_price = 1
+                except Exception as e:
+                    logging.error(e)
+                    discount_price = 1
+
+
                 # 总金额
                 combo_total_coin = repeat_count * discount_price
 
-                logging.info(f'[🎁直播间礼物消息] 用户：{user_name} 赠送 {num} 个 {gift_name}，单价 {discount_price}电池，总计 {combo_total_coin}电池')
+                logging.info(f'[🎁直播间礼物消息] 用户：{user_name} 赠送 {num} 个 {gift_name}，单价 {discount_price}抖币，总计 {combo_total_coin}抖币')
 
                 data = {
                     "gift_name": gift_name,
                     "username": user_name,
                     "num": num,
-                    "unit_price": discount_price,
-                    "total_price": combo_total_coin
+                    "unit_price": discount_price / 10,
+                    "total_price": combo_total_coin / 10
                 }
 
                 my_handle.gift_handle(data)
 
             elif type == 6:
-                logging.debug(f'[直播间数据] {data_json["Content"]}')
+                logging.info(f'[直播间数据] {data_json["Content"]}')
 
                 pass
 
             elif type == 8:
-                logging.debug(f'[分享直播间] 感谢 {data_json["User"]["Nickname"]} 分享了直播间')
+                logging.info(f'[分享直播间] 感谢 {data_json["User"]["Nickname"]} 分享了直播间')
 
                 pass
 
@@ -118,10 +127,11 @@ def start_server():
         # WebSocket连接URL
         ws_url = "ws://127.0.0.1:8888"
 
-        logging.debug(f"监听地址：{ws_url}")
+        logging.info(f"监听地址：{ws_url}")
 
+        # 不设置日志等级
+        websocket.enableTrace(False)
         # 创建WebSocket连接
-        websocket.enableTrace(True)
         ws = websocket.WebSocketApp(ws_url,
             on_message=on_message,
             on_error=on_error,
