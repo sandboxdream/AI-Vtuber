@@ -516,7 +516,7 @@ class My_handle():
 
     # 礼物处理
     def gift_handle(self, data):
-        logging.debug(f"[{data['username']}]: {data}")
+        # logging.debug(f"[{data['username']}]: {data}")
 
         try:
             if False == self.thanks_config["gift_enable"]:
@@ -544,7 +544,7 @@ class My_handle():
 
     # 入场处理
     def entrance_handle(self, data):
-        logging.debug(f"[{data['username']}]: {data['content']}")
+        # logging.debug(f"[{data['username']}]: {data['content']}")
 
         try:
             if False == self.thanks_config["entrance_enable"]:
