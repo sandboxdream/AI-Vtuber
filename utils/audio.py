@@ -210,10 +210,10 @@ class Audio:
             async with aiohttp.ClientSession() as session:
                 async with session.post(url, data=params) as response:
                     if response.status == 200:
-                        output_path = "out/" + self.common.get_bj_time(4) + ".wav"  # Replace with the desired path to save the output WAV file
+                        output_path = "out/so-vits-svc_" + self.common.get_bj_time(4) + ".wav"  # Replace with the desired path to save the output WAV file
                         with open(output_path, "wb") as f:
                             f.write(await response.read())
-                        logging.debug(f"Conversion completed. Output WAV file saved:{output_path}")
+                        logging.debug(f"so-vits-svc转换完成，音频保存在：{output_path}")
 
                         return output_path
                     else:
@@ -222,7 +222,43 @@ class Audio:
                         return None
         except Exception as e:
             logging.error(e)
+            return None
 
+
+    # 调用ddsp_svc的api
+    async def ddsp_svc_api(self, audio_path=""):
+        try:
+            url = f"{self.config.get('ddsp_svc', 'api_ip_port')}/voiceChangeModel"
+                
+            # 读取音频文件
+            with open(audio_path, "rb") as file:
+                audio_file = file.read()
+
+            data = aiohttp.FormData()
+            data.add_field('sample', audio_file)
+            data.add_field('fSafePrefixPadLength', str(self.config.get('ddsp_svc', 'fSafePrefixPadLength')))
+            data.add_field('fPitchChange', str(self.config.get('ddsp_svc', 'fPitchChange')))
+            data.add_field('sSpeakId', str(self.config.get('ddsp_svc', 'sSpeakId')))
+            data.add_field('sampleRate', str(self.config.get('ddsp_svc', 'sampleRate')))
+
+            async with aiohttp.ClientSession() as session:
+                async with session.post(url, data=data) as response:
+                    # 检查响应状态
+                    if response.status == 200:
+                        output_path = "out/ddsp-svc_" + self.common.get_bj_time(4) + ".wav"  # Replace with the desired path to save the output WAV file
+                        with open(output_path, "wb") as f:
+                            f.write(await response.read())
+                        logging.debug(f"ddsp-svc转换完成，音频保存在：{output_path}")
+
+                        return output_path
+                    else:
+                        print(f"请求ddsp-svc失败，状态码：{response.status}")
+                        return None
+
+        except Exception as e:
+            logging.error(e)
+            return None
+        
 
     # 音频合成（edge-tts / vits）并播放
     def audio_synthesis(self, message):
@@ -265,7 +301,29 @@ class Audio:
         except Exception as e:
             logging.error(e)
             return
+        
 
+        # 变声并封装数据发到队列 减少冗余
+        async def voice_change_and_put_to_queue(voice_tmp_path):
+            # 是否启用ddsp-svc来变声
+            if True == self.config.get("ddsp_svc", "enable"):
+                voice_tmp_path = await self.ddsp_svc_api(audio_path=voice_tmp_path)
+                # print(f"voice_tmp_path={voice_tmp_path}")
+
+            # 是否启用so-vits-svc来变声
+            if True == self.config.get("so_vits_svc", "enable"):
+                voice_tmp_path = await self.so_vits_svc_api(audio_path=voice_tmp_path)
+                # print(f"voice_tmp_path={voice_tmp_path}")
+            
+            # 拼接json数据，存入队列
+            data_json = {
+                "voice_path": voice_tmp_path,
+                "content": message["content"]
+            }
+
+            self.voice_tmp_path_queue.put(data_json)
+
+        # 区分TTS类型
         if message["type"] == "vits":
             try:
                 # 语言检测
@@ -288,17 +346,7 @@ class Audio:
                 voice_tmp_path = data_json["data"][1]["name"]
                 print(f"vits-fast合成成功，输出到={voice_tmp_path}")
 
-                if True == self.config.get("so_vits_svc", "enable"):
-                    voice_tmp_path = await self.so_vits_svc_api(audio_path=voice_tmp_path)
-                    # print(f"voice_tmp_path={voice_tmp_path}")
-
-                # 拼接json数据，存入队列
-                data_json = {
-                    "voice_path": voice_tmp_path,
-                    "content": message["content"]
-                }
-
-                self.voice_tmp_path_queue.put(data_json)
+                await voice_change_and_put_to_queue(voice_tmp_path)          
             except Exception as e:
                 logging.error(e)
                 return
@@ -313,17 +361,7 @@ class Audio:
 
                 logging.info(f"edge-tts合成成功，输出到={voice_tmp_path}")
 
-                if True == self.config.get("so_vits_svc", "enable"):
-                    voice_tmp_path = await self.so_vits_svc_api(audio_path=os.path.abspath(voice_tmp_path))
-                    # print(f"voice_tmp_path={voice_tmp_path}")
-
-                # 拼接json数据，存入队列
-                data_json = {
-                    "voice_path": voice_tmp_path,
-                    "content": message["content"]
-                }
-
-                self.voice_tmp_path_queue.put(data_json)
+                await voice_change_and_put_to_queue(voice_tmp_path)
             except Exception as e:
                 logging.error(e)
         elif message["type"] == "elevenlabs":
@@ -350,17 +388,7 @@ class Audio:
                 if voice_tmp_path is None:
                     return
 
-                if True == self.config.get("so_vits_svc", "enable"):
-                    voice_tmp_path = await self.so_vits_svc_api(audio_path=voice_tmp_path)
-                    # print(f"voice_tmp_path={voice_tmp_path}")
-
-                # 拼接json数据，存入队列
-                data_json = {
-                    "voice_path": voice_tmp_path,
-                    "content": message["content"]
-                }
-
-                self.voice_tmp_path_queue.put(data_json)
+                await voice_change_and_put_to_queue(voice_tmp_path)
             except Exception as e:
                 logging.error(e)
                 return

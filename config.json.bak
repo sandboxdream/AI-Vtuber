@@ -63,6 +63,15 @@
     "character": "ikaros",
     "speed": 1
   },
+  "ddsp_svc": {
+    "enable": false,
+    "config_path": "E:\\DDSP-SVC-3.0\\exp\\combsub-test\\config.yaml",
+    "api_ip_port": "http://127.0.0.1:6844",
+    "fSafePrefixPadLength": 0,
+    "fPitchChange": 0,
+    "sSpeakId": 3,
+    "sampleRate": 44100
+  },
   "so_vits_svc": {
     "enable": false,
     "config_path": "D:\\so-vits-svc\\configs\\ikaros_v1.json",
