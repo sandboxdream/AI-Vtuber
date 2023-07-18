@@ -7,7 +7,16 @@ from utils.common import Common
 from utils.logger import Configure_logger
 from utils.my_handle import My_handle
 
+"""
+	___ _                       
+	|_ _| | ____ _ _ __ ___  ___ 
+	 | || |/ / _` | '__/ _ \/ __|
+	 | ||   < (_| | | | (_) \__ \
+	|___|_|\_\__,_|_|  \___/|___/
 
+"""
+
+# 点火起飞
 def start_server():
     common = Common()
     # 日志文件路径

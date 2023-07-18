@@ -8,6 +8,16 @@ from .gpt_model.gpt import GPT_MODEL
 from .logger import Configure_logger
 
 
+"""
+	___ _                       
+	|_ _| | ____ _ _ __ ___  ___ 
+	 | || |/ / _` | '__/ _ \/ __|
+	 | ||   < (_| | | | (_) \__ \
+	|___|_|\_\__,_|_|  \___/|___/
+
+"""
+
+
 class My_handle():
     def __init__(self, config_path):
         self.common = Common()
