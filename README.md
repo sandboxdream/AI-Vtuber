@@ -1,8 +1,9 @@
 # AI Vtuber
 
-_✨ AI Vtuber ✨_
+
 
 <div style="text-align: center;">
+<h1>✨ AI Vtuber ✨</h1>
 <a href="https://github.com/Ikaros-521/AI-Vtuber/stargazers">
     <img alt="GitHub stars" src="https://img.shields.io/github/stars/Ikaros-521/AI-Vtuber?color=%09%2300BFFF&style=flat-square">
 </a>
@@ -1114,7 +1115,7 @@ MIT许可证。详情请参阅LICENSE文件。
 
 ### 💸投资方
 
-![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/c375f6da-f98e-4840-bd32-a9e254adae65)
+![image](./docs/%E6%8A%95%E8%B5%84%E4%BA%BA/%E6%8A%95%E8%B5%84%E4%BA%BA.png)
 
 
 ### 🙌赞助
