@@ -120,10 +120,10 @@ class Audio:
 
 
     # 请求VITS接口获取合成后的音频路径
-    def vits_fast_api(self, vits_api_ip_port="http://127.0.0.1:7860", character="ikaros", language="日语", text="こんにちわ。", speed=1):
+    def vits_fast_api(self, data):
         try:
             # API地址
-            API_URL = vits_api_ip_port + '/run/predict/'
+            API_URL = data["api_ip_port"] + '/run/predict/'
 
             data_json = {
                 "fn_index":0,
@@ -136,12 +136,12 @@ class Audio:
                 "session_hash":"mnqeianp9th"
             }
 
-            if language == "中文" or language == "汉语":
-                data_json["data"] = [text, character, "简体中文", speed]
-            elif language == "英文" or language == "英语":
-                data_json["data"] = [text, character, "English", speed]
+            if data["language"] == "中文" or data["language"] == "汉语":
+                data_json["data"] = [data["content"], data["character"], "简体中文", data["speed"]]
+            elif data["language"] == "英文" or data["language"] == "英语":
+                data_json["data"] = [data["content"], data["character"], "English", data["speed"]]
             else:
-                data_json["data"] = [text, character, "日本語", speed]
+                data_json["data"] = [data["content"], data["character"], "日本語", data["speed"]]
 
             response = requests.post(url=API_URL, json=data_json)
             response.raise_for_status()  # 检查响应的状态码
@@ -308,12 +308,12 @@ class Audio:
             # 是否启用ddsp-svc来变声
             if True == self.config.get("ddsp_svc", "enable"):
                 voice_tmp_path = await self.ddsp_svc_api(audio_path=voice_tmp_path)
-                # print(f"voice_tmp_path={voice_tmp_path}")
+                logging.info(f"ddsp-svc合成成功，输出到={voice_tmp_path}")
 
             # 是否启用so-vits-svc来变声
             if True == self.config.get("so_vits_svc", "enable"):
                 voice_tmp_path = await self.so_vits_svc_api(audio_path=voice_tmp_path)
-                # print(f"voice_tmp_path={voice_tmp_path}")
+                logging.info(f"so-vits-svc合成成功，输出到={voice_tmp_path}")
             
             # 拼接json数据，存入队列
             data_json = {
@@ -339,14 +339,22 @@ class Audio:
 
                 # logging.info("language=" + language)
 
+                data = {
+                    "api_ip_port": message["data"]["api_ip_port"],
+                    "character": message["data"]["character"],
+                    "speed": message["data"]["speed"],
+                    "language": language,
+                    "content": message["content"]
+                }
+        
                 # 调用接口合成语音
-                data_json = self.vits_fast_api(message["data"]["api_ip_port"], message["data"]["character"], language, message["content"], message["data"]["speed"])
+                data_json = self.vits_fast_api(data)
                 # logging.info(data_json)
 
                 voice_tmp_path = data_json["data"][1]["name"]
                 print(f"vits-fast合成成功，输出到={voice_tmp_path}")
 
-                await voice_change_and_put_to_queue(voice_tmp_path)          
+                await voice_change_and_put_to_queue(voice_tmp_path)   
             except Exception as e:
                 logging.error(e)
                 return
@@ -575,6 +583,22 @@ class Audio:
 
             content = content.replace('\n', '。')
 
+            # 变声并移动音频文件 减少冗余
+            async def voice_change_and_put_to_queue(voice_tmp_path):
+                # 是否启用ddsp-svc来变声
+                if True == self.config.get("ddsp_svc", "enable"):
+                    voice_tmp_path = await self.ddsp_svc_api(audio_path=voice_tmp_path)
+                    logging.info(f"ddsp-svc合成成功，输出到={voice_tmp_path}")
+
+                if True == self.config.get("so_vits_svc", "enable"):
+                    voice_tmp_path = await self.so_vits_svc_api(audio_path=voice_tmp_path)
+                    logging.info(f"so-vits-svc合成成功，输出到={voice_tmp_path}")
+
+                # 移动音频到 临时音频路径（本项目的out文件夹） 并重命名
+                out_file_path = os.path.join(os.getcwd(), "out/")
+                logging.info(f"out_file_path={out_file_path}")
+                self.common.move_file(voice_tmp_path, out_file_path, file_name + "-" + str(file_index))
+
             # 文件名自增值，在后期多合一的时候起到排序作用
             file_index = 0
 
@@ -599,21 +623,22 @@ class Audio:
 
                         # logging.info("language=" + language)
 
+                        data = {
+                            "api_ip_port": vits["api_ip_port"],
+                            "character": vits["character"],
+                            "speed": vits["speed"],
+                            "language": language,
+                            "content": content
+                        }
+
                         # 调用接口合成语音
-                        data_json = self.vits_fast_api(vits["api_ip_port"], vits["character"], language, content, vits["speed"])
+                        data_json = self.vits_fast_api(data)
                         # logging.info(data_json)
 
                         voice_tmp_path = data_json["data"][1]["name"]
                         logging.info(f"vits-fast合成成功，输出到={voice_tmp_path}")
 
-                        if True == self.config.get("so_vits_svc", "enable"):
-                            voice_tmp_path = await self.so_vits_svc_api(audio_path=voice_tmp_path)
-                            logging.info(f"so-vits-svc合成成功，输出到={voice_tmp_path}")
-
-                        # 移动音频到 临时音频路径（本项目的out文件夹） 并重命名
-                        out_file_path = os.path.join(os.getcwd(), "out/")
-                        logging.info(f"out_file_path={out_file_path}")
-                        self.common.move_file(voice_tmp_path, out_file_path, file_name + "-" + str(file_index))
+                        await voice_change_and_put_to_queue(voice_tmp_path)
 
                         # self.voice_tmp_path_queue.put(voice_tmp_path)
                     except Exception as e:
@@ -630,13 +655,7 @@ class Audio:
 
                         logging.info(f"edge-tts合成成功，输出到={voice_tmp_path}")
 
-                        if True == self.config.get("so_vits_svc", "enable"):
-                            voice_tmp_path = await self.so_vits_svc_api(audio_path=os.path.abspath(voice_tmp_path))
-                            logging.info(f"so-vits-svc合成成功，输出到={voice_tmp_path}")
-
-                        # 移动音频到 临时音频路径（本项目的out文件夹） 并重命名
-                        out_file_path = os.path.join(os.getcwd(), "out/")
-                        self.common.move_file(voice_tmp_path, out_file_path, file_name + "-" + str(file_index))
+                        await voice_change_and_put_to_queue(voice_tmp_path)
 
                         # self.voice_tmp_path_queue.put(voice_tmp_path)
                     except Exception as e:

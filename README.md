@@ -1089,6 +1089,7 @@ cmd输入命令即可：`doctoc /path/to/file`
 
 ### 2023-07-19
 - GUI适配DDSP-SVC；补充说明文档
+- 优化audio中vits接口的设计&优化代码减少冗余
 
 </details>
 
