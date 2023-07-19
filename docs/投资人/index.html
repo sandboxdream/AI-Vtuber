@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<head lang="zh-Hans">
+    <meta charset="UTF-8">
+	<meta name="renderer" content="webkit" >
+    <title>投资人</title>
+    <style>
+        body {
+            text-align: center;
+            padding: 20px;
+            background-image: url(bg.png);
+            background-size: cover;
+        }
+        
+        .investor-card {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .investor-card > div {
+            text-align: center;
+        }
+        
+        .investor-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+        
+        .investor-name {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 0;
+        }
+        
+        .investor-amount {
+            font-size: 16px;
+            margin: 0;
+        }
+        
+    </style>
+</head>
+<body>
+    <div id="investors-container" class="investor-card"></div>
+</body>
+<script>
+    // 投资方数据
+    const investorsData = [
+      {
+        name: "木头",
+        avatar: "https://images.cnblogs.com/cnblogs_com/ikaros-521/2328032/o_230719075505_%E6%9C%A8%E5%A4%B4.jpg",
+        amount: "￥101"
+      },
+      {
+        name: "月零宫白",
+        avatar: "https://images.cnblogs.com/cnblogs_com/ikaros-521/2328032/o_230719074437_%E6%9C%88%E9%9B%B6%E5%AE%AB%E7%99%BD.jpg",
+        amount: "￥100"
+      },
+      {
+        name: "昏睡红糖",
+        avatar: "https://images.cnblogs.com/cnblogs_com/ikaros-521/2328032/o_230719074436_%E6%98%8F%E7%9D%A1%E7%BA%A2%E7%B3%96.jpg",
+        amount: "￥6"
+      },
+      {
+        name: "冯古",
+        avatar: "https://images.cnblogs.com/cnblogs_com/ikaros-521/2328032/o_230719074436_%E5%86%AF%E5%8F%A4.jpg",
+        amount: "￥6"
+      }
+    ];
+  
+    // 获取投资方信息容器
+    const investorsContainer = document.getElementById('investors-container');
+
+    // 生成投资方信息的HTML
+    investorsData.forEach(investor => {
+        const investorHTML = `
+            <div>
+                <img src="${investor.avatar}" class="investor-avatar">
+                <p class="investor-name">${investor.name}</p>
+                <p class="investor-amount">投资金额: ${investor.amount}</p>
+            </div>
+        `;
+        // 添加到容器中
+        investorsContainer.innerHTML += investorHTML;
+    });
+  </script>
+</html>
