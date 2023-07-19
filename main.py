@@ -341,6 +341,15 @@ class AI_VTB(QMainWindow):
             self.ui.label_choose_song_song_path.setToolTip("歌曲音频路径（默认为本项目的song文件夹）")
             self.ui.label_choose_song_match_fail_copy.setToolTip("匹配失败返回的音频文案 注意 {content} 这个是用于替换用户发送的歌名的，请务必不要乱删！影响使用！")
 
+            # DDSP-SVC
+            self.ui.label_ddsp_svc_enable.setToolTip("是否启用DDSP-SVC进行音频的变声")
+            self.ui.label_ddsp_svc_config_path.setToolTip("模型配置文件config.yaml的路径(此处可以不配置，暂时没有用到)")
+            self.ui.label_ddsp_svc_api_ip_port.setToolTip("flask_api服务运行的ip端口，例如：http://127.0.0.1:6844")
+            self.ui.label_ddsp_svc_fSafePrefixPadLength.setToolTip("安全前缀填充长度，不知道干啥用，默认为0")
+            self.ui.label_ddsp_svc_fPitchChange.setToolTip("音调设置，默认为0")
+            self.ui.label_ddsp_svc_sSpeakId.setToolTip("说话人ID，需要和模型数据对应，默认为0")
+            self.ui.label_ddsp_svc_sampleRate.setToolTip("DAW所需的采样率，默认为44100")
+
             # so-vits-svc
             self.ui.label_so_vits_svc_enable.setToolTip("是否启用so-vits-svc进行音频的变声")
             self.ui.label_so_vits_svc_config_path.setToolTip("模型配置文件config.json的路径")
@@ -647,6 +656,16 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_choose_song_stop_cmd.setText(self.choose_song_config['stop_cmd'])
             self.ui.lineEdit_choose_song_song_path.setText(self.choose_song_config['song_path'])
             self.ui.lineEdit_choose_song_match_fail_copy.setText(self.choose_song_config['match_fail_copy'])
+
+            # ddsp-svc
+            if config.get("ddsp_svc", "enable"):
+                self.ui.checkBox_ddsp_svc_enable.setChecked(True)
+            self.ui.lineEdit_ddsp_svc_config_path.setText(config.get("ddsp_svc", "config_path"))
+            self.ui.lineEdit_ddsp_svc_api_ip_port.setText(config.get("ddsp_svc", "api_ip_port"))
+            self.ui.lineEdit_ddsp_svc_fSafePrefixPadLength.setText(str(config.get("ddsp_svc", "fSafePrefixPadLength")))
+            self.ui.lineEdit_ddsp_svc_fPitchChange.setText(str(config.get("ddsp_svc", "fPitchChange")))
+            self.ui.lineEdit_ddsp_svc_sSpeakId.setText(str(config.get("ddsp_svc", "sSpeakId")))
+            self.ui.lineEdit_ddsp_svc_sampleRate.setText(str(config.get("ddsp_svc", "sampleRate")))
 
             if self.so_vits_svc_config['enable']:
                 self.ui.checkBox_so_vits_svc_enable.setChecked(True)
@@ -1084,6 +1103,16 @@ class AI_VTB(QMainWindow):
             config_data["choose_song"]["song_path"] = self.ui.lineEdit_choose_song_song_path.text()
             config_data["choose_song"]["match_fail_copy"] = self.ui.lineEdit_choose_song_match_fail_copy.text()
 
+            # DDSP-SVC
+            config_data["ddsp_svc"]["enable"] = self.ui.checkBox_ddsp_svc_enable.isChecked()
+            config_data["ddsp_svc"]["config_path"] = self.ui.lineEdit_ddsp_svc_config_path.text()
+            config_data["ddsp_svc"]["api_ip_port"] = self.ui.lineEdit_ddsp_svc_api_ip_port.text()
+            config_data["ddsp_svc"]["fSafePrefixPadLength"] = round(float(self.ui.lineEdit_ddsp_svc_fSafePrefixPadLength.text()), 1)
+            config_data["ddsp_svc"]["fPitchChange"] = round(float(self.ui.lineEdit_ddsp_svc_fPitchChange.text()), 1)
+            config_data["ddsp_svc"]["sSpeakId"] = int(self.ui.lineEdit_ddsp_svc_sSpeakId.text())
+            config_data["ddsp_svc"]["sampleRate"] = int(self.ui.lineEdit_ddsp_svc_sampleRate.text())
+
+            # so-vits-svc
             config_data["so_vits_svc"]["enable"] = self.ui.checkBox_so_vits_svc_enable.isChecked()
             config_data["so_vits_svc"]["config_path"] = self.ui.lineEdit_so_vits_svc_config_path.text()
             config_data["so_vits_svc"]["api_ip_port"] = self.ui.lineEdit_so_vits_svc_api_ip_port.text()
