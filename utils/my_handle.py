@@ -56,8 +56,9 @@ class My_handle():
 
             self.need_lang = self.config.get("need_lang")
 
-            # 优先本地问答库匹配
+            # 优先本地问答
             self.local_qa = self.config.get("local_qa")
+            self.local_qa_audio_list = None
 
             # openai
             self.openai_config = self.config.get("openai")
@@ -81,7 +82,7 @@ class My_handle():
 
             # 点歌模块
             self.choose_song_config = self.config.get("choose_song")
-            self.song_lists = None
+            self.choose_song_song_lists = None
 
             logging.info(f"配置数据加载成功。")
         except Exception as e:
@@ -144,7 +145,7 @@ class My_handle():
         # 判断是否使能了点歌模式
         if self.choose_song_config["enable"]:
             # 获取本地音频文件夹内所有的音频文件名
-            self.song_lists = self.audio.get_dir_songs_filename()
+            self.choose_song_song_lists = self.audio.get_dir_audios_filename(self.choose_song_config["song_path"])
 
         # 日志文件路径
         self.log_file_path = "./log/log-" + self.common.get_bj_time(1) + ".txt"
@@ -201,10 +202,10 @@ class My_handle():
             _type_: 寂寞
         """
         # 1、匹配本地问答库 触发后不执行后面的其他功能
-        if self.local_qa == True:
+        if self.local_qa["text"]["enable"] == True:
             # 输出当前用户发送的弹幕消息
             logging.info(f"[{user_name}]: {content}")
-            tmp = self.find_answer(content, "data/本地问答库.txt")
+            tmp = self.find_answer(content, self.local_qa["text"]["file_path"])
             if tmp != None:
                 resp_content = tmp
                 # 将 AI 回复记录到日志文件中
@@ -241,14 +242,43 @@ class My_handle():
 
                 return
 
-        # 2、点歌模式 触发后不执行后面的其他功能
+        # 2、匹配本地问答音频库 触发后不执行后面的其他功能
+        if self.local_qa["audio"]["enable"] == True:
+            # 输出当前用户发送的弹幕消息
+            logging.info(f"[{user_name}]: {content}")
+            # 获取本地问答音频库文件夹内所有的音频文件名
+            self.local_qa_audio_list = self.audio.get_dir_audios_filename(self.local_qa["audio"]["file_path"])
+            local_qv_audio_filename = self.common.find_best_match(content, self.local_qa_audio_list)
+            # 找到了匹配的结果
+            if local_qv_audio_filename is not None:
+                # 寻找对应的文件
+                resp_content = self.audio.search_files(self.local_qa["audio"]["file_path"], local_qv_audio_filename)
+                if resp_content != []:
+                    logging.debug(f"匹配到的音频原相对路径：{resp_content[0]}")
+
+                    # 拼接音频文件路径
+                    resp_content = f'{self.local_qa["audio"]["file_path"]}/{resp_content[0]}'
+                    logging.info(f"匹配到的音频路径：{resp_content}")
+                    message = {
+                        "type": "local_qa_audio",
+                        "user_name": user_name,
+                        "content": resp_content
+                    }
+                    
+                    # 音频合成（edge-tts / vits）并播放
+                    self.audio.audio_synthesis(message)
+
+                    return
+
+
+        # 3、点歌模式 触发后不执行后面的其他功能
         if self.choose_song_config["enable"] == True:
             # 判断点歌命令是否正确
             if content.startswith(self.choose_song_config["start_cmd"]):
                 logging.info(f"[{user_name}]: {content}")
 
                 # 判断是否有此歌曲
-                song_filename = self.common.find_best_match(content, self.song_lists)
+                song_filename = self.common.find_best_match(content, self.choose_song_song_lists)
                 if song_filename is None:
                     # 去除命令前缀
                     content = content[len(self.choose_song_config["start_cmd"]):]
@@ -293,7 +323,7 @@ class My_handle():
             elif content.startswith(self.choose_song_config["stop_cmd"]):
                 self.audio.stop_current_audio()
 
-        # 3、画图模式 触发后不执行后面的其他功能
+        # 4、画图模式 触发后不执行后面的其他功能
         if content.startswith(self.sd_config["trigger"]):
             # 含有违禁词/链接
             if self.common.profanity_content(content) or self.common.check_sensitive_words2(

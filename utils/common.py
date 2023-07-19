@@ -1,5 +1,5 @@
 # 导入所需的库
-import re
+import re, random
 import time
 import os
 import logging
@@ -375,3 +375,23 @@ class Common:
             pinyin_list.append(_pinyin)
 
         return " ".join(pinyin_list)
+
+
+    def get_random_value(self, lower_limit, upper_limit):
+        """获得2个数之间的随机值
+
+        Args:
+            lower_limit (float): 随机数下限
+            upper_limit (float): 随机数上限
+
+        Returns:
+            float: 2个数之间的随机值
+        """
+        if lower_limit == upper_limit:
+            return round(lower_limit, 2)
+
+        if lower_limit > upper_limit:
+            lower_limit, upper_limit = upper_limit, lower_limit
+
+        random_float = round(random.uniform(lower_limit, upper_limit), 2)
+        return random_float
