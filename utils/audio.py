@@ -78,13 +78,11 @@ class Audio:
 
 
     # 获取本地音频文件夹内所有的音频文件名
-    def get_dir_songs_filename(self):
+    def get_dir_audios_filename(self, audio_path):
         try:
-            song_path = self.config.get("choose_song", "song_path")
-
             # 使用 os.walk 遍历文件夹及其子文件夹
             audio_files = []
-            for root, dirs, files in os.walk(song_path):
+            for root, dirs, files in os.walk(audio_path):
                 for file in files:
                     if file.endswith(('.mp3', '.wav', '.flac', '.aac', '.ogg', '.m4a')):
                         audio_files.append(os.path.join(root, file))
@@ -92,7 +90,7 @@ class Audio:
             # 提取文件名
             file_names = [os.path.basename(file) for file in audio_files]
             # 保留子文件夹路径
-            # file_names = [os.path.relpath(file, song_path) for file in audio_files]
+            # file_names = [os.path.relpath(file, audio_path) for file in audio_files]
 
             logging.info("获取到本地音频文件名列表如下：")
             logging.info(file_names)
@@ -275,6 +273,15 @@ class Audio:
 
                 self.voice_tmp_path_queue.put(data_json)
                 return
+            elif message['type'] == "local_qa_audio":
+                # 拼接json数据，存入队列
+                data_json = {
+                    "voice_path": message['content'],
+                    "content": message["content"]
+                }
+
+                self.voice_tmp_path_queue.put(data_json)
+                return
 
             # 中文语句切分
             sentences = self.common.split_sentences(message['content'])
@@ -402,48 +409,83 @@ class Audio:
                 return
 
 
+    # 音频变速
+    def audio_speed_change(self, audio_path, speed=1):
+        """音频变速
+
+        Args:
+            audio_path (str): 音频路径
+            speed (int, optional): 部分速度倍率.  默认 1.
+
+        Returns:
+            str: 变速后的音频路径
+        """
+        # 使用 pydub 打开音频文件
+        audio = AudioSegment.from_file(audio_path)
+
+        # 调整采样率来修改播放速度
+        adjusted_audio = audio._spawn(audio.raw_data, overrides={
+            "frame_rate": int(audio.frame_rate * speed)
+        })
+
+        # 导出为临时文件
+        temp_path = f"./out/temp_{self.common.get_bj_time(4)}.wav"
+        adjusted_audio.export(temp_path, format="wav")
+
+        return temp_path
+
+
     # 只进行音频播放   
     async def only_play_audio(self):
         try:
             captions_config = self.config.get("captions")
-    
+
             Audio.mixer_normal.init()
             while True:
-                # 从队列中获取音频文件路径 队列为空时阻塞等待
-                data_json = self.voice_tmp_path_queue.get(block=True)
-                voice_tmp_path = data_json["voice_path"]
+                try:
+                    # 从队列中获取音频文件路径 队列为空时阻塞等待
+                    data_json = self.voice_tmp_path_queue.get(block=True)
+                    voice_tmp_path = data_json["voice_path"]
 
-                # 如果文案标志位为2，则说明在播放中，需要暂停
-                if Audio.copywriting_play_flag == 2:
-                    # 文案暂停
-                    self.pause_copywriting_play()
-                    Audio.copywriting_play_flag = 1
-                    # 等待一个切换时间
-                    await asyncio.sleep(float(self.config.get("copywriting", "switching_interval")))
+                    # 如果文案标志位为2，则说明在播放中，需要暂停
+                    if Audio.copywriting_play_flag == 2:
+                        # 文案暂停
+                        self.pause_copywriting_play()
+                        Audio.copywriting_play_flag = 1
+                        # 等待一个切换时间
+                        await asyncio.sleep(float(self.config.get("copywriting", "switching_interval")))
 
-                # 是否启用字幕输出
-                if captions_config["enable"]:
-                    # 输出当前播放的音频文件的文本内容到字幕文件中
-                    self.common.write_content_to_file(captions_config["file_path"], data_json["content"], write_log=False)
+                    # 是否启用字幕输出
+                    if captions_config["enable"]:
+                        # 输出当前播放的音频文件的文本内容到字幕文件中
+                        self.common.write_content_to_file(captions_config["file_path"], data_json["content"], write_log=False)
 
-                # 不仅仅是说话间隔，还是等待文本捕获刷新数据
-                await asyncio.sleep(0.5)
+                    # 不仅仅是说话间隔，还是等待文本捕获刷新数据
+                    await asyncio.sleep(0.5)
 
-                Audio.mixer_normal.music.load(voice_tmp_path)
-                Audio.mixer_normal.music.play()
-                while Audio.mixer_normal.music.get_busy():
-                    pygame.time.Clock().tick(10)
-                Audio.mixer_normal.music.stop()
+                    # 音频变速
+                    random_speed = 1
+                    if self.config.get("audio_random_speed", "copywriting", "enable"):
+                        random_speed = self.common.get_random_value(self.config.get("audio_random_speed", "copywriting", "speed_min"),
+                                                                    self.config.get("audio_random_speed", "copywriting", "speed_max"))
+                    voice_tmp_path = self.audio_speed_change(voice_tmp_path, random_speed)
 
-                # 是否启用字幕输出
-                #if captions_config["enable"]:
-                    # 清空字幕文件
-                    # self.common.write_content_to_file(captions_config["file_path"], "")
+                    Audio.mixer_normal.music.load(voice_tmp_path)
+                    Audio.mixer_normal.music.play()
+                    while Audio.mixer_normal.music.get_busy():
+                        pygame.time.Clock().tick(10)
+                    Audio.mixer_normal.music.stop()
 
-                if Audio.copywriting_play_flag == 1:
-                    # 延时执行恢复文案播放
-                    self.delayed_execution_unpause_copywriting_play()
+                    # 是否启用字幕输出
+                    #if captions_config["enable"]:
+                        # 清空字幕文件
+                        # self.common.write_content_to_file(captions_config["file_path"], "")
 
+                    if Audio.copywriting_play_flag == 1:
+                        # 延时执行恢复文案播放
+                        self.delayed_execution_unpause_copywriting_play()
+                except Exception as e:
+                    logging.error(e)
             Audio.mixer_normal.quit()
         except Exception as e:
             logging.error(e)
@@ -478,30 +520,40 @@ class Audio:
         try:
             Audio.mixer_copywriting.init()
             while True:
-                # 判断播放标志位
-                if Audio.copywriting_play_flag in [0, 1, -1]:
-                    await asyncio.sleep(float(self.config.get("copywriting", "audio_interval")))  # 添加延迟减少循环频率
-                    continue
-                
-                play_list = self.config.get("copywriting", "play_list")
-                # 是否开启随机列表播放
-                if self.config.get("copywriting", "random_play"):
-                    random.shuffle(play_list)
-
-                for voice_tmp_path in play_list:
+                try:
+                    # 判断播放标志位
                     if Audio.copywriting_play_flag in [0, 1, -1]:
+                        await asyncio.sleep(float(self.config.get("copywriting", "audio_interval")))  # 添加延迟减少循环频率
                         continue
+                    
+                    play_list = self.config.get("copywriting", "play_list")
+                    # 是否开启随机列表播放
+                    if self.config.get("copywriting", "random_play"):
+                        random.shuffle(play_list)
 
-                    audio_path = os.path.join(self.config.get("copywriting", "audio_path"), voice_tmp_path)
-                    Audio.mixer_copywriting.music.load(audio_path)
-                    Audio.mixer_copywriting.music.play()
-                    while Audio.mixer_copywriting.music.get_busy():
-                        pygame.time.Clock().tick(10)
-                    Audio.mixer_copywriting.music.stop()
+                    for voice_tmp_path in play_list:
+                        if Audio.copywriting_play_flag in [0, 1, -1]:
+                            continue
 
-                    # 添加延时，暂停执行n秒钟
-                    await asyncio.sleep(float(self.config.get("copywriting", "audio_interval")))  
+                        audio_path = os.path.join(self.config.get("copywriting", "audio_path"), voice_tmp_path)
 
+                        # 音频变速
+                        random_speed = 1
+                        if self.config.get("audio_random_speed", "normal", "enable"):
+                            random_speed = self.common.get_random_value(self.config.get("audio_random_speed", "normal", "speed_min"),
+                                                                        self.config.get("audio_random_speed", "normal", "speed_max"))
+                        audio_path = self.audio_speed_change(audio_path, random_speed)
+
+                        Audio.mixer_copywriting.music.load(audio_path)
+                        Audio.mixer_copywriting.music.play()
+                        while Audio.mixer_copywriting.music.get_busy():
+                            pygame.time.Clock().tick(10)
+                        Audio.mixer_copywriting.music.stop()
+
+                        # 添加延时，暂停执行n秒钟
+                        await asyncio.sleep(float(self.config.get("copywriting", "audio_interval")))  
+                except Exception as e:
+                    logging.error(e)
             Audio.mixer_copywriting.quit()
         except Exception as e:
             logging.error(e)
@@ -695,3 +747,4 @@ class Audio:
         except Exception as e:
             logging.error(e)
             return None
+        

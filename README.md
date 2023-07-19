@@ -76,6 +76,7 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
     - [3.ERROR: Conmunicate.`__init__`() got an unexpected keyword argument 'text'](#3error-conmunicate__init__-got-an-unexpected-keyword-argument-text)
     - [4.File ".\flask_api_full_song.py", line 38, in wav2wav  out_audio, out_sr = svc_model.infer(spk, tran, raw_path) ValueError: too many values to unpack (expected 2)](#4file-%5Cflask_api_full_songpy-line-38-in-wav2wav--out_audio-out_sr--svc_modelinferspk-tran-raw_path-valueerror-too-many-values-to-unpack-expected-2)
 - [♏️补充](#%E8%A1%A5%E5%85%85)
+  - [b站直播监听](#b%E7%AB%99%E7%9B%B4%E6%92%AD%E7%9B%91%E5%90%AC)
   - [<span id="dy">抖音弹幕获取</span>](#span-iddy%E6%8A%96%E9%9F%B3%E5%BC%B9%E5%B9%95%E8%8E%B7%E5%8F%96span)
   - [快手弹幕获取](#%E5%BF%AB%E6%89%8B%E5%BC%B9%E5%B9%95%E8%8E%B7%E5%8F%96)
   - [ChatGPT](#chatgpt)
@@ -89,6 +90,7 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
   - [Live2D](#live2d)
   - [Stable Diffusion](#stable-diffusion)
   - [VITS-fast-fine-tuning](#vits-fast-fine-tuning)
+  - [DDSP-SVC](#ddsp-svc)
   - [so-vits-svc](#so-vits-svc)
   - [聊天模式 百度](#%E8%81%8A%E5%A4%A9%E6%A8%A1%E5%BC%8F-%E7%99%BE%E5%BA%A6)
 - [🀅开发&项目相关](#%F0%9F%80%85%E5%BC%80%E5%8F%91%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3)
@@ -105,6 +107,8 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
 - [⭐️Star 经历](#%EF%B8%8Fstar-%E7%BB%8F%E5%8E%86)
 - [🤝贡献](#%E8%B4%A1%E7%8C%AE)
   - [🎉鸣谢](#%E9%B8%A3%E8%B0%A2)
+  - [💸投资方](#%E6%8A%95%E8%B5%84%E6%96%B9)
+  - [🙌赞助](#%E8%B5%9E%E5%8A%A9)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -1091,6 +1095,8 @@ cmd输入命令即可：`doctoc /path/to/file`
 ### 2023-07-19
 - GUI适配DDSP-SVC；补充说明文档
 - 优化audio中vits接口的设计&优化代码减少冗余
+- 新增本地问答音频库，机制类似点歌，通过编辑音频文件名做为触发匹配关键词，优先级第二高，匹配命中后直接会进行匹配音频的播放。
+- 新增自定义上下限音频随机变速，对普通音频播放和文案音频播放可以进行随机变速配置。(GUI未适配)
 
 </details>
 

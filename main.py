@@ -191,6 +191,9 @@ class AI_VTB(QMainWindow):
             # 日志
             self.captions_config = config.get("captions")
 
+            # 本地问答
+            self.local_qa_config = config.get("local_qa")
+
             # 过滤配置
             self.filter_config = config.get("filter")
 
@@ -257,6 +260,12 @@ class AI_VTB(QMainWindow):
 
             self.ui.label_captions_enable.setToolTip("是否启用字幕日志记录，字幕输出内容为当前合成播放的音频的文本")
             self.ui.label_captions_file_path.setToolTip("字幕日志存储路径")
+
+            # 本地问答
+            self.ui.label_local_qa_text_enable.setToolTip("是否启用本地问答文本匹配，完全命中设定的问题后，自动合成对应的回答")
+            self.ui.label_local_qa_text_file_path.setToolTip("本地问答文本数据存储路径")
+            self.ui.label_local_qa_audio_enable.setToolTip("是否启用本地问答音频匹配，部分命中音频文件名后，直接播放对应的音频文件")
+            self.ui.label_local_qa_audio_file_path.setToolTip("本地问答音频文件存储路径")
 
             self.ui.label_filter_before_must_str.setToolTip("弹幕过滤，必须携带的触发前缀字符串（任一）\n例如：配置#，那么就需要发送：#你好")
             self.ui.label_filter_after_must_str.setToolTip("弹幕过滤，必须携带的触发后缀字符串（任一）\n例如：配置。那么就需要发送：你好。")
@@ -479,6 +488,14 @@ class AI_VTB(QMainWindow):
             if self.captions_config['enable']:
                 self.ui.checkBox_captions_enable.setChecked(True)
             self.ui.lineEdit_captions_file_path.setText(self.captions_config['file_path'])
+
+            # 本地问答
+            if self.local_qa_config['text']['enable']:
+                self.ui.checkBox_local_qa_text_enable.setChecked(True)
+            self.ui.lineEdit_local_qa_text_file_path.setText(self.local_qa_config['text']['file_path'])
+            if self.local_qa_config['audio']['enable']:
+                self.ui.checkBox_local_qa_audio_enable.setChecked(True)
+            self.ui.lineEdit_local_qa_audio_file_path.setText(self.local_qa_config['audio']['file_path'])
 
             tmp_str = ""
             for tmp in self.filter_config['before_must_str']:
@@ -953,6 +970,12 @@ class AI_VTB(QMainWindow):
             config_data["captions"]["enable"] = self.ui.checkBox_captions_enable.isChecked()
             config_data["captions"]["file_path"] = self.ui.lineEdit_captions_file_path.text()
 
+            # 本地问答
+            config_data["local_qa"]["text"]["enable"] = self.ui.checkBox_local_qa_text_enable.isChecked()
+            config_data["local_qa"]["text"]["file_path"] = self.ui.lineEdit_local_qa_text_file_path.text()
+            config_data["local_qa"]["audio"]["enable"] = self.ui.checkBox_local_qa_audio_enable.isChecked()
+            config_data["local_qa"]["audio"]["file_path"] = self.ui.lineEdit_local_qa_audio_file_path.text()
+
             # 通用多行分隔符
             separators = [" ", "\n"]
 
@@ -1391,6 +1414,7 @@ class AI_VTB(QMainWindow):
 
             # 刷新文案和音频列表
             self.copywriting_refresh_list()
+
 
     # 合成音频
     def copywriting_synthetic_audio(self):
