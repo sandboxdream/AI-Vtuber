@@ -1755,7 +1755,7 @@ class ExternalCommandThread(QThread):
             # 处理没有传递 platform 的情况
             self.output_ready.emit("没有传入platform，取名为寄！")
             return
-        
+
         logging.debug(f"platform={self.platform}")
 
         module = importlib.import_module(self.platform)
