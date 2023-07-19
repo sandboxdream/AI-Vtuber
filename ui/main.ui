@@ -134,9 +134,9 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>0</y>
+             <y>-4345</y>
              <width>980</width>
-             <height>5794</height>
+             <height>6162</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -1442,6 +1442,93 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                  </item>
                  <item row="4" column="1">
                   <widget class="QLineEdit" name="lineEdit_choose_song_match_fail_copy"/>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QGroupBox" name="groupBox_ddsp_svc">
+              <property name="title">
+               <string>DDSP_SVC</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_49">
+               <item row="0" column="0">
+                <layout class="QGridLayout" name="gridLayout_48">
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_ddsp_svc_enable">
+                   <property name="text">
+                    <string>启用</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="0">
+                  <widget class="QLabel" name="label_ddsp_svc_fSafePrefixPadLength">
+                   <property name="text">
+                    <string>安全前缀填充长度</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="5" column="1">
+                  <widget class="QLineEdit" name="lineEdit_ddsp_svc_sSpeakId"/>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QCheckBox" name="checkBox_ddsp_svc_enable">
+                   <property name="text">
+                    <string>是</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QLineEdit" name="lineEdit_ddsp_svc_api_ip_port"/>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="QLabel" name="label_ddsp_svc_api_ip_port">
+                   <property name="text">
+                    <string>API地址</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="label_ddsp_svc_config_path">
+                   <property name="text">
+                    <string>配置文件路径</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="1">
+                  <widget class="QLineEdit" name="lineEdit_ddsp_svc_fSafePrefixPadLength"/>
+                 </item>
+                 <item row="4" column="1">
+                  <widget class="QLineEdit" name="lineEdit_ddsp_svc_fPitchChange"/>
+                 </item>
+                 <item row="5" column="0">
+                  <widget class="QLabel" name="label_ddsp_svc_sSpeakId">
+                   <property name="text">
+                    <string>说话人ID</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QLineEdit" name="lineEdit_ddsp_svc_config_path"/>
+                 </item>
+                 <item row="4" column="0">
+                  <widget class="QLabel" name="label_ddsp_svc_fPitchChange">
+                   <property name="text">
+                    <string>变调</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="6" column="0">
+                  <widget class="QLabel" name="label_ddsp_svc_sampleRate">
+                   <property name="text">
+                    <string>采样率</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="6" column="1">
+                  <widget class="QLineEdit" name="lineEdit_ddsp_svc_sampleRate"/>
                  </item>
                 </layout>
                </item>
