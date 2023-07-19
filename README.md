@@ -802,7 +802,7 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 
 ### DDSP-SVC
 官方仓库：[DDSP-SVC](https://github.com/yxlllc/DDSP-SVC)  
-个人提供的已训练好的模型：[点我跳转](https://github.com/Ikaros-521/so-vits-svc/releases)  
+个人提供的已训练好的模型：[点我跳转](https://github.com/Ikaros-521/DDSP-SVC/releases)  
 羽毛佬视频教程：[【AI翻唱/变声/整合包】有张N卡就能跑！媲美So-VITS却不吃配置，全新的DDSP-SVC 3.0训练/推理教程](https://www.bilibili.com/video/BV1rs4y1Q7BQ)  
 修改`flask_api.py`最后几行中的模型路径，其他配置自行调整，另外需要注意！`enable_spk_id_cover`改为`False`，即可接入。  
 ```
