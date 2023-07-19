@@ -1114,31 +1114,8 @@ MIT许可证。详情请参阅LICENSE文件。
 
 ### 💸投资方
 
-<div style="text-align: center; background-color: #f0f0f0; padding: 20px;">
-  <h2>投资方信息</h2>
-  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 20px;">
-    <div>
-      <img src="https://images.cnblogs.com/cnblogs_com/ikaros-521/2328032/o_230719075505_%E6%9C%A8%E5%A4%B4.jpg" style="width: 100px; height: 100px; border-radius: 50%;">
-      <p style="font-size: 20px; font-weight: bold; margin: 0;">木头</p>
-      <p style="font-size: 16px; margin: 0;">投资金额: ￥101</p>
-    </div>
-    <div>
-      <img src="https://images.cnblogs.com/cnblogs_com/ikaros-521/2328032/o_230719074437_%E6%9C%88%E9%9B%B6%E5%AE%AB%E7%99%BD.jpg" style="width: 100px; height: 100px; border-radius: 50%;">
-      <p style="font-size: 20px; font-weight: bold; margin: 0;">月零宫白</p>
-      <p style="font-size: 16px; margin: 0;">投资金额: ￥100</p>
-    </div>
-    <div>
-      <img src="https://images.cnblogs.com/cnblogs_com/ikaros-521/2328032/o_230719074436_%E6%98%8F%E7%9D%A1%E7%BA%A2%E7%B3%96.jpg" style="width: 100px; height: 100px; border-radius: 50%;">
-      <p style="font-size: 20px; font-weight: bold; margin: 0;">昏睡红糖</p>
-      <p style="font-size: 16px; margin: 0;">投资金额: ￥6</p>
-    </div>
-    <div>
-      <img src="https://images.cnblogs.com/cnblogs_com/ikaros-521/2328032/o_230719074436_%E5%86%AF%E5%8F%A4.jpg" style="width: 100px; height: 100px; border-radius: 50%;">
-      <p style="font-size: 20px; font-weight: bold; margin: 0;">冯古</p>
-      <p style="font-size: 16px; margin: 0;">投资金额: ￥6</p>
-    </div>
-  </div>
-</div>
+![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/c375f6da-f98e-4840-bd32-a9e254adae65)
+
 
 ### 🙌赞助
 
