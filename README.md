@@ -495,7 +495,12 @@ GUI程序运行后会自动加载配置文件，可以通过GUI程序进行配�
 }
 ```
 
-或者纯代理的镜像站：  
+或者纯代理的镜像站：   
+合作伙伴 [智来星球](http://m.zlxqai.com/) 提供：
+- http://129.226.219.212:9000/  
+- http://43.134.230.167:9000/
+
+源自互联网：
 - https://openai-pag.wangzhishi.net/
 
 如何配置呢？  
@@ -1164,6 +1169,10 @@ MIT许可证。详情请参阅LICENSE文件。
 ### 💸投资方
 
 ![image](./docs/%E6%8A%95%E8%B5%84%E4%BA%BA/%E6%8A%95%E8%B5%84%E4%BA%BA.png)
+
+### 合作伙伴
+
+智来星球：[http://m.zlxqai.com/](http://m.zlxqai.com/)  ———— 提供GPT、AI绘图服务  
 
 
 ### 🙌赞助
