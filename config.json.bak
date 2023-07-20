@@ -138,7 +138,8 @@
     "audio": {
       "enable": true,
       "file_path": "out/本地问答音频/"
-    }
+    },
+    "similarity": 0.5
   },
   "choose_song": {
     "enable": true,

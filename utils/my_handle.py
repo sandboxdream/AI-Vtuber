@@ -272,12 +272,14 @@ class My_handle():
             self.local_qa_audio_list = self.audio.get_dir_audios_filename(self.local_qa["audio"]["file_path"], type=0)
 
             # 不含拓展名做查找
-            local_qv_audio_filename = self.common.find_best_match(content, local_qa_audio_filename_list)
+            local_qv_audio_filename = self.common.find_best_match(content, local_qa_audio_filename_list, self.local_qa["similarity"])
             
+            # print(f"local_qv_audio_filename={local_qv_audio_filename}")
+
             # 找到了匹配的结果
             if local_qv_audio_filename is not None:
                 # 把结果从原文件名列表中在查找一遍，补上拓展名
-                local_qv_audio_filename = self.common.find_best_match(local_qv_audio_filename, self.local_qa_audio_list)
+                local_qv_audio_filename = self.common.find_best_match(local_qv_audio_filename, self.local_qa_audio_list, 0)
 
                 # 寻找对应的文件
                 resp_content = self.audio.search_files(self.local_qa["audio"]["file_path"], local_qv_audio_filename)

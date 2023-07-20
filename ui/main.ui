@@ -134,9 +134,9 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>0</y>
+             <y>-501</y>
              <width>980</width>
-             <height>6427</height>
+             <height>6470</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -706,17 +706,16 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                       </property>
                      </widget>
                     </item>
+                    <item row="3" column="1">
+                     <widget class="QLineEdit" name="lineEdit_local_qa_audio_file_path"/>
+                    </item>
+                    <item row="1" column="1">
+                     <widget class="QLineEdit" name="lineEdit_local_qa_text_file_path"/>
+                    </item>
                     <item row="2" column="0">
                      <widget class="QLabel" name="label_local_qa_audio_enable">
                       <property name="text">
                        <string>音频匹配</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="0" column="1">
-                     <widget class="QCheckBox" name="checkBox_local_qa_text_enable">
-                      <property name="text">
-                       <string>启用</string>
                       </property>
                      </widget>
                     </item>
@@ -727,13 +726,17 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                       </property>
                      </widget>
                     </item>
-                    <item row="1" column="1">
-                     <widget class="QLineEdit" name="lineEdit_local_qa_text_file_path"/>
-                    </item>
                     <item row="3" column="0">
                      <widget class="QLabel" name="label_local_qa_audio_file_path">
                       <property name="text">
                        <string>音频存储路径</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="1">
+                     <widget class="QCheckBox" name="checkBox_local_qa_text_enable">
+                      <property name="text">
+                       <string>启用</string>
                       </property>
                      </widget>
                     </item>
@@ -744,8 +747,15 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                       </property>
                      </widget>
                     </item>
-                    <item row="3" column="1">
-                     <widget class="QLineEdit" name="lineEdit_local_qa_audio_file_path"/>
+                    <item row="4" column="0">
+                     <widget class="QLabel" name="label_local_qa_similarity">
+                      <property name="text">
+                       <string>最低相似度</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="4" column="1">
+                     <widget class="QLineEdit" name="lineEdit_local_qa_similarity"/>
                     </item>
                    </layout>
                   </item>

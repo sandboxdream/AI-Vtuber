@@ -267,6 +267,7 @@ class AI_VTB(QMainWindow):
             self.ui.label_local_qa_text_file_path.setToolTip("本地问答文本数据存储路径")
             self.ui.label_local_qa_audio_enable.setToolTip("是否启用本地问答音频匹配，部分命中音频文件名后，直接播放对应的音频文件")
             self.ui.label_local_qa_audio_file_path.setToolTip("本地问答音频文件存储路径")
+            self.ui.label_local_qa_similarity.setToolTip("最低文本匹配相似度，就是说用户发送的内容和本地问答库中设定的内容的最低相似度。\n低了就会被当做一般弹幕处理")
 
             self.ui.label_filter_before_must_str.setToolTip("弹幕过滤，必须携带的触发前缀字符串（任一）\n例如：配置#，那么就需要发送：#你好")
             self.ui.label_filter_after_must_str.setToolTip("弹幕过滤，必须携带的触发后缀字符串（任一）\n例如：配置。那么就需要发送：你好。")
@@ -505,6 +506,7 @@ class AI_VTB(QMainWindow):
             if self.local_qa_config['audio']['enable']:
                 self.ui.checkBox_local_qa_audio_enable.setChecked(True)
             self.ui.lineEdit_local_qa_audio_file_path.setText(self.local_qa_config['audio']['file_path'])
+            self.ui.lineEdit_local_qa_similarity.setText(str(self.local_qa_config['similarity']))
 
             tmp_str = ""
             for tmp in self.filter_config['before_must_str']:
@@ -992,6 +994,7 @@ class AI_VTB(QMainWindow):
             config_data["local_qa"]["text"]["file_path"] = self.ui.lineEdit_local_qa_text_file_path.text()
             config_data["local_qa"]["audio"]["enable"] = self.ui.checkBox_local_qa_audio_enable.isChecked()
             config_data["local_qa"]["audio"]["file_path"] = self.ui.lineEdit_local_qa_audio_file_path.text()
+            config_data["local_qa"]["similarity"] = round(float(self.ui.lineEdit_local_qa_similarity.text()), 2)
 
             # 通用多行分隔符
             separators = [" ", "\n"]

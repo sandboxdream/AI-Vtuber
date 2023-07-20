@@ -242,12 +242,13 @@ class Common:
 
 
     # 字符串匹配算法来计算字符串之间的相似度，并选择匹配度最高的字符串作为结果
-    def find_best_match(self, substring, string_list):
+    def find_best_match(self, substring, string_list, similarity=0.5):
         """字符串匹配算法来计算字符串之间的相似度，并选择匹配度最高的字符串作为结果
 
         Args:
-            substring (_type_): 要搜索的子串
-            string_list (_type_): 字符串列表
+            substring (str): 要搜索的子串
+            string_list (list): 字符串列表
+            similarity (float): 最低相似度
 
         Returns:
             _type_: 匹配到的字符串 或 None
@@ -262,8 +263,8 @@ class Common:
                 best_ratio = ratio
                 best_match = string
         
-        # 如果相似度不到50%，则认为匹配不成功
-        if best_ratio <= 0.5:
+        # 如果相似度不到similarity，则认为匹配不成功
+        if best_ratio < similarity:
             return None
 
         return best_match
