@@ -406,3 +406,24 @@ class Common:
 
         random_float = round(random.uniform(lower_limit, upper_limit), 2)
         return random_float
+    
+
+    def merge_consecutive_asterisks(self, s):
+        """合并字符串末尾连续的*
+
+        Args:
+            s (str): 待处理的字符串
+
+        Returns:
+            str: 处理完后的字符串
+        """
+        # 从字符串末尾开始遍历，找到连续的*的起始索引
+        idx = len(s) - 1
+        while idx >= 0 and s[idx] == '*':
+            idx -= 1
+
+        # 如果找到了超过3个连续的*，则进行替换
+        if len(s) - 1 - idx > 3:
+            s = s[:idx + 1] + '*' + s[len(s) - 1:]
+
+        return s
