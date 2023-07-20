@@ -262,6 +262,10 @@ class Common:
                 best_ratio = ratio
                 best_match = string
         
+        # 如果相似度不到50%，则认为匹配不成功
+        if best_ratio <= 0.5:
+            return None
+
         return best_match
     
 

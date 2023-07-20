@@ -257,6 +257,7 @@ class AI_VTB(QMainWindow):
             self.ui.label_before_prompt.setToolTip("提示词前缀，会自带追加在弹幕前，主要用于追加一些特殊的限制")
             self.ui.label_after_prompt.setToolTip("提示词后缀，会自带追加在弹幕后，主要用于追加一些特殊的限制")
             self.ui.label_commit_log_type.setToolTip("弹幕日志类型，用于记录弹幕触发时记录的内容，默认只记录回答，降低当用户使用弹幕日志显示在直播间时，因为用户的不良弹幕造成直播间被封禁问题")
+            self.ui.label_read_user_name.setToolTip("是否启用回复用户弹幕时，念用户的昵称，例：回复xxx。你好")
 
             self.ui.label_captions_enable.setToolTip("是否启用字幕日志记录，字幕输出内容为当前合成播放的音频的文本")
             self.ui.label_captions_file_path.setToolTip("字幕日志存储路径")
@@ -482,11 +483,15 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_before_prompt.setText(self.before_prompt)
             self.ui.lineEdit_after_prompt.setText(self.after_prompt)
 
+            if config.get("read_user_name"):
+                self.ui.checkBox_read_user_name.setChecked(True)
+
             self.ui.comboBox_commit_log_type.clear()
             commit_log_types = ["问答", "问题", "回答", "不记录"]
             self.ui.comboBox_commit_log_type.addItems(commit_log_types)
             commit_log_type_index = commit_log_types.index(self.commit_log_type)
             self.ui.comboBox_commit_log_type.setCurrentIndex(commit_log_type_index)
+
 
             # 日志
             if self.captions_config['enable']:
@@ -963,6 +968,8 @@ class AI_VTB(QMainWindow):
 
             config_data["before_prompt"] = self.ui.lineEdit_before_prompt.text()
             config_data["after_prompt"] = self.ui.lineEdit_after_prompt.text()
+
+            config_data["read_user_name"] = self.ui.checkBox_read_user_name.isChecked()
 
             need_lang = self.ui.comboBox_need_lang.currentText()
             if need_lang == "所有":
