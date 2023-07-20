@@ -245,7 +245,7 @@ class My_handle():
         # 2、匹配本地问答音频库 触发后不执行后面的其他功能
         if self.local_qa["audio"]["enable"] == True:
             # 输出当前用户发送的弹幕消息
-            logging.info(f"[{user_name}]: {content}")
+            # logging.info(f"[{user_name}]: {content}")
             # 获取本地问答音频库文件夹内所有的音频文件名
             self.local_qa_audio_list = self.audio.get_dir_audios_filename(self.local_qa["audio"]["file_path"])
             local_qv_audio_filename = self.common.find_best_match(content, self.local_qa_audio_list)
@@ -510,6 +510,25 @@ class My_handle():
         else:
             # 复读机
             resp_content = content
+
+
+        """
+        双重过滤，为您保驾护航
+        """
+        resp_content = resp_content.replace('\n', ',')
+        
+        # 含有违禁词/链接
+        if self.common.profanity_content(resp_content) or self.common.check_sensitive_words2(
+                self.filter_config["badwords_path"], resp_content) or \
+                self.common.is_url_check(resp_content):
+            logging.warning(f"违禁词/链接：{resp_content}")
+            return
+        
+        # 同拼音违禁词过滤
+        if self.filter_config["bad_pinyin_path"] != "":
+            if self.common.check_sensitive_words3(self.filter_config["bad_pinyin_path"], resp_content):
+                logging.warning(f"同音违禁词：{resp_content}")
+                return
 
         # logger.info("resp_content=" + resp_content)
 
