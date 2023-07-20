@@ -294,6 +294,17 @@ class Common:
             logging.error(f"无法写入文件:{file_path}\n{e}")
             return False
 
+
+    # 将一个文件路径的字符串切分成路径和文件名
+    def split_path_and_filename(self, file_path):
+        folder_path, file_name = os.path.split(file_path)
+        # 检查路径末尾是否已经包含了'/'，如果没有，则添加
+        if not folder_path.endswith('/'):
+            folder_path += '/'
+        
+        return folder_path, file_name
+
+
     # 移动文件到指定路径 src dest
     def move_file(self, source_path, destination_path, rename=None, format="wav"):
         # if os.path.exists(destination_path):
