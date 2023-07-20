@@ -170,19 +170,16 @@
   },
   "copywriting": {
     "file_path": "data/copywriting/",
+    "file_path2": "data/copywriting2/",
     "audio_path": "out/copywriting/",
+    "audio_path2": "out/copywriting2/",
     "play_list": [
       "伊卡日语介绍.wav",
       "吐槽.wav"
     ],
-    "audio_interval": 5.0,
-    "switching_interval": 5.0,
-    "random_play": true
-  },
-  "copywriting2": {
-    "file_path": "data/copywriting2/",
-    "audio_path": "out/copywriting2/",
-    "play_list": [],
+    "play_list2": [
+      "test.wav"
+    ],
     "audio_interval": 5.0,
     "switching_interval": 5.0,
     "random_play": true

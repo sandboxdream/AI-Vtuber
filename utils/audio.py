@@ -10,6 +10,7 @@ from copy import deepcopy
 import aiohttp
 import glob
 import os, random
+import copy
 
 from elevenlabs import generate, play, set_api_key
 
@@ -517,8 +518,34 @@ class Audio:
 
     # 只进行文案播放   
     async def only_play_copywriting(self):
+        
         try:
             Audio.mixer_copywriting.init()
+
+            async def random_speed_and_play(audio_path):
+                """对音频进行变速和播放，内置延时，其实就是提取了公共部分
+
+                Args:
+                    audio_path (str): 音频路径
+                """
+                # 音频变速
+                random_speed = 1
+                if self.config.get("audio_random_speed", "normal", "enable"):
+                    random_speed = self.common.get_random_value(self.config.get("audio_random_speed", "normal", "speed_min"),
+                                                                self.config.get("audio_random_speed", "normal", "speed_max"))
+                    audio_path = self.audio_speed_change(audio_path, random_speed)
+
+                logging.info(f"变速后音频输出在 {audio_path}")
+
+                Audio.mixer_copywriting.music.load(audio_path)
+                Audio.mixer_copywriting.music.play()
+                while Audio.mixer_copywriting.music.get_busy():
+                    pygame.time.Clock().tick(10)
+                Audio.mixer_copywriting.music.stop()
+
+                # 添加延时，暂停执行n秒钟
+                await asyncio.sleep(float(self.config.get("copywriting", "audio_interval")))
+
             while True:
                 try:
                     # 判断播放标志位
@@ -526,32 +553,54 @@ class Audio:
                         await asyncio.sleep(float(self.config.get("copywriting", "audio_interval")))  # 添加延迟减少循环频率
                         continue
                     
-                    play_list = self.config.get("copywriting", "play_list")
+                    list1 = self.config.get("copywriting", "play_list")
+                    list2 = self.config.get("copywriting", "play_list2")
+                    play_list = copy.copy(list1)
+                    play_list2 = copy.copy(list2)
                     # 是否开启随机列表播放
                     if self.config.get("copywriting", "random_play"):
+                        # 随机打乱列表内容
                         random.shuffle(play_list)
+                        random.shuffle(play_list2)
 
-                    for voice_tmp_path in play_list:
+                    while True:
+                        # 判断播放标志位
                         if Audio.copywriting_play_flag in [0, 1, -1]:
                             continue
 
-                        audio_path = os.path.join(self.config.get("copywriting", "audio_path"), voice_tmp_path)
+                        # 退出子循环的标志位
+                        break_while_flag = 0
+                        
+                        # 判断播放路径1是否数据大于0
+                        if len(play_list) > 0:
+                            # 移出一个音频路径
+                            voice_tmp_path = play_list.pop(0)
+                            audio_path = os.path.join(self.config.get("copywriting", "audio_path"), voice_tmp_path)
 
-                        # 音频变速
-                        random_speed = 1
-                        if self.config.get("audio_random_speed", "normal", "enable"):
-                            random_speed = self.common.get_random_value(self.config.get("audio_random_speed", "normal", "speed_min"),
-                                                                        self.config.get("audio_random_speed", "normal", "speed_max"))
-                        audio_path = self.audio_speed_change(audio_path, random_speed)
+                            logging.info(f"即将播放 文案1中的 {audio_path}")
 
-                        Audio.mixer_copywriting.music.load(audio_path)
-                        Audio.mixer_copywriting.music.play()
-                        while Audio.mixer_copywriting.music.get_busy():
-                            pygame.time.Clock().tick(10)
-                        Audio.mixer_copywriting.music.stop()
+                            await random_speed_and_play(audio_path)
+                        else:
+                            break_while_flag = break_while_flag + 1
 
-                        # 添加延时，暂停执行n秒钟
-                        await asyncio.sleep(float(self.config.get("copywriting", "audio_interval")))  
+                        # 判断播放路径2是否数据大于0
+                        if len(play_list2) > 0:
+                            # 移出一个音频路径
+                            voice_tmp_path2 = play_list2.pop(0)
+                            audio_path2 = os.path.join(self.config.get("copywriting", "audio_path2"), voice_tmp_path2)
+
+                            logging.info(f"即将播放 文案2中的 {audio_path2}")
+
+                            await random_speed_and_play(audio_path2)
+                        else:
+                            break_while_flag = break_while_flag + 1
+
+                        logging.debug(f"break_while_flag={break_while_flag}")
+
+                        # 标志位计数>=2 退出循环（此处可以无限拓展（
+                        if break_while_flag >= 2:
+                            break
+ 
                 except Exception as e:
                     logging.error(e)
             Audio.mixer_copywriting.quit()
@@ -612,15 +661,14 @@ class Audio:
 
 
     # 只进行文案音频合成
-    async def copywriting_synthesis_audio(self, file_path):
+    async def copywriting_synthesis_audio(self, file_path, out_audio_path="out/"):
         try:
             max_len = self.config.get("filter", "max_len")
             max_char_len = self.config.get("filter", "max_char_len")
             audio_synthesis_type = self.config.get("audio_synthesis_type")
             vits = self.config.get("vits")
-            copywriting = self.config.get("copywriting")
             edge_tts_config = self.config.get("edge-tts")
-            file_path = os.path.join(copywriting["file_path"], file_path)
+            file_path = os.path.join(file_path)
 
             logging.info(f"即将合成的文案：{file_path}")
             
@@ -648,7 +696,7 @@ class Audio:
 
                 # 移动音频到 临时音频路径（本项目的out文件夹） 并重命名
                 out_file_path = os.path.join(os.getcwd(), "out/")
-                logging.info(f"out_file_path={out_file_path}")
+                logging.info(f"移动临时音频到 {out_file_path}")
                 self.common.move_file(voice_tmp_path, out_file_path, file_name + "-" + str(file_index))
 
             # 文件名自增值，在后期多合一的时候起到排序作用
@@ -736,12 +784,12 @@ class Audio:
             self.merge_audio_files(out_file_path, file_name, file_index)
 
             file_path = os.path.join(os.getcwd(), "out/", file_name + ".wav")
-            logging.info(f"file_path={file_path}")
-            # 移动音频到 文案音频路径 
-            out_file_path = os.path.join(os.getcwd(), copywriting["audio_path"])
-            logging.info(f"out_file_path={out_file_path}")
+            logging.info(f"合成完毕后的音频位于 {file_path}")
+            # 移动音频到 指定的文案音频路径 out_audio_path
+            out_file_path = os.path.join(os.getcwd(), out_audio_path)
+            logging.info(f"移动音频到 {out_file_path}")
             self.common.move_file(file_path, out_file_path)
-            file_path = os.path.join(copywriting["audio_path"], file_name + ".wav")
+            file_path = os.path.join(out_audio_path, file_name + ".wav")
 
             return file_path
         except Exception as e:

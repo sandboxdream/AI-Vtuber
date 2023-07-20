@@ -716,6 +716,15 @@ out_audio, out_sr = svc_model.infer(spk, tran, raw_path)
 out_audio, out_sr, n_frames = svc_model.infer(spk, tran, raw_path)
 ```
 
+#### 5.RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+问题：pydub依赖ffmpeg，但环境不存在ffmpeg  
+解决方案：安装ffmpeg并配置环境变量  
+ffmpeg安装教程：[ffmpeg安装教程](https://blog.csdn.net/HYEHYEHYE/article/details/122000352)  
+ffmpeg官方下载：[http://ffmpeg.org/download.html](http://ffmpeg.org/download.html)  
+ffmpeg本仓库内下载：[releases](https://github.com/Ikaros-521/AI-Vtuber/releases/tag/v0.13.0)  
+
+简述就是下载，解压，配置ffmpeg的bin到系统环境变量path中，完事。  
+
 </details>
 
 
@@ -919,6 +928,10 @@ cmd输入命令即可：`doctoc /path/to/file`
 - [x] 监听1秒2弹幕的直播间，复读机配合vits-fast做语音合成，持续工作30分钟，正常监听并合成音频。
 
 ## 🖹待办事项
+- [ ] chatglm拥有记忆功能
+- [ ] 文案字幕显示
+- [ ] 礼物答谢combo情况下的重复答谢问题
+- [ ] LLM输出后，后置的过滤（双重过滤）
 - [ ] 懒人包优化
 - [ ] 接入更多的LLM（科大讯飞、new bing等）
 - [ ] 接入更多的TTS方案
@@ -931,7 +944,7 @@ cmd输入命令即可：`doctoc /path/to/file`
 - [ ] 本机语音直接交流模式（本地版本whisper，其他方式）
 - [ ] 本地的用户拉黑机制
 - [ ] 礼物互动机制（跳舞，唱歌）
-- [ ] 用户入场、投食感谢（自定义 文案）
+- [x] 用户入场、投食感谢（自定义 文案）
 - [ ] 弹幕跳过机制
 - [ ] 点歌后的弹幕触发问题（如：只取最新的几个）
 - [ ] 弹幕丢失bug修复（很可能是线程sleep造成的）
@@ -1097,6 +1110,8 @@ cmd输入命令即可：`doctoc /path/to/file`
 - 优化audio中vits接口的设计&优化代码减少冗余
 - 新增本地问答音频库，机制类似点歌，通过编辑音频文件名做为触发匹配关键词，优先级第二高，匹配命中后直接会进行匹配音频的播放。
 - 新增自定义上下限音频随机变速，对普通音频播放和文案音频播放可以进行随机变速配置。(GUI未适配)
+- 增加ffmpeg缺失的解决方案
+- 文案模式增加了一组文案配置，也就是说有2块文案，会进行左右切换的播放，都播放完毕后会进行新的一轮播放。
 
 </details>
 

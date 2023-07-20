@@ -391,15 +391,19 @@ class AI_VTB(QMainWindow):
 
             # 文案
             self.ui.label_copywriting_file_path.setToolTip("文案文件存储路径，默认不可编辑。不建议更改。")
+            self.ui.label_copywriting_file_path2.setToolTip("文案文件存储路径2，默认不可编辑。不建议更改。")
             self.ui.label_copywriting_audio_path.setToolTip("文案音频文件存储路径，默认不可编辑。不建议更改。")
+            self.ui.label_copywriting_audio_path2.setToolTip("文案音频文件存储路径2，默认不可编辑。不建议更改。")
             self.ui.label_copywriting_audio_interval.setToolTip("文案音频播放之间的间隔时间。就是前一个文案播放完成后，到后一个文案开始播放之间的间隔时间。")
             self.ui.label_copywriting_switching_interval.setToolTip("文案音频切换到弹幕音频的切换间隔时间（反之一样）。\n就是在播放文案时，有弹幕触发并合成完毕，此时会暂停文案播放，然后等待这个间隔时间后，再播放弹幕回复音频。")
             self.ui.label_copywriting_switching_random_play.setToolTip("文案随机播放，就是不根据播放音频文件列表的顺序播放，而是随机打乱顺序进行播放。")
             self.ui.label_copywriting_list.setToolTip("加载配置文件中配置的文案路径（data/copywriting/）下的所有文件，请勿放入其他非文案文件")
             self.ui.label_copywriting_play_list.setToolTip("此处填写需要播放的音频文件全名，填写完毕后点击 保存配置。文件全名从音频列表中复制，换行分隔，请勿随意填写")
-            self.ui.label_copywriting_audio_list.setToolTip("加载配置文件中配置的音频路径（data/audio_path/）下的所有文件，请勿放入其他非音频文件")
+            self.ui.label_copywriting_play_list2.setToolTip("此处填写需要播放的音频文件全名，填写完毕后点击 保存配置。文件全名从音频列表2中复制，换行分隔，请勿随意填写")
+            self.ui.label_copywriting_audio_list.setToolTip("加载配置文件中配置的音频路径（out/copywriting/）下的所有文件，请勿放入其他非音频文件")
+            self.ui.label_copywriting_audio_list2.setToolTip("加载配置文件中配置的音频路径2（out/copywriting2/）下的所有文件，请勿放入其他非音频文件")
             self.ui.label_copywriting_select.setToolTip("输入要加载的文案文件全名，文件全名从文案列表中复制。如果文件不存在，则会自动创建")
-            self.ui.pushButton_copywriting_select.setToolTip("加载 左侧输入框中的文件内容输出到下方编辑框内。如果文件不存在，则会自动创建")
+            self.ui.pushButton_copywriting_select.setToolTip("加载 左侧输入框中的文件相对/绝对路径的文件内容，输出到下方编辑框内。如果文件不存在，则会自动创建")
             self.ui.pushButton_copywriting_refresh_list.setToolTip("刷新 文案列表、音频列表中的内容，用于加载新数据")
             self.ui.label_copywriting_edit.setToolTip("此处由上方 选择的文案通过加载读取文件内容，在此可以修改文案内容，方便重新合成")
             self.ui.pushButton_copywriting_save.setToolTip("保存上方 文案编辑框中的内容到文案文件中")
@@ -732,7 +736,9 @@ class AI_VTB(QMainWindow):
             
             # 文案 刷新列表
             self.ui.lineEdit_copywriting_file_path.setText(self.copywriting_config['file_path'])
+            self.ui.lineEdit_copywriting_file_path2.setText(self.copywriting_config['file_path2'])
             self.ui.lineEdit_copywriting_audio_path.setText(self.copywriting_config['audio_path'])
+            self.ui.lineEdit_copywriting_audio_path2.setText(self.copywriting_config['audio_path2'])
             self.ui.lineEdit_copywriting_audio_interval.setText(str(self.copywriting_config['audio_interval']))
             self.ui.lineEdit_copywriting_switching_interval.setText(str(self.copywriting_config['switching_interval']))
             if self.copywriting_config['random_play']:
@@ -742,6 +748,10 @@ class AI_VTB(QMainWindow):
             for tmp in self.copywriting_config['play_list']:
                 tmp_str = tmp_str + tmp + "\n"
             self.ui.textEdit_copywriting_play_list.setText(tmp_str)
+            tmp_str = ""
+            for tmp in self.copywriting_config['play_list2']:
+                tmp_str = tmp_str + tmp + "\n"
+            self.ui.textEdit_copywriting_play_list2.setText(tmp_str)
 
             # 聊天
             self.ui.lineEdit_talk_username.setText(self.talk_config['username'])
@@ -1181,6 +1191,11 @@ class AI_VTB(QMainWindow):
             if 0 != len(play_list):
                 play_list = play_list[1:]
             config_data["copywriting"]["play_list"] = play_list
+            copywriting_play_list = self.ui.textEdit_copywriting_play_list2.toPlainText()
+            play_list = [token.strip() for separator in separators for part in copywriting_play_list.split(separator) if (token := part.strip())]
+            if 0 != len(play_list):
+                play_list = play_list[1:]
+            config_data["copywriting"]["play_list2"] = play_list
 
             config_data["header"]["userAgent"] = self.ui.lineEdit_header_useragent.text()
             
@@ -1331,8 +1346,9 @@ class AI_VTB(QMainWindow):
             self.show_message_box("警告", "请输入 文案路径喵~", QMessageBox.Critical, 3000)
             return
         
-        logging.info(f"准备加载 {self.copywriting_config['file_path']} 路径下的 [{select_file_path}]")
-        new_file_path = os.path.join(self.copywriting_config['file_path'], select_file_path)
+        # 传入完整文件路径 绝对或相对
+        logging.info(f"准备加载 文件：[{select_file_path}]")
+        new_file_path = os.path.join(select_file_path)
 
         content = common.read_file_return_content(new_file_path)
         if content is None:
@@ -1362,6 +1378,11 @@ class AI_VTB(QMainWindow):
             for tmp in copywriting_file_names:
                 tmp_str = tmp_str + tmp + "\n"
             self.ui.textEdit_copywriting_list.setText(tmp_str)
+            tmp_str = ""
+            copywriting_file_names = self.get_dir_txt_filename(self.copywriting_config['file_path2'])
+            for tmp in copywriting_file_names:
+                tmp_str = tmp_str + tmp + "\n"
+            self.ui.textEdit_copywriting_list2.setText(tmp_str)
 
             # 文案音频数据回显到UI
             tmp_str = ""
@@ -1369,6 +1390,11 @@ class AI_VTB(QMainWindow):
             for tmp in copywriting_audio_file_names:
                 tmp_str = tmp_str + tmp + "\n"
             self.ui.textEdit_copywriting_audio_list.setText(tmp_str)
+            tmp_str = ""
+            copywriting_audio_file_names = self.get_dir_audio_filename(self.copywriting_config['audio_path2'])
+            for tmp in copywriting_audio_file_names:
+                tmp_str = tmp_str + tmp + "\n"
+            self.ui.textEdit_copywriting_audio_list2.setText(tmp_str)
 
             logging.info("刷新文件列表")
         except Exception as e:
@@ -1389,7 +1415,7 @@ class AI_VTB(QMainWindow):
             logging.warning(f"请输入 文案路径喵~")
             return
         
-        new_file_path = os.path.join(self.copywriting_config['file_path'], select_file_path)
+        new_file_path = os.path.join(select_file_path)
         if True == common.write_content_to_file(new_file_path, content):
             self.show_message_box("提示", "保存成功~", QMessageBox.Information, 3000)
         else:
@@ -1404,7 +1430,20 @@ class AI_VTB(QMainWindow):
     # 合成音频 正经版
     async def copywriting_synthetic_audio_main(self):
         select_file_path = self.ui.lineEdit_copywriting_select.text()
-        ret = await audio.copywriting_synthesis_audio(select_file_path)
+
+        # 将一个文件路径的字符串切分成路径和文件名
+        folder_path, file_name = common.split_path_and_filename(select_file_path)
+
+        # 判断文件是哪个路径的
+        if folder_path == config.get("copywriting", "file_path"):
+            folder_path = config.get("copywriting", "audio_path")
+        elif folder_path == config.get("copywriting", "file_path2"):
+            folder_path = config.get("copywriting", "audio_path2")
+        else:
+            logging.error(f"文件路径与配置不匹配，将默认输出到同路径")
+            self.show_message_box("提示", f"文件路径与配置不匹配，将默认输出到同路径", QMessageBox.Information, 3000)
+
+        ret = await audio.copywriting_synthesis_audio(select_file_path, folder_path)
         if ret is None:
             logging.error(f"合成失败！请排查原因")
             self.show_message_box("错误", "合成失败！请排查原因", QMessageBox.Critical)
