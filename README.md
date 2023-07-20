@@ -154,6 +154,7 @@ python：3.10.11
 pip install -r requirements_bilibili.txt
 pip install -r requirements_dy.txt
 pip install -r requirements_ks.txt
+pip install -r requirements_talk.txt
 ```
 
 部署视频教程：[哔哩哔哩-BV1fV4y1C77r](https://www.bilibili.com/video/BV1fV4y1C77r)  
@@ -179,8 +180,6 @@ GUI程序运行后会自动加载配置文件，可以通过GUI程序进行配�
   "after_prompt": "",
   // 弹幕日志类型，用于记录弹幕触发时记录的内容，默认只记录回答，降低当用户使用弹幕日志显示在直播间时，因为用户的不良弹幕造成直播间被封禁问题
   "commit_log_type": "回答",
-  // 是否启用本地问答库匹配机制，优先级最高，如果匹配则直接合成问答库内的内容，如果不匹配则按照正常流程继续。
-  "local_qa": false,
   "filter": {
     // 弹幕过滤，必须携带的触发前缀字符串（任一）
     "before_must_str": [],
@@ -349,6 +348,23 @@ GUI程序运行后会自动加载配置文件，可以通过GUI程序进行配�
     // 你的名字
     "your_name": "你"
   },
+  // 是否启用本地问答库匹配机制，优先级最高，如果匹配则直接合成问答库内的内容/返回本地音频，如果不匹配则按照正常流程继续。
+  "local_qa": {
+    // 文本匹配模式
+    "text": {
+      // 是否启用
+      "enable": true,
+      // 文本问答库文件路径，数据为一问一答形式（换行分隔）
+      "file_path": "data/本地问答库.txt"
+    },
+    // 音频匹配模式
+    "audio": {
+      // 是否启用
+      "enable": true,
+      // 文本问答库音频文件路径，匹配的关键词就是音频文件名，为模糊最优匹配
+      "file_path": "out/本地问答音频/"
+    }
+  },
   // 点歌模式设置
   "choose_song": {
     // 是否启用 true启用 false关闭
@@ -399,13 +415,21 @@ GUI程序运行后会自动加载配置文件，可以通过GUI程序进行配�
   "copywriting": {
     // 文案文件存储路径，不建议更改。
     "file_path": "data/copywriting/",
+    // 文案文件存储路径2，不建议更改。
+    "file_path2": "data/copywriting2/",
     // 文案音频文件存储路径，不建议更改。
     "audio_path": "out/copywriting/",
+    // 文案音频文件存储路径2，不建议更改。
+    "audio_path2": "out/copywriting2/",
     // 播放音频文件列表
     "play_list": [
       "测试文案2.wav",
       "测试文案3.wav",
       "吐槽.wav"
+    ],
+    // 播放音频文件列表2
+    "play_list": [
+      "test.wav"
     ],
     // 文案音频播放之间的间隔时间。就是前一个文案播放完成后，到后一个文案开始播放之间的间隔时间。
     "audio_interval": 5,
