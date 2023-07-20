@@ -268,10 +268,17 @@ class My_handle():
             # 输出当前用户发送的弹幕消息
             # logging.info(f"[{user_name}]: {content}")
             # 获取本地问答音频库文件夹内所有的音频文件名
-            self.local_qa_audio_list = self.audio.get_dir_audios_filename(self.local_qa["audio"]["file_path"])
-            local_qv_audio_filename = self.common.find_best_match(content, self.local_qa_audio_list)
+            local_qa_audio_filename_list = self.audio.get_dir_audios_filename(self.local_qa["audio"]["file_path"], type=1)
+            self.local_qa_audio_list = self.audio.get_dir_audios_filename(self.local_qa["audio"]["file_path"], type=0)
+
+            # 不含拓展名做查找
+            local_qv_audio_filename = self.common.find_best_match(content, local_qa_audio_filename_list)
+            
             # 找到了匹配的结果
             if local_qv_audio_filename is not None:
+                # 把结果从原文件名列表中在查找一遍，补上拓展名
+                local_qv_audio_filename = self.common.find_best_match(local_qv_audio_filename, self.local_qa_audio_list)
+
                 # 寻找对应的文件
                 resp_content = self.audio.search_files(self.local_qa["audio"]["file_path"], local_qv_audio_filename)
                 if resp_content != []:

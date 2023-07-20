@@ -79,7 +79,16 @@ class Audio:
 
 
     # 获取本地音频文件夹内所有的音频文件名
-    def get_dir_audios_filename(self, audio_path):
+    def get_dir_audios_filename(self, audio_path, type=0):
+        """获取本地音频文件夹内所有的音频文件名
+
+        Args:
+            audio_path (str): 音频文件路径
+            type (int, 可选): 区分返回内容，0返回完整文件名，1返回文件名不含拓展名. 默认是0
+
+        Returns:
+            list: 文件名列表
+        """
         try:
             # 使用 os.walk 遍历文件夹及其子文件夹
             audio_files = []
@@ -88,10 +97,15 @@ class Audio:
                     if file.endswith(('.mp3', '.wav', '.flac', '.aac', '.ogg', '.m4a')):
                         audio_files.append(os.path.join(root, file))
 
-            # 提取文件名
-            file_names = [os.path.basename(file) for file in audio_files]
-            # 保留子文件夹路径
-            # file_names = [os.path.relpath(file, audio_path) for file in audio_files]
+            # 提取文件名或保留完整文件名
+            if type == 1:
+                # 只返回文件名不含拓展名
+                file_names = [os.path.splitext(os.path.basename(file))[0] for file in audio_files]
+            else:
+                # 返回完整文件名
+                file_names = [os.path.basename(file) for file in audio_files]
+                # 保留子文件夹路径
+                # file_names = [os.path.relpath(file, audio_path) for file in audio_files]
 
             logging.info("获取到本地音频文件名列表如下：")
             logging.info(file_names)
