@@ -23,7 +23,7 @@
 
 <p>
 AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text-generation-webui 做为"大脑"驱动的虚拟主播（Live2D），可以在 Bilibili/抖音/快手 直播中与观众实时互动 或者 直接在本地和您进行聊天。
-它使用自然语言处理和文本转语音技术(Edge-TTS/VITS-Fast/elevenlabs)生成对观众问题的回答并可以通过so-vits-svc变声；另外还可以通过特定指令协同Stable Diffusion进行画图展示。  
+它使用自然语言处理和文本转语音技术(Edge-TTS/VITS-Fast/elevenlabs)生成对观众问题的回答并可以通过so-vits-svc/DDSP-SVC变声；另外还可以通过特定指令协同Stable Diffusion进行画图展示。并且可以自定义文案进行循环播放。 
 </p>
 
 <img src="https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/4384e236-337b-4119-8525-8830671e671a" style="width:100px;"><span style="vertical-align: super;">
@@ -75,6 +75,7 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
     - [2.ERROR: Cannot install -r requirements_bilibili.txt (line 23), aiohttp and langchain==0.0.142 because these package versions have conflicting dependencies.](#2error-cannot-install--r-requirements_bilibilitxt-line-23-aiohttp-and-langchain00142-because-these-package-versions-have-conflicting-dependencies)
     - [3.ERROR: Conmunicate.`__init__`() got an unexpected keyword argument 'text'](#3error-conmunicate__init__-got-an-unexpected-keyword-argument-text)
     - [4.File ".\flask_api_full_song.py", line 38, in wav2wav  out_audio, out_sr = svc_model.infer(spk, tran, raw_path) ValueError: too many values to unpack (expected 2)](#4file-%5Cflask_api_full_songpy-line-38-in-wav2wav--out_audio-out_sr--svc_modelinferspk-tran-raw_path-valueerror-too-many-values-to-unpack-expected-2)
+    - [5.RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)](#5runtimewarning-couldnt-find-ffmpeg-or-avconv---defaulting-to-ffmpeg-but-may-not-work-warncouldnt-find-ffmpeg-or-avconv---defaulting-to-ffmpeg-but-may-not-work-runtimewarning)
 - [♏️补充](#%E8%A1%A5%E5%85%85)
   - [b站直播监听](#b%E7%AB%99%E7%9B%B4%E6%92%AD%E7%9B%91%E5%90%AC)
   - [<span id="dy">抖音弹幕获取</span>](#span-iddy%E6%8A%96%E9%9F%B3%E5%BC%B9%E5%B9%95%E8%8E%B7%E5%8F%96span)
@@ -118,7 +119,7 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
 - `main.py`，GUI主程序。会根据配置调用各平台程序
 - `utils`文件夹，存储聊天、音频、通用类相关功能的封装实现
 - `data`文件夹，存储数据文件、违禁词、文案等
-- `log`文件夹，存储运行日志
+- `log`文件夹，存储运行日志、字幕日志等
 - `out`文件夹，存储edge-tts输出的音频文件，文案输出的音频文件
 - `Live2D`文件夹，存储Live2D源码及模型
 - `song`文件夹，存储点歌模式的歌曲
@@ -1136,6 +1137,8 @@ cmd输入命令即可：`doctoc /path/to/file`
 - 新增自定义上下限音频随机变速，对普通音频播放和文案音频播放可以进行随机变速配置。(GUI未适配)
 - 增加ffmpeg缺失的解决方案
 - 文案模式增加了一组文案配置，也就是说有2块文案，会进行左右切换的播放，都播放完毕后会进行新的一轮播放。
+- 新增LLM后的第二重过滤（违禁词、链接、拼音）
+- 违禁拼音配置内容需要是中文，需要注意，已更正
 
 </details>
 
