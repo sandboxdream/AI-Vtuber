@@ -286,6 +286,14 @@ class AI_VTB(QMainWindow):
             self.ui.label_live2d_port.setToolTip("web服务运行的端口号，默认：12345，范围:0-65535，没事不要乱改就好")
             self.ui.label_live2d_name.setToolTip("模型名称，模型存放于Live2D\live2d-model路径下，请注意路径和模型内容是否匹配")
 
+            # 音频随机变速
+            self.ui.label_audio_random_speed_normal_enable.setToolTip("是否启用普通音频的随机变速功能")
+            self.ui.label_audio_random_speed_normal_speed_min.setToolTip("普通音频的随机变速倍率的下限，就是正常语速乘以上下限直接随机出的数的倍率，\n就是变速后的语速，默认语速倍率为1")
+            self.ui.label_audio_random_speed_normal_speed_max.setToolTip("普通音频的随机变速倍率的上限，就是正常语速乘以上下限直接随机出的数的倍率，\n就是变速后的语速，默认语速倍率为1")
+            self.ui.label_audio_random_speed_normal_enable.setToolTip("是否启用文案音频的随机变速功能")
+            self.ui.label_audio_random_speed_normal_speed_min.setToolTip("文案音频的随机变速倍率的下限，就是正常语速乘以上下限直接随机出的数的倍率，\n就是变速后的语速，默认语速倍率为1")
+            self.ui.label_audio_random_speed_normal_speed_max.setToolTip("文案音频的随机变速倍率的上限，就是正常语速乘以上下限直接随机出的数的倍率，\n就是变速后的语速，默认语速倍率为1")
+
             self.ui.label_audio_synthesis_type.setToolTip("语音合成的类型")
 
             self.ui.label_openai_api.setToolTip("API请求地址，支持代理")
@@ -540,6 +548,16 @@ class AI_VTB(QMainWindow):
             model_name = common.get_live2d_model_name("Live2D/js/model_name.js") # 路径写死
             live2d_name_index = names.index(model_name)
             self.ui.comboBox_live2d_name.setCurrentIndex(live2d_name_index)
+
+            # 音频随机变速
+            if config.get("audio_random_speed", "normal", "enable"):
+                self.ui.checkBox_audio_random_speed_normal_enable.setChecked(True)
+            self.ui.lineEdit_audio_random_speed_normal_speed_min.setText(str(config.get("audio_random_speed", "normal", "speed_min")))
+            self.ui.lineEdit_audio_random_speed_normal_speed_max.setText(str(config.get("audio_random_speed", "normal", "speed_max")))
+            if config.get("audio_random_speed", "copywriting", "enable"):
+                self.ui.checkBox_audio_random_speed_copywriting_enable.setChecked(True)
+            self.ui.lineEdit_audio_random_speed_copywriting_speed_min.setText(str(config.get("audio_random_speed", "copywriting", "speed_min")))
+            self.ui.lineEdit_audio_random_speed_copywriting_speed_max.setText(str(config.get("audio_random_speed", "copywriting", "speed_max")))
 
             self.ui.lineEdit_header_useragent.setText(self.header_config['userAgent'])
 
@@ -1115,6 +1133,14 @@ class AI_VTB(QMainWindow):
                 config_data["audio_synthesis_type"] = "elevenlabs"
             elif audio_synthesis_type == "genshinvoice_top":
                 config_data["audio_synthesis_type"] = "genshinvoice_top"
+
+            # 音频随机变速
+            config_data["audio_random_speed"]["normal"]["enable"] = self.ui.checkBox_audio_random_speed_normal_enable.isChecked()
+            config_data["audio_random_speed"]["normal"]["speed_min"] = round(float(self.ui.lineEdit_audio_random_speed_normal_speed_min.text()), 2)
+            config_data["audio_random_speed"]["normal"]["speed_max"] = round(float(self.ui.lineEdit_audio_random_speed_normal_speed_max.text()), 2)
+            config_data["audio_random_speed"]["copywriting"]["enable"] = self.ui.checkBox_audio_random_speed_copywriting_enable.isChecked()
+            config_data["audio_random_speed"]["copywriting"]["speed_min"] = round(float(self.ui.lineEdit_audio_random_speed_copywriting_speed_min.text()), 2)
+            config_data["audio_random_speed"]["copywriting"]["speed_max"] = round(float(self.ui.lineEdit_audio_random_speed_copywriting_speed_max.text()), 2)
 
             vits_config_path = self.ui.lineEdit_vits_config_path.text()
             config_data["vits"]["config_path"] = vits_config_path
