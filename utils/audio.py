@@ -79,7 +79,16 @@ class Audio:
 
 
     # 获取本地音频文件夹内所有的音频文件名
-    def get_dir_audios_filename(self, audio_path):
+    def get_dir_audios_filename(self, audio_path, type=0):
+        """获取本地音频文件夹内所有的音频文件名
+
+        Args:
+            audio_path (str): 音频文件路径
+            type (int, 可选): 区分返回内容，0返回完整文件名，1返回文件名不含拓展名. 默认是0
+
+        Returns:
+            list: 文件名列表
+        """
         try:
             # 使用 os.walk 遍历文件夹及其子文件夹
             audio_files = []
@@ -88,10 +97,15 @@ class Audio:
                     if file.endswith(('.mp3', '.wav', '.flac', '.aac', '.ogg', '.m4a')):
                         audio_files.append(os.path.join(root, file))
 
-            # 提取文件名
-            file_names = [os.path.basename(file) for file in audio_files]
-            # 保留子文件夹路径
-            # file_names = [os.path.relpath(file, audio_path) for file in audio_files]
+            # 提取文件名或保留完整文件名
+            if type == 1:
+                # 只返回文件名不含拓展名
+                file_names = [os.path.splitext(os.path.basename(file))[0] for file in audio_files]
+            else:
+                # 返回完整文件名
+                file_names = [os.path.basename(file) for file in audio_files]
+                # 保留子文件夹路径
+                # file_names = [os.path.relpath(file, audio_path) for file in audio_files]
 
             logging.info("获取到本地音频文件名列表如下：")
             logging.info(file_names)
@@ -274,6 +288,7 @@ class Audio:
 
                 self.voice_tmp_path_queue.put(data_json)
                 return
+            # 是否为本地问答音频
             elif message['type'] == "local_qa_audio":
                 # 拼接json数据，存入队列
                 data_json = {
@@ -281,8 +296,18 @@ class Audio:
                     "content": message["content"]
                 }
 
+                # 由于线程是独立的，所以回复音频的合成会慢于本地音频直接播放，所以以倒述的形式回复
+                message['content'] = f"以上内容回复{message['user_name']}。"
+                message['type'] = "commit"
+                self.message_queue.put(message)
                 self.voice_tmp_path_queue.put(data_json)
                 return
+
+            # 只有信息类型是 弹幕，才会进行念用户名
+            if message['type'] == "commit":
+                # 回复时是否念用户名字
+                if self.config.get("read_user_name"):
+                    message['content'] = f"回复{message['user_name']}。{message['content']}"
 
             # 中文语句切分
             sentences = self.common.split_sentences(message['content'])
@@ -332,7 +357,7 @@ class Audio:
             self.voice_tmp_path_queue.put(data_json)
 
         # 区分TTS类型
-        if message["type"] == "vits":
+        if message["tts_type"] == "vits":
             try:
                 # 语言检测
                 language = self.common.lang_check(message["content"])
@@ -366,7 +391,7 @@ class Audio:
             except Exception as e:
                 logging.error(e)
                 return
-        elif message["type"] == "edge-tts":
+        elif message["tts_type"] == "edge-tts":
             try:
                 voice_tmp_path = './out/' + self.common.get_bj_time(4) + '.mp3'
                 # 过滤" '字符
@@ -380,7 +405,7 @@ class Audio:
                 await voice_change_and_put_to_queue(voice_tmp_path)
             except Exception as e:
                 logging.error(e)
-        elif message["type"] == "elevenlabs":
+        elif message["tts_type"] == "elevenlabs":
             try:
                 # 如果配置了密钥就设置上0.0
                 if message["data"]["elevenlabs_api_key"] != "":
@@ -396,7 +421,7 @@ class Audio:
             except Exception as e:
                 logging.error(e)
                 return
-        elif message["type"] == "genshinvoice_top":
+        elif message["tts_type"] == "genshinvoice_top":
             try:
                 voice_tmp_path = await self.genshinvoice_top_api(message["content"])
                 print(f"genshinvoice.top合成成功，输出到={voice_tmp_path}")

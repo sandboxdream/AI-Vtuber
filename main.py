@@ -257,6 +257,7 @@ class AI_VTB(QMainWindow):
             self.ui.label_before_prompt.setToolTip("提示词前缀，会自带追加在弹幕前，主要用于追加一些特殊的限制")
             self.ui.label_after_prompt.setToolTip("提示词后缀，会自带追加在弹幕后，主要用于追加一些特殊的限制")
             self.ui.label_commit_log_type.setToolTip("弹幕日志类型，用于记录弹幕触发时记录的内容，默认只记录回答，降低当用户使用弹幕日志显示在直播间时，因为用户的不良弹幕造成直播间被封禁问题")
+            self.ui.label_read_user_name.setToolTip("是否启用回复用户弹幕时，念用户的昵称，例：回复xxx。你好")
 
             self.ui.label_captions_enable.setToolTip("是否启用字幕日志记录，字幕输出内容为当前合成播放的音频的文本")
             self.ui.label_captions_file_path.setToolTip("字幕日志存储路径")
@@ -266,6 +267,7 @@ class AI_VTB(QMainWindow):
             self.ui.label_local_qa_text_file_path.setToolTip("本地问答文本数据存储路径")
             self.ui.label_local_qa_audio_enable.setToolTip("是否启用本地问答音频匹配，部分命中音频文件名后，直接播放对应的音频文件")
             self.ui.label_local_qa_audio_file_path.setToolTip("本地问答音频文件存储路径")
+            self.ui.label_local_qa_similarity.setToolTip("最低文本匹配相似度，就是说用户发送的内容和本地问答库中设定的内容的最低相似度。\n低了就会被当做一般弹幕处理")
 
             self.ui.label_filter_before_must_str.setToolTip("弹幕过滤，必须携带的触发前缀字符串（任一）\n例如：配置#，那么就需要发送：#你好")
             self.ui.label_filter_after_must_str.setToolTip("弹幕过滤，必须携带的触发后缀字符串（任一）\n例如：配置。那么就需要发送：你好。")
@@ -482,11 +484,15 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_before_prompt.setText(self.before_prompt)
             self.ui.lineEdit_after_prompt.setText(self.after_prompt)
 
+            if config.get("read_user_name"):
+                self.ui.checkBox_read_user_name.setChecked(True)
+
             self.ui.comboBox_commit_log_type.clear()
             commit_log_types = ["问答", "问题", "回答", "不记录"]
             self.ui.comboBox_commit_log_type.addItems(commit_log_types)
             commit_log_type_index = commit_log_types.index(self.commit_log_type)
             self.ui.comboBox_commit_log_type.setCurrentIndex(commit_log_type_index)
+
 
             # 日志
             if self.captions_config['enable']:
@@ -500,6 +506,7 @@ class AI_VTB(QMainWindow):
             if self.local_qa_config['audio']['enable']:
                 self.ui.checkBox_local_qa_audio_enable.setChecked(True)
             self.ui.lineEdit_local_qa_audio_file_path.setText(self.local_qa_config['audio']['file_path'])
+            self.ui.lineEdit_local_qa_similarity.setText(str(self.local_qa_config['similarity']))
 
             tmp_str = ""
             for tmp in self.filter_config['before_must_str']:
@@ -964,6 +971,8 @@ class AI_VTB(QMainWindow):
             config_data["before_prompt"] = self.ui.lineEdit_before_prompt.text()
             config_data["after_prompt"] = self.ui.lineEdit_after_prompt.text()
 
+            config_data["read_user_name"] = self.ui.checkBox_read_user_name.isChecked()
+
             need_lang = self.ui.comboBox_need_lang.currentText()
             if need_lang == "所有":
                 config_data["need_lang"] = "none"
@@ -985,6 +994,7 @@ class AI_VTB(QMainWindow):
             config_data["local_qa"]["text"]["file_path"] = self.ui.lineEdit_local_qa_text_file_path.text()
             config_data["local_qa"]["audio"]["enable"] = self.ui.checkBox_local_qa_audio_enable.isChecked()
             config_data["local_qa"]["audio"]["file_path"] = self.ui.lineEdit_local_qa_audio_file_path.text()
+            config_data["local_qa"]["similarity"] = round(float(self.ui.lineEdit_local_qa_similarity.text()), 2)
 
             # 通用多行分隔符
             separators = [" ", "\n"]

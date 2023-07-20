@@ -201,6 +201,26 @@ class My_handle():
         Returns:
             _type_: 寂寞
         """
+
+        # 合并字符串末尾连续的*  主要针对获取不到用户名的情况
+        user_name = self.common.merge_consecutive_asterisks(user_name)
+
+        """
+        用户名也得过滤一下，防止炸弹人
+        """
+        # 含有违禁词/链接
+        if self.common.profanity_content(user_name) or self.common.check_sensitive_words2(
+                self.filter_config["badwords_path"], user_name) or \
+                self.common.is_url_check(user_name):
+            logging.warning(f"违禁词/链接：{user_name}")
+            return
+
+        # 同拼音违禁词过滤
+        if self.filter_config["bad_pinyin_path"] != "":
+            if self.common.check_sensitive_words3(self.filter_config["bad_pinyin_path"], user_name):
+                logging.warning(f"同音违禁词：{user_name}")
+                return
+
         # 1、匹配本地问答库 触发后不执行后面的其他功能
         if self.local_qa["text"]["enable"] == True:
             # 输出当前用户发送的弹幕消息
@@ -230,7 +250,8 @@ class My_handle():
                         f.write(f"[AI回复{user_name}]:{resp_content_joined}\n" + tmp_content)
 
                 message = {
-                    "type": self.audio_synthesis_type,
+                    "type": "commit",
+                    "tts_type": self.audio_synthesis_type,
                     "data": self.config.get(self.audio_synthesis_type),
                     "config": self.filter_config,
                     "user_name": user_name,
@@ -247,10 +268,19 @@ class My_handle():
             # 输出当前用户发送的弹幕消息
             # logging.info(f"[{user_name}]: {content}")
             # 获取本地问答音频库文件夹内所有的音频文件名
-            self.local_qa_audio_list = self.audio.get_dir_audios_filename(self.local_qa["audio"]["file_path"])
-            local_qv_audio_filename = self.common.find_best_match(content, self.local_qa_audio_list)
+            local_qa_audio_filename_list = self.audio.get_dir_audios_filename(self.local_qa["audio"]["file_path"], type=1)
+            self.local_qa_audio_list = self.audio.get_dir_audios_filename(self.local_qa["audio"]["file_path"], type=0)
+
+            # 不含拓展名做查找
+            local_qv_audio_filename = self.common.find_best_match(content, local_qa_audio_filename_list, self.local_qa["similarity"])
+            
+            # print(f"local_qv_audio_filename={local_qv_audio_filename}")
+
             # 找到了匹配的结果
             if local_qv_audio_filename is not None:
+                # 把结果从原文件名列表中在查找一遍，补上拓展名
+                local_qv_audio_filename = self.common.find_best_match(local_qv_audio_filename, self.local_qa_audio_list, 0)
+
                 # 寻找对应的文件
                 resp_content = self.audio.search_files(self.local_qa["audio"]["file_path"], local_qv_audio_filename)
                 if resp_content != []:
@@ -261,6 +291,9 @@ class My_handle():
                     logging.info(f"匹配到的音频路径：{resp_content}")
                     message = {
                         "type": "local_qa_audio",
+                        "tts_type": self.audio_synthesis_type,
+                        "data": self.config.get(self.audio_synthesis_type),
+                        "config": self.filter_config,
                         "user_name": user_name,
                         "content": resp_content
                     }
@@ -288,7 +321,8 @@ class My_handle():
                     logging.info(f"[AI回复{user_name}]：{resp_content}")
 
                     message = {
-                        "type": self.audio_synthesis_type,
+                        "type": "commit",
+                        "tts_type": self.audio_synthesis_type,
                         "data": self.config.get(self.audio_synthesis_type),
                         "config": self.filter_config,
                         "user_name": user_name,
@@ -311,6 +345,9 @@ class My_handle():
                 logging.info(f"匹配到的音频路径：{resp_content}")
                 message = {
                     "type": "song",
+                    "tts_type": self.audio_synthesis_type,
+                    "data": self.config.get(self.audio_synthesis_type),
+                    "config": self.filter_config,
                     "user_name": user_name,
                     "content": resp_content
                 }
@@ -552,7 +589,8 @@ class My_handle():
                 f.write(f"[AI回复{user_name}]:\n{resp_content_joined}\n" + tmp_content)
 
         message = {
-            "type": self.audio_synthesis_type,
+            "type": "commit",
+            "tts_type": self.audio_synthesis_type,
             "data": self.config.get(self.audio_synthesis_type),
             "config": self.filter_config,
             "user_name": user_name,
@@ -565,6 +603,9 @@ class My_handle():
 
     # 礼物处理
     def gift_handle(self, data):
+        # 合并字符串末尾连续的*  主要针对获取不到用户名的情况
+        data['username'] = self.common.merge_consecutive_asterisks(data['username'])
+
         # logging.debug(f"[{data['username']}]: {data}")
 
         try:
@@ -578,7 +619,8 @@ class My_handle():
             resp_content = self.thanks_config["gift_copy"].format(username=data["username"], gift_name=data["gift_name"])
 
             message = {
-                "type": self.audio_synthesis_type,
+                "type": "gift",
+                "tts_type": self.audio_synthesis_type,
                 "data": self.config.get(self.audio_synthesis_type),
                 "config": self.filter_config,
                 "user_name": data["username"],
@@ -593,6 +635,9 @@ class My_handle():
 
     # 入场处理
     def entrance_handle(self, data):
+        # 合并字符串末尾连续的*  主要针对获取不到用户名的情况
+        data['username'] = self.common.merge_consecutive_asterisks(data['username'])
+
         # logging.debug(f"[{data['username']}]: {data['content']}")
 
         try:
@@ -602,7 +647,8 @@ class My_handle():
             resp_content = self.thanks_config["entrance_copy"].format(username=data["username"])
 
             message = {
-                "type": self.audio_synthesis_type,
+                "type": "entrance",
+                "tts_type": self.audio_synthesis_type,
                 "data": self.config.get(self.audio_synthesis_type),
                 "config": self.filter_config,
                 "user_name": data['username'],

@@ -242,12 +242,13 @@ class Common:
 
 
     # 字符串匹配算法来计算字符串之间的相似度，并选择匹配度最高的字符串作为结果
-    def find_best_match(self, substring, string_list):
+    def find_best_match(self, substring, string_list, similarity=0.5):
         """字符串匹配算法来计算字符串之间的相似度，并选择匹配度最高的字符串作为结果
 
         Args:
-            substring (_type_): 要搜索的子串
-            string_list (_type_): 字符串列表
+            substring (str): 要搜索的子串
+            string_list (list): 字符串列表
+            similarity (float): 最低相似度
 
         Returns:
             _type_: 匹配到的字符串 或 None
@@ -257,10 +258,15 @@ class Common:
         
         for string in string_list:
             ratio = difflib.SequenceMatcher(None, substring, string).ratio()
+            # print(f"String: {string}, Ratio: {ratio}")  # 添加调试语句，输出每个字符串的相似度
             if ratio > best_ratio:
                 best_ratio = ratio
                 best_match = string
         
+        # 如果相似度不到similarity，则认为匹配不成功
+        if best_ratio < similarity:
+            return None
+
         return best_match
     
 
@@ -406,3 +412,40 @@ class Common:
 
         random_float = round(random.uniform(lower_limit, upper_limit), 2)
         return random_float
+    
+
+    def merge_consecutive_asterisks(self, s):
+        """合并字符串末尾连续的*
+
+        Args:
+            s (str): 待处理的字符串
+
+        Returns:
+            str: 处理完后的字符串
+        """
+        # 从字符串末尾开始遍历，找到连续的*的起始索引
+        idx = len(s) - 1
+        while idx >= 0 and s[idx] == '*':
+            idx -= 1
+
+        # 如果找到了超过3个连续的*，则进行替换
+        if len(s) - 1 - idx > 3:
+            s = s[:idx + 1] + '*' + s[len(s) - 1:]
+
+        return s
+
+
+    def remove_extension_from_list(self, file_name_list):
+        """
+        将包含多个带有拓展名的文件名的列表中的拓展名去掉，只返回文件名部分组成的新列表
+
+        Args:
+            file_name_list (list): 包含多个带有拓展名的文件名的列表
+
+        Returns:
+            list: 文件名组成的新列表
+        """
+        # 使用列表推导来处理整个列表，去掉每个文件名的拓展名
+        file_name_without_extension_list = [file_name.split('.')[0] for file_name in file_name_list]
+        return file_name_without_extension_list
+

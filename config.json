@@ -6,6 +6,7 @@
   "before_prompt": "请简要回复:",
   "after_prompt": "",
   "commit_log_type": "回答",
+  "read_user_name": true,
   "filter": {
     "before_must_str": [],
     "after_must_str": [],
@@ -137,7 +138,8 @@
     "audio": {
       "enable": true,
       "file_path": "out/本地问答音频/"
-    }
+    },
+    "similarity": 0.5
   },
   "choose_song": {
     "enable": true,
