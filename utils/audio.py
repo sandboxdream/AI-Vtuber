@@ -508,7 +508,7 @@ class Audio:
                     if self.config.get("audio_random_speed", "normal", "enable"):
                         random_speed = self.common.get_random_value(self.config.get("audio_random_speed", "normal", "speed_min"),
                                                                     self.config.get("audio_random_speed", "normal", "speed_max"))
-                    voice_tmp_path = self.audio_speed_change(voice_tmp_path, random_speed)
+                        voice_tmp_path = self.audio_speed_change(voice_tmp_path, random_speed)
 
                     Audio.mixer_normal.music.load(voice_tmp_path)
                     Audio.mixer_normal.music.play()
