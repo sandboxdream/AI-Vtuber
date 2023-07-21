@@ -400,6 +400,9 @@ class Audio:
                 communicate = edge_tts.Communicate(text=message["content"], voice=message["data"]["voice"], rate=message["data"]["rate"], volume=message["data"]["volume"])
                 await communicate.save(voice_tmp_path)
 
+                # 转换为绝对路径
+                voice_tmp_path = os.path.abspath(voice_tmp_path)
+
                 logging.info(f"edge-tts合成成功，输出到={voice_tmp_path}")
 
                 await voice_change_and_put_to_queue(voice_tmp_path)
@@ -777,6 +780,9 @@ class Audio:
                         # 使用 Edge TTS 生成回复消息的语音文件
                         communicate = edge_tts.Communicate(text=content, voice=edge_tts_config["voice"], rate=edge_tts_config["rate"], volume=edge_tts_config["volume"])
                         await communicate.save(voice_tmp_path)
+
+                        # 转换为绝对路径
+                        voice_tmp_path = os.path.abspath(voice_tmp_path)
 
                         logging.info(f"edge-tts合成成功，输出到={voice_tmp_path}")
 
