@@ -61,12 +61,12 @@
     "normal": {
       "enable": false,
       "speed_min": 0.8,
-      "speed_max": 1.5
+      "speed_max": 1.2
     },
     "copywriting": {
       "enable": false,
       "speed_min": 0.8,
-      "speed_max": 1.5
+      "speed_max": 1.2
     }
   },
   "vits": {

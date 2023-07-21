@@ -439,7 +439,7 @@ class Audio:
 
 
     # 音频变速
-    def audio_speed_change(self, audio_path, speed=1, pitch_factor=1):
+    def audio_speed_change(self, audio_path, speed_factor=1.0, pitch_factor=1.0):
         """音频变速
 
         Args:
@@ -453,10 +453,8 @@ class Audio:
         # 使用 pydub 打开音频文件
         audio = AudioSegment.from_file(audio_path)
 
-        # 变速不变调
-        audio_changed = audio._spawn(audio.raw_data, overrides={
-            "frame_rate": int(audio.frame_rate * speed)
-        }).set_frame_rate(audio.frame_rate)
+        # 变速
+        audio_changed = audio.speedup(playback_speed=speed_factor)
 
         # 变调
         if pitch_factor != 1.0:
@@ -507,9 +505,9 @@ class Audio:
 
                     # 音频变速
                     random_speed = 1
-                    if self.config.get("audio_random_speed", "copywriting", "enable"):
-                        random_speed = self.common.get_random_value(self.config.get("audio_random_speed", "copywriting", "speed_min"),
-                                                                    self.config.get("audio_random_speed", "copywriting", "speed_max"))
+                    if self.config.get("audio_random_speed", "normal", "enable"):
+                        random_speed = self.common.get_random_value(self.config.get("audio_random_speed", "normal", "speed_min"),
+                                                                    self.config.get("audio_random_speed", "normal", "speed_max"))
                     voice_tmp_path = self.audio_speed_change(voice_tmp_path, random_speed)
 
                     Audio.mixer_normal.music.load(voice_tmp_path)
@@ -571,9 +569,9 @@ class Audio:
                 """
                 # 音频变速
                 random_speed = 1
-                if self.config.get("audio_random_speed", "normal", "enable"):
-                    random_speed = self.common.get_random_value(self.config.get("audio_random_speed", "normal", "speed_min"),
-                                                                self.config.get("audio_random_speed", "normal", "speed_max"))
+                if self.config.get("audio_random_speed", "copywriting", "enable"):
+                    random_speed = self.common.get_random_value(self.config.get("audio_random_speed", "copywriting", "speed_min"),
+                                                                self.config.get("audio_random_speed", "copywriting", "speed_max"))
                     audio_path = self.audio_speed_change(audio_path, random_speed)
 
                 logging.info(f"变速后音频输出在 {audio_path}")
