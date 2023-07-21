@@ -1153,7 +1153,8 @@ cmd输入命令即可：`doctoc /path/to/file`
 - 音频随机变速 GUI适配
 
 ### 2023-07-21
-修复edge-tts + so-vits-svc协同下，相对路径无法变声的bug
+- 修复edge-tts + so-vits-svc协同下，相对路径无法变声的bug
+- 针对部分用户绝对路径音频加载仍有系统找不到指定文件的情况，恢复相对路径，只在变声条件下转绝对路径
 
 </details>
 

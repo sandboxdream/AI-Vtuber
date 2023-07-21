@@ -338,6 +338,9 @@ class Audio:
 
         # 变声并封装数据发到队列 减少冗余
         async def voice_change_and_put_to_queue(voice_tmp_path):
+            # 转换为绝对路径
+            voice_tmp_path = os.path.abspath(voice_tmp_path)
+
             # 是否启用ddsp-svc来变声
             if True == self.config.get("ddsp_svc", "enable"):
                 voice_tmp_path = await self.ddsp_svc_api(audio_path=voice_tmp_path)
@@ -379,7 +382,7 @@ class Audio:
                     "language": language,
                     "content": message["content"]
                 }
-        
+
                 # 调用接口合成语音
                 data_json = self.vits_fast_api(data)
                 # logging.info(data_json)
@@ -399,9 +402,6 @@ class Audio:
                 # 使用 Edge TTS 生成回复消息的语音文件
                 communicate = edge_tts.Communicate(text=message["content"], voice=message["data"]["voice"], rate=message["data"]["rate"], volume=message["data"]["volume"])
                 await communicate.save(voice_tmp_path)
-
-                # 转换为绝对路径
-                voice_tmp_path = os.path.abspath(voice_tmp_path)
 
                 logging.info(f"edge-tts合成成功，输出到={voice_tmp_path}")
 
@@ -439,12 +439,13 @@ class Audio:
 
 
     # 音频变速
-    def audio_speed_change(self, audio_path, speed=1):
+    def audio_speed_change(self, audio_path, speed=1, pitch_factor=1):
         """音频变速
 
         Args:
             audio_path (str): 音频路径
             speed (int, optional): 部分速度倍率.  默认 1.
+            type (int, optional): 变调倍率 1为不变调.  默认 1.
 
         Returns:
             str: 变速后的音频路径
@@ -452,14 +453,26 @@ class Audio:
         # 使用 pydub 打开音频文件
         audio = AudioSegment.from_file(audio_path)
 
-        # 调整采样率来修改播放速度
-        adjusted_audio = audio._spawn(audio.raw_data, overrides={
+        # 变速不变调
+        audio_changed = audio._spawn(audio.raw_data, overrides={
             "frame_rate": int(audio.frame_rate * speed)
-        })
+        }).set_frame_rate(audio.frame_rate)
+
+        # 变调
+        if pitch_factor != 1.0:
+            semitones = 12 * (pitch_factor - 1)
+            audio_changed = audio_changed._spawn(audio_changed.raw_data, overrides={
+                "frame_rate": int(audio_changed.frame_rate * (2.0 ** (semitones / 12.0)))
+            }).set_frame_rate(audio_changed.frame_rate)
 
         # 导出为临时文件
         temp_path = f"./out/temp_{self.common.get_bj_time(4)}.wav"
-        adjusted_audio.export(temp_path, format="wav")
+
+        # 导出为新音频文件
+        audio_changed.export(temp_path, format="wav")
+
+        # 转换为绝对路径
+        temp_path = os.path.abspath(temp_path)
 
         return temp_path
 
@@ -713,6 +726,9 @@ class Audio:
 
             # 变声并移动音频文件 减少冗余
             async def voice_change_and_put_to_queue(voice_tmp_path):
+                # 转换为绝对路径
+                voice_tmp_path = os.path.abspath(voice_tmp_path)
+
                 # 是否启用ddsp-svc来变声
                 if True == self.config.get("ddsp_svc", "enable"):
                     voice_tmp_path = await self.ddsp_svc_api(audio_path=voice_tmp_path)
@@ -780,9 +796,6 @@ class Audio:
                         # 使用 Edge TTS 生成回复消息的语音文件
                         communicate = edge_tts.Communicate(text=content, voice=edge_tts_config["voice"], rate=edge_tts_config["rate"], volume=edge_tts_config["volume"])
                         await communicate.save(voice_tmp_path)
-
-                        # 转换为绝对路径
-                        voice_tmp_path = os.path.abspath(voice_tmp_path)
 
                         logging.info(f"edge-tts合成成功，输出到={voice_tmp_path}")
 
