@@ -183,7 +183,12 @@ def start_server():
                     logging.info("识别结果：" + content)
                     user_name = config.get("talk", "username")
 
-                    my_handle.commit_handle(user_name, content)
+                    data = {
+                        "username": user_name,
+                        "content": content
+                    }
+
+                    my_handle.process_data(data, "talk")
                 else:
                     logging.error(f"百度接口报错：{res}")  
             elif "google" == talk_config["type"]:
@@ -205,7 +210,12 @@ def start_server():
                         # logging.info("识别结果：" + content)
                         user_name = config.get("talk", "username")
 
-                        my_handle.commit_handle(user_name, content)
+                        data = {
+                            "username": user_name,
+                            "content": content
+                        }
+
+                        my_handle.process_data(data, "talk")
                 except sr.UnknownValueError:
                     logging.warning("无法识别输入的语音")
                 except sr.RequestError as e:

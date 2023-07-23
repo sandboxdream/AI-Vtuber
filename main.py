@@ -85,6 +85,13 @@ class AI_VTB(QMainWindow):
     platform_process = None
 
     terminate_event = threading.Event()
+    _instance = None
+
+    # 单例模式
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            cls._instance = super(AI_VTB, cls).__new__(cls, *args, **kwargs)
+        return cls._instance
     
     '''
         初始化
@@ -1572,9 +1579,14 @@ class AI_VTB(QMainWindow):
         
         # 清空聊天框
         self.ui.textEdit_talk_chat_box.setText("")
+
+        data = {
+            "username": user_name,
+            "content": content
+        }
         
         # 正义执行
-        my_handle.commit_handle(user_name, content)
+        my_handle.process_data(data, "commit")
     
     
     def on_pushButton_talk_chat_box_send_clicked(self):

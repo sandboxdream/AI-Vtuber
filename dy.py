@@ -30,8 +30,13 @@ def start_server():
                 content = data_json["Content"]
                 
                 logging.info(f'[📧直播间弹幕消息] [{user_name}]：{content}')
+
+                data = {
+                    "username": user_name,
+                    "content": content
+                }
                 
-                my_handle.commit_handle(user_name, content)
+                my_handle.process_data(data, "commit")
 
                 pass
 
@@ -51,7 +56,7 @@ def start_server():
                     "content": "进入直播间"
                 }
 
-                my_handle.entrance_handle(data)
+                my_handle.process_data(data, "entrance")
 
             elif type == 4:
                 logging.info(f'[➕直播间关注消息] 感谢 {data_json["User"]["Nickname"]} 的关注')
@@ -99,7 +104,7 @@ def start_server():
                     "total_price": combo_total_coin / 10
                 }
 
-                my_handle.gift_handle(data)
+                my_handle.process_data(data, "gift")
 
             elif type == 6:
                 logging.info(f'[直播间数据] {data_json["Content"]}')
