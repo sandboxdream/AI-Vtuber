@@ -130,7 +130,12 @@ class Tool:
 
                 print(f"[{user_name}]: {content}")
 
-                my_handle.commit_handle(user_name, content)
+                data = {
+                    "username": user_name,
+                    "content": content
+                }
+
+                my_handle.process_data(data, "commit")
             return
 
         if wssPackage.payloadType == PayloadType.SC_LIVE_WATCHING_LIST:

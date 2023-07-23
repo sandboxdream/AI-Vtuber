@@ -80,7 +80,12 @@ def onMessage(ws: websocket.WebSocketApp, message: bytes):
             content = data['content']
             user_name = data['user']['nickName']
 
-            my_handle.commit_handle(user_name, content)
+            data = {
+                "username": user_name,
+                "content": content
+            }
+
+            my_handle.process_data(data, "commit")
 
             continue
 

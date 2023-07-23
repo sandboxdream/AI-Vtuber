@@ -1,4 +1,4 @@
-import os
+import os, threading
 import logging
 
 from .config import Config
@@ -35,6 +35,9 @@ class My_handle():
         # }
 
         try:
+            # 数据丢弃部分相关的实现
+            self.data_lock = threading.Lock()
+            self.timers = {}
 
             # 设置会话初始值
             self.session_config = {'msg': [{"role": "system", "content": self.config.get('chatgpt', 'preset')}]}
@@ -164,6 +167,7 @@ class My_handle():
                 f.write('')
                 logging.info(f'{self.commit_file_path} 弹幕文件已创建')
 
+
     def get_room_id(self):
         return self.room_id
 
@@ -191,16 +195,18 @@ class My_handle():
 
 
     # 弹幕处理
-    def commit_handle(self, user_name, content):
+    def commit_handle(self, data):
         """弹幕处理
 
         Args:
-            user_name (str): 用户名
-            content (str): 弹幕内容
+            data (dict): 包含用户名,弹幕内容
 
         Returns:
             _type_: 寂寞
         """
+
+        user_name = data["username"]
+        content = data["content"]
 
         # 合并字符串末尾连续的*  主要针对获取不到用户名的情况
         user_name = self.common.merge_consecutive_asterisks(user_name)
@@ -659,3 +665,47 @@ class My_handle():
             self.audio.audio_synthesis(message)
         except Exception as e:
             logging.error(e)
+
+
+    """
+    数据丢弃部分
+    """
+    def process_data(self, data, timer_flag):
+        with self.data_lock:
+            if timer_flag not in self.timers or not self.timers[timer_flag].is_alive():
+                self.timers[timer_flag] = threading.Timer(self.get_interval(timer_flag), self.process_last_data, args=(timer_flag,))
+                self.timers[timer_flag].start()
+
+            self.timers[timer_flag].last_data = data
+
+    def process_last_data(self, timer_flag):
+        with self.data_lock:
+            timer = self.timers.get(timer_flag)
+            if timer and timer.last_data is not None:
+                logging.debug(f"预处理定时器触发 type={timer_flag}，data={timer.last_data}")
+
+                if timer_flag == "commit":
+                    self.commit_handle(timer.last_data)
+                elif timer_flag == "gift":
+                    self.gift_handle(timer.last_data)
+                elif timer_flag == "entrance":
+                    self.entrance_handle(timer.last_data)
+                elif timer_flag == "talk":
+                    # 聊天暂时共用弹幕处理逻辑
+                    self.commit_handle(timer.last_data)
+
+                # 清空数据
+                timer.last_data = None
+
+    def get_interval(self, timer_flag):
+        # 根据标志定义不同计时器的间隔
+        intervals = {
+            "commit": self.config.get("filter", "commit_forget_duration"),
+            "gift": self.config.get("filter", "gift_forget_duration"),
+            "entrance": self.config.get("filter", "entrance_forget_duration"),
+            "talk": self.config.get("filter", "talk_forget_duration")
+            # 根据需要添加更多计时器及其间隔
+        }
+
+        # 默认间隔为0.1秒
+        return intervals.get(timer_flag, 0.1)

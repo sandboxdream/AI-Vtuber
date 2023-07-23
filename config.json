@@ -13,7 +13,11 @@
     "badwords_path": "data/badwords.txt",
     "bad_pinyin_path": "data/违禁拼音.txt",
     "max_len": 80,
-    "max_char_len": 200
+    "max_char_len": 200,
+    "commit_forget_duration": 3,
+    "gift_forget_duration": 10,
+    "entrance_forget_duration": 30,
+    "talk_forget_duration": 0.1
   },
   "thanks": {
     "entrance_enable": true,
@@ -59,12 +63,12 @@
   "audio_synthesis_type": "edge-tts",
   "audio_random_speed": {
     "normal": {
-      "enable": false,
+      "enable": true,
       "speed_min": 0.8,
       "speed_max": 1.2
     },
     "copywriting": {
-      "enable": false,
+      "enable": true,
       "speed_min": 0.8,
       "speed_max": 1.2
     }

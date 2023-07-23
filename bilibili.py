@@ -42,7 +42,12 @@ def start_server():
 
         logging.info(f"[{user_name}]: {content}")
 
-        my_handle.commit_handle(user_name, content)
+        data = {
+            "username": user_name,
+            "content": content
+        }
+
+        my_handle.process_data(data, "commit")
 
     @room.on('COMBO_SEND')
     async def _(event):
@@ -68,7 +73,7 @@ def start_server():
             "total_price": combo_total_coin / 1000
         }
 
-        my_handle.gift_handle(data)
+        my_handle.process_data(data, "gift")
 
     @room.on('SEND_GIFT')
     async def _(event):
@@ -98,7 +103,7 @@ def start_server():
             "total_price": combo_total_coin / 1000
         }
 
-        my_handle.gift_handle(data)
+        my_handle.process_data(data, "gift")
 
     @room.on('GUARD_BUY')
     async def _(event):
@@ -126,12 +131,13 @@ def start_server():
             "username": uname,
             "num": 1,
             "unit_price": price,
-            "total_price": price
+            "total_price": price,
+            "content": message
         }
 
-        my_handle.gift_handle(data)
+        my_handle.process_data(data, "gift")
 
-        my_handle.commit_handle(uname, message)
+        my_handle.process_data(data, "commit")
         
 
     @room.on('INTERACT_WORD')
@@ -149,7 +155,7 @@ def start_server():
             "content": "进入直播间"
         }
 
-        my_handle.entrance_handle(data)
+        my_handle.process_data(data, "entrance")
 
     # @room.on('WELCOME')
     # async def _(event):
