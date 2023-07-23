@@ -171,25 +171,32 @@ class My_handle():
     def get_room_id(self):
         return self.room_id
 
-    def find_answer(self, question, qa_file_path):
+    def find_answer(self, question, qa_file_path, similarity=1):
         """从本地问答库中搜索问题的答案
 
         Args:
-            question (_type_): 问题文本
-            qa_file_path (_type_): 问答库的路径
+            question (str): 问题文本
+            qa_file_path (str): 问答库的路径
+            similarity (float): 相似度
 
         Returns:
-            _type_: 答案文本 或 None
+            str: 答案文本 或 None
         """
+
         with open(qa_file_path, 'r', encoding='utf-8') as file:
             lines = file.readlines()
 
-        for i in range(0, len(lines), 2):
-            if question.strip() == lines[i].strip():
-                if i + 1 < len(lines):
-                    return lines[i + 1].strip()
-                else:
-                    return None
+        q_list = [lines[i].strip() for i in range(0, len(lines), 2)]
+        q_to_answer_index = {q: i + 1 for i, q in enumerate(q_list)}
+
+        q = self.common.find_best_match(question, q_list, similarity)
+        # print(f"q={q}")
+
+        if q is not None:
+            answer_index = q_to_answer_index.get(q)
+            # print(f"answer_index={answer_index}")
+            if answer_index is not None and answer_index < len(lines):
+                return lines[answer_index * 2 - 1].strip()
 
         return None
 
@@ -230,9 +237,18 @@ class My_handle():
         # 1、匹配本地问答库 触发后不执行后面的其他功能
         if self.local_qa["text"]["enable"] == True:
             # 输出当前用户发送的弹幕消息
-            logging.info(f"[{user_name}]: {content}")
-            tmp = self.find_answer(content, self.local_qa["text"]["file_path"])
+            tmp = self.find_answer(content, self.local_qa["text"]["file_path"], self.local_qa["similarity"])
+
             if tmp != None:
+                logging.info(f"触发本地问答库-文本 [{user_name}]: {content}")
+                # 将问答库中设定的参数替换为指定内容，开发者可以自定义替换内容
+                if "{cur_time}" in tmp:
+                    tmp = tmp.format(cur_time=self.common.get_bj_time(5))
+                else:
+                    tmp = tmp
+                
+                logging.info(f"本地问答库-文本回答为: {tmp}")
+
                 resp_content = tmp
                 # 将 AI 回复记录到日志文件中
                 with open(self.commit_file_path, "r+", encoding="utf-8") as f:
@@ -271,6 +287,7 @@ class My_handle():
 
         # 2、匹配本地问答音频库 触发后不执行后面的其他功能
         if self.local_qa["audio"]["enable"] == True:
+            logging.info(f"触发本地问答库-语音 [{user_name}]: {content}")
             # 输出当前用户发送的弹幕消息
             # logging.info(f"[{user_name}]: {content}")
             # 获取本地问答音频库文件夹内所有的音频文件名

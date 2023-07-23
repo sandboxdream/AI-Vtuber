@@ -450,7 +450,7 @@ class Audio:
         Returns:
             str: 变速后的音频路径
         """
-        logging.info(f"audio_path={audio_path}, speed_factor={speed_factor}, pitch_factor={pitch_factor}")
+        logging.debug(f"audio_path={audio_path}, speed_factor={speed_factor}, pitch_factor={pitch_factor}")
 
         # 使用 pydub 打开音频文件
         audio = AudioSegment.from_file(audio_path)

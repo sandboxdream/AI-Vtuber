@@ -73,6 +73,13 @@ class Common:
             tgt_time = current_milliseconds % 100 # 用于生成音频文件名
 
             return str(tgt_time)
+        elif type == 5:
+            now = time.localtime()  # 获取当前时间
+
+            hour = now.tm_hour   # 获取当前小时
+            minute = now.tm_min  # 获取当前分钟
+
+            return str(hour) + "点" + str(minute)
     
     # 删除多余单词
     def remove_extra_words(self, text="", max_len=30, max_char_len=50):
