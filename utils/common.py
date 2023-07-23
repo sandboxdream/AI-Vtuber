@@ -199,6 +199,9 @@ class Common:
     
 
     def split_sentences(self, text):
+        # 最大长度限制，超过后会强制切分
+        max_limit_len = 30
+
         # 使用正则表达式切分句子
         sentences = re.split('([。！？!?])', text)
         result = []
@@ -210,8 +213,8 @@ class Common:
                 # 如果句子长度小于10个字，则与下一句合并
                 if len(current_sentence) < 10:
                     current_sentence += sentence
-                    # 如果合并后的句子长度超过30个字，则进行二次切分
-                    if len(current_sentence) > 30:
+                    # 如果合并后的句子长度超过max_limit_len个字，则进行二次切分
+                    if len(current_sentence) > max_limit_len:
                         # 判断是否有分隔符可用于二次切分
                         if i+1 < len(sentences) and len(sentences[i+1]) > 0 and sentences[i+1][0] not in ["。", "！", "？", ".", "!", "?"]:
                             next_sentence = sentences[i+1].replace('\n', '').replace(' ', '')
@@ -224,10 +227,10 @@ class Common:
                                     current_sentence = next_sentence[split_index:]
                                     break
                         else:
-                            # 如果合并后的句子长度超过30个字，进行二次切分
-                            while len(current_sentence) > 30:
-                                result.append(current_sentence[:30])
-                                current_sentence = current_sentence[30:]
+                            # 如果合并后的句子长度超过max_limit_len个字，进行二次切分
+                            while len(current_sentence) > max_limit_len:
+                                result.append(current_sentence[:max_limit_len])
+                                current_sentence = current_sentence[max_limit_len:]
                 else:
                     result.append(current_sentence)
                     current_sentence = sentence
