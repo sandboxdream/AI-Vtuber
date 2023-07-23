@@ -46,8 +46,101 @@ roomStore = None
 liveRoomTitle = None
 proxy = None
 
-
 def onMessage(ws: websocket.WebSocketApp, message: bytes):
+    # print("Received: %s" % message)
+
+    message = json.loads(message)
+
+    if message["type"] == "message":
+        for msg in message["message_list"]:
+            # 用户进入
+            if msg["type"] == "MemberMessage":
+                username = msg["name"]
+
+                logging.info(f'[🚹🚺直播间成员加入消息] 欢迎 {username} 进入直播间')
+
+                data = {
+                    "username": username,
+                    "content": "进入直播间"
+                }
+
+                my_handle.process_data(data, "entrance")
+            # 用户送礼
+            elif msg["type"] == "GiftMessage":
+                username = msg["name"]
+                giftCount = msg["giftCount"]
+                giftName = msg["giftName"]
+                try:
+                    # 暂时是写死的
+                    data_path = "data/抖音礼物价格表.json"
+
+                    # 读取JSON文件
+                    with open(data_path, "r", encoding="utf-8") as file:
+                        # 解析JSON数据
+                        data_json = json.load(file)
+
+                    if giftName in data_json:
+                        # 单个礼物金额 需要自己维护礼物价值表
+                        discount_price = data_json[giftName]
+                    else:
+                        logging.warning(f"数据文件：{data_path} 中，没有 {giftName} 对应的价值，请手动补充数据")
+                        discount_price = 1
+                except Exception as e:
+                    logging.error(e)
+                    discount_price = 1
+
+
+                # 总金额
+                combo_total_coin = giftCount * discount_price
+
+                logging.info(f'[🎁直播间礼物消息] 用户：{username} 赠送 {giftCount} 个 {giftName}，单价 {discount_price}抖币，总计 {combo_total_coin}抖币')
+
+                data = {
+                    "gift_name": giftName,
+                    "username": username,
+                    "num": giftCount,
+                    "unit_price": discount_price / 10,
+                    "total_price": combo_total_coin / 10
+                }
+
+                my_handle.process_data(data, "gift")
+            # 用户发言
+            elif msg["type"] == "ChatMessage":
+                username = msg["name"]
+                content = msg["content"]
+
+                logging.info(f'[📧直播间弹幕消息] [{username}]：{content}')
+
+                # print(data)
+
+                data = {
+                    "username": username,
+                    "content": content
+                }
+
+                my_handle.process_data(data, "commit")
+            # 用户点赞
+            elif msg["type"] == "LikeMessage":
+                username = msg["name"]
+                count = msg["count"]
+
+                logging.info(f"用户：{username} 点了{count}赞")
+            # 用户关注或者分享
+            elif msg["type"] == "SocialMessage":
+                username = msg["name"]
+
+                logging.info(f"用户关注或者分享：{username}")
+            # 直播间在线人数
+            elif msg["type"] == "RoomUserSeqMessage":
+                total = msg["total"]
+
+                logging.info(f"直播间在线人数：{total}")
+            # 直播结束
+            elif msg["type"] == "ControlMessage":
+                pass
+
+
+def onMessage_old(ws: websocket.WebSocketApp, message: bytes):
     wssPackage = PushFrame()
     wssPackage.ParseFromString(message)
     logId = wssPackage.logId
@@ -215,7 +308,7 @@ def onClose(ws, a, b):
 
 def onOpen(ws):
     ws.send('{"url":"https://live.douyin.com/358102408285","proxyIp":""}')
-    _thread.start_new_thread(ping, (ws,))
+    # _thread.start_new_thread(ping, (ws,))
     logging.info('[onOpen] [webSocket Open事件] [房间Id：' + liveRoomId + ']')
 
 
@@ -359,11 +452,12 @@ def hexStrToProtobuf(hexStr):
 
 try: 
     room_id = my_handle.get_room_id()
-    # room_id = "2036164249"
     # parseLiveRoomUrl(f"https://live.douyin.com/{room_id}")
 
     # WebSocket连接URL
-    ws_url = "ws://42.193.254.253:3000/dy"
+    # ws://42.193.254.253:3000/dy
+    # ws://49.235.82.99:10006
+    ws_url = f"ws://49.235.82.99:10006/{room_id}"
 
     # 创建WebSocket连接
     websocket.enableTrace(True)
