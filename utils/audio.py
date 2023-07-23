@@ -450,11 +450,21 @@ class Audio:
         Returns:
             str: 变速后的音频路径
         """
+        logging.info(f"audio_path={audio_path}, speed_factor={speed_factor}, pitch_factor={pitch_factor}")
+
         # 使用 pydub 打开音频文件
         audio = AudioSegment.from_file(audio_path)
 
         # 变速
-        audio_changed = audio.speedup(playback_speed=speed_factor)
+        if speed_factor > 1.0:
+            audio_changed = audio.speedup(playback_speed=speed_factor)
+        elif speed_factor < 1.0:
+            # 如果要放慢,使用set_frame_rate调帧率
+            orig_frame_rate = audio.frame_rate
+            slow_frame_rate = int(orig_frame_rate * speed_factor)
+            audio_changed = audio._spawn(audio.raw_data, overrides={"frame_rate": slow_frame_rate})
+        else:
+            audio_changed = audio
 
         # 变调
         if pitch_factor != 1.0:
@@ -462,6 +472,16 @@ class Audio:
             audio_changed = audio_changed._spawn(audio_changed.raw_data, overrides={
                 "frame_rate": int(audio_changed.frame_rate * (2.0 ** (semitones / 12.0)))
             }).set_frame_rate(audio_changed.frame_rate)
+
+        # 变速
+        # audio_changed = audio.speedup(playback_speed=speed_factor)
+
+        # # 变调
+        # if pitch_factor != 1.0:
+        #     semitones = 12 * (pitch_factor - 1)
+        #     audio_changed = audio_changed._spawn(audio_changed.raw_data, overrides={
+        #         "frame_rate": int(audio_changed.frame_rate * (2.0 ** (semitones / 12.0)))
+        #     }).set_frame_rate(audio_changed.frame_rate)
 
         # 导出为临时文件
         temp_path = f"./out/temp_{self.common.get_bj_time(4)}.wav"
