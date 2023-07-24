@@ -766,22 +766,22 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_sd_hr_second_pass_steps.setText(str(self.sd_config['hr_second_pass_steps']))
             self.ui.lineEdit_sd_denoising_strength.setText(str(self.sd_config['denoising_strength']))
             
-            # 文案 刷新列表
-            self.ui.lineEdit_copywriting_file_path.setText(self.copywriting_config['file_path'])
-            self.ui.lineEdit_copywriting_file_path2.setText(self.copywriting_config['file_path2'])
-            self.ui.lineEdit_copywriting_audio_path.setText(self.copywriting_config['audio_path'])
-            self.ui.lineEdit_copywriting_audio_path2.setText(self.copywriting_config['audio_path2'])
+            # 文案 刷新列表 TODO:这里是写死的，之后需要做成动态
+            self.ui.lineEdit_copywriting_file_path.setText(self.copywriting_config["config"][0]['file_path'])
+            self.ui.lineEdit_copywriting_file_path2.setText(self.copywriting_config["config"][1]['file_path'])
+            self.ui.lineEdit_copywriting_audio_path.setText(self.copywriting_config["config"][0]['audio_path'])
+            self.ui.lineEdit_copywriting_audio_path2.setText(self.copywriting_config["config"][1]['audio_path'])
             self.ui.lineEdit_copywriting_audio_interval.setText(str(self.copywriting_config['audio_interval']))
             self.ui.lineEdit_copywriting_switching_interval.setText(str(self.copywriting_config['switching_interval']))
             if self.copywriting_config['random_play']:
                 self.ui.checkBox_copywriting_switching_random_play.setChecked(True)
             self.copywriting_refresh_list()
             tmp_str = ""
-            for tmp in self.copywriting_config['play_list']:
+            for tmp in self.copywriting_config["config"][0]['play_list']:
                 tmp_str = tmp_str + tmp + "\n"
             self.ui.textEdit_copywriting_play_list.setText(tmp_str)
             tmp_str = ""
-            for tmp in self.copywriting_config['play_list2']:
+            for tmp in self.copywriting_config["config"][1]['play_list']:
                 tmp_str = tmp_str + tmp + "\n"
             self.ui.textEdit_copywriting_play_list2.setText(tmp_str)
 
@@ -1223,7 +1223,7 @@ class AI_VTB(QMainWindow):
             config_data["sd"]["hr_second_pass_steps"] = int(self.ui.lineEdit_sd_hr_second_pass_steps.text())
             config_data["sd"]["denoising_strength"] = round(float(self.ui.lineEdit_sd_denoising_strength.text()), 1)
 
-            # 文案
+            # 文案 TODO:做成动态
             # config_data["copywriting"]["file_path"] = self.ui.lineEdit_copywriting_file_path.text()
             # config_data["copywriting"]["audio_path"] = self.ui.lineEdit_copywriting_audio_path.text()
             config_data["copywriting"]["audio_interval"] = round(float(self.ui.lineEdit_copywriting_audio_interval.text()), 1)
@@ -1233,12 +1233,12 @@ class AI_VTB(QMainWindow):
             play_list = [token.strip() for separator in separators for part in copywriting_play_list.split(separator) if (token := part.strip())]
             if 0 != len(play_list):
                 play_list = play_list[1:]
-            config_data["copywriting"]["play_list"] = play_list
+            config_data["copywriting"]["config"][0]["play_list"] = play_list
             copywriting_play_list = self.ui.textEdit_copywriting_play_list2.toPlainText()
             play_list = [token.strip() for separator in separators for part in copywriting_play_list.split(separator) if (token := part.strip())]
             if 0 != len(play_list):
                 play_list = play_list[1:]
-            config_data["copywriting"]["play_list2"] = play_list
+            config_data["copywriting"]["config"][1]["play_list"] = play_list
 
             config_data["header"]["userAgent"] = self.ui.lineEdit_header_useragent.text()
             
@@ -1412,29 +1412,29 @@ class AI_VTB(QMainWindow):
         self.throttled_copywriting_select()
     
 
-    # 刷新列表
+    # 刷新列表 TODO:改成动态加载
     def copywriting_refresh_list(self):
         try:
             # 文案数据回显到UI
             tmp_str = ""
-            copywriting_file_names = self.get_dir_txt_filename(self.copywriting_config['file_path'])
+            copywriting_file_names = self.get_dir_txt_filename(self.copywriting_config["config"][0]['file_path'])
             for tmp in copywriting_file_names:
                 tmp_str = tmp_str + tmp + "\n"
             self.ui.textEdit_copywriting_list.setText(tmp_str)
             tmp_str = ""
-            copywriting_file_names = self.get_dir_txt_filename(self.copywriting_config['file_path2'])
+            copywriting_file_names = self.get_dir_txt_filename(self.copywriting_config["config"][1]['file_path'])
             for tmp in copywriting_file_names:
                 tmp_str = tmp_str + tmp + "\n"
             self.ui.textEdit_copywriting_list2.setText(tmp_str)
 
             # 文案音频数据回显到UI
             tmp_str = ""
-            copywriting_audio_file_names = self.get_dir_audio_filename(self.copywriting_config['audio_path'])
+            copywriting_audio_file_names = self.get_dir_audio_filename(self.copywriting_config["config"][0]['audio_path'])
             for tmp in copywriting_audio_file_names:
                 tmp_str = tmp_str + tmp + "\n"
             self.ui.textEdit_copywriting_audio_list.setText(tmp_str)
             tmp_str = ""
-            copywriting_audio_file_names = self.get_dir_audio_filename(self.copywriting_config['audio_path2'])
+            copywriting_audio_file_names = self.get_dir_audio_filename(self.copywriting_config["config"][1]['audio_path'])
             for tmp in copywriting_audio_file_names:
                 tmp_str = tmp_str + tmp + "\n"
             self.ui.textEdit_copywriting_audio_list2.setText(tmp_str)

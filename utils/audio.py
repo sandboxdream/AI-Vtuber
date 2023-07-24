@@ -612,15 +612,25 @@ class Audio:
                         await asyncio.sleep(float(self.config.get("copywriting", "audio_interval")))  # 添加延迟减少循环频率
                         continue
                     
-                    list1 = self.config.get("copywriting", "play_list")
-                    list2 = self.config.get("copywriting", "play_list2")
-                    play_list = copy.copy(list1)
-                    play_list2 = copy.copy(list2)
+                    # 获取文案配置
+                    copywriting_configs = self.config.get("copywriting", "config")
+
+                    file_path_arr = []
+                    audio_path_arr = []
+                    play_list_arr = []
+
+                    for copywriting_config in copywriting_configs:
+                        file_path_arr.append(copywriting_config["file_path"])
+                        audio_path_arr.append(copywriting_config["audio_path"])
+                        tmp_play_list = copy.copy(copywriting_config["play_list"])
+                        play_list_arr.append(tmp_play_list)
+
+
                     # 是否开启随机列表播放
                     if self.config.get("copywriting", "random_play"):
-                        # 随机打乱列表内容
-                        random.shuffle(play_list)
-                        random.shuffle(play_list2)
+                        for play_list in play_list_arr:
+                            # 随机打乱列表内容
+                            random.shuffle(play_list)
 
                     while True:
                         # 判断播放标志位
@@ -629,35 +639,23 @@ class Audio:
 
                         # 退出子循环的标志位
                         break_while_flag = 0
-                        
-                        # 判断播放路径1是否数据大于0
-                        if len(play_list) > 0:
-                            # 移出一个音频路径
-                            voice_tmp_path = play_list.pop(0)
-                            audio_path = os.path.join(self.config.get("copywriting", "audio_path"), voice_tmp_path)
 
-                            logging.info(f"即将播放 文案1中的 {audio_path}")
+                        # 遍历 play_list_arr 中的每个 play_list
+                        for index, play_list in enumerate(play_list_arr):
+                            # 判断当前 play_list 是否有音频数据
+                            if len(play_list) > 0:
+                                # 移出一个音频路径
+                                voice_tmp_path = play_list.pop(0)
+                                audio_path = os.path.join(audio_path_arr[index], voice_tmp_path)
 
-                            await random_speed_and_play(audio_path)
-                        else:
-                            break_while_flag = break_while_flag + 1
+                                logging.info(f"即将播放音频 {audio_path}")
 
-                        # 判断播放路径2是否数据大于0
-                        if len(play_list2) > 0:
-                            # 移出一个音频路径
-                            voice_tmp_path2 = play_list2.pop(0)
-                            audio_path2 = os.path.join(self.config.get("copywriting", "audio_path2"), voice_tmp_path2)
+                                await random_speed_and_play(audio_path)
+                            else:
+                                break_while_flag = break_while_flag + 1
 
-                            logging.info(f"即将播放 文案2中的 {audio_path2}")
-
-                            await random_speed_and_play(audio_path2)
-                        else:
-                            break_while_flag = break_while_flag + 1
-
-                        logging.debug(f"break_while_flag={break_while_flag}")
-
-                        # 标志位计数>=2 退出循环（此处可以无限拓展（
-                        if break_while_flag >= 2:
+                        # 标志位计数>=len(play_list_arr) 退出循环（此处可以无限拓展（
+                        if break_while_flag >= len(play_list_arr):
                             break
  
                 except Exception as e:
