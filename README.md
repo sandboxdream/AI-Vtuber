@@ -859,7 +859,10 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 官方免费模型下载：[releases/tag/live2d](https://github.com/Ikaros-521/AI-Vtuber/releases/tag/live2d)  
 官网：[https://www.live2d.com/zh-CHS](https://www.live2d.com/zh-CHS)  
 
-第三方软件`Vtuber Studio`，配置教程：[【AI主播】虚拟人部分方案#1 基于Vtuber Studio的口型驱动](https://www.bilibili.com/video/BV1vs4y1k71M)
+第三方软件`Vtuber Studio`，配置教程：[【AI主播】虚拟人部分方案#1 基于Vtuber Studio的口型驱动](https://www.bilibili.com/video/BV1vs4y1k71M)  
+配合VB虚拟声卡时，如果想要让扬声器也可以听到输出的音频，可以通过 侦听 来实现，配置方法如下：
+![1](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/b2c0d632-c6ad-4044-892e-e809dfea8f21)
+
 
 ### Stable Diffusion
 官方仓库：[stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui)  
