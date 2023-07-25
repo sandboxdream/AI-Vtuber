@@ -76,6 +76,7 @@ class My_handle():
             # chat_with_file
             self.chat_with_file_config = self.config.get("chat_with_file")
             self.text_generation_webui_config = self.config.get("text_generation_webui")
+            self.sparkdesk_config = self.config.get("sparkdesk")
 
             # 音频合成使用技术
             self.audio_synthesis_type = self.config.get("audio_synthesis_type")
@@ -97,12 +98,15 @@ class My_handle():
         GPT_MODEL.set_model_config("claude", self.claude_config)
         GPT_MODEL.set_model_config("chatglm", self.chatglm_config)
         GPT_MODEL.set_model_config("text_generation_webui", self.text_generation_webui_config)
+        GPT_MODEL.set_model_config("sparkdesk", self.sparkdesk_config)
 
         self.chatgpt = None
         self.claude = None
         self.chatglm = None
         self.chat_with_file = None
         self.text_generation_webui = None
+        self.sparkdesk = None
+
 
         # 聊天相关类实例化
         if self.chat_type == "chatgpt":
@@ -114,7 +118,6 @@ class My_handle():
             # 初次运行 先重置下会话
             if not self.claude.reset_claude():
                 logging.error("重置Claude会话失败喵~")
-
         elif self.chat_type == "chatterbot":
             from chatterbot import ChatBot  # 导入聊天机器人库
             try:
@@ -125,17 +128,15 @@ class My_handle():
             except Exception as e:
                 logging.info(e)
                 exit(0)
-
         elif self.chat_type == "chatglm":
             self.chatglm = GPT_MODEL.get(self.chat_type)
-
         elif self.chat_type == "chat_with_file":
             from utils.chat_with_file.chat_with_file import Chat_with_file
             self.chat_with_file = Chat_with_file(self.chat_with_file_config)
-
         elif self.chat_type == "text_generation_webui":
-            self.text_generation_webui = GPT_MODEL.get(self.chat_type)
-
+            self.text_generation_webui = GPT_MODEL.get(self.chat_type) 
+        elif self.chat_type == "sparkdesk":
+            self.sparkdesk = GPT_MODEL.get(self.chat_type)
         elif self.chat_type == "game":
             exit(0)
 
@@ -536,7 +537,6 @@ class My_handle():
             # 生成回复
             resp_content = self.bot.get_response(content).text
             logging.info(f"[AI回复{user_name}]：{resp_content}")
-
         elif self.chat_type == "chatglm":
             # 生成回复
             resp_content = self.chatglm.get_chatglm_resp(content)
@@ -546,11 +546,9 @@ class My_handle():
             else:
                 resp_content = ""
                 logging.warning("警告：chatglm无返回")
-
         elif self.chat_type == "chat_with_file":
             resp_content = self.chat_with_file.get_model_resp(content)
             print(f"[AI回复{user_name}]：{resp_content}")
-
         elif self.chat_type == "text_generation_webui":
             # 生成回复
             resp_content = self.text_generation_webui.get_text_generation_webui_resp(content)
@@ -560,7 +558,15 @@ class My_handle():
             else:
                 resp_content = ""
                 logging.warning("警告：text_generation_webui无返回")
-
+        elif self.chat_type == "sparkdesk":
+            # 生成回复
+            resp_content = self.sparkdesk.get_sparkdesk_resp(content)
+            if resp_content is not None:
+                # 输出 返回的回复消息
+                logging.info(f"[AI回复{user_name}]：{resp_content}")
+            else:
+                resp_content = ""
+                logging.warning("警告：讯飞星火无返回")
         elif self.chat_type == "game":
             return
             g1 = game1()
