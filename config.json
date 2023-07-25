@@ -1,7 +1,7 @@
 {
   "platform": "bilibili",
   "room_display_id": "278333",
-  "chat_type": "none",
+  "chat_type": "reread",
   "need_lang": "none",
   "before_prompt": "请简要回复:",
   "after_prompt": "",
@@ -63,12 +63,12 @@
   "audio_synthesis_type": "edge-tts",
   "audio_random_speed": {
     "normal": {
-      "enable": true,
+      "enable": false,
       "speed_min": 0.8,
       "speed_max": 1.2
     },
     "copywriting": {
-      "enable": true,
+      "enable": false,
       "speed_min": 0.8,
       "speed_max": 1.2
     }

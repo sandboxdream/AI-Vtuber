@@ -134,7 +134,7 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-1387</y>
+             <y>0</y>
              <width>980</width>
              <height>6694</height>
             </rect>
@@ -215,6 +215,11 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                  <property name="cursor">
                   <cursorShape>PointingHandCursor</cursorShape>
                  </property>
+                 <item>
+                  <property name="text">
+                   <string>不启用</string>
+                  </property>
+                 </item>
                  <item>
                   <property name="text">
                    <string>复读机</string>
