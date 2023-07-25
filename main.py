@@ -227,6 +227,8 @@ class AI_VTB(QMainWindow):
             self.chatglm_config = config.get("chatglm")
             # text_generation_webui
             self.text_generation_webui_config = config.get("text_generation_webui")
+            # sparkdesk
+            self.sparkdesk_config = config.get("sparkdesk")
             
 
             # 音频合成使用技术
@@ -320,6 +322,15 @@ class AI_VTB(QMainWindow):
             self.ui.label_chatglm_max_length.setToolTip("生成回答的最大长度限制，以令牌数或字符数为单位。")
             self.ui.label_chatglm_top_p.setToolTip("也称为 Nucleus采样。控制模型生成时选择概率的阈值范围。")
             self.ui.label_chatglm_temperature.setToolTip("温度参数，控制生成文本的随机性。较高的温度值会产生更多的随机性和多样性。")
+
+            # 讯飞星火
+            self.ui.label_sparkdesk_type.setToolTip("选择使用的类型，web抓包 或者 官方API")
+            self.ui.label_sparkdesk_cookie.setToolTip("web抓包请求头中的cookie，参考文档教程")
+            self.ui.label_sparkdesk_fd.setToolTip("web抓包负载中的fd，参考文档教程")
+            self.ui.label_sparkdesk_GtToken.setToolTip("web抓包负载中的GtToken，参考文档教程")
+            self.ui.label_sparkdesk_app_id.setToolTip("申请官方API后，云平台中提供的APPID")
+            self.ui.label_sparkdesk_api_secret.setToolTip("申请官方API后，云平台中提供的APISecret")
+            self.ui.label_sparkdesk_api_key.setToolTip("申请官方API后，云平台中提供的APIKey")
             
             self.ui.label_chat_with_file_chat_mode.setToolTip("本地向量数据库模式")
             self.ui.label_chat_with_file_data_path.setToolTip("加载的本地pdf数据文件路径（到x.pdf）, 如：./data/伊卡洛斯百度百科.pdf")
@@ -465,7 +476,17 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_room_display_id.setText(self.room_id)
             
             self.ui.comboBox_chat_type.clear()
-            self.ui.comboBox_chat_type.addItems(["不启用", "复读机", "ChatGPT", "Claude", "ChatGLM", "chat_with_file", "Chatterbot", "text_generation_webui"])
+            self.ui.comboBox_chat_type.addItems([
+                "不启用", 
+                "复读机", 
+                "ChatGPT", 
+                "Claude", 
+                "ChatGLM", 
+                "chat_with_file", 
+                "Chatterbot", 
+                "text_generation_webui", 
+                "sparkdesk"
+            ])
             chat_type_index = 0
             if self.chat_type == "none":
                 chat_type_index = 0
@@ -483,6 +504,8 @@ class AI_VTB(QMainWindow):
                 chat_type_index = 6
             elif self.chat_type == "text_generation_webui":
                 chat_type_index = 7
+            elif self.chat_type == "sparkdesk":
+                chat_type_index = 8
             self.ui.comboBox_chat_type.setCurrentIndex(chat_type_index)
             
             self.ui.comboBox_need_lang.clear()
@@ -651,6 +674,22 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_text_generation_webui_character.setText(str(self.text_generation_webui_config['character']))
             self.ui.lineEdit_text_generation_webui_instruction_template.setText(str(self.text_generation_webui_config['instruction_template']))
             self.ui.lineEdit_text_generation_webui_your_name.setText(str(self.text_generation_webui_config['your_name']))
+
+            # 讯飞星火
+            self.ui.comboBox_sparkdesk_type.clear()
+            self.ui.comboBox_sparkdesk_type.addItems(["web", "api"])
+            sparkdesk_type_index = 0
+            if self.sparkdesk_config['type'] == "web":
+                sparkdesk_type_index = 0
+            elif self.sparkdesk_config['type'] == "api":
+                sparkdesk_type_index = 1
+            self.ui.comboBox_sparkdesk_type.setCurrentIndex(sparkdesk_type_index)
+            self.ui.lineEdit_sparkdesk_cookie.setText(self.sparkdesk_config['cookie'])
+            self.ui.lineEdit_sparkdesk_fd.setText(self.sparkdesk_config['fd'])
+            self.ui.lineEdit_sparkdesk_GtToken.setText(self.sparkdesk_config['GtToken'])
+            self.ui.lineEdit_sparkdesk_app_id.setText(self.sparkdesk_config['app_id'])
+            self.ui.lineEdit_sparkdesk_api_secret.setText(self.sparkdesk_config['api_secret'])
+            self.ui.lineEdit_sparkdesk_api_key.setText(self.sparkdesk_config['api_key'])
 
             self.ui.comboBox_audio_synthesis_type.clear()
             self.ui.comboBox_audio_synthesis_type.addItems(["Edge-TTS", "VITS-Fast", "elevenlabs", "genshinvoice_top"])
@@ -996,6 +1035,8 @@ class AI_VTB(QMainWindow):
                 config_data["chat_type"] = "chatterbot"
             elif chat_type == "text_generation_webui":
                 config_data["chat_type"] = "text_generation_webui"
+            elif chat_type == "sparkdesk":
+                config_data["chat_type"] = "sparkdesk"
 
             config_data["before_prompt"] = self.ui.lineEdit_before_prompt.text()
             config_data["after_prompt"] = self.ui.lineEdit_after_prompt.text()
@@ -1122,18 +1163,21 @@ class AI_VTB(QMainWindow):
             chat_with_file_local_max_query = self.ui.lineEdit_chat_with_file_local_max_query.text()
             config_data["chat_with_file"]["local_max_query"] = int(chat_with_file_local_max_query)
 
-            text_generation_webui_api_ip_port = self.ui.lineEdit_text_generation_webui_api_ip_port.text()
-            config_data["text_generation_webui"]["api_ip_port"] = text_generation_webui_api_ip_port
-            text_generation_webui_max_new_tokens = self.ui.lineEdit_text_generation_webui_max_new_tokens.text()
-            config_data["chatglm"]["max_new_tokens"] = int(text_generation_webui_max_new_tokens)
-            text_generation_webui_mode = self.ui.lineEdit_text_generation_webui_mode.text()
-            config_data["text_generation_webui"]["mode"] = text_generation_webui_mode
-            text_generation_webui_character = self.ui.lineEdit_text_generation_webui_character.text()
-            config_data["text_generation_webui"]["character"] = text_generation_webui_character
-            text_generation_webui_instruction_template = self.ui.lineEdit_text_generation_webui_instruction_template.text()
-            config_data["text_generation_webui"]["instruction_template"] = text_generation_webui_instruction_template
-            text_generation_webui_your_name = self.ui.lineEdit_text_generation_webui_your_name.text()
-            config_data["text_generation_webui"]["your_name"] = text_generation_webui_your_name
+            config_data["text_generation_webui"]["api_ip_port"] = self.ui.lineEdit_text_generation_webui_api_ip_port.text()
+            config_data["chatglm"]["max_new_tokens"] = int(self.ui.lineEdit_text_generation_webui_max_new_tokens.text())
+            config_data["text_generation_webui"]["mode"] = self.ui.lineEdit_text_generation_webui_mode.text()
+            config_data["text_generation_webui"]["character"] = self.ui.lineEdit_text_generation_webui_character.text()
+            config_data["text_generation_webui"]["instruction_template"] = self.ui.lineEdit_text_generation_webui_instruction_template.text()
+            config_data["text_generation_webui"]["your_name"] = self.ui.lineEdit_text_generation_webui_your_name.text()
+
+            # sparkdesk
+            config_data["sparkdesk"]["type"] = self.ui.comboBox_sparkdesk_type.currentText()
+            config_data["sparkdesk"]["cookie"] = self.ui.lineEdit_sparkdesk_cookie.text()
+            config_data["sparkdesk"]["fd"] = self.ui.lineEdit_sparkdesk_fd.text()
+            config_data["sparkdesk"]["GtToken"] = self.ui.lineEdit_sparkdesk_GtToken.text()
+            config_data["sparkdesk"]["app_id"] = self.ui.lineEdit_sparkdesk_app_id.text()
+            config_data["sparkdesk"]["api_secret"] = self.ui.lineEdit_sparkdesk_api_secret.text()
+            config_data["sparkdesk"]["api_key"] = self.ui.lineEdit_sparkdesk_api_key.text()
 
             audio_synthesis_type = self.ui.comboBox_audio_synthesis_type.currentText()
             if audio_synthesis_type == "Edge-TTS":
@@ -1622,16 +1666,18 @@ class AI_VTB(QMainWindow):
     def oncomboBox_chat_type_IndexChanged(self, index):
         # 各index对应的groupbox的显隐值
         visibility_map = {
-            0: (0, 0, 0, 0, 0, 0, 0, 0),
-            1: (1, 1, 1, 0, 0, 0, 0, 0),
-            2: (0, 0, 0, 1, 0, 0, 0, 0),
-            3: (0, 0, 0, 0, 1, 0, 0, 0),
-            4: (1, 1, 1, 1, 0, 1, 0, 0),
-            5: (0, 0, 0, 0, 0, 0, 1, 0),
-            6: (0, 0, 0, 0, 0, 0, 0, 1),
+            0: (0, 0, 0, 0, 0, 0, 0, 0, 0),
+            1: (0, 0, 0, 0, 0, 0, 0, 0, 0),
+            2: (1, 1, 1, 0, 0, 0, 0, 0, 0),
+            3: (0, 0, 0, 1, 0, 0, 0, 0, 0),
+            4: (0, 0, 0, 0, 1, 0, 0, 0, 0),
+            5: (1, 1, 1, 1, 0, 1, 0, 0, 0),
+            6: (0, 0, 0, 0, 0, 0, 1, 0, 0),
+            7: (0, 0, 0, 0, 0, 0, 0, 1, 0),
+            8: (0, 0, 0, 0, 0, 0, 0, 0, 1)
         }
 
-        visibility_values = visibility_map.get(index, (0, 0, 0, 0, 0, 0, 0, 0))
+        visibility_values = visibility_map.get(index, (0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
 
         self.ui.groupBox_openai.setVisible(visibility_values[0])
         self.ui.groupBox_chatgpt.setVisible(visibility_values[1])
@@ -1641,6 +1687,7 @@ class AI_VTB(QMainWindow):
         self.ui.groupBox_chat_with_file.setVisible(visibility_values[5])
         self.ui.groupBox_chatterbot.setVisible(visibility_values[6])
         self.ui.groupBox_text_generation_webui.setVisible(visibility_values[7])
+        self.ui.groupBox_sparkdesk.setVisible(visibility_values[8])
 
     
     # 语音合成类型改变 加载显隐不同groupBox

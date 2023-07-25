@@ -1,7 +1,7 @@
 {
   "platform": "bilibili",
   "room_display_id": "278333",
-  "chat_type": "none",
+  "chat_type": "reread",
   "need_lang": "none",
   "before_prompt": "请简要回复:",
   "after_prompt": "",
@@ -47,6 +47,15 @@
     "top_p": 0.7,
     "temperature": 0.95,
     "max_new_tokens": 250
+  },
+  "sparkdesk": {
+    "type": "web",
+    "cookie": "",
+    "fd": "",
+    "GtToken": "",
+    "app_id": "",
+    "api_secret": "",
+    "api_key": ""
   },
   "chat_with_file": {
     "chat_mode": "openai_gpt",

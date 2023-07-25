@@ -22,7 +22,7 @@
 
 
 <p>
-AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text-generation-webui 做为"大脑"驱动的虚拟主播（Live2D），可以在 Bilibili/抖音/快手 直播中与观众实时互动 或者 直接在本地和您进行聊天。
+AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text-generation-webui/讯飞星火 做为"大脑"驱动的虚拟主播（Live2D），可以在 Bilibili/抖音/快手 直播中与观众实时互动 或者 直接在本地和您进行聊天。
 它使用自然语言处理和文本转语音技术(Edge-TTS/VITS-Fast/elevenlabs)生成对观众问题的回答并可以通过so-vits-svc/DDSP-SVC变声；另外还可以通过特定指令协同Stable Diffusion进行画图展示。并且可以自定义文案进行循环播放。 
 </p>
 
@@ -85,6 +85,7 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
   - [ChatGLM](#chatglm)
   - [chat_with_file](#chat_with_file)
   - [text-generation-webui](#text-generation-webui)
+  - [讯飞星火](#%E8%AE%AF%E9%A3%9E%E6%98%9F%E7%81%AB)
   - [elevenlabs](#elevenlabs)
   - [genshinvoice.top](#genshinvoicetop)
   - [ChatterBot](#chatterbot)
@@ -109,6 +110,7 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
 - [🤝贡献](#%E8%B4%A1%E7%8C%AE)
   - [🎉鸣谢](#%E9%B8%A3%E8%B0%A2)
   - [💸投资方](#%E6%8A%95%E8%B5%84%E6%96%B9)
+  - [合作伙伴](#%E5%90%88%E4%BD%9C%E4%BC%99%E4%BC%B4)
   - [🙌赞助](#%E8%B5%9E%E5%8A%A9)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -124,6 +126,7 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
 - `Live2D`文件夹，存储Live2D源码及模型
 - `song`文件夹，存储点歌模式的歌曲
 - `docs`文件夹，存储项目相关文档
+- `tests`文件夹，存储单一功能点的测试程序
 
 
 ## 下载项目
@@ -171,7 +174,7 @@ GUI程序运行后会自动加载配置文件，可以通过GUI程序进行配�
 {
   // 你的直播间号,兼容全平台，都是直播间页面的链接中最后的数字和字母。例如:123
   "room_display_id": "你的直播间号",
-  // 选用的聊天类型：chatterbot/chatgpt/claude/chat_with_file/chatglm/none 其中none就是复读机模式
+  // 选用的聊天类型：chatterbot/chatgpt/claude/chat_with_file/chatglm/sparkdesk/reread/none 其中reread就是复读机模式,none是不启用
   "chat_type": "none",
   // 弹幕语言筛选，none就是全部语言，en英文，jp日文，zh中文
   "need_lang": "none",
@@ -237,6 +240,23 @@ GUI程序运行后会自动加载配置文件，可以通过GUI程序进行配�
     "max_length": 2048,
     "top_p": 0.7,
     "temperature": 0.95
+  },
+  // 讯飞星火相关配置
+  "sparkdesk": {
+    // 两种类型 web api
+    "type": "web",
+    // web类型下 抓包中的cookie，详情见拓展教程
+    "cookie": "",
+    // web类型下 抓包中的fd
+    "fd": "",
+    // web类型下 抓包中的GtToken
+    "GtToken": "",
+    // api类型下 申请api后平台中的appid
+    "app_id": "",
+    // api类型下 申请api后平台中的appsecret
+    "api_secret": "",
+    // api类型下 申请api后平台中的appkey
+    "api_key": ""
   },
   "chat_with_file": {
     // 本地向量数据库模式
@@ -412,7 +432,7 @@ GUI程序运行后会自动加载配置文件，可以通过GUI程序进行配�
     // 去噪强度，用于控制生成图像中的噪点。
     "denoising_strength": 0.4
   },
-  // 文案相关配置
+  // 文案相关配置（待更新）
   "copywriting": {
     // 文案文件存储路径，不建议更改。
     "file_path": "data/copywriting/",
@@ -808,6 +828,13 @@ slack官网：[https://slack.com/intl/zh-cn/](https://slack.com/intl/zh-cn/)
 API调用demo：[api-examples](https://github.com/oobabooga/text-generation-webui/tree/main/api-examples)  
 
 
+### 讯飞星火
+官网：[https://xinghuo.xfyun.cn/](https://xinghuo.xfyun.cn/)  
+api库（HildaM开发）：[sparkdesk-api](https://github.com/HildaM/sparkdesk-api)  
+web配置获取方法：[sparkdesk-api/tree/main/docs](https://github.com/HildaM/sparkdesk-api/tree/main/docs)  
+api申请：提交工单申请，工单提交页 [https://console.xfyun.cn/services/cbm](https://console.xfyun.cn/services/cbm)  
+
+
 ### elevenlabs
 [elevenlabs官网](https://beta.elevenlabs.io/)  
 [官方文档](https://docs.elevenlabs.io/api-reference/quick-start/introduction)  
@@ -1174,7 +1201,8 @@ cmd输入命令即可：`doctoc /path/to/file`
 - 文案模式，文案格式修改，可以无限拓展文案路径数量来达到多类型文案切换的效果，GUI带适配动态加载。
 
 ### 2023-07-25
-- 支持关闭聊天（LLM等）,既可以应用于直播助理等场景，只负责欢迎和感谢。
+- 新增 不启用 聊天类型，修改none为不启用，reread为复读机。关闭聊天（LLM等）,既可以应用于直播助理等场景，只负责欢迎和感谢。
+- 接入科大讯飞 星火
 
 </details>
 
