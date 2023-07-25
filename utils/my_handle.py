@@ -567,8 +567,13 @@ class My_handle():
             g1.parse_keys_and_simulate_key_press(content.split(), 2)
 
             return
-        else:
+        elif self.chat_type == "reread":
             # 复读机
+            resp_content = content
+        elif self.chat_type == "none":
+            # 不启用
+            return
+        else:
             resp_content = content
 
 

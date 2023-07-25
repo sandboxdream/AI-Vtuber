@@ -465,22 +465,24 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_room_display_id.setText(self.room_id)
             
             self.ui.comboBox_chat_type.clear()
-            self.ui.comboBox_chat_type.addItems(["复读机", "ChatGPT", "Claude", "ChatGLM", "chat_with_file", "Chatterbot", "text_generation_webui"])
+            self.ui.comboBox_chat_type.addItems(["不启用", "复读机", "ChatGPT", "Claude", "ChatGLM", "chat_with_file", "Chatterbot", "text_generation_webui"])
             chat_type_index = 0
             if self.chat_type == "none":
                 chat_type_index = 0
-            elif self.chat_type == "chatgpt":
+            elif self.chat_type == "reread":
                 chat_type_index = 1
+            elif self.chat_type == "chatgpt":
+                chat_type_index = 2
             elif self.chat_type == "claude":
-                chat_type_index = 2 
+                chat_type_index = 3 
             elif self.chat_type == "chatglm":
-                chat_type_index = 3
-            elif self.chat_type == "chat_with_file":
                 chat_type_index = 4
-            elif self.chat_type == "chatterbot":
+            elif self.chat_type == "chat_with_file":
                 chat_type_index = 5
-            elif self.chat_type == "text_generation_webui":
+            elif self.chat_type == "chatterbot":
                 chat_type_index = 6
+            elif self.chat_type == "text_generation_webui":
+                chat_type_index = 7
             self.ui.comboBox_chat_type.setCurrentIndex(chat_type_index)
             
             self.ui.comboBox_need_lang.clear()
@@ -978,8 +980,10 @@ class AI_VTB(QMainWindow):
                 
             chat_type = self.ui.comboBox_chat_type.currentText()
             logging.info(chat_type)
-            if chat_type == "复读机":
+            if chat_type == "不启用":
                 config_data["chat_type"] = "none"
+            elif chat_type == "复读机":
+                config_data["chat_type"] = "reread"
             elif chat_type == "ChatGPT":
                 config_data["chat_type"] = "chatgpt"
             elif chat_type == "Claude":
@@ -1477,12 +1481,16 @@ class AI_VTB(QMainWindow):
         # 将一个文件路径的字符串切分成路径和文件名
         folder_path, file_name = common.split_path_and_filename(select_file_path)
 
+        flag = 0
+
         # 判断文件是哪个路径的
-        if folder_path == config.get("copywriting", "file_path"):
-            folder_path = config.get("copywriting", "audio_path")
-        elif folder_path == config.get("copywriting", "file_path2"):
-            folder_path = config.get("copywriting", "audio_path2")
-        else:
+        for copywriting_config in config.get("copywriting", "config"):
+            if folder_path == copywriting_config["file_path"]:
+                folder_path = copywriting_config["audio_path"]
+                flag = 1
+                break
+
+        if flag == 0:
             logging.error(f"文件路径与配置不匹配，将默认输出到同路径")
             self.show_message_box("提示", f"文件路径与配置不匹配，将默认输出到同路径", QMessageBox.Information, 3000)
 
