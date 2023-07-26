@@ -1164,7 +1164,7 @@ class AI_VTB(QMainWindow):
             config_data["chat_with_file"]["local_max_query"] = int(chat_with_file_local_max_query)
 
             config_data["text_generation_webui"]["api_ip_port"] = self.ui.lineEdit_text_generation_webui_api_ip_port.text()
-            config_data["chatglm"]["max_new_tokens"] = int(self.ui.lineEdit_text_generation_webui_max_new_tokens.text())
+            config_data["text_generation_webui"]["max_new_tokens"] = int(self.ui.lineEdit_text_generation_webui_max_new_tokens.text())
             config_data["text_generation_webui"]["mode"] = self.ui.lineEdit_text_generation_webui_mode.text()
             config_data["text_generation_webui"]["character"] = self.ui.lineEdit_text_generation_webui_character.text()
             config_data["text_generation_webui"]["instruction_template"] = self.ui.lineEdit_text_generation_webui_instruction_template.text()

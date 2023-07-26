@@ -1207,6 +1207,10 @@ cmd输入命令即可：`doctoc /path/to/file`
 - 新增 不启用 聊天类型，修改none为不启用，reread为复读机。关闭聊天（LLM等）,既可以应用于直播助理等场景，只负责欢迎和感谢。
 - 接入科大讯飞 星火
 
+### 2023-07-26
+- 补充遗漏的星火依赖
+- 修复text-Gen max_new_tokens保存失败bug
+
 </details>
 
 
