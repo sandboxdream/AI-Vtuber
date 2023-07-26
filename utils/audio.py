@@ -605,83 +605,90 @@ class Audio:
                 # 添加延时，暂停执行n秒钟
                 await asyncio.sleep(float(self.config.get("copywriting", "audio_interval")))
 
-            while True:
-                try:
+
+            def reload_tmp_play_list(index, play_list_arr):
+                """重载播放列表
+
+                Args:
+                    index (int): 文案索引
+                """
+                # 获取文案配置
+                copywriting_configs = self.config.get("copywriting", "config")
+                tmp_play_list = copy.copy(copywriting_configs[index]["play_list"])
+                play_list_arr[index] = tmp_play_list
+
+                # 是否开启随机列表播放
+                if self.config.get("copywriting", "random_play"):
+                    for play_list in play_list_arr:
+                        # 随机打乱列表内容
+                        random.shuffle(play_list)
+
+
+            try:
+                # 获取文案配置
+                copywriting_configs = self.config.get("copywriting", "config")
+
+                file_path_arr = []
+                audio_path_arr = []
+                play_list_arr = []
+                continuous_play_num_arr = []
+                max_play_time_arr = []
+
+                # 遍历文案配置载入数组
+                for copywriting_config in copywriting_configs:
+                    file_path_arr.append(copywriting_config["file_path"])
+                    audio_path_arr.append(copywriting_config["audio_path"])
+                    tmp_play_list = copy.copy(copywriting_config["play_list"])
+                    play_list_arr.append(tmp_play_list)
+                    continuous_play_num_arr.append(copywriting_config["continuous_play_num"])
+                    max_play_time_arr.append(copywriting_config["max_play_time"])
+
+
+                # 是否开启随机列表播放
+                if self.config.get("copywriting", "random_play"):
+                    for play_list in play_list_arr:
+                        # 随机打乱列表内容
+                        random.shuffle(play_list)
+
+                while True:
                     # 判断播放标志位
                     if Audio.copywriting_play_flag in [0, 1, -1]:
                         await asyncio.sleep(float(self.config.get("copywriting", "audio_interval")))  # 添加延迟减少循环频率
                         continue
-                    
-                    # 获取文案配置
-                    copywriting_configs = self.config.get("copywriting", "config")
 
-                    file_path_arr = []
-                    audio_path_arr = []
-                    play_list_arr = []
-                    continuous_play_num_arr = []
-                    max_play_time_arr = []
-
-                    # 遍历文案配置载入数组
-                    for copywriting_config in copywriting_configs:
-                        file_path_arr.append(copywriting_config["file_path"])
-                        audio_path_arr.append(copywriting_config["audio_path"])
-                        tmp_play_list = copy.copy(copywriting_config["play_list"])
-                        play_list_arr.append(tmp_play_list)
-                        continuous_play_num_arr.append(copywriting_config["continuous_play_num"])
-                        max_play_time_arr.append(copywriting_config["max_play_time"])
-
-
-                    # 是否开启随机列表播放
-                    if self.config.get("copywriting", "random_play"):
-                        for play_list in play_list_arr:
-                            # 随机打乱列表内容
-                            random.shuffle(play_list)
-
-                    while True:
-                        # 判断播放标志位
+                    # 遍历 play_list_arr 中的每个 play_list
+                    for index, play_list in enumerate(play_list_arr):
+                        # 判断播放标志位 防止播放过程中无法暂停
                         if Audio.copywriting_play_flag in [0, 1, -1]:
-                            continue
+                            break
 
-                        # 退出子循环的标志位
-                        break_while_flag = 0
+                        start_time = float(self.common.get_bj_time(3))
 
-                        # 遍历 play_list_arr 中的每个 play_list
-                        for index, play_list in enumerate(play_list_arr):
+                        # 根据连续播放的文案数量进行循环
+                        for i in range(0, continuous_play_num_arr[index]):
                             # 判断播放标志位 防止播放过程中无法暂停
                             if Audio.copywriting_play_flag in [0, 1, -1]:
                                 break
+                            
+                            # 判断当前时间是否已经超过限定的播放时间，超时则退出循环
+                            if (float(self.common.get_bj_time(3)) - start_time) > max_play_time_arr[index]:
+                                break
 
-                            start_time = float(self.common.get_bj_time(3))
+                            # 判断当前 play_list 是否有音频数据
+                            if len(play_list) > 0:
+                                # 移出一个音频路径
+                                voice_tmp_path = play_list.pop(0)
+                                audio_path = os.path.join(audio_path_arr[index], voice_tmp_path)
 
-                            # 根据连续播放的文案数量进行循环
-                            for i in range(0, continuous_play_num_arr[index]):
-                                # 判断播放标志位 防止播放过程中无法暂停
-                                if Audio.copywriting_play_flag in [0, 1, -1]:
-                                    break
-                                
-                                # 判断当前时间是否已经超过限定的播放时间，超时则退出循环
-                                if (float(self.common.get_bj_time(3)) - start_time) > max_play_time_arr[index]:
-                                    break
+                                logging.info(f"即将播放音频 {audio_path}")
 
-                                # 判断当前 play_list 是否有音频数据
-                                if len(play_list) > 0:
-                                    # 移出一个音频路径
-                                    voice_tmp_path = play_list.pop(0)
-                                    audio_path = os.path.join(audio_path_arr[index], voice_tmp_path)
+                                await random_speed_and_play(audio_path)
+                            else:
+                                # 重载播放列表
+                                reload_tmp_play_list(index, play_list_arr)
 
-                                    logging.info(f"即将播放音频 {audio_path}")
-
-                                    await random_speed_and_play(audio_path)
-                                else:
-                                    break_while_flag = break_while_flag + 1
-                                    break
-
-                        # 标志位计数>=len(play_list_arr) 退出循环（此处可以无限拓展（
-                        if break_while_flag >= len(play_list_arr):
-                            break
- 
-                except Exception as e:
-                    logging.error(e)
+            except Exception as e:
+                logging.error(e)
             Audio.mixer_copywriting.quit()
         except Exception as e:
             logging.error(e)
