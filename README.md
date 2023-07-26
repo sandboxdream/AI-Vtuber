@@ -1210,6 +1210,7 @@ cmd输入命令即可：`doctoc /path/to/file`
 ### 2023-07-26
 - 补充遗漏的星火依赖
 - 修复text-Gen max_new_tokens保存失败bug
+- 文案页，音频文件格式支持大写的MP3和WAV
 
 </details>
 
