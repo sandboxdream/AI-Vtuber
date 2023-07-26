@@ -21,6 +21,7 @@ sentence_transformers
 pydub
 send2trash
 pypinyin
+sparkdesk-api
 bilibili-api==9.1.0
 bilibili-api-python==15.5.1b0
 langchain==0.0.142
