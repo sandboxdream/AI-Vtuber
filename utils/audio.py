@@ -618,12 +618,17 @@ class Audio:
                     file_path_arr = []
                     audio_path_arr = []
                     play_list_arr = []
+                    continuous_play_num_arr = []
+                    max_play_time_arr = []
 
+                    # 遍历文案配置载入数组
                     for copywriting_config in copywriting_configs:
                         file_path_arr.append(copywriting_config["file_path"])
                         audio_path_arr.append(copywriting_config["audio_path"])
                         tmp_play_list = copy.copy(copywriting_config["play_list"])
                         play_list_arr.append(tmp_play_list)
+                        continuous_play_num_arr.append(copywriting_config["continuous_play_num"])
+                        max_play_time_arr.append(copywriting_config["max_play_time"])
 
 
                     # 是否开启随机列表播放
@@ -642,17 +647,34 @@ class Audio:
 
                         # 遍历 play_list_arr 中的每个 play_list
                         for index, play_list in enumerate(play_list_arr):
-                            # 判断当前 play_list 是否有音频数据
-                            if len(play_list) > 0:
-                                # 移出一个音频路径
-                                voice_tmp_path = play_list.pop(0)
-                                audio_path = os.path.join(audio_path_arr[index], voice_tmp_path)
+                            # 判断播放标志位 防止播放过程中无法暂停
+                            if Audio.copywriting_play_flag in [0, 1, -1]:
+                                break
 
-                                logging.info(f"即将播放音频 {audio_path}")
+                            start_time = float(self.common.get_bj_time(3))
 
-                                await random_speed_and_play(audio_path)
-                            else:
-                                break_while_flag = break_while_flag + 1
+                            # 根据连续播放的文案数量进行循环
+                            for i in range(0, continuous_play_num_arr[index]):
+                                # 判断播放标志位 防止播放过程中无法暂停
+                                if Audio.copywriting_play_flag in [0, 1, -1]:
+                                    break
+                                
+                                # 判断当前时间是否已经超过限定的播放时间，超时则退出循环
+                                if (float(self.common.get_bj_time(3)) - start_time) > max_play_time_arr[index]:
+                                    break
+
+                                # 判断当前 play_list 是否有音频数据
+                                if len(play_list) > 0:
+                                    # 移出一个音频路径
+                                    voice_tmp_path = play_list.pop(0)
+                                    audio_path = os.path.join(audio_path_arr[index], voice_tmp_path)
+
+                                    logging.info(f"即将播放音频 {audio_path}")
+
+                                    await random_speed_and_play(audio_path)
+                                else:
+                                    break_while_flag = break_while_flag + 1
+                                    break
 
                         # 标志位计数>=len(play_list_arr) 退出循环（此处可以无限拓展（
                         if break_while_flag >= len(play_list_arr):
