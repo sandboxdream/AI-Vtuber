@@ -194,7 +194,7 @@
           "吐槽.wav"
         ],
         "continuous_play_num": 2,
-        "max_play_time": 10
+        "max_play_time": 10.0
       },
       {
         "file_path": "data/copywriting2/",
@@ -204,7 +204,7 @@
           "test2.wav"
         ],
         "continuous_play_num": 2,
-        "max_play_time": 3
+        "max_play_time": 3.0
       }
     ],
     "audio_interval": 5.0,
