@@ -27,3 +27,4 @@ SpeechRecognition
 baidu-aip
 chardet
 pypinyin
+sparkdesk-api
