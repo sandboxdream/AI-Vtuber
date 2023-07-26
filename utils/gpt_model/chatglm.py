@@ -5,11 +5,6 @@ from utils.common import Common
 from utils.logger import Configure_logger
 
 class Chatglm:
-    api_ip_port = "http://127.0.0.1:8000"
-    max_length = 2048
-    top_p = 0.7
-    temperature = 0.95
-
     def __init__(self, data):
         self.common = Common()
         # 日志文件路径
@@ -20,13 +15,16 @@ class Chatglm:
         self.max_length = data["max_length"]
         self.top_p = data["top_p"]
         self.temperature = data["temperature"]
+        self.history_enable = data["history_enable"]
+
+        self.history = []
 
 
     # 调用chatglm接口，获取返回内容
-    def get_chatglm_resp(self, prompt, history=[]):
+    def get_chatglm_resp(self, prompt):
         data_json = {
             "prompt": prompt, 
-            "history": history,
+            "history": self.history,
             "max_length": self.max_length,
             "top_p": self.top_p,
             "temperature": self.temperature
@@ -40,6 +38,10 @@ class Chatglm:
             ret = json.loads(result)
 
             resp_content = ret['response']
+
+            # 启用历史就给我记住！
+            if self.history_enable:
+                self.history = ret['history']
 
             return resp_content
         except Exception as e:
