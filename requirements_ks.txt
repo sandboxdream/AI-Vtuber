@@ -26,3 +26,4 @@ sentence_transformers
 pydub
 send2trash
 pypinyin
+sparkdesk-api
