@@ -17,7 +17,8 @@
     "commit_forget_duration": 3,
     "gift_forget_duration": 10,
     "entrance_forget_duration": 30,
-    "talk_forget_duration": 0.1
+    "talk_forget_duration": 0.1,
+    "schedule_forget_duration": 0.1
   },
   "thanks": {
     "entrance_enable": true,
@@ -235,5 +236,23 @@
   "captions": {
     "enable": true,
     "file_path": "log/字幕.txt"
-  }
+  },
+  "schedule": [
+    {
+      "enable": true,
+      "time": 7,
+      "copy": [
+        "现在是{time}",
+        "当前时间为{time}"
+      ]
+    },
+    {
+      "enable": true,
+      "time": 10,
+      "copy": [
+        "感谢还在观看直播的{user_num}位兄弟姐妹们",
+        "感谢{last_username}的支持"
+      ]
+    }
+  ]
 }

@@ -695,6 +695,26 @@ class My_handle():
             logging.error(e)
 
 
+    # 定时处理
+    def schedule_handle(self, data):
+        try:
+            content = data["content"]
+
+            message = {
+                "type": "entrance",
+                "tts_type": self.audio_synthesis_type,
+                "data": self.config.get(self.audio_synthesis_type),
+                "config": self.filter_config,
+                "user_name": data['username'],
+                "content": content
+            }
+
+            # 音频合成（edge-tts / vits）并播放
+            self.audio.audio_synthesis(message)
+        except Exception as e:
+            logging.error(e)
+
+
     """
     数据丢弃部分
     """
@@ -721,6 +741,9 @@ class My_handle():
                 elif timer_flag == "talk":
                     # 聊天暂时共用弹幕处理逻辑
                     self.commit_handle(timer.last_data)
+                elif timer_flag == "schedule":
+                    # 定时任务处理
+                    self.schedule_handle(timer.last_data)
 
                 # 清空数据
                 timer.last_data = None
@@ -731,7 +754,8 @@ class My_handle():
             "commit": self.config.get("filter", "commit_forget_duration"),
             "gift": self.config.get("filter", "gift_forget_duration"),
             "entrance": self.config.get("filter", "entrance_forget_duration"),
-            "talk": self.config.get("filter", "talk_forget_duration")
+            "talk": self.config.get("filter", "talk_forget_duration"),
+            "schedule": self.config.get("filter", "schedule_forget_duration")
             # 根据需要添加更多计时器及其间隔
         }
 
