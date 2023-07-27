@@ -28,15 +28,18 @@ class Common:
         """获取北京时间
 
         Args:
-            type (int, optional): 返回时间类型. 默认为 0.
+            type (int, str): 返回时间类型. 默认为 0.
                 0 返回数据：年-月-日 时:分:秒
                 1 返回数据：年-月-日
                 2 返回数据：当前时间的秒
                 3 返回数据：自1970年1月1日以来的秒数
                 4 返回数据：返回自1970年1月1日以来的毫秒数 % 100
+                5 返回数据：当前 时点分
+                6 返回数据：当前时间的 时, 分
 
         Returns:
             str: 返回指定格式的时间字符串
+            int, int
         """
         if type == 0:
             utc_now = datetime.utcnow().replace(tzinfo=timezone.utc)  # 获取当前 UTC 时间
@@ -80,6 +83,13 @@ class Common:
             minute = now.tm_min  # 获取当前分钟
 
             return str(hour) + "点" + str(minute)
+        elif type == 6:
+            now = time.localtime()  # 获取当前时间
+
+            hour = now.tm_hour   # 获取当前小时
+            minute = now.tm_min  # 获取当前分钟 
+
+            return hour, minute
     
     # 删除多余单词
     def remove_extra_words(self, text="", max_len=30, max_char_len=50):
