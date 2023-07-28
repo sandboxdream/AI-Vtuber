@@ -252,7 +252,7 @@ class Common:
         # 2次切分长字符串
         result2 = []
         for string in result:
-            if len(string) > 30:
+            if len(string) > max_limit_len:
                 split_strings = re.split(r"[,，;；。！!]", string)
                 result2.extend(split_strings)
             else:
