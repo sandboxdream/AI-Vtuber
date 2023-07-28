@@ -398,7 +398,7 @@ class Audio:
             try:
                 voice_tmp_path = './out/' + self.common.get_bj_time(4) + '.mp3'
                 # 过滤" '字符
-                message["content"] = message["content"].replace('"', '').replace("'", '').replace(" ", ',')
+                message["content"] = message["content"].replace('"', '').replace("'", '')
                 # 使用 Edge TTS 生成回复消息的语音文件
                 communicate = edge_tts.Communicate(text=message["content"], voice=message["data"]["voice"], rate=message["data"]["rate"], volume=message["data"]["volume"])
                 await communicate.save(voice_tmp_path)
