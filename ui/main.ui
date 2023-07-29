@@ -134,9 +134,9 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>0</y>
+             <y>-4685</y>
              <width>980</width>
-             <height>7077</height>
+             <height>7488</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -908,6 +908,11 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                    <string>genshinvoice_top</string>
                   </property>
                  </item>
+                 <item>
+                  <property name="text">
+                   <string>bark-gui</string>
+                  </property>
+                 </item>
                 </widget>
                </item>
                <item row="2" column="0">
@@ -1594,6 +1599,103 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
              </widget>
             </item>
             <item>
+             <widget class="QGroupBox" name="groupBox_bark_gui">
+              <property name="title">
+               <string>bark-gui</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_57">
+               <item row="0" column="0">
+                <layout class="QGridLayout" name="gridLayout_56">
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_bark_gui_api_ip_port">
+                   <property name="text">
+                    <string>API地址</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="5" column="0">
+                  <widget class="QLabel" name="label_bark_gui_quick_generation">
+                   <property name="text">
+                    <string>快速生成</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="7" column="0">
+                  <widget class="QLabel" name="label_bark_gui_batch_count">
+                   <property name="text">
+                    <string>批量数</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="4" column="0">
+                  <widget class="QLabel" name="label_bark_gui_end_of_sentence_probability">
+                   <property name="text">
+                    <string>句末概率</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="6" column="0">
+                  <widget class="QLabel" name="label_bark_gui_seed">
+                   <property name="text">
+                    <string>随机种子</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="QLabel" name="label_bark_gui_generation_temperature">
+                   <property name="text">
+                    <string>生成温度</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="0">
+                  <widget class="QLabel" name="label_bark_gui_waveform_temperature">
+                   <property name="text">
+                    <string>波形温度</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="label_bark_gui_spk">
+                   <property name="text">
+                    <string>说话人</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QLineEdit" name="lineEdit_bark_gui_api_ip_port"/>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QLineEdit" name="lineEdit_bark_gui_spk"/>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QLineEdit" name="lineEdit_bark_gui_generation_temperature"/>
+                 </item>
+                 <item row="3" column="1">
+                  <widget class="QLineEdit" name="lineEdit_bark_gui_waveform_temperature"/>
+                 </item>
+                 <item row="4" column="1">
+                  <widget class="QLineEdit" name="lineEdit_bark_gui_end_of_sentence_probability"/>
+                 </item>
+                 <item row="7" column="1">
+                  <widget class="QLineEdit" name="lineEdit_bark_gui_batch_count"/>
+                 </item>
+                 <item row="6" column="1">
+                  <widget class="QLineEdit" name="lineEdit_bark_gui_seed"/>
+                 </item>
+                 <item row="5" column="1">
+                  <widget class="QCheckBox" name="checkBox_bark_gui_quick_generation">
+                   <property name="text">
+                    <string>启用</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
              <widget class="QGroupBox" name="groupBox_live2d">
               <property name="title">
                <string>Live2D</string>
@@ -2140,7 +2242,7 @@ p, li { white-space: pre-wrap; }
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>963</width>
+             <width>749</width>
              <height>1267</height>
             </rect>
            </property>
@@ -2587,7 +2689,7 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>963</width>
+             <width>328</width>
              <height>919</height>
             </rect>
            </property>
