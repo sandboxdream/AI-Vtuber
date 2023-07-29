@@ -285,6 +285,11 @@ class AI_VTB(QMainWindow):
             self.ui.label_filter_bad_pinyin_path.setToolTip("本地违禁拼音数据路径（你如果不需要，可以清空文件内容）")
             self.ui.label_filter_max_len.setToolTip("最长阅读的英文单词数（空格分隔）")
             self.ui.label_filter_max_char_len.setToolTip("最长阅读的字符数，双重过滤，避免溢出")
+            self.ui.label_filter_commit_forget_duration.setToolTip("指的是每隔这个间隔时间（秒），就会丢弃这个间隔时间中接收到的数据，只保留最后一个")
+            self.ui.label_filter_gift_forget_duration.setToolTip("指的是每隔这个间隔时间（秒），就会丢弃这个间隔时间中接收到的数据，只保留最后一个")
+            self.ui.label_filter_commit_forget_duration.setToolTip("指的是每隔这个间隔时间（秒），就会丢弃这个间隔时间中接收到的数据，只保留最后一个")
+            self.ui.label_filter_commit_forget_duration.setToolTip("指的是每隔这个间隔时间（秒），就会丢弃这个间隔时间中接收到的数据，只保留最后一个")
+            self.ui.label_filter_commit_forget_duration.setToolTip("指的是每隔这个间隔时间（秒），就会丢弃这个间隔时间中接收到的数据，只保留最后一个")
 
             self.ui.label_thanks_entrance_enable.setToolTip("是否启用欢迎用户进入直播间功能")
             self.ui.label_thanks_gift_enable.setToolTip("是否启用感谢用户赠送礼物功能")
@@ -578,6 +583,12 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_filter_bad_pinyin_path.setText(self.filter_config['bad_pinyin_path'])
             self.ui.lineEdit_filter_max_len.setText(str(self.filter_config['max_len']))
             self.ui.lineEdit_filter_max_char_len.setText(str(self.filter_config['max_char_len']))
+            self.ui.lineEdit_filter_commit_forget_duration.setText(str(self.filter_config['commit_forget_duration']))
+            self.ui.lineEdit_filter_gift_forget_duration.setText(str(self.filter_config['gift_forget_duration']))
+            self.ui.lineEdit_filter_entrance_forget_duration.setText(str(self.filter_config['entrance_forget_duration']))
+            self.ui.lineEdit_filter_talk_forget_duration.setText(str(self.filter_config['talk_forget_duration']))
+            self.ui.lineEdit_filter_schedule_forget_duration.setText(str(self.filter_config['schedule_forget_duration']))
+            
 
             # 答谢
             if self.thanks_config['entrance_enable']:
@@ -1118,14 +1129,15 @@ class AI_VTB(QMainWindow):
             if 0 != len(after_must_strs):
                 after_must_strs = after_must_strs[1:]
             config_data["filter"]["after_must_str"] = after_must_strs
-            badwords_path = self.ui.lineEdit_filter_badwords_path.text()
-            config_data["filter"]["badwords_path"] = badwords_path
-            bad_pinyin_path = self.ui.lineEdit_filter_bad_pinyin_path.text()
-            config_data["filter"]["bad_pinyin_path"] = bad_pinyin_path
-            max_len = self.ui.lineEdit_filter_max_len.text()
-            config_data["filter"]["max_len"] = int(max_len)
-            max_char_len = self.ui.lineEdit_filter_max_char_len.text()
-            config_data["filter"]["max_char_len"] = int(max_char_len)
+            config_data["filter"]["badwords_path"] = self.ui.lineEdit_filter_badwords_path.text()
+            config_data["filter"]["bad_pinyin_path"] = self.ui.lineEdit_filter_bad_pinyin_path.text()
+            config_data["filter"]["max_len"] = int(self.ui.lineEdit_filter_max_len.text())
+            config_data["filter"]["max_char_len"] = int(self.ui.lineEdit_filter_max_char_len.text())
+            config_data["filter"]["commit_forget_duration"] = round(float(self.ui.lineEdit_filter_commit_forget_duration.text()), 2)
+            config_data["filter"]["gift_forget_duration"] = round(float(self.ui.lineEdit_filter_gift_forget_duration.text()), 2)
+            config_data["filter"]["entrance_forget_duration"] = round(float(self.ui.lineEdit_filter_entrance_forget_duration.text()), 2)
+            config_data["filter"]["talk_forget_duration"] = round(float(self.ui.lineEdit_filter_talk_forget_duration.text()), 2)
+            config_data["filter"]["schedule_forget_duration"] = round(float(self.ui.lineEdit_filter_schedule_forget_duration.text()), 2)
 
             # 答谢
             config_data["thanks"]["entrance_enable"] = self.ui.checkBox_thanks_entrance_enable.isChecked()

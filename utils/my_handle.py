@@ -288,7 +288,6 @@ class My_handle():
 
         # 2、匹配本地问答音频库 触发后不执行后面的其他功能
         if self.local_qa["audio"]["enable"] == True:
-            logging.info(f"触发本地问答库-语音 [{user_name}]: {content}")
             # 输出当前用户发送的弹幕消息
             # logging.info(f"[{user_name}]: {content}")
             # 获取本地问答音频库文件夹内所有的音频文件名
@@ -302,6 +301,7 @@ class My_handle():
 
             # 找到了匹配的结果
             if local_qv_audio_filename is not None:
+                logging.info(f"触发本地问答库-语音 [{user_name}]: {content}")
                 # 把结果从原文件名列表中在查找一遍，补上拓展名
                 local_qv_audio_filename = self.common.find_best_match(local_qv_audio_filename, self.local_qa_audio_list, 0)
 
