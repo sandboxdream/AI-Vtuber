@@ -22,7 +22,7 @@
 
 
 <p>
-AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text-generation-webui/讯飞星火 做为"大脑"驱动的虚拟主播（Live2D），可以在 Bilibili/抖音/快手 直播中与观众实时互动 或者 直接在本地和您进行聊天。
+AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text-generation-webui/讯飞星火 做为"大脑"驱动的虚拟主播（Live2D/Vtube Studio），可以在 Bilibili/抖音/快手 直播中与观众实时互动 或者 直接在本地和您进行聊天。
 它使用自然语言处理和文本转语音技术(Edge-TTS/VITS-Fast/elevenlabs)生成对观众问题的回答并可以通过so-vits-svc/DDSP-SVC变声；另外还可以通过特定指令协同Stable Diffusion进行画图展示。并且可以自定义文案进行循环播放。 
 </p>
 
@@ -859,7 +859,7 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 官方免费模型下载：[releases/tag/live2d](https://github.com/Ikaros-521/AI-Vtuber/releases/tag/live2d)  
 官网：[https://www.live2d.com/zh-CHS](https://www.live2d.com/zh-CHS)  
 
-第三方软件`Vtuber Studio`，配置教程：[【AI主播】虚拟人部分方案#1 基于Vtuber Studio的口型驱动](https://www.bilibili.com/video/BV1vs4y1k71M)  
+第三方软件`Vtube Studio`，配置教程：[【AI主播】虚拟人部分方案#1 基于Vtube Studio的口型驱动](https://www.bilibili.com/video/BV1vs4y1k71M)  
 配合VB虚拟声卡时，如果想要让扬声器也可以听到输出的音频，可以通过 侦听 来实现，配置方法如下：
 ![1](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/b2c0d632-c6ad-4044-892e-e809dfea8f21)
 
@@ -1221,7 +1221,7 @@ cmd输入命令即可：`doctoc /path/to/file`
 
 ### 2023-07-29
 - 修复elevenlabs配置同新版不匹配导致无法使用的bug
-- 新增bark-gui的接入（GUI暂未适配）
+- 新增bark-gui的接入
 
 
 </details>

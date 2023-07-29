@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1191, 834)
+        MainWindow.resize(1195, 843)
         MainWindow.setStyleSheet("QPushButton:hover {\n"
 "            background-color: #1976D2;\n"
 "            \n"
@@ -86,7 +86,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -4685, 980, 7488))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -157, 995, 6618))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout.setContentsMargins(35, 20, 35, 20)
@@ -1567,7 +1567,7 @@ class Ui_MainWindow(object):
         self.gridLayout_20.addWidget(self.pushButton_talk_page, 6, 1, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1191, 26))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1195, 23))
         self.menubar.setObjectName("menubar")
         self.menu_about = QtWidgets.QMenu(self.menubar)
         self.menu_about.setObjectName("menu_about")
@@ -1693,7 +1693,7 @@ class Ui_MainWindow(object):
         self.comboBox_audio_synthesis_type.setItemText(1, _translate("MainWindow", "VITS-Fast"))
         self.comboBox_audio_synthesis_type.setItemText(2, _translate("MainWindow", "elevenlabs"))
         self.comboBox_audio_synthesis_type.setItemText(3, _translate("MainWindow", "genshinvoice_top"))
-        self.comboBox_audio_synthesis_type.setItemText(4, _translate("MainWindow", "bark-gui"))
+        self.comboBox_audio_synthesis_type.setItemText(4, _translate("MainWindow", "bark_gui"))
         self.label_chat_type.setText(_translate("MainWindow", "聊天类型"))
         self.comboBox_need_lang.setItemText(0, _translate("MainWindow", "所有"))
         self.comboBox_need_lang.setItemText(1, _translate("MainWindow", "中文"))
