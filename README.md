@@ -1222,6 +1222,7 @@ cmd输入命令即可：`doctoc /path/to/file`
 ### 2023-07-29
 - 修复elevenlabs配置同新版不匹配导致无法使用的bug
 - 新增bark-gui的接入
+- 修复ChatGLM上下文记忆bug，并新增GUI相关配置，可以启用和设置最大记忆字符长度
 
 
 </details>

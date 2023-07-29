@@ -48,7 +48,8 @@
     "top_p": 0.7,
     "temperature": 0.95,
     "max_new_tokens": 250,
-    "history_enable": true
+    "history_enable": true,
+    "history_max_len": 500
   },
   "sparkdesk": {
     "type": "web",
@@ -131,7 +132,7 @@
     "waveform_temperature": 0.7,
     "end_of_sentence_probability": 0.05,
     "quick_generation": true,
-    "seed": -1,
+    "seed": -1.0,
     "batch_count": 1
   },
   "chatterbot": {

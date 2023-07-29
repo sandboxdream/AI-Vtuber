@@ -48,7 +48,8 @@
     "top_p": 0.7,
     "temperature": 0.95,
     "max_new_tokens": 250,
-    "history_enable": true
+    "history_enable": true,
+    "history_max_len": 500
   },
   "sparkdesk": {
     "type": "web",

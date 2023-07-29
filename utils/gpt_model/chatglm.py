@@ -16,6 +16,7 @@ class Chatglm:
         self.top_p = data["top_p"]
         self.temperature = data["temperature"]
         self.history_enable = data["history_enable"]
+        self.history_max_len = data["history_max_len"]
 
         self.history = []
 
@@ -37,11 +38,21 @@ class Chatglm:
             result = response.content
             ret = json.loads(result)
 
+            logging.debug(ret)
+
             resp_content = ret['response']
 
             # 启用历史就给我记住！
             if self.history_enable:
-                self.history = ret['history']
+                while True:
+                    # 获取嵌套列表中所有字符串的字符数
+                    total_chars = sum(len(string) for sublist in self.history for string in sublist)
+                    # 如果大于限定最大历史数，就剔除第一个元素
+                    if total_chars > self.history_max_len:
+                        self.history.pop(0)
+                    else:
+                        self.history.append(ret['history'][-1])
+                        break
 
             return resp_content
         except Exception as e:

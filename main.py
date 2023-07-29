@@ -319,10 +319,13 @@ class AI_VTB(QMainWindow):
             self.ui.label_claude_slack_user_token.setToolTip("Slack平台配置的用户Token，参考文档的Claude板块进行配置")
             self.ui.label_claude_bot_user_id.setToolTip("Slack平台添加的Claude显示的成员ID，参考文档的Claude板块进行配置")
 
+            # chatglm
             self.ui.label_chatglm_api_ip_port.setToolTip("ChatGLM的API版本运行后的服务链接（需要完整的URL）")
             self.ui.label_chatglm_max_length.setToolTip("生成回答的最大长度限制，以令牌数或字符数为单位。")
             self.ui.label_chatglm_top_p.setToolTip("也称为 Nucleus采样。控制模型生成时选择概率的阈值范围。")
             self.ui.label_chatglm_temperature.setToolTip("温度参数，控制生成文本的随机性。较高的温度值会产生更多的随机性和多样性。")
+            self.ui.label_chatglm_history_enable.setToolTip("是否启用上下文历史记忆，让chatglm可以记得前面的内容")
+            self.ui.label_chatglm_history_max_len.setToolTip("最大记忆的上下文字符数量，不建议设置过大，容易爆显存，自行根据情况配置")
 
             # 讯飞星火
             self.ui.label_sparkdesk_type.setToolTip("选择使用的类型，web抓包 或者 官方API")
@@ -647,10 +650,14 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_claude_slack_user_token.setText(self.claude_config['slack_user_token'])
             self.ui.lineEdit_claude_bot_user_id.setText(self.claude_config['bot_user_id'])
 
+            # chatglm
             self.ui.lineEdit_chatglm_api_ip_port.setText(self.chatglm_config['api_ip_port'])
             self.ui.lineEdit_chatglm_max_length.setText(str(self.chatglm_config['max_length']))
             self.ui.lineEdit_chatglm_top_p.setText(str(self.chatglm_config['top_p']))
             self.ui.lineEdit_chatglm_temperature.setText(str(self.chatglm_config['temperature']))
+            if self.chatglm_config['history_enable']:
+                self.ui.checkBox_chatglm_history_enable.setChecked(True)
+            self.ui.lineEdit_chatglm_history_max_len.setText(str(self.chatglm_config['history_max_len']))
 
             self.ui.comboBox_chat_with_file_chat_mode.clear()
             self.ui.comboBox_chat_with_file_chat_mode.addItems(["claude", "openai_gpt", "openai_vector_search"])
@@ -1166,14 +1173,12 @@ class AI_VTB(QMainWindow):
             claude_bot_user_id = self.ui.lineEdit_claude_bot_user_id.text()
             config_data["claude"]["bot_user_id"] = claude_bot_user_id
 
-            chatglm_api_ip_port = self.ui.lineEdit_chatglm_api_ip_port.text()
-            config_data["chatglm"]["api_ip_port"] = chatglm_api_ip_port
-            chatglm_max_length = self.ui.lineEdit_chatglm_max_length.text()
-            config_data["chatglm"]["max_length"] = int(chatglm_max_length)
-            chatglm_top_p = self.ui.lineEdit_chatglm_top_p.text()
-            config_data["chatglm"]["top_p"] = round(float(chatglm_top_p), 1)
-            chatglm_temperature = self.ui.lineEdit_chatglm_temperature.text()
-            config_data["chatglm"]["temperature"] = round(float(chatglm_temperature), 2)
+            config_data["chatglm"]["api_ip_port"] = self.ui.lineEdit_chatglm_api_ip_port.text()
+            config_data["chatglm"]["max_length"] = int(self.ui.lineEdit_chatglm_max_length.text())
+            config_data["chatglm"]["top_p"] = round(float(self.ui.lineEdit_chatglm_top_p.text()), 1)
+            config_data["chatglm"]["temperature"] = round(float(self.ui.lineEdit_chatglm_temperature.text()), 2)
+            config_data["chatglm"]["history_enable"] = self.ui.checkBox_chatglm_history_enable.isChecked()
+            config_data["chatglm"]["history_max_len"] = int(self.ui.lineEdit_chatglm_history_max_len.text())
 
             config_data["chat_with_file"]["chat_mode"] = self.ui.comboBox_chat_with_file_chat_mode.currentText()
             chat_with_file_data_path = self.ui.lineEdit_chat_with_file_data_path.text()
