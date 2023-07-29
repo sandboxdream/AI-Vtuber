@@ -201,8 +201,8 @@ class Common:
             if sentence not in ["。", "！", "？", ".", "!", "?", ""]:
                 result.append(sentence)
         
-        # 替换换行和空格为空
-        result = [s.replace('\n', '').replace(' ', '') for s in result]
+        # 替换换行
+        result = [s.replace('\n', '。') for s in result]
 
         # print(result)
         return result
@@ -219,7 +219,7 @@ class Common:
         for i in range(len(sentences)):
             if sentences[i] not in ["。", "！", "？", ".", "!", "?", ""]:
                 # 去除换行和空格
-                sentence = sentences[i].replace('\n', '').replace(' ', '')
+                sentence = sentences[i].replace('\n', '。')
                 # 如果句子长度小于10个字，则与下一句合并
                 if len(current_sentence) < 10:
                     current_sentence += sentence
@@ -227,7 +227,7 @@ class Common:
                     if len(current_sentence) > max_limit_len:
                         # 判断是否有分隔符可用于二次切分
                         if i+1 < len(sentences) and len(sentences[i+1]) > 0 and sentences[i+1][0] not in ["。", "！", "？", ".", "!", "?"]:
-                            next_sentence = sentences[i+1].replace('\n', '').replace(' ', '')
+                            next_sentence = sentences[i+1].replace('\n', '。')
                             # 寻找常用分隔符进行二次切分
                             for separator in [",", "，", ";", "；"]:
                                 if separator in next_sentence:
