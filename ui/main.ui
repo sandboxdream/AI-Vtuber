@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1195</width>
-    <height>843</height>
+    <width>1191</width>
+    <height>834</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -134,9 +134,9 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-157</y>
-             <width>995</width>
-             <height>6618</height>
+             <y>-2186</y>
+             <width>980</width>
+             <height>7471</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -661,26 +661,23 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                       </property>
                      </widget>
                     </item>
-                    <item row="1" column="1">
-                     <widget class="QLineEdit" name="lineEdit_chatglm_max_length"/>
-                    </item>
                     <item row="2" column="1">
                      <widget class="QLineEdit" name="lineEdit_chatglm_top_p"/>
                     </item>
-                    <item row="0" column="1">
-                     <widget class="QLineEdit" name="lineEdit_chatglm_api_ip_port"/>
+                    <item row="5" column="0">
+                     <widget class="QLabel" name="label_chatglm_history_max_len">
+                      <property name="text">
+                       <string>最大记忆长度</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="1">
+                     <widget class="QLineEdit" name="lineEdit_chatglm_max_length"/>
                     </item>
                     <item row="2" column="0">
                      <widget class="QLabel" name="label_chatglm_top_p">
                       <property name="text">
                        <string>前p个选择</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="1" column="0">
-                     <widget class="QLabel" name="label_chatglm_max_length">
-                      <property name="text">
-                       <string>最大长度限制</string>
                       </property>
                      </widget>
                     </item>
@@ -693,6 +690,33 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                     </item>
                     <item row="3" column="1">
                      <widget class="QLineEdit" name="lineEdit_chatglm_temperature"/>
+                    </item>
+                    <item row="0" column="1">
+                     <widget class="QLineEdit" name="lineEdit_chatglm_api_ip_port"/>
+                    </item>
+                    <item row="1" column="0">
+                     <widget class="QLabel" name="label_chatglm_max_length">
+                      <property name="text">
+                       <string>最大长度限制</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="4" column="0">
+                     <widget class="QLabel" name="label_chatglm_history_enable">
+                      <property name="text">
+                       <string>上下文记忆</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="4" column="1">
+                     <widget class="QCheckBox" name="checkBox_chatglm_history_enable">
+                      <property name="text">
+                       <string>启用</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="5" column="1">
+                     <widget class="QLineEdit" name="lineEdit_chatglm_history_max_len"/>
                     </item>
                    </layout>
                   </item>
@@ -2917,8 +2941,8 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1195</width>
-     <height>23</height>
+     <width>1191</width>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_about">
