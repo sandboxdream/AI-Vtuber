@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1191</width>
-    <height>834</height>
+    <width>1195</width>
+    <height>843</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -134,9 +134,9 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-4685</y>
-             <width>980</width>
-             <height>7488</height>
+             <y>-157</y>
+             <width>995</width>
+             <height>6618</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -910,7 +910,7 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                  </item>
                  <item>
                   <property name="text">
-                   <string>bark-gui</string>
+                   <string>bark_gui</string>
                   </property>
                  </item>
                 </widget>
@@ -2917,8 +2917,8 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1191</width>
-     <height>26</height>
+     <width>1195</width>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_about">

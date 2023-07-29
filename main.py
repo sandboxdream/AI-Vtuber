@@ -238,6 +238,7 @@ class AI_VTB(QMainWindow):
             self.vits_config = config.get("vits")
             self.elevenlabs_config = config.get("elevenlabs")
             self.genshinvoice_top_config = config.get("genshinvoice_top")
+            self.bark_gui_config = config.get("bark_gui")
             
             # 点歌模式
             self.choose_song_config = config.get("choose_song")
@@ -371,6 +372,16 @@ class AI_VTB(QMainWindow):
             self.ui.label_genshinvoice_top_noisew.setToolTip("控制音节发音长度变化程度，默认为0.9")
             self.ui.label_genshinvoice_top_length.setToolTip("可用于控制整体语速。默认为1.2")
             self.ui.label_genshinvoice_top_format.setToolTip("原有接口以WAV格式合成语音，在MP3格式合成语音的情况下，涉及到音频格式转换合成速度会变慢，建议选择WAV格式")
+
+            # bark-gui
+            self.ui.label_bark_gui_api_ip_port.setToolTip("bark-gui开启webui后监听的IP和端口地址")
+            self.ui.label_bark_gui_spk.setToolTip("选择的说话人，webui的voice中对应的说话人")
+            self.ui.label_bark_gui_generation_temperature.setToolTip("控制合成过程中生成语音的随机性。较高的值（接近1.0）会使输出更加随机，而较低的值（接近0.0）则使其更加确定性和集中。")
+            self.ui.label_bark_gui_waveform_temperature.setToolTip("类似于generation_temperature，但该参数专门控制从语音模型生成的波形的随机性")
+            self.ui.label_bark_gui_end_of_sentence_probability.setToolTip("该参数确定在句子结尾添加停顿或间隔的可能性。较高的值会增加停顿的几率，而较低的值则会减少。")
+            self.ui.label_bark_gui_quick_generation.setToolTip("如果启用，可能会启用一些优化或在合成过程中采用更快的方式来生成语音。然而，这可能会影响语音的质量。")
+            self.ui.label_bark_gui_seed.setToolTip("用于随机数生成器的种子值。使用特定的种子确保相同的输入文本每次生成的语音输出都是相同的。值为-1表示将使用随机种子。")
+            self.ui.label_bark_gui_batch_count.setToolTip("指定一次批量合成的句子或话语数量。将其设置为1意味着逐句合成一次。")
 
             self.ui.label_choose_song_enable.setToolTip("是否启用点歌模式")
             self.ui.label_choose_song_start_cmd.setToolTip("点歌触发命令（完全匹配才行）")
@@ -696,7 +707,7 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_sparkdesk_api_key.setText(self.sparkdesk_config['api_key'])
 
             self.ui.comboBox_audio_synthesis_type.clear()
-            self.ui.comboBox_audio_synthesis_type.addItems(["Edge-TTS", "VITS-Fast", "elevenlabs", "genshinvoice_top"])
+            self.ui.comboBox_audio_synthesis_type.addItems(["Edge-TTS", "VITS-Fast", "elevenlabs", "genshinvoice_top", "bark_gui"])
             audio_synthesis_type_index = 0
             if self.audio_synthesis_type == "edge-tts":
                 audio_synthesis_type_index = 0
@@ -706,6 +717,8 @@ class AI_VTB(QMainWindow):
                 audio_synthesis_type_index = 2
             elif self.audio_synthesis_type == "genshinvoice_top":
                 audio_synthesis_type_index = 3
+            elif self.audio_synthesis_type == "bark_gui":
+                audio_synthesis_type_index = 4
             self.ui.comboBox_audio_synthesis_type.setCurrentIndex(audio_synthesis_type_index)
 
             self.ui.lineEdit_vits_config_path.setText(self.vits_config['config_path'])
@@ -746,6 +759,17 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_genshinvoice_top_noisew.setText(self.genshinvoice_top_config['noisew'])
             self.ui.lineEdit_genshinvoice_top_length.setText(self.genshinvoice_top_config['length'])
             self.ui.lineEdit_genshinvoice_top_format.setText(self.genshinvoice_top_config['format'])
+
+            # bark-gui
+            self.ui.lineEdit_bark_gui_api_ip_port.setText(config.get("bark_gui", "api_ip_port"))
+            self.ui.lineEdit_bark_gui_spk.setText(config.get("bark_gui", "spk"))
+            self.ui.lineEdit_bark_gui_generation_temperature.setText(str(config.get("bark_gui", "generation_temperature")))
+            self.ui.lineEdit_bark_gui_waveform_temperature.setText(str(config.get("bark_gui", "waveform_temperature")))
+            self.ui.lineEdit_bark_gui_end_of_sentence_probability.setText(str(config.get("bark_gui", "end_of_sentence_probability")))
+            if config.get("bark_gui", "quick_generation"):
+                self.ui.checkBox_bark_gui_quick_generation.setChecked(True)
+            self.ui.lineEdit_bark_gui_seed.setText(str(config.get("bark_gui", "seed")))
+            self.ui.lineEdit_bark_gui_batch_count.setText(str(config.get("bark_gui", "batch_count")))
 
             # 点歌模式 配置回显部分
             if self.choose_song_config['enable']:
@@ -1196,6 +1220,8 @@ class AI_VTB(QMainWindow):
                 config_data["audio_synthesis_type"] = "elevenlabs"
             elif audio_synthesis_type == "genshinvoice_top":
                 config_data["audio_synthesis_type"] = "genshinvoice_top"
+            elif audio_synthesis_type == "bark_gui":
+                config_data["audio_synthesis_type"] = "bark_gui"
 
             # 音频随机变速
             config_data["audio_random_speed"]["normal"]["enable"] = self.ui.checkBox_audio_random_speed_normal_enable.isChecked()
@@ -1227,6 +1253,16 @@ class AI_VTB(QMainWindow):
             config_data["genshinvoice_top"]["noisew"] = self.ui.lineEdit_genshinvoice_top_noisew.text()
             config_data["genshinvoice_top"]["length"] = self.ui.lineEdit_genshinvoice_top_length.text()
             config_data["genshinvoice_top"]["format"] = self.ui.lineEdit_genshinvoice_top_format.text()
+
+            # bark-gui
+            config_data["bark_gui"]["api_ip_port"] = self.ui.lineEdit_bark_gui_api_ip_port.text()
+            config_data["bark_gui"]["spk"] = self.ui.lineEdit_bark_gui_spk.text()
+            config_data["bark_gui"]["generation_temperature"] = round(float(self.ui.lineEdit_bark_gui_generation_temperature.text()), 1)
+            config_data["bark_gui"]["waveform_temperature"] = round(float(self.ui.lineEdit_bark_gui_waveform_temperature.text()), 1)
+            config_data["bark_gui"]["end_of_sentence_probability"] = round(float(self.ui.lineEdit_bark_gui_end_of_sentence_probability.text()), 2)
+            config_data["bark_gui"]["quick_generation"] = self.ui.checkBox_bark_gui_quick_generation.isChecked()
+            config_data["bark_gui"]["seed"] = round(float(self.ui.lineEdit_bark_gui_seed.text()), 2)
+            config_data["bark_gui"]["batch_count"] = int(self.ui.lineEdit_bark_gui_batch_count.text())
 
             # 点歌
             config_data["choose_song"]["enable"] = self.ui.checkBox_choose_song_enable.isChecked()
@@ -1708,18 +1744,20 @@ class AI_VTB(QMainWindow):
     def oncomboBox_audio_synthesis_type_IndexChanged(self, index):
         # 各index对应的groupbox的显隐值
         visibility_map = {
-            0: (1, 0, 0, 0),
-            1: (0, 1, 0, 0),
-            2: (0, 0, 1, 0),
-            3: (0, 0, 0, 1)
+            0: (1, 0, 0, 0, 0),
+            1: (0, 1, 0, 0, 0),
+            2: (0, 0, 1, 0, 0),
+            3: (0, 0, 0, 1, 0),
+            4: (0, 0, 0, 0, 1)
         }
 
-        visibility_values = visibility_map.get(index, (0, 0, 0, 0))
+        visibility_values = visibility_map.get(index, (0, 0, 0, 0, 0))
 
         self.ui.groupBox_edge_tts.setVisible(visibility_values[0])
         self.ui.groupBox_vits_fast.setVisible(visibility_values[1])
         self.ui.groupBox_elevenlabs.setVisible(visibility_values[2])
         self.ui.groupBox_genshinvoice_top.setVisible(visibility_values[3])
+        self.ui.groupBox_bark_gui.setVisible(visibility_values[4])
 
 
     # 语音识别类型改变 加载显隐不同groupBox

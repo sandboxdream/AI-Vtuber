@@ -131,7 +131,7 @@
     "waveform_temperature": 0.7,
     "end_of_sentence_probability": 0.05,
     "quick_generation": true,
-    "seed": -1,
+    "seed": -1.0,
     "batch_count": 1
   },
   "chatterbot": {
