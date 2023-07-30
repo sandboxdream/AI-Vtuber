@@ -334,11 +334,11 @@ class My_handle():
             if content.startswith(self.choose_song_config["start_cmd"]):
                 logging.info(f"[{user_name}]: {content}")
 
+                # 去除命令前缀
+                content = content[len(self.choose_song_config["start_cmd"]):]
                 # 判断是否有此歌曲
                 song_filename = self.common.find_best_match(content, self.choose_song_song_lists)
                 if song_filename is None:
-                    # 去除命令前缀
-                    content = content[len(self.choose_song_config["start_cmd"]):]
                     # resp_content = f"抱歉，我还没学会唱{content}"
                     # 根据配置的 匹配失败回复文案来进行合成
                     resp_content = self.choose_song_config["match_fail_copy"].format(content=content)
