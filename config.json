@@ -14,9 +14,9 @@
     "bad_pinyin_path": "data/违禁拼音.txt",
     "max_len": 80,
     "max_char_len": 200,
-    "commit_forget_duration": 3.0,
-    "gift_forget_duration": 10.0,
-    "entrance_forget_duration": 30.0,
+    "commit_forget_duration": 2.0,
+    "gift_forget_duration": 5.0,
+    "entrance_forget_duration": 5.0,
     "talk_forget_duration": 0.1,
     "schedule_forget_duration": 0.1
   },

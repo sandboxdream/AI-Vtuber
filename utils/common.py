@@ -210,7 +210,7 @@ class Common:
 
     def split_sentences(self, text):
         # 最大长度限制，超过后会强制切分
-        max_limit_len = 30
+        max_limit_len = 40
 
         # 使用正则表达式切分句子
         sentences = re.split('([。！？!?])', text)
