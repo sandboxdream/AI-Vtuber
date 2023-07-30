@@ -202,38 +202,21 @@ class My_handle():
         return None
 
 
-    # 弹幕处理
-    def commit_handle(self, data):
-        """弹幕处理
+    # 本地问答库 处理
+    def local_qa_handle(self, data):
+        """本地问答库 处理
 
         Args:
-            data (dict): 包含用户名,弹幕内容
+            data (dict): 用户名 弹幕数据
 
         Returns:
-            _type_: 寂寞
+            bool: 是否触发并处理
         """
-
         user_name = data["username"]
         content = data["content"]
 
         # 合并字符串末尾连续的*  主要针对获取不到用户名的情况
         user_name = self.common.merge_consecutive_asterisks(user_name)
-
-        """
-        用户名也得过滤一下，防止炸弹人
-        """
-        # 含有违禁词/链接
-        if self.common.profanity_content(user_name) or self.common.check_sensitive_words2(
-                self.filter_config["badwords_path"], user_name) or \
-                self.common.is_url_check(user_name):
-            logging.warning(f"违禁词/链接：{user_name}")
-            return
-
-        # 同拼音违禁词过滤
-        if self.filter_config["bad_pinyin_path"] != "":
-            if self.common.check_sensitive_words3(self.filter_config["bad_pinyin_path"], user_name):
-                logging.warning(f"同音违禁词：{user_name}")
-                return
 
         # 1、匹配本地问答库 触发后不执行后面的其他功能
         if self.local_qa["text"]["enable"] == True:
@@ -284,7 +267,7 @@ class My_handle():
                 # 音频合成（edge-tts / vits）并播放
                 self.audio.audio_synthesis(message)
 
-                return
+                return True
 
         # 2、匹配本地问答音频库 触发后不执行后面的其他功能
         if self.local_qa["audio"]["enable"] == True:
@@ -325,10 +308,27 @@ class My_handle():
                     # 音频合成（edge-tts / vits）并播放
                     self.audio.audio_synthesis(message)
 
-                    return
+                    return True
+            
+        return False
 
 
-        # 3、点歌模式 触发后不执行后面的其他功能
+    # 点歌模式 处理
+    def choose_song_handle(self, data):
+        """点歌模式 处理
+
+        Args:
+            data (dict): 用户名 弹幕数据
+
+        Returns:
+            bool: 是否触发并处理
+        """
+        user_name = data["username"]
+        content = data["content"]
+
+        # 合并字符串末尾连续的*  主要针对获取不到用户名的情况
+        user_name = self.common.merge_consecutive_asterisks(user_name)
+
         if self.choose_song_config["enable"] == True:
             # 判断点歌命令是否正确
             if content.startswith(self.choose_song_config["start_cmd"]):
@@ -356,11 +356,11 @@ class My_handle():
                     # 音频合成（edge-tts / vits）并播放
                     self.audio.audio_synthesis(message)
 
-                    return
+                    return True
                 
                 resp_content = self.audio.search_files(self.choose_song_config['song_path'], song_filename)
                 if resp_content == []:
-                    return
+                    return True
                 
                 logging.debug(f"匹配到的音频原相对路径：{resp_content[0]}")
 
@@ -379,12 +379,32 @@ class My_handle():
                 # 音频合成（edge-tts / vits）并播放
                 self.audio.audio_synthesis(message)
 
-                return
+                return True
             # 判断取消点歌命令是否正确
             elif content.startswith(self.choose_song_config["stop_cmd"]):
                 self.audio.stop_current_audio()
 
-        # 4、画图模式 触发后不执行后面的其他功能
+                return True
+
+        return False
+
+
+    # 画图模式 SD 处理
+    def sd_handle(self, data):
+        """画图模式 SD 处理
+
+        Args:
+            data (dict): 用户名 弹幕数据
+
+        Returns:
+            bool: 是否触发并处理
+        """
+        user_name = data["username"]
+        content = data["content"]
+
+        # 合并字符串末尾连续的*  主要针对获取不到用户名的情况
+        user_name = self.common.merge_consecutive_asterisks(user_name)
+
         if content.startswith(self.sd_config["trigger"]):
             # 含有违禁词/链接
             if self.common.profanity_content(content) or self.common.check_sensitive_words2(
@@ -395,7 +415,7 @@ class My_handle():
         
             if self.sd_config["enable"] == False:
                 logging.info("您还未启用SD模式，无法使用画画功能")
-                return None
+                return True
             else:
                 # 输出当前用户发送的弹幕消息
                 logging.info(f"[{user_name}]: {content}")
@@ -463,12 +483,25 @@ class My_handle():
                     resp_content = content
 
                 self.sd.process_input(resp_content)
-                return None
+                return True
+            
+        return False
 
+
+    # 弹幕格式检查和特殊字符替换
+    def commit_check_and_replace(self, content):
+        """弹幕格式检查和特殊字符替换
+
+        Args:
+            content (str): 待处理的弹幕内容
+
+        Returns:
+            str: 处理完毕后的弹幕内容/None
+        """
         # 判断弹幕是否以xx起始，如果不是则返回
         if self.filter_config["before_must_str"] and not any(
                 content.startswith(prefix) for prefix in self.filter_config["before_must_str"]):
-            return
+            return None
         else:
             for prefix in self.filter_config["before_must_str"]:
                 if content.startswith(prefix):
@@ -478,19 +511,16 @@ class My_handle():
         # 判断弹幕是否以xx结尾，如果不是则返回
         if self.filter_config["after_must_str"] and not any(
                 content.endswith(prefix) for prefix in self.filter_config["after_must_str"]):
-            return
+            return None
         else:
             for prefix in self.filter_config["after_must_str"]:
                 if content.endswith(prefix):
                     content = content[:-len(prefix)]  # 删除匹配的结尾
                     break
 
-        # 输出当前用户发送的弹幕消息
-        logging.info(f"[{user_name}]: {content}")
-
         # 全为标点符号
         if self.common.is_punctuation_string(content):
-            return
+            return None
 
         # 换行转为,
         content = content.replace('\n', ',')
@@ -498,22 +528,87 @@ class My_handle():
         # 语言检测
         if self.common.lang_check(content, self.need_lang) is None:
             logging.warning("语言检测不通过，已过滤")
-            return
-        
+            return None
+
+        return content
+
+
+    # 违禁处理
+    def prohibitions_handle(self, content):
+        """违禁处理
+
+        Args:
+            content (str): 带判断的字符串内容
+
+        Returns:
+            bool: 是否违禁词 是True 否False
+        """
         # 含有违禁词/链接
         if self.common.profanity_content(content) or self.common.check_sensitive_words2(
                 self.filter_config["badwords_path"], content) or \
                 self.common.is_url_check(content):
             logging.warning(f"违禁词/链接：{content}")
-            return
+            return True
 
         # 同拼音违禁词过滤
         if self.filter_config["bad_pinyin_path"] != "":
             if self.common.check_sensitive_words3(self.filter_config["bad_pinyin_path"], content):
                 logging.warning(f"同音违禁词：{content}")
-                return
+                return True
+            
+        return False
 
-        # 根据聊天类型执行不同逻辑
+
+    # 弹幕处理
+    def commit_handle(self, data):
+        """弹幕处理
+
+        Args:
+            data (dict): 包含用户名,弹幕内容
+
+        Returns:
+            _type_: 寂寞
+        """
+
+        user_name = data["username"]
+        content = data["content"]
+
+        # 合并字符串末尾连续的*  主要针对获取不到用户名的情况
+        user_name = self.common.merge_consecutive_asterisks(user_name)
+
+        """
+        用户名也得过滤一下，防止炸弹人
+        """
+        if self.prohibitions_handle(user_name):
+            return
+
+        # 1 本地问答库 处理
+        if self.local_qa_handle(data):
+            return
+
+        # 2、点歌模式 触发后不执行后面的其他功能
+        if self.choose_song_handle(data):
+            return
+
+        # 3、画图模式 触发后不执行后面的其他功能
+        if self.sd_handle(data):
+            return
+
+        # 弹幕格式检查和特殊字符替换
+        content = self.commit_check_and_replace(content)
+        if content is None:
+            return
+        
+        # 输出当前用户发送的弹幕消息
+        logging.info(f"[{user_name}]: {content}")
+        
+        # 用户弹幕违禁判断
+        if self.prohibitions_handle(content):
+            return
+
+        """
+        根据聊天类型执行不同逻辑
+        """ 
         if self.chat_type == "chatgpt":
             content = self.before_prompt + content + self.after_prompt
             # 调用gpt接口，获取返回内容
@@ -586,20 +681,11 @@ class My_handle():
         """
         双重过滤，为您保驾护航
         """
-        resp_content = resp_content.replace('\n', ',')
+        resp_content = resp_content.replace('\n', '。')
         
-        # 含有违禁词/链接
-        if self.common.profanity_content(resp_content) or self.common.check_sensitive_words2(
-                self.filter_config["badwords_path"], resp_content) or \
-                self.common.is_url_check(resp_content):
-            logging.warning(f"违禁词/链接：{resp_content}")
+        # LLM回复的内容进行违禁判断
+        if self.prohibitions_handle(resp_content):
             return
-        
-        # 同拼音违禁词过滤
-        if self.filter_config["bad_pinyin_path"] != "":
-            if self.common.check_sensitive_words3(self.filter_config["bad_pinyin_path"], resp_content):
-                logging.warning(f"同音违禁词：{resp_content}")
-                return
 
         # logger.info("resp_content=" + resp_content)
 
@@ -622,6 +708,7 @@ class My_handle():
             elif self.config.get("commit_log_type") == "回答":
                 f.write(f"[AI回复{user_name}]:\n{resp_content_joined}\n" + tmp_content)
 
+        # 音频合成时需要用到的重要数据
         message = {
             "type": "commit",
             "tts_type": self.audio_synthesis_type,
