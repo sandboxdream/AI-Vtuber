@@ -128,3 +128,4 @@ chardet==5.1.0
 pypinyin==0.49.0
 sparkdesk-api==1.0.3
 gradio_client==0.3.0
+schedule==1.2.0

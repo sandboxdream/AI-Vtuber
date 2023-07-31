@@ -82,7 +82,7 @@ class Common:
             hour = now.tm_hour   # 获取当前小时
             minute = now.tm_min  # 获取当前分钟
 
-            return str(hour) + "点" + str(minute)
+            return str(hour) + "点" + str(minute) + "分"
         elif type == 6:
             now = time.localtime()  # 获取当前时间
 
@@ -208,6 +208,7 @@ class Common:
         return result
     
 
+    # 文本切分算法
     def split_sentences(self, text):
         # 最大长度限制，超过后会强制切分
         max_limit_len = 40
