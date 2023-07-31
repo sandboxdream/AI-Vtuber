@@ -320,17 +320,27 @@ class Audio:
                 }
 
                 # 由于线程是独立的，所以回复音频的合成会慢于本地音频直接播放，所以以倒述的形式回复
-                message['content'] = f"以上内容回复{message['user_name']}。"
-                message['type'] = "commit"
-                self.message_queue.put(message)
+                tmp_message = deepcopy(message)
+                tmp_message['type'] = "reply"
+                tmp_message['content'] = random.choice(self.config.get("read_user_name", "reply_after"))
+                if "{username}" in tmp_message['content']:
+                    tmp_message['content'] = tmp_message['content'].format(username=message['user_name'])
+                self.message_queue.put(tmp_message)
+
                 self.voice_tmp_path_queue.put(data_json)
                 return
 
             # 只有信息类型是 弹幕，才会进行念用户名
             if message['type'] == "commit":
                 # 回复时是否念用户名字
-                if self.config.get("read_user_name"):
-                    message['content'] = f"回复{message['user_name']}。{message['content']}"
+                if self.config.get("read_user_name", "enable"):
+                    tmp_message = deepcopy(message)
+                    tmp_message['type'] = "reply"
+                    tmp_message['content'] = random.choice(self.config.get("read_user_name", "reply_before"))
+                    if "{username}" in tmp_message['content']:
+                        tmp_message['content'] = tmp_message['content'].format(username=message['user_name'])
+                    self.message_queue.put(tmp_message)
+
 
             # 中文语句切分
             sentences = self.common.split_sentences(message['content'])
@@ -359,8 +369,19 @@ class Audio:
             return
         
 
-        # 变声并封装数据发到队列 减少冗余
-        async def voice_change_and_put_to_queue(voice_tmp_path):
+        # 判断消息类型，再变声并封装数据发到队列 减少冗余
+        async def voice_change_and_put_to_queue(message, voice_tmp_path):
+            # 拼接json数据，存入队列
+            data_json = {
+                "voice_path": voice_tmp_path,
+                "content": message["content"]
+            }
+
+            # 区分消息类型是否是 回复xxx 并且 关闭了变声
+            if message["type"] == "reply" and False == self.config.get("read_user_name", "voice_change"):
+                self.voice_tmp_path_queue.put(data_json)
+                return
+
             # 转换为绝对路径
             voice_tmp_path = os.path.abspath(voice_tmp_path)
 
@@ -374,11 +395,8 @@ class Audio:
                 voice_tmp_path = await self.so_vits_svc_api(audio_path=voice_tmp_path)
                 logging.info(f"so-vits-svc合成成功，输出到={voice_tmp_path}")
             
-            # 拼接json数据，存入队列
-            data_json = {
-                "voice_path": voice_tmp_path,
-                "content": message["content"]
-            }
+            # 更新音频路径
+            data_json["voice_path"] = voice_tmp_path
 
             self.voice_tmp_path_queue.put(data_json)
 
@@ -410,10 +428,13 @@ class Audio:
                 data_json = self.vits_fast_api(data)
                 # logging.info(data_json)
 
+                if data_json is None:
+                    return
+
                 voice_tmp_path = data_json["data"][1]["name"]
                 print(f"vits-fast合成成功，输出到={voice_tmp_path}")
 
-                await voice_change_and_put_to_queue(voice_tmp_path)   
+                await voice_change_and_put_to_queue(message, voice_tmp_path)   
             except Exception as e:
                 logging.error(e)
                 return
@@ -428,7 +449,7 @@ class Audio:
 
                 logging.info(f"edge-tts合成成功，输出到={voice_tmp_path}")
 
-                await voice_change_and_put_to_queue(voice_tmp_path)
+                await voice_change_and_put_to_queue(message, voice_tmp_path)  
             except Exception as e:
                 logging.error(e)
         elif message["tts_type"] == "elevenlabs":
@@ -455,7 +476,7 @@ class Audio:
                 if voice_tmp_path is None:
                     return
 
-                await voice_change_and_put_to_queue(voice_tmp_path)
+                await voice_change_and_put_to_queue(message, voice_tmp_path)  
             except Exception as e:
                 logging.error(e)
                 return
@@ -477,8 +498,10 @@ class Audio:
                 voice_tmp_path = self.bark_gui_api(data)
                 print(f"vits-fast合成成功，输出到={voice_tmp_path}")
 
-                if voice_tmp_path:
-                    await voice_change_and_put_to_queue(voice_tmp_path)   
+                if voice_tmp_path is None:
+                    return
+                
+                await voice_change_and_put_to_queue(message, voice_tmp_path)  
             except Exception as e:
                 logging.error(e)
                 return

@@ -547,7 +547,7 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_before_prompt.setText(self.before_prompt)
             self.ui.lineEdit_after_prompt.setText(self.after_prompt)
 
-            if config.get("read_user_name"):
+            if config.get("read_user_name", "enable"):
                 self.ui.checkBox_read_user_name.setChecked(True)
 
             self.ui.comboBox_commit_log_type.clear()
@@ -1091,7 +1091,7 @@ class AI_VTB(QMainWindow):
             config_data["before_prompt"] = self.ui.lineEdit_before_prompt.text()
             config_data["after_prompt"] = self.ui.lineEdit_after_prompt.text()
 
-            config_data["read_user_name"] = self.ui.checkBox_read_user_name.isChecked()
+            config_data["read_user_name"]["enable"] = self.ui.checkBox_read_user_name.isChecked()
 
             need_lang = self.ui.comboBox_need_lang.currentText()
             if need_lang == "所有":
