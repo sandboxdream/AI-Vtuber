@@ -6,7 +6,18 @@
   "before_prompt": "请简要回复:",
   "after_prompt": "",
   "commit_log_type": "回答",
-  "read_user_name": true,
+  "read_user_name": {
+    "enable": true,
+    "voice_change": true,
+    "reply_before": [
+      "回复{username}",
+      "{username}"
+    ],
+    "reply_after": [
+      "以上内容回复{username}",
+      "回的{username}"
+    ]
+  },
   "filter": {
     "before_must_str": [],
     "after_must_str": [],
@@ -101,8 +112,8 @@
     "sampleRate": 44100
   },
   "so_vits_svc": {
-    "enable": false,
-    "config_path": "D:\\so-vits-svc\\configs\\ikaros_v1.json",
+    "enable": true,
+    "config_path": "E:\\so-vits-svc\\configs\\ikaros_v1.json",
     "api_ip_port": "http://127.0.0.1:1145",
     "spk": "ikaros",
     "tran": 1.0,
