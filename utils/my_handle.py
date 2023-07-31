@@ -727,6 +727,10 @@ class My_handle():
         # 合并字符串末尾连续的*  主要针对获取不到用户名的情况
         data['username'] = self.common.merge_consecutive_asterisks(data['username'])
 
+        # 违禁处理
+        if self.prohibitions_handle(data['username']):
+            return
+
         # logging.debug(f"[{data['username']}]: {data}")
 
         try:
@@ -758,6 +762,10 @@ class My_handle():
     def entrance_handle(self, data):
         # 合并字符串末尾连续的*  主要针对获取不到用户名的情况
         data['username'] = self.common.merge_consecutive_asterisks(data['username'])
+
+        # 违禁处理
+        if self.prohibitions_handle(data['username']):
+            return
 
         # logging.debug(f"[{data['username']}]: {data['content']}")
 
