@@ -28,3 +28,4 @@ send2trash
 pypinyin
 sparkdesk-api
 gradio_client
+schedule
