@@ -1,5 +1,5 @@
 import sys, os, json, subprocess, importlib, re, threading, signal
-import logging
+import logging, traceback
 import time
 import asyncio
 # from functools import partial
@@ -274,10 +274,12 @@ class AI_VTB(QMainWindow):
 
             # 本地问答
             self.ui.label_local_qa_text_enable.setToolTip("是否启用本地问答文本匹配，完全命中设定的问题后，自动合成对应的回答")
+            self.ui.label_local_qa_text_type.setToolTip("本地问答文本匹配算法类型，默认就是json的自定义数据，更高级。\n一问一答就是旧版本的一行问题一行答案这种，适合新手")
             self.ui.label_local_qa_text_file_path.setToolTip("本地问答文本数据存储路径")
+            self.ui.label_local_qa_text_similarity.setToolTip("最低文本匹配相似度，就是说用户发送的内容和本地问答库中设定的内容的最低相似度。\n低了就会被当做一般弹幕处理")
             self.ui.label_local_qa_audio_enable.setToolTip("是否启用本地问答音频匹配，部分命中音频文件名后，直接播放对应的音频文件")
             self.ui.label_local_qa_audio_file_path.setToolTip("本地问答音频文件存储路径")
-            self.ui.label_local_qa_similarity.setToolTip("最低文本匹配相似度，就是说用户发送的内容和本地问答库中设定的内容的最低相似度。\n低了就会被当做一般弹幕处理")
+            self.ui.label_local_qa_audio_similarity.setToolTip("最低音频匹配相似度，就是说用户发送的内容和本地音频库中音频文件名的最低相似度。\n低了就会被当做一般弹幕处理")
 
             self.ui.label_filter_before_must_str.setToolTip("弹幕过滤，必须携带的触发前缀字符串（任一）\n例如：配置#，那么就需要发送：#你好")
             self.ui.label_filter_after_must_str.setToolTip("弹幕过滤，必须携带的触发后缀字符串（任一）\n例如：配置。那么就需要发送：你好。")
@@ -565,11 +567,19 @@ class AI_VTB(QMainWindow):
             # 本地问答
             if self.local_qa_config['text']['enable']:
                 self.ui.checkBox_local_qa_text_enable.setChecked(True)
+            self.ui.comboBox_local_qa_text_type.clear()
+            local_qa_text_types = ["自定义json", "一问一答"]
+            self.ui.comboBox_local_qa_text_type.addItems(local_qa_text_types)
+            if self.local_qa_config['text']['type'] == "text":
+                self.ui.comboBox_local_qa_text_type.setCurrentIndex(1)
+            else:
+                self.ui.comboBox_local_qa_text_type.setCurrentIndex(0)
             self.ui.lineEdit_local_qa_text_file_path.setText(self.local_qa_config['text']['file_path'])
+            self.ui.lineEdit_local_qa_text_similarity.setText(str(self.local_qa_config['text']['similarity']))
             if self.local_qa_config['audio']['enable']:
                 self.ui.checkBox_local_qa_audio_enable.setChecked(True)
             self.ui.lineEdit_local_qa_audio_file_path.setText(self.local_qa_config['audio']['file_path'])
-            self.ui.lineEdit_local_qa_similarity.setText(str(self.local_qa_config['similarity']))
+            self.ui.lineEdit_local_qa_audio_similarity.setText(str(self.local_qa_config['audio']['similarity']))
 
             tmp_str = ""
             for tmp in self.filter_config['before_must_str']:
@@ -932,7 +942,7 @@ class AI_VTB(QMainWindow):
 
             logging.info("配置文件加载成功。")
         except Exception as e:
-            logging.info(e)
+            logging.error(traceback.format_exc())
             return None
     
     
@@ -1111,10 +1121,16 @@ class AI_VTB(QMainWindow):
 
             # 本地问答
             config_data["local_qa"]["text"]["enable"] = self.ui.checkBox_local_qa_text_enable.isChecked()
+            local_qa_text_type = self.ui.comboBox_local_qa_text_type.currentText()
+            if local_qa_text_type == "自定义json":
+                config_data["local_qa"]["text"]["type"] = "json"
+            elif local_qa_text_type == "一问一答":
+                config_data["local_qa"]["text"]["type"] = "text"
             config_data["local_qa"]["text"]["file_path"] = self.ui.lineEdit_local_qa_text_file_path.text()
+            config_data["local_qa"]["text"]["similarity"] = round(float(self.ui.lineEdit_local_qa_text_similarity.text()), 2)
             config_data["local_qa"]["audio"]["enable"] = self.ui.checkBox_local_qa_audio_enable.isChecked()
             config_data["local_qa"]["audio"]["file_path"] = self.ui.lineEdit_local_qa_audio_file_path.text()
-            config_data["local_qa"]["similarity"] = round(float(self.ui.lineEdit_local_qa_similarity.text()), 2)
+            config_data["local_qa"]["audio"]["similarity"] = round(float(self.ui.lineEdit_local_qa_audio_similarity.text()), 2)
 
             # 通用多行分隔符
             separators = [" ", "\n"]
@@ -1374,7 +1390,7 @@ class AI_VTB(QMainWindow):
 
             # logging.info(config_data)
         except Exception as e:
-            logging.error(e)
+            logging.error(traceback.format_exc())
             self.show_message_box("错误", f"配置项格式有误，请检查配置！\n{e}", QMessageBox.Critical)
             return False
 
@@ -1556,7 +1572,7 @@ class AI_VTB(QMainWindow):
 
             logging.info("刷新文件列表")
         except Exception as e:
-            logging.error(e)
+            logging.error(traceback.format_exc())
             self.show_message_box("错误", f"刷新失败！{e}", QMessageBox.Critical)
 
 
@@ -1894,7 +1910,7 @@ class AI_VTB(QMainWindow):
 
             return file_names
         except Exception as e:
-            logging.error(e)
+            logging.error(traceback.format_exc())
             return None
         
 
@@ -1918,7 +1934,7 @@ class AI_VTB(QMainWindow):
 
             return audio_file_names
         except Exception as e:
-            logging.error(e)
+            logging.error(traceback.format_exc())
             return None
 
 
@@ -2131,7 +2147,7 @@ if __name__ == '__main__':
             # 运行 web服务线程
             web_server_thread.start()
     except Exception as e:
-        logging.error(e)
+        logging.error(traceback.format_exc())
         os._exit(0)
 
     signal.signal(signal.SIGINT, exit_handler)

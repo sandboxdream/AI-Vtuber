@@ -1,4 +1,5 @@
-import os, threading
+import os, threading, json, random
+import difflib
 import logging
 
 from .config import Config
@@ -202,6 +203,58 @@ class My_handle():
         return None
 
 
+    def find_similar_answer(self, input_str, qa_file_path, min_similarity=0.8):
+        """本地问答库 文本模式  根据相似度查找答案
+
+        Args:
+            input_str (str): 输入的待查找字符串
+            qa_file_path (str): 问答库的路径
+            min_similarity (float, optional): 最低匹配相似度. 默认 0.8.
+
+        Returns:
+            response (str): 匹配到的结果，如果匹配不到则返回None
+        """
+        def load_data_from_file(file_path):
+            try:
+                with open(file_path, 'r', encoding='utf-8') as file:
+                    data = json.load(file)
+                    return data
+            except (FileNotFoundError, json.JSONDecodeError):
+                return None
+            
+        # 从文件加载数据
+        data = load_data_from_file(qa_file_path)
+        if data is None:
+            return None
+
+        # 存储相似度与回答的元组列表
+        similarity_responses = []
+        
+        # 遍历json中的每个条目，找到与输入字符串相似的关键词
+        for entry in data:
+            for keyword in entry.get("关键词", []):
+                similarity = difflib.SequenceMatcher(None, input_str, keyword).ratio()
+                similarity_responses.append((similarity, entry.get("回答", [])))
+        
+        # 过滤相似度低于设定阈值的回答
+        similarity_responses = [(similarity, response) for similarity, response in similarity_responses if similarity >= min_similarity]
+        
+        # 如果没有符合条件的回答，返回None
+        if not similarity_responses:
+            return None
+        
+        # 按相似度降序排序
+        similarity_responses.sort(reverse=True, key=lambda x: x[0])
+        
+        # 获取相似度最高的回答列表
+        top_response = similarity_responses[0][1]
+        
+        # 随机选择一个回答
+        response = random.choice(top_response)
+        
+        return response
+
+
     # 本地问答库 处理
     def local_qa_handle(self, data):
         """本地问答库 处理
@@ -220,8 +273,11 @@ class My_handle():
 
         # 1、匹配本地问答库 触发后不执行后面的其他功能
         if self.local_qa["text"]["enable"] == True:
-            # 输出当前用户发送的弹幕消息
-            tmp = self.find_answer(content, self.local_qa["text"]["file_path"], self.local_qa["similarity"])
+            # 根据类型，执行不同的问答匹配算法
+            if self.local_qa["text"]["type"] == "text":
+                tmp = self.find_answer(content, self.local_qa["text"]["file_path"], self.local_qa["text"]["similarity"])
+            else:
+                tmp = self.find_similar_answer(content, self.local_qa["text"]["file_path"], self.local_qa["text"]["similarity"])
 
             if tmp != None:
                 logging.info(f"触发本地问答库-文本 [{user_name}]: {content}")
@@ -278,7 +334,7 @@ class My_handle():
             self.local_qa_audio_list = self.audio.get_dir_audios_filename(self.local_qa["audio"]["file_path"], type=0)
 
             # 不含拓展名做查找
-            local_qv_audio_filename = self.common.find_best_match(content, local_qa_audio_filename_list, self.local_qa["similarity"])
+            local_qv_audio_filename = self.common.find_best_match(content, local_qa_audio_filename_list, self.local_qa["audio"]["similarity"])
             
             # print(f"local_qv_audio_filename={local_qv_audio_filename}")
 

@@ -112,7 +112,7 @@
     "sampleRate": 44100
   },
   "so_vits_svc": {
-    "enable": true,
+    "enable": false,
     "config_path": "E:\\so-vits-svc\\configs\\ikaros_v1.json",
     "api_ip_port": "http://127.0.0.1:1145",
     "spk": "ikaros",
@@ -170,13 +170,15 @@
   "local_qa": {
     "text": {
       "enable": true,
-      "file_path": "data/本地问答库.txt"
+      "type": "json",
+      "file_path": "data/本地问答库.json",
+      "similarity": 0.8
     },
     "audio": {
       "enable": true,
-      "file_path": "out/本地问答音频/"
-    },
-    "similarity": 0.5
+      "file_path": "out/本地问答音频/",
+      "similarity": 0.5
+    }
   },
   "choose_song": {
     "enable": true,
