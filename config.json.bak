@@ -1,5 +1,5 @@
 {
-  "platform": "bilibili",
+  "platform": "dy",
   "room_display_id": "278333",
   "chat_type": "reread",
   "need_lang": "none",
@@ -263,7 +263,7 @@
   },
   "schedule": [
     {
-      "enable": true,
+      "enable": false,
       "time": 7,
       "copy": [
         "现在是{time}",
@@ -271,7 +271,7 @@
       ]
     },
     {
-      "enable": true,
+      "enable": false,
       "time": 10,
       "copy": [
         "感谢还在观看直播的{user_num}位兄弟姐妹们",
