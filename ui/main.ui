@@ -134,9 +134,9 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-288</y>
+             <y>-105</y>
              <width>980</width>
-             <height>7873</height>
+             <height>8158</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -170,75 +170,7 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                <property name="bottomMargin">
                 <number>0</number>
                </property>
-               <item row="12" column="0" colspan="3">
-                <widget class="QGroupBox" name="groupBox_log">
-                 <property name="title">
-                  <string>日志</string>
-                 </property>
-                 <layout class="QGridLayout" name="gridLayout_47">
-                  <item row="0" column="0">
-                   <layout class="QGridLayout" name="gridLayout_46" columnstretch="1,5">
-                    <item row="1" column="1">
-                     <widget class="QComboBox" name="comboBox_commit_log_type">
-                      <item>
-                       <property name="text">
-                        <string>问答</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>问题</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>回答</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>不记录</string>
-                       </property>
-                      </item>
-                     </widget>
-                    </item>
-                    <item row="1" column="0">
-                     <widget class="QLabel" name="label_commit_log_type">
-                      <property name="text">
-                       <string>弹幕日志类型</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="3" column="0">
-                     <widget class="QLabel" name="label_captions_file_path">
-                      <property name="text">
-                       <string>字幕日志路径</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="3" column="1">
-                     <widget class="QLineEdit" name="lineEdit_captions_file_path"/>
-                    </item>
-                    <item row="2" column="0">
-                     <widget class="QLabel" name="label_captions_enable">
-                      <property name="text">
-                       <string>字幕日志</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="2" column="1">
-                     <widget class="QCheckBox" name="checkBox_captions_enable">
-                      <property name="text">
-                       <string>启用</string>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
-               <item row="19" column="0" colspan="3">
+               <item row="21" column="0" colspan="3">
                 <widget class="QGroupBox" name="groupBox_audio_random_speed">
                  <property name="title">
                   <string>音频随机变速</string>
@@ -319,116 +251,109 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                  </layout>
                 </widget>
                </item>
-               <item row="13" column="0" colspan="3">
-                <widget class="QGroupBox" name="groupBox_local_qa">
+               <item row="18" column="0" colspan="3">
+                <widget class="QGroupBox" name="groupBox_thanks">
                  <property name="title">
-                  <string>本地问答</string>
+                  <string>答谢</string>
                  </property>
-                 <layout class="QGridLayout" name="gridLayout_51">
+                 <layout class="QGridLayout" name="gridLayout_42">
+                  <item row="2" column="0">
+                   <widget class="QLabel" name="label_thanks_entrance_copy">
+                    <property name="text">
+                     <string>入场文案</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="0">
+                   <widget class="QLabel" name="label_thanks_gift_copy">
+                    <property name="text">
+                     <string>礼物文案</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="0">
+                   <widget class="QLabel" name="label_thanks_lowest_price">
+                    <property name="text">
+                     <string>最低答谢价格</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="1">
+                   <widget class="QLineEdit" name="lineEdit_thanks_entrance_copy"/>
+                  </item>
+                  <item row="0" column="1">
+                   <widget class="QCheckBox" name="checkBox_thanks_entrance_enable">
+                    <property name="text">
+                     <string>启用</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="1">
+                   <widget class="QLineEdit" name="lineEdit_thanks_lowest_price"/>
+                  </item>
+                  <item row="3" column="1">
+                   <widget class="QLineEdit" name="lineEdit_thanks_gift_copy"/>
+                  </item>
                   <item row="0" column="0">
-                   <layout class="QGridLayout" name="gridLayout_50">
-                    <item row="4" column="0">
-                     <widget class="QLabel" name="label_local_qa_audio_enable">
-                      <property name="text">
-                       <string>音频匹配</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="0" column="0">
-                     <widget class="QLabel" name="label_local_qa_text_enable">
-                      <property name="text">
-                       <string>文本匹配</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="0" column="1">
-                     <widget class="QCheckBox" name="checkBox_local_qa_text_enable">
-                      <property name="text">
-                       <string>启用</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="2" column="1">
-                     <widget class="QLineEdit" name="lineEdit_local_qa_text_file_path"/>
-                    </item>
-                    <item row="6" column="0">
-                     <widget class="QLabel" name="label_local_qa_audio_similarity">
-                      <property name="text">
-                       <string>音频最低相似度</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="4" column="1">
-                     <widget class="QCheckBox" name="checkBox_local_qa_audio_enable">
-                      <property name="text">
-                       <string>启用</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="3" column="0">
-                     <widget class="QLabel" name="label_local_qa_text_similarity">
-                      <property name="text">
-                       <string>文本最低相似度</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="5" column="1">
-                     <widget class="QLineEdit" name="lineEdit_local_qa_audio_file_path"/>
-                    </item>
-                    <item row="5" column="0">
-                     <widget class="QLabel" name="label_local_qa_audio_file_path">
-                      <property name="text">
-                       <string>音频存储路径</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="2" column="0">
-                     <widget class="QLabel" name="label_local_qa_text_file_path">
-                      <property name="text">
-                       <string>文本问答数据路径</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="3" column="1">
-                     <widget class="QLineEdit" name="lineEdit_local_qa_text_similarity"/>
-                    </item>
-                    <item row="6" column="1">
-                     <widget class="QLineEdit" name="lineEdit_local_qa_audio_similarity"/>
-                    </item>
-                    <item row="1" column="0">
-                     <widget class="QLabel" name="label_local_qa_text_type">
-                      <property name="text">
-                       <string>文本问答算法类型</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="1" column="1">
-                     <widget class="QComboBox" name="comboBox_local_qa_text_type">
-                      <item>
-                       <property name="text">
-                        <string>自定义json</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>一问一答</string>
-                       </property>
-                      </item>
-                     </widget>
-                    </item>
-                   </layout>
+                   <widget class="QLabel" name="label_thanks_entrance_enable">
+                    <property name="text">
+                     <string>入场欢迎</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QLabel" name="label_thanks_gift_enable">
+                    <property name="text">
+                     <string>礼物答谢</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="1">
+                   <widget class="QCheckBox" name="checkBox_thanks_gift_enable">
+                    <property name="text">
+                     <string>启用</string>
+                    </property>
+                   </widget>
                   </item>
                  </layout>
                 </widget>
                </item>
-               <item row="11" column="1">
-                <widget class="QCheckBox" name="checkBox_read_user_name">
-                 <property name="text">
-                  <string>启用</string>
+               <item row="10" column="1">
+                <widget class="QComboBox" name="comboBox_audio_synthesis_type">
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
                  </property>
+                 <item>
+                  <property name="text">
+                   <string>Edge-TTS</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>VITS-Fast</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>elevenlabs</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>genshinvoice_top</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>bark_gui</string>
+                  </property>
+                 </item>
                 </widget>
                </item>
-               <item row="22" column="0" rowspan="2" colspan="3">
+               <item row="5" column="1">
+                <widget class="QLineEdit" name="lineEdit_after_prompt"/>
+               </item>
+               <item row="24" column="0" rowspan="2" colspan="3">
                 <widget class="QGroupBox" name="groupBox_chatgpt">
                  <property name="title">
                   <string>chatgpt</string>
@@ -607,164 +532,14 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                  </layout>
                 </widget>
                </item>
-               <item row="0" column="1">
-                <widget class="QComboBox" name="comboBox_platform">
-                 <property name="cursor">
-                  <cursorShape>PointingHandCursor</cursorShape>
-                 </property>
-                 <item>
-                  <property name="text">
-                   <string>哔哩哔哩</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>抖音</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>快手</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>聊天模式-谷歌</string>
-                  </property>
-                 </item>
-                </widget>
-               </item>
-               <item row="24" column="0" colspan="3">
-                <widget class="QGroupBox" name="groupBox_claude">
-                 <property name="title">
-                  <string>Claude</string>
-                 </property>
-                 <layout class="QGridLayout" name="gridLayout_7">
-                  <item row="0" column="1">
-                   <widget class="QLineEdit" name="lineEdit_claude_slack_user_token"/>
-                  </item>
-                  <item row="0" column="0">
-                   <layout class="QGridLayout" name="gridLayout_6">
-                    <item row="0" column="0">
-                     <widget class="QLabel" name="label_claude_slack_user_token">
-                      <property name="text">
-                       <string>slack_user_token</string>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
-                  <item row="1" column="0">
-                   <widget class="QLabel" name="label_claude_bot_user_id">
-                    <property name="text">
-                     <string>bot_user_id</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="1">
-                   <widget class="QLineEdit" name="lineEdit_claude_bot_user_id"/>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
-               <item row="5" column="0">
-                <widget class="QLabel" name="label_after_prompt">
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_need_lang">
                  <property name="text">
-                  <string>提示词后缀</string>
+                  <string>回复语言</string>
                  </property>
                 </widget>
                </item>
-               <item row="4" column="1">
-                <widget class="QLineEdit" name="lineEdit_before_prompt"/>
-               </item>
-               <item row="26" column="0" colspan="3">
-                <widget class="QGroupBox" name="groupBox_chatglm">
-                 <property name="title">
-                  <string>ChatGLM</string>
-                 </property>
-                 <layout class="QGridLayout" name="gridLayout_9">
-                  <item row="0" column="0">
-                   <layout class="QGridLayout" name="gridLayout_8">
-                    <item row="0" column="0">
-                     <widget class="QLabel" name="label_chatglm_api_ip_port">
-                      <property name="text">
-                       <string>api地址</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="2" column="1">
-                     <widget class="QLineEdit" name="lineEdit_chatglm_top_p"/>
-                    </item>
-                    <item row="5" column="0">
-                     <widget class="QLabel" name="label_chatglm_history_max_len">
-                      <property name="text">
-                       <string>最大记忆长度</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="1" column="1">
-                     <widget class="QLineEdit" name="lineEdit_chatglm_max_length"/>
-                    </item>
-                    <item row="2" column="0">
-                     <widget class="QLabel" name="label_chatglm_top_p">
-                      <property name="text">
-                       <string>前p个选择</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="3" column="0">
-                     <widget class="QLabel" name="label_chatglm_temperature">
-                      <property name="text">
-                       <string>温度</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="3" column="1">
-                     <widget class="QLineEdit" name="lineEdit_chatglm_temperature"/>
-                    </item>
-                    <item row="0" column="1">
-                     <widget class="QLineEdit" name="lineEdit_chatglm_api_ip_port"/>
-                    </item>
-                    <item row="1" column="0">
-                     <widget class="QLabel" name="label_chatglm_max_length">
-                      <property name="text">
-                       <string>最大长度限制</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="4" column="0">
-                     <widget class="QLabel" name="label_chatglm_history_enable">
-                      <property name="text">
-                       <string>上下文记忆</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="4" column="1">
-                     <widget class="QCheckBox" name="checkBox_chatglm_history_enable">
-                      <property name="text">
-                       <string>启用</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="5" column="1">
-                     <widget class="QLineEdit" name="lineEdit_chatglm_history_max_len"/>
-                    </item>
-                   </layout>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_platform">
-                 <property name="autoFillBackground">
-                  <bool>true</bool>
-                 </property>
-                 <property name="text">
-                  <string>平台</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="20" column="0" colspan="3">
+               <item row="22" column="0" colspan="3">
                 <widget class="QGroupBox" name="groupBox_openai">
                  <property name="title">
                   <string>openai</string>
@@ -852,7 +627,356 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                  </item>
                 </widget>
                </item>
+               <item row="3" column="1">
+                <widget class="QComboBox" name="comboBox_need_lang">
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
+                 <item>
+                  <property name="text">
+                   <string>所有</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>中文</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>英文</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>日文</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="5" column="0">
+                <widget class="QLabel" name="label_after_prompt">
+                 <property name="text">
+                  <string>提示词后缀</string>
+                 </property>
+                </widget>
+               </item>
                <item row="14" column="0" colspan="3">
+                <widget class="QGroupBox" name="groupBox_log">
+                 <property name="title">
+                  <string>日志</string>
+                 </property>
+                 <layout class="QGridLayout" name="gridLayout_47">
+                  <item row="0" column="0">
+                   <layout class="QGridLayout" name="gridLayout_46" columnstretch="1,5">
+                    <item row="1" column="1">
+                     <widget class="QComboBox" name="comboBox_commit_log_type">
+                      <item>
+                       <property name="text">
+                        <string>问答</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>问题</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>回答</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>不记录</string>
+                       </property>
+                      </item>
+                     </widget>
+                    </item>
+                    <item row="1" column="0">
+                     <widget class="QLabel" name="label_commit_log_type">
+                      <property name="text">
+                       <string>弹幕日志类型</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="3" column="0">
+                     <widget class="QLabel" name="label_captions_file_path">
+                      <property name="text">
+                       <string>字幕日志路径</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="3" column="1">
+                     <widget class="QLineEdit" name="lineEdit_captions_file_path"/>
+                    </item>
+                    <item row="2" column="0">
+                     <widget class="QLabel" name="label_captions_enable">
+                      <property name="text">
+                       <string>字幕日志</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="2" column="1">
+                     <widget class="QCheckBox" name="checkBox_captions_enable">
+                      <property name="text">
+                       <string>启用</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item row="10" column="0">
+                <widget class="QLabel" name="label_audio_synthesis_type">
+                 <property name="text">
+                  <string>语音合成</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="1">
+                <widget class="QLineEdit" name="lineEdit_before_prompt"/>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_chat_type">
+                 <property name="text">
+                  <string>聊天类型</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_room_display_id">
+                 <property name="text">
+                  <string>直播间号</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_platform">
+                 <property name="autoFillBackground">
+                  <bool>true</bool>
+                 </property>
+                 <property name="text">
+                  <string>平台</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="15" column="0" colspan="3">
+                <widget class="QGroupBox" name="groupBox_local_qa">
+                 <property name="title">
+                  <string>本地问答</string>
+                 </property>
+                 <layout class="QGridLayout" name="gridLayout_51">
+                  <item row="0" column="0">
+                   <layout class="QGridLayout" name="gridLayout_50">
+                    <item row="4" column="0">
+                     <widget class="QLabel" name="label_local_qa_audio_enable">
+                      <property name="text">
+                       <string>音频匹配</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label_local_qa_text_enable">
+                      <property name="text">
+                       <string>文本匹配</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="1">
+                     <widget class="QCheckBox" name="checkBox_local_qa_text_enable">
+                      <property name="text">
+                       <string>启用</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="2" column="1">
+                     <widget class="QLineEdit" name="lineEdit_local_qa_text_file_path"/>
+                    </item>
+                    <item row="6" column="0">
+                     <widget class="QLabel" name="label_local_qa_audio_similarity">
+                      <property name="text">
+                       <string>音频最低相似度</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="4" column="1">
+                     <widget class="QCheckBox" name="checkBox_local_qa_audio_enable">
+                      <property name="text">
+                       <string>启用</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="3" column="0">
+                     <widget class="QLabel" name="label_local_qa_text_similarity">
+                      <property name="text">
+                       <string>文本最低相似度</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="5" column="1">
+                     <widget class="QLineEdit" name="lineEdit_local_qa_audio_file_path"/>
+                    </item>
+                    <item row="5" column="0">
+                     <widget class="QLabel" name="label_local_qa_audio_file_path">
+                      <property name="text">
+                       <string>音频存储路径</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="2" column="0">
+                     <widget class="QLabel" name="label_local_qa_text_file_path">
+                      <property name="text">
+                       <string>文本问答数据路径</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="3" column="1">
+                     <widget class="QLineEdit" name="lineEdit_local_qa_text_similarity"/>
+                    </item>
+                    <item row="6" column="1">
+                     <widget class="QLineEdit" name="lineEdit_local_qa_audio_similarity"/>
+                    </item>
+                    <item row="1" column="0">
+                     <widget class="QLabel" name="label_local_qa_text_type">
+                      <property name="text">
+                       <string>文本问答算法类型</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="1">
+                     <widget class="QComboBox" name="comboBox_local_qa_text_type">
+                      <item>
+                       <property name="text">
+                        <string>自定义json</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>一问一答</string>
+                       </property>
+                      </item>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item row="4" column="0">
+                <widget class="QLabel" name="label_before_prompt">
+                 <property name="text">
+                  <string>提示词前缀</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QComboBox" name="comboBox_platform">
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
+                 <item>
+                  <property name="text">
+                   <string>哔哩哔哩</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>抖音</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>快手</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>聊天模式-谷歌</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="28" column="0" colspan="3">
+                <widget class="QGroupBox" name="groupBox_chatglm">
+                 <property name="title">
+                  <string>ChatGLM</string>
+                 </property>
+                 <layout class="QGridLayout" name="gridLayout_9">
+                  <item row="0" column="0">
+                   <layout class="QGridLayout" name="gridLayout_8">
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label_chatglm_api_ip_port">
+                      <property name="text">
+                       <string>api地址</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="2" column="1">
+                     <widget class="QLineEdit" name="lineEdit_chatglm_top_p"/>
+                    </item>
+                    <item row="5" column="0">
+                     <widget class="QLabel" name="label_chatglm_history_max_len">
+                      <property name="text">
+                       <string>最大记忆长度</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="1">
+                     <widget class="QLineEdit" name="lineEdit_chatglm_max_length"/>
+                    </item>
+                    <item row="2" column="0">
+                     <widget class="QLabel" name="label_chatglm_top_p">
+                      <property name="text">
+                       <string>前p个选择</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="3" column="0">
+                     <widget class="QLabel" name="label_chatglm_temperature">
+                      <property name="text">
+                       <string>温度</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="3" column="1">
+                     <widget class="QLineEdit" name="lineEdit_chatglm_temperature"/>
+                    </item>
+                    <item row="0" column="1">
+                     <widget class="QLineEdit" name="lineEdit_chatglm_api_ip_port"/>
+                    </item>
+                    <item row="1" column="0">
+                     <widget class="QLabel" name="label_chatglm_max_length">
+                      <property name="text">
+                       <string>最大长度限制</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="4" column="0">
+                     <widget class="QLabel" name="label_chatglm_history_enable">
+                      <property name="text">
+                       <string>上下文记忆</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="4" column="1">
+                     <widget class="QCheckBox" name="checkBox_chatglm_history_enable">
+                      <property name="text">
+                       <string>启用</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="5" column="1">
+                     <widget class="QLineEdit" name="lineEdit_chatglm_history_max_len"/>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item row="16" column="0" colspan="3">
                 <widget class="QGroupBox" name="groupBox">
                  <property name="styleSheet">
                   <string notr="true"/>
@@ -978,178 +1102,101 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                  </layout>
                 </widget>
                </item>
-               <item row="1" column="0">
-                <widget class="QLabel" name="label_room_display_id">
-                 <property name="text">
-                  <string>直播间号</string>
+               <item row="13" column="0" colspan="2">
+                <widget class="QGroupBox" name="groupBox_read_user_name">
+                 <property name="title">
+                  <string>念用户名</string>
                  </property>
+                 <layout class="QGridLayout" name="gridLayout_59">
+                  <item row="0" column="0">
+                   <layout class="QGridLayout" name="gridLayout_58">
+                    <item row="2" column="0">
+                     <widget class="QLabel" name="label_read_user_name_reply_before">
+                      <property name="text">
+                       <string>前置回复</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="2" column="1">
+                     <widget class="QTextEdit" name="textEdit_read_user_name_reply_before"/>
+                    </item>
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label_read_user_name_enable">
+                      <property name="text">
+                       <string>启用</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="1">
+                     <widget class="QCheckBox" name="checkBox_read_user_name_enable">
+                      <property name="text">
+                       <string>是</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="0">
+                     <widget class="QLabel" name="label_read_user_name_voice_change">
+                      <property name="text">
+                       <string>启用变声</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="1">
+                     <widget class="QCheckBox" name="checkBox_read_user_name_voice_change">
+                      <property name="text">
+                       <string>是</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="3" column="0">
+                     <widget class="QLabel" name="label_read_user_name_reply_after">
+                      <property name="text">
+                       <string>后置回复</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="3" column="1">
+                     <widget class="QTextEdit" name="textEdit_read_user_name_reply_after"/>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
                 </widget>
                </item>
                <item row="1" column="1">
                 <widget class="QLineEdit" name="lineEdit_room_display_id"/>
                </item>
-               <item row="10" column="1">
-                <widget class="QComboBox" name="comboBox_audio_synthesis_type">
-                 <property name="cursor">
-                  <cursorShape>PointingHandCursor</cursorShape>
-                 </property>
-                 <item>
-                  <property name="text">
-                   <string>Edge-TTS</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>VITS-Fast</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>elevenlabs</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>genshinvoice_top</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>bark_gui</string>
-                  </property>
-                 </item>
-                </widget>
-               </item>
-               <item row="2" column="0">
-                <widget class="QLabel" name="label_chat_type">
-                 <property name="text">
-                  <string>聊天类型</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="1">
-                <widget class="QComboBox" name="comboBox_need_lang">
-                 <property name="cursor">
-                  <cursorShape>PointingHandCursor</cursorShape>
-                 </property>
-                 <item>
-                  <property name="text">
-                   <string>所有</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>中文</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>英文</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>日文</string>
-                  </property>
-                 </item>
-                </widget>
-               </item>
-               <item row="5" column="1">
-                <widget class="QLineEdit" name="lineEdit_after_prompt"/>
-               </item>
-               <item row="3" column="0">
-                <widget class="QLabel" name="label_need_lang">
-                 <property name="text">
-                  <string>回复语言</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="11" column="0">
-                <widget class="QLabel" name="label_read_user_name">
-                 <property name="text">
-                  <string>念用户名</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="10" column="0">
-                <widget class="QLabel" name="label_audio_synthesis_type">
-                 <property name="text">
-                  <string>语音合成</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="16" column="0" colspan="3">
-                <widget class="QGroupBox" name="groupBox_thanks">
+               <item row="26" column="0" colspan="3">
+                <widget class="QGroupBox" name="groupBox_claude">
                  <property name="title">
-                  <string>答谢</string>
+                  <string>Claude</string>
                  </property>
-                 <layout class="QGridLayout" name="gridLayout_42">
-                  <item row="2" column="0">
-                   <widget class="QLabel" name="label_thanks_entrance_copy">
-                    <property name="text">
-                     <string>入场文案</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="3" column="0">
-                   <widget class="QLabel" name="label_thanks_gift_copy">
-                    <property name="text">
-                     <string>礼物文案</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="4" column="0">
-                   <widget class="QLabel" name="label_thanks_lowest_price">
-                    <property name="text">
-                     <string>最低答谢价格</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="2" column="1">
-                   <widget class="QLineEdit" name="lineEdit_thanks_entrance_copy"/>
-                  </item>
+                 <layout class="QGridLayout" name="gridLayout_7">
                   <item row="0" column="1">
-                   <widget class="QCheckBox" name="checkBox_thanks_entrance_enable">
-                    <property name="text">
-                     <string>启用</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="4" column="1">
-                   <widget class="QLineEdit" name="lineEdit_thanks_lowest_price"/>
-                  </item>
-                  <item row="3" column="1">
-                   <widget class="QLineEdit" name="lineEdit_thanks_gift_copy"/>
+                   <widget class="QLineEdit" name="lineEdit_claude_slack_user_token"/>
                   </item>
                   <item row="0" column="0">
-                   <widget class="QLabel" name="label_thanks_entrance_enable">
-                    <property name="text">
-                     <string>入场欢迎</string>
-                    </property>
-                   </widget>
+                   <layout class="QGridLayout" name="gridLayout_6">
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label_claude_slack_user_token">
+                      <property name="text">
+                       <string>slack_user_token</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
                   </item>
                   <item row="1" column="0">
-                   <widget class="QLabel" name="label_thanks_gift_enable">
+                   <widget class="QLabel" name="label_claude_bot_user_id">
                     <property name="text">
-                     <string>礼物答谢</string>
+                     <string>bot_user_id</string>
                     </property>
                    </widget>
                   </item>
                   <item row="1" column="1">
-                   <widget class="QCheckBox" name="checkBox_thanks_gift_enable">
-                    <property name="text">
-                     <string>启用</string>
-                    </property>
-                   </widget>
+                   <widget class="QLineEdit" name="lineEdit_claude_bot_user_id"/>
                   </item>
                  </layout>
-                </widget>
-               </item>
-               <item row="4" column="0">
-                <widget class="QLabel" name="label_before_prompt">
-                 <property name="text">
-                  <string>提示词前缀</string>
-                 </property>
                 </widget>
                </item>
               </layout>

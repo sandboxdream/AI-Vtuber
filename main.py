@@ -267,7 +267,12 @@ class AI_VTB(QMainWindow):
             self.ui.label_before_prompt.setToolTip("提示词前缀，会自带追加在弹幕前，主要用于追加一些特殊的限制")
             self.ui.label_after_prompt.setToolTip("提示词后缀，会自带追加在弹幕后，主要用于追加一些特殊的限制")
             self.ui.label_commit_log_type.setToolTip("弹幕日志类型，用于记录弹幕触发时记录的内容，默认只记录回答，降低当用户使用弹幕日志显示在直播间时，因为用户的不良弹幕造成直播间被封禁问题")
-            self.ui.label_read_user_name.setToolTip("是否启用回复用户弹幕时，念用户的昵称，例：回复xxx。你好")
+            
+            # 念用户名
+            self.ui.label_read_user_name_enable.setToolTip("是否启用回复用户弹幕时，念用户的昵称，例：回复xxx。你好")
+            self.ui.label_read_user_name_voice_change.setToolTip("是否启用变声功能，就是说不仅仅进行TTS，还进行变声，这是为了针对特定场景，区分念用户名和正经回复")
+            self.ui.label_read_user_name_reply_before.setToolTip("在正经回复前的念用户名的文案，目前是本地问答库-文本 触发时使用")
+            self.ui.label_read_user_name_reply_after.setToolTip("在正经回复后的念用户名的文案，目前是本地问答库-音频 触发时使用")
 
             self.ui.label_captions_enable.setToolTip("是否启用字幕日志记录，字幕输出内容为当前合成播放的音频的文本")
             self.ui.label_captions_file_path.setToolTip("字幕日志存储路径")
@@ -549,8 +554,19 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_before_prompt.setText(self.before_prompt)
             self.ui.lineEdit_after_prompt.setText(self.after_prompt)
 
+            # 本地问答
             if config.get("read_user_name", "enable"):
-                self.ui.checkBox_read_user_name.setChecked(True)
+                self.ui.checkBox_read_user_name_enable.setChecked(True)
+            if config.get("read_user_name", "voice_change"):
+                self.ui.checkBox_read_user_name_voice_change.setChecked(True)
+            tmp_str = ""
+            for tmp in config.get("read_user_name", "reply_before"):
+                tmp_str = tmp_str + tmp + "\n"
+            self.ui.textEdit_read_user_name_reply_before.setText(tmp_str)
+            tmp_str = ""
+            for tmp in config.get("read_user_name", "reply_after"):
+                tmp_str = tmp_str + tmp + "\n"
+            self.ui.textEdit_read_user_name_reply_after.setText(tmp_str)
 
             self.ui.comboBox_commit_log_type.clear()
             commit_log_types = ["问答", "问题", "回答", "不记录"]
@@ -1057,6 +1073,25 @@ class AI_VTB(QMainWindow):
             self.show_message_box("错误", f"无法写入配置文件！\n{e}", QMessageBox.Critical)
             return False
 
+        def common_textEdit_handle(content):
+            """通用的textEdit 多行文本内容处理
+
+            Args:
+                content (str): 原始多行文本内容
+
+            Returns:
+                _type_: 处理好的多行文本内容
+            """
+            # 通用多行分隔符
+            separators = [" ", "\n"]
+
+            ret = [token.strip() for separator in separators for part in content.split(separator) if (token := part.strip())]
+            if 0 != len(ret):
+                ret = ret[1:]
+
+            return ret
+
+
         try:
             # 获取下拉框当前选中的内容
             platform = self.ui.comboBox_platform.currentText()
@@ -1101,7 +1136,11 @@ class AI_VTB(QMainWindow):
             config_data["before_prompt"] = self.ui.lineEdit_before_prompt.text()
             config_data["after_prompt"] = self.ui.lineEdit_after_prompt.text()
 
-            config_data["read_user_name"]["enable"] = self.ui.checkBox_read_user_name.isChecked()
+            # 本地问答
+            config_data["read_user_name"]["enable"] = self.ui.checkBox_read_user_name_enable.isChecked()
+            config_data["read_user_name"]["voice_change"] = self.ui.checkBox_read_user_name_voice_change.isChecked()
+            config_data["read_user_name"]["reply_before"] = common_textEdit_handle(self.ui.textEdit_read_user_name_reply_before.toPlainText())
+            config_data["read_user_name"]["reply_after"] = common_textEdit_handle(self.ui.textEdit_read_user_name_reply_after.toPlainText())
 
             need_lang = self.ui.comboBox_need_lang.currentText()
             if need_lang == "所有":
@@ -1132,19 +1171,8 @@ class AI_VTB(QMainWindow):
             config_data["local_qa"]["audio"]["file_path"] = self.ui.lineEdit_local_qa_audio_file_path.text()
             config_data["local_qa"]["audio"]["similarity"] = round(float(self.ui.lineEdit_local_qa_audio_similarity.text()), 2)
 
-            # 通用多行分隔符
-            separators = [" ", "\n"]
-
-            filter_before_must_str = self.ui.textEdit_filter_before_must_str.toPlainText()
-            before_must_strs = [token.strip() for separator in separators for part in filter_before_must_str.split(separator) if (token := part.strip())]
-            if 0 != len(before_must_strs):
-                before_must_strs = before_must_strs[1:]
-            config_data["filter"]["before_must_str"] = before_must_strs
-            filter_after_must_str = self.ui.textEdit_filter_after_must_str.toPlainText()
-            after_must_strs = [token.strip() for separator in separators for part in filter_after_must_str.split(separator) if (token := part.strip())]
-            if 0 != len(after_must_strs):
-                after_must_strs = after_must_strs[1:]
-            config_data["filter"]["after_must_str"] = after_must_strs
+            config_data["filter"]["before_must_str"] = common_textEdit_handle(self.ui.textEdit_filter_before_must_str.toPlainText())
+            config_data["filter"]["after_must_str"] = common_textEdit_handle(self.ui.textEdit_filter_after_must_str.toPlainText())
             config_data["filter"]["badwords_path"] = self.ui.lineEdit_filter_badwords_path.text()
             config_data["filter"]["bad_pinyin_path"] = self.ui.lineEdit_filter_bad_pinyin_path.text()
             config_data["filter"]["max_len"] = int(self.ui.lineEdit_filter_max_len.text())
@@ -1171,11 +1199,7 @@ class AI_VTB(QMainWindow):
             openai_api = self.ui.lineEdit_openai_api.text()
             config_data["openai"]["api"] = openai_api
             # 获取多行文本输入框的内容
-            openai_api_key = self.ui.textEdit_openai_api_key.toPlainText()
-            api_keys = [token.strip() for separator in separators for part in openai_api_key.split(separator) if (token := part.strip())]
-            if 0 != len(api_keys):
-                api_keys = api_keys[1:]
-            config_data["openai"]["api_key"] = api_keys
+            config_data["openai"]["api_key"] = common_textEdit_handle(self.ui.textEdit_openai_api_key.toPlainText())
 
             config_data["chatgpt"]["model"] = self.ui.comboBox_chatgpt_model.currentText()
             chatgpt_temperature = self.ui.lineEdit_chatgpt_temperature.text()
@@ -1334,11 +1358,7 @@ class AI_VTB(QMainWindow):
             config_data["sd"]["negative_prompt"] = self.ui.lineEdit_sd_negative_prompt.text()
             config_data["sd"]["seed"] = float(self.ui.lineEdit_sd_seed.text())
             # 获取多行文本输入框的内容
-            sd_styles = self.ui.textEdit_sd_styles.toPlainText()
-            styles = [token.strip() for separator in separators for part in sd_styles.split(separator) if (token := part.strip())]
-            if 0 != len(styles):
-                styles = styles[1:]
-            config_data["sd"]["styles"] = styles
+            config_data["sd"]["styles"] = common_textEdit_handle(self.ui.textEdit_sd_styles.toPlainText())
             config_data["sd"]["cfg_scale"] = int(self.ui.lineEdit_sd_cfg_scale.text())
             config_data["sd"]["steps"] = int(self.ui.lineEdit_sd_steps.text())
             config_data["sd"]["hr_resize_x"] = int(self.ui.lineEdit_sd_hr_resize_x.text())
@@ -1360,16 +1380,8 @@ class AI_VTB(QMainWindow):
             config_data["copywriting"]["audio_interval"] = round(float(self.ui.lineEdit_copywriting_audio_interval.text()), 1)
             config_data["copywriting"]["switching_interval"] = round(float(self.ui.lineEdit_copywriting_switching_interval.text()), 1)
             config_data["copywriting"]["random_play"] = self.ui.checkBox_copywriting_switching_random_play.isChecked()
-            copywriting_play_list = self.ui.textEdit_copywriting_play_list.toPlainText()
-            play_list = [token.strip() for separator in separators for part in copywriting_play_list.split(separator) if (token := part.strip())]
-            if 0 != len(play_list):
-                play_list = play_list[1:]
-            config_data["copywriting"]["config"][0]["play_list"] = play_list
-            copywriting_play_list = self.ui.textEdit_copywriting_play_list2.toPlainText()
-            play_list = [token.strip() for separator in separators for part in copywriting_play_list.split(separator) if (token := part.strip())]
-            if 0 != len(play_list):
-                play_list = play_list[1:]
-            config_data["copywriting"]["config"][1]["play_list"] = play_list
+            config_data["copywriting"]["config"][0]["play_list"] = common_textEdit_handle(self.ui.textEdit_copywriting_play_list.toPlainText())
+            config_data["copywriting"]["config"][1]["play_list"] = common_textEdit_handle(self.ui.textEdit_copywriting_play_list2.toPlainText())
 
             config_data["header"]["userAgent"] = self.ui.lineEdit_header_useragent.text()
             
