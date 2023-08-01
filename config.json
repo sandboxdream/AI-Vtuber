@@ -11,11 +11,13 @@
     "voice_change": true,
     "reply_before": [
       "回复{username}",
-      "{username}"
+      "{username}",
+      "回{username}"
     ],
     "reply_after": [
       "以上内容回复{username}",
-      "回的{username}"
+      "回的{username}",
+      "以上回复{username}"
     ]
   },
   "filter": {
