@@ -75,6 +75,7 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
     - [3.ERROR: Conmunicate.`__init__`() got an unexpected keyword argument 'text'](#3error-conmunicate__init__-got-an-unexpected-keyword-argument-text)
     - [4.File ".\flask_api_full_song.py", line 38, in wav2wav  out_audio, out_sr = svc_model.infer(spk, tran, raw_path) ValueError: too many values to unpack (expected 2)](#4file-%5Cflask_api_full_songpy-line-38-in-wav2wav--out_audio-out_sr--svc_modelinferspk-tran-raw_path-valueerror-too-many-values-to-unpack-expected-2)
     - [5.RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)](#5runtimewarning-couldnt-find-ffmpeg-or-avconv---defaulting-to-ffmpeg-but-may-not-work-warncouldnt-find-ffmpeg-or-avconv---defaulting-to-ffmpeg-but-may-not-work-runtimewarning)
+    - [6.qt.qpa.plugin: Could not find the Qt platform plugin "windows" in "" This application failed to start because no Qt platform plugin could be initialized. Reinstalling the application may fix this problem.](#6qtqpaplugin-could-not-find-the-qt-platform-plugin-windows-in--this-application-failed-to-start-because-no-qt-platform-plugin-could-be-initialized-reinstalling-the-application-may-fix-this-problem)
 - [♏️补充](#%E8%A1%A5%E5%85%85)
   - [b站直播监听](#b%E7%AB%99%E7%9B%B4%E6%92%AD%E7%9B%91%E5%90%AC)
   - [<span id="dy">抖音弹幕获取</span>](#span-iddy%E6%8A%96%E9%9F%B3%E5%BC%B9%E5%B9%95%E8%8E%B7%E5%8F%96span)
@@ -773,6 +774,10 @@ ffmpeg官方下载：[http://ffmpeg.org/download.html](http://ffmpeg.org/downloa
 ffmpeg本仓库内下载：[releases](https://github.com/Ikaros-521/AI-Vtuber/releases/tag/v0.13.0)  
 
 简述就是下载，解压，配置ffmpeg的bin到系统环境变量path中，完事。  
+
+#### 6.qt.qpa.plugin: Could not find the Qt platform plugin "windows" in "" This application failed to start because no Qt platform plugin could be initialized. Reinstalling the application may fix this problem.
+问题：无法找到Qt。
+解决方案：如果你是整合包，那请检查是否在`中文路径`下！！！如果是自行安装的，可以尝试重装pyqt5。
 
 </details>
 

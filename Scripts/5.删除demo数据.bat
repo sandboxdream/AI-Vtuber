@@ -5,7 +5,7 @@ REM 设置文件列表，可以包含多个文件路径和文件夹路径，每�
 set "file_list="
 set "file_list=%file_list% data\copywriting\test.txt data\copywriting\测试文案.txt data\copywriting\测试文案2.txt data\copywriting\测试文案3.txt data\copywriting\达达利亚.txt data\copywriting\吐槽.txt data\copywriting\伊卡日语介绍.txt"
 set "file_list=%file_list% data\copywriting2\test.txt data\copywriting2\test2.txt data\copywriting2\测试文案.txt"
-set "file_list=%file_list% data\伊卡洛斯百度百科.pdf"
+set "file_list=%file_list% data\伊卡洛斯百度百科.pdf data\伊卡洛斯百度百科.zip"
 set "file_list=%file_list% log\*.txt log\*.log"
 set "file_list=%file_list% out\*.wav out\*.mp3"
 set "file_list=%file_list% out\copywriting\test.wav out\copywriting\测试文案.mp3 out\copywriting\测试文案.wav out\copywriting\测试文案2.wav out\copywriting\测试文案3.wav out\copywriting\达达利亚.wav out\copywriting\吐槽.wav out\copywriting\伊卡日语介绍.wav"
