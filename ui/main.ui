@@ -134,9 +134,9 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-105</y>
+             <y>-6139</y>
              <width>980</width>
-             <height>8158</height>
+             <height>8234</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -1957,6 +1957,18 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                   <widget class="QLineEdit" name="lineEdit_choose_song_match_fail_copy"/>
                  </item>
                 </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QGroupBox" name="groupBox_schedule">
+              <property name="title">
+               <string>定时任务</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_61">
+               <item row="0" column="0">
+                <layout class="QGridLayout" name="gridLayout_schedule"/>
                </item>
               </layout>
              </widget>
