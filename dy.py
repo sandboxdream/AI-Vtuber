@@ -87,6 +87,7 @@ def start_server():
 
         # 根据对应索引从列表中随机获取一个值
         random_copy = random.choice(config.get("schedule")[index]["copy"])
+        content = random_copy
 
         # 根据变量的有无来进行数据替换
         if "{time}" in random_copy:
@@ -94,7 +95,7 @@ def start_server():
         if "{user_num}" in random_copy:
             content = random_copy.format(user_num=last_liveroom_data["OnlineUserCount"])
         if "{last_username}" in random_copy:
-            content = random_copy.format(last_username=last_username_list[0])
+            content = random_copy.format(last_username=last_username_list[-1])
 
         data = {
             "username": None,
@@ -125,7 +126,6 @@ def start_server():
     # 创建定时任务子线程并启动
     schedule_thread = threading.Thread(target=run_schedule)
     schedule_thread.start()
-
 
     def on_message(ws, message):
         global last_liveroom_data, last_username_list

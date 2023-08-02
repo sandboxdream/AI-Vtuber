@@ -6,7 +6,7 @@ import asyncio
 
 from utils.config import Config
 
-from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QLabel, QComboBox, QLineEdit, QTextEdit
+from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QLabel, QComboBox, QLineEdit, QTextEdit, QCheckBox
 from PyQt5.QtGui import QFont, QDesktopServices, QIcon
 from PyQt5.QtCore import QTimer, QThread, QEventLoop, pyqtSignal, QUrl
 
@@ -93,6 +93,7 @@ class AI_VTB(QMainWindow):
             cls._instance = super(AI_VTB, cls).__new__(cls, *args, **kwargs)
         return cls._instance
     
+
     '''
         初始化
     '''
@@ -162,6 +163,71 @@ class AI_VTB(QMainWindow):
 
         # self.timer_connection = None
     
+    # 从json数据中动态创建widgets
+    def create_widgets_from_json(self, data):
+        widgets = []
+
+        for item in data:
+            label_text = item["label_text"]
+            label = QLabel(label_text)
+            label.setToolTip(item["label_tip"])
+            widgets.append(label)
+
+            data_type = type(item["data"])
+            if data_type == str or data_type == int or data_type == float:
+                widget = QLineEdit()
+                widget.setText(str(item["data"]))
+                widget.setObjectName(item["main_obj_name"] + "_QLineEdit_" + str(item["index"]))
+            elif data_type == bool:
+                widget = QCheckBox()
+                widget.setText("启用")
+                widget.setChecked(item["data"])
+                widget.setObjectName(item["main_obj_name"] + "_QCheckBox_" + str(item["index"]))
+            elif data_type == list:
+                widget = QTextEdit()
+
+                tmp_str = ""
+                for tmp in item["data"]:
+                    tmp_str = tmp_str + tmp + "\n"
+                widget.setText(tmp_str)
+                widget.setObjectName(item["main_obj_name"] + "_QTextEdit_" + str(item["index"]))
+
+            widgets.append(widget)
+
+        return widgets
+
+
+    # 从gridLayout的widgets中获取数据到data
+    def update_data_from_gridLayout(self, gridLayout):
+        def read_widgets_from_gridLayout(gridLayout):
+            widgets = []
+            for row in range(gridLayout.rowCount()):
+                for col in range(gridLayout.columnCount()):
+                    widget_item = gridLayout.itemAtPosition(row, col)
+                    if widget_item is not None:
+                        widget = widget_item.widget()
+                        if widget is not None:
+                            widgets.append(widget)
+            return widgets
+
+        widgets = read_widgets_from_gridLayout(gridLayout)
+        logging.debug(widgets)
+
+        data = {}
+
+        for index, widget in enumerate(widgets):
+            if isinstance(widget, QLineEdit):
+                data["QLineEdit_" + str(index)] = widget.text()
+            elif isinstance(widget, QCheckBox):
+                data["QCheckBox_" + str(index)] = widget.isChecked()
+            elif isinstance(widget, QTextEdit):
+                data_list = widget.toPlainText().splitlines()
+                data["QTextEdit_" + str(index)] = data_list
+
+        logging.debug(data)
+
+        return data
+
 
     # 读取配置文件 进行初始化(开始堆shi喵)
     def init_config(self):
@@ -175,6 +241,7 @@ class AI_VTB(QMainWindow):
             
 
         config = Config(config_path)
+
 
         try:
             # 运行标志位，避免重复运行
@@ -945,6 +1012,43 @@ class AI_VTB(QMainWindow):
                 talk_google_tgt_lang_index = 2 
             self.ui.comboBox_talk_google_tgt_lang.setCurrentIndex(talk_google_tgt_lang_index)
             
+            # 定时任务动态加载
+            data_json = []
+            for index, tmp in enumerate(config.get("schedule")):
+                tmp_json = {
+                    "label_text": "任务" + str(index),
+                    "label_tip": "是否启用此定时任务",
+                    "data": tmp["enable"],
+                    "main_obj_name": "schedule",
+                    "index": index
+                }
+                data_json.append(tmp_json)
+
+                tmp_json = {
+                    "label_text": "循环周期",
+                    "label_tip": "定时任务循环的周期时长（秒），即每间隔这个周期就会执行一次",
+                    "data": tmp["time"],
+                    "main_obj_name": "schedule",
+                    "index": index
+                }
+                data_json.append(tmp_json)
+
+                tmp_json = {
+                    "label_text": "文案列表",
+                    "label_tip": "存放文案的列表，通过空格或换行分割，通过{变量}来替换关键数据，可修改源码自定义功能",
+                    "data": tmp["copy"],
+                    "main_obj_name": "schedule",
+                    "index": index
+                }
+                data_json.append(tmp_json)
+            widgets = self.create_widgets_from_json(data_json)
+
+            # 动态添加widget到对应的gridLayout
+            row = 0
+            for i in range(0, len(widgets), 2):
+                self.ui.gridLayout_schedule.addWidget(widgets[i], row, 0)
+                self.ui.gridLayout_schedule.addWidget(widgets[i + 1], row, 1)
+                row += 1
 
             # 显隐各板块
             self.oncomboBox_chat_type_IndexChanged(chat_type_index)
@@ -1353,7 +1457,7 @@ class AI_VTB(QMainWindow):
             config_data["sd"]["trigger"] = self.ui.lineEdit_sd_trigger.text()
             config_data["sd"]["ip"] = self.ui.lineEdit_sd_ip.text()
             sd_port = self.ui.lineEdit_sd_port.text()
-            print(f"sd_port={sd_port}")
+            # logging.info(f"sd_port={sd_port}")
             config_data["sd"]["port"] = int(sd_port)
             config_data["sd"]["negative_prompt"] = self.ui.lineEdit_sd_negative_prompt.text()
             config_data["sd"]["seed"] = float(self.ui.lineEdit_sd_seed.text())
@@ -1398,7 +1502,42 @@ class AI_VTB(QMainWindow):
             config_data["talk"]["baidu"]["secret_key"] = self.ui.lineEdit_talk_baidu_secret_key.text()
             config_data["talk"]["google"]["tgt_lang"] = self.ui.comboBox_talk_google_tgt_lang.currentText()
             
+            schedule_data = self.update_data_from_gridLayout(self.ui.gridLayout_schedule)
 
+            def reorganize_schedule_data(schedule_data):
+                tmp_json = []
+                keys = list(schedule_data.keys())
+
+                for i in range(0, len(keys), 3):
+                    item = {}
+
+                    key_checkbox = keys[i]
+                    key_lineedit = keys[i + 1]
+                    key_textedit = keys[i + 2]
+
+                    item["enable"] = schedule_data[key_checkbox]
+
+                    time_value = schedule_data[key_lineedit]
+                    try:
+                        item["time"] = float(time_value)
+                    except ValueError:
+                        item["time"] = 1.0
+
+                    # 对于文本列表，确保处理成字符串列表类型
+                    copy_list = schedule_data[key_textedit]
+                    if isinstance(copy_list, list):
+                        item["copy"] = [str(item) for item in copy_list if isinstance(item, str)]
+                    else:
+                        item["copy"] = []
+
+                    tmp_json.append(item)
+
+                logging.debug(f"tmp_json={tmp_json}")
+
+                return tmp_json
+
+            # 写回json
+            config_data["schedule"] = reorganize_schedule_data(schedule_data)
 
             # logging.info(config_data)
         except Exception as e:
