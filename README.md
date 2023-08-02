@@ -820,6 +820,14 @@ slack官网：[https://slack.com/intl/zh-cn/](https://slack.com/intl/zh-cn/)
 官方仓库：[ChatGLM-6B](https://github.com/THUDM/ChatGLM-6B)  
 整合包：[【ChatGLM】本地版ChatGPT？6G显存可用！ChatGLM-6B 清华开源模型一键包发布 可更新](https://www.bilibili.com/video/BV1E24y1u7Go)  
 运行`api.py`，然后配置相关信息接入本项目。  
+参考：  
+```
+if __name__ == '__main__':
+    tokenizer = AutoTokenizer.from_pretrained("THUDM\chatglm-6b-int4", trust_remote_code=True)
+    model = AutoModel.from_pretrained("THUDM\chatglm-6b-int4", trust_remote_code=True).half().cuda()
+    model.eval()
+    uvicorn.run(app, host='0.0.0.0', port=8000, workers=1)
+```
 
 ### chat_with_file
 参考：[LangChainSummarize](https://github.com/Ikaros-521/LangChainSummarize)
