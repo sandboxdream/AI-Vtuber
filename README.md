@@ -150,6 +150,7 @@ git clone -b dev https://github.com/Ikaros-521/AI-Vtuber.git
 
 python：3.10.11  
 各个版本的依赖的库在 requirements_xx.txt 中，请自行安装。  
+安装目录请勿在`中文路径、带有空格的路径、带有特殊字符的路径`，可能会导致程序无法运行或运行异常！！！   
 
 依赖版本参考`requirements_common.txt`  
 
@@ -1265,6 +1266,7 @@ cmd输入命令即可：`doctoc /path/to/file`
 
 ### 2023-08-03
 - 定时任务 报时任务补充分钟的播报
+- 修复定时任务同时存在多个变量时，无法正常运行的bug
 
 </details>
 
