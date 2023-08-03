@@ -70,19 +70,19 @@ def start_server():
         hour, min = common.get_bj_time(6)
 
         if 0 <= hour and hour < 6:
-            time = f"凌晨{hour}点"
+            time = f"凌晨{hour}点{min}分"
         elif 6 <= hour and hour < 9:
-            time = f"早晨{hour}点"
+            time = f"早晨{hour}点{min}分"
         elif 9 <= hour and hour < 12:
-            time = f"上午{hour}点"
+            time = f"上午{hour}点{min}分"
         elif hour == 12:
-            time = f"中午{hour}点"
+            time = f"中午{hour}点{min}分"
         elif 13 <= hour and hour < 18:
-            time = f"下午{hour - 12}点"
+            time = f"下午{hour - 12}点{min}分"
         elif 18 <= hour and hour < 20:
-            time = f"傍晚{hour - 12}点"
+            time = f"傍晚{hour - 12}点{min}分"
         elif 20 <= hour and hour < 24:
-            time = f"晚上{hour - 12}点"
+            time = f"晚上{hour - 12}点{min}分"
 
 
         # 根据对应索引从列表中随机获取一个值
