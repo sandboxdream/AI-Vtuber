@@ -779,6 +779,16 @@ ffmpeg本仓库内下载：[releases](https://github.com/Ikaros-521/AI-Vtuber/re
 问题：无法找到Qt。
 解决方案：如果你是整合包，那请检查是否在`中文路径`下！！！如果是自行安装的，可以尝试重装pyqt5。
 
+#### 7.保存配置后没有自动重启，报错 [Errno 2] No such file or directory
+现象：  
+```
+2023-08-03 17:27:24,700 - D:\GitHub_pro\AI-Vtuber-20230 729\main.py[line:1386] - INFO: 配置数据已成功写入文件！程序将在3秒后重启~
+D:\GitHub_pro\AI-Vtuber-20230: can't open file 'D:\\GitHub_pro\\AI-Vtuber-20230 729\\729\\Miniconda3\\python.exe': [Errno 2] No such file or directory
+```
+问题：没有自动重启程序，并报错
+解决方案：请将项目放在`非中文，无空格`的路径下。  
+`D:\\GitHub_pro\\AI-Vtuber-20230 729` ——> `D:\\GitHub_pro\\AI-Vtuber-20230729`  
+
 </details>
 
 
