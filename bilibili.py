@@ -89,15 +89,19 @@ def start_server():
 
         # 根据对应索引从列表中随机获取一个值
         random_copy = random.choice(config.get("schedule")[index]["copy"])
-        content = random_copy
 
-        # 根据变量的有无来进行数据替换
-        if "{time}" in random_copy:
-            content = random_copy.format(time=time)
-        if "{user_num}" in random_copy:
-            content = random_copy.format(user_num="N")
-        if "{last_username}" in random_copy:
-            content = random_copy.format(last_username=last_username_list[-1])
+        # 假设有多个未知变量，用户可以在此处定义动态变量
+        variables = {
+            'time': time,
+            'user_num': "N",
+            'last_username': last_username_list[-1],
+        }
+
+        # 使用字典进行字符串替换
+        if any(var in random_copy for var in variables):
+            content = random_copy.format(**{var: value for var, value in variables.items() if var in random_copy})
+        else:
+            content = random_copy
 
         data = {
             "username": None,
