@@ -861,6 +861,9 @@ api申请：提交工单申请，工单提交页 [https://console.xfyun.cn/servi
 官方仓库：[https://github.com/wenda-LLM/wenda](https://github.com/wenda-LLM/wenda)  
 整合包下载：[https://pan.quark.cn/s/c4cb08de666e](https://pan.quark.cn/s/c4cb08de666e) 提取码：4b4R  
 接入说明：  
+启动`RWKV-Runner`，配置配配好，模型搞搞好，然后启动。  
+![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/2c3167ae-13ad-4f68-911b-d4262210e81d)
+![闻达-接入说明](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/228da499-9de6-45a3-8bb3-5cc684569c00)
 
 
 ### elevenlabs
