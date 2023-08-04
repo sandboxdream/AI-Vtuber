@@ -857,6 +857,11 @@ api库（HildaM开发）：[sparkdesk-api](https://github.com/HildaM/sparkdesk-a
 web配置获取方法：[sparkdesk-api/tree/main/docs](https://github.com/HildaM/sparkdesk-api/tree/main/docs)  
 api申请：提交工单申请，工单提交页 [https://console.xfyun.cn/services/cbm](https://console.xfyun.cn/services/cbm)  
 
+### 闻达
+官方仓库：[https://github.com/wenda-LLM/wenda](https://github.com/wenda-LLM/wenda)  
+整合包下载：[https://pan.quark.cn/s/c4cb08de666e](https://pan.quark.cn/s/c4cb08de666e) 提取码：4b4R  
+接入说明：  
+
 
 ### elevenlabs
 [elevenlabs官网](https://beta.elevenlabs.io/)  
@@ -1272,6 +1277,7 @@ cmd输入命令即可：`doctoc /path/to/file`
 - 更换快手监听方案，新方案是playwright的形式，建议使用小号，每次用完需要删除cookie下的json文件，因为第二次就异常了，没法正常捕获。暂时只支持弹幕回复。
 - 快手 追加礼物Id和连击数日志，礼物价格和礼物名有待后期维护礼物表；补充默认cookie文件夹
 - 快手 补充定时任务（暂只支持 报时任务）
+- 闻达接入。ChatGPT改为ChatGPT/闻达，配合闻达启动器可以融入openai接口使用。
 
 </details>
 
