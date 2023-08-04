@@ -1,11 +1,12 @@
 from playwright.sync_api import sync_playwright
-import websocket
-import json, logging, os
+import logging, os
 import time
 import threading
 import schedule
 import random
 import traceback
+
+from functools import partial
 
 from google.protobuf.json_format import MessageToDict
 from configparser import ConfigParser
@@ -232,6 +233,75 @@ def start_server():
     if my_handle is None:
         logging.error("程序初始化失败！")
         os._exit(0)
+
+    # 定时任务
+    def schedule_task(index):
+        global config, common, my_handle, last_username_list
+
+        logging.debug("定时任务执行中...")
+        hour, min = common.get_bj_time(6)
+
+        if 0 <= hour and hour < 6:
+            time = f"凌晨{hour}点{min}分"
+        elif 6 <= hour and hour < 9:
+            time = f"早晨{hour}点{min}分"
+        elif 9 <= hour and hour < 12:
+            time = f"上午{hour}点{min}分"
+        elif hour == 12:
+            time = f"中午{hour}点{min}分"
+        elif 13 <= hour and hour < 18:
+            time = f"下午{hour - 12}点{min}分"
+        elif 18 <= hour and hour < 20:
+            time = f"傍晚{hour - 12}点{min}分"
+        elif 20 <= hour and hour < 24:
+            time = f"晚上{hour - 12}点{min}分"
+
+
+        # 根据对应索引从列表中随机获取一个值
+        random_copy = random.choice(config.get("schedule")[index]["copy"])
+
+        # 假设有多个未知变量，用户可以在此处定义动态变量
+        variables = {
+            'time': time,
+            # 'user_num': last_liveroom_data["OnlineUserCount"],
+            'last_username': last_username_list[-1],
+        }
+
+        # 使用字典进行字符串替换
+        if any(var in random_copy for var in variables):
+            content = random_copy.format(**{var: value for var, value in variables.items() if var in random_copy})
+        else:
+            content = random_copy
+
+        data = {
+            "username": None,
+            "content": content
+        }
+
+        logging.info(f"定时任务：{content}")
+
+        my_handle.process_data(data, "schedule")
+
+
+    # 启动定时任务
+    def run_schedule():
+        try:
+            for index, task in enumerate(config.get("schedule")):
+                if task["enable"]:
+                    # print(task)
+                    # 设置定时任务，每隔n秒执行一次
+                    schedule.every(task["time"]).seconds.do(partial(schedule_task, index))
+        except Exception as e:
+            logging.error(e)
+
+        while True:
+            schedule.run_pending()
+            # time.sleep(1)  # 控制每次循环的间隔时间，避免过多占用 CPU 资源
+
+
+    # 创建定时任务子线程并启动
+    schedule_thread = threading.Thread(target=run_schedule)
+    schedule_thread.start()
 
     run().run_live()
 
