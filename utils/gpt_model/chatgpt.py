@@ -59,8 +59,8 @@ class Chatgpt:
 
             # 输出会话 ID 和 ChatGPT 返回的回复消息
             logging.info("会话ID: " + str(sessionid))
-            logging.info("ChatGPT返回内容: ")
-            logging.info(message)
+            logging.debug("ChatGPT返回内容: ")
+            logging.debug(message)
 
             # 返回 ChatGPT 返回的回复消息
             return message

@@ -576,7 +576,7 @@ class AI_VTB(QMainWindow):
             self.ui.comboBox_chat_type.addItems([
                 "不启用", 
                 "复读机", 
-                "ChatGPT", 
+                "ChatGPT/闻达", 
                 "Claude", 
                 "ChatGLM", 
                 "chat_with_file", 
@@ -740,7 +740,8 @@ class AI_VTB(QMainWindow):
                 "text-babbage-001",
                 "text-ada-001",
                 "text-moderation-latest",
-                "text-moderation-stable"]
+                "text-moderation-stable",
+                "rwkv"]
             self.ui.comboBox_chatgpt_model.addItems(chatgpt_models)
             chatgpt_model_index = chatgpt_models.index(self.chatgpt_config['model'])
             self.ui.comboBox_chatgpt_model.setCurrentIndex(chatgpt_model_index)
@@ -1222,7 +1223,7 @@ class AI_VTB(QMainWindow):
                 config_data["chat_type"] = "none"
             elif chat_type == "复读机":
                 config_data["chat_type"] = "reread"
-            elif chat_type == "ChatGPT":
+            elif chat_type == "ChatGPT/闻达":
                 config_data["chat_type"] = "chatgpt"
             elif chat_type == "Claude":
                 config_data["chat_type"] = "claude"
@@ -1306,18 +1307,12 @@ class AI_VTB(QMainWindow):
             config_data["openai"]["api_key"] = common_textEdit_handle(self.ui.textEdit_openai_api_key.toPlainText())
 
             config_data["chatgpt"]["model"] = self.ui.comboBox_chatgpt_model.currentText()
-            chatgpt_temperature = self.ui.lineEdit_chatgpt_temperature.text()
-            config_data["chatgpt"]["temperature"] = round(float(chatgpt_temperature), 1)
-            chatgpt_max_tokens = self.ui.lineEdit_chatgpt_max_tokens.text()
-            config_data["chatgpt"]["max_tokens"] = int(chatgpt_max_tokens)
-            chatgpt_top_p = self.ui.lineEdit_chatgpt_top_p.text()
-            config_data["chatgpt"]["top_p"] = round(float(chatgpt_top_p), 1)
-            chatgpt_presence_penalty = self.ui.lineEdit_chatgpt_presence_penalty.text()
-            config_data["chatgpt"]["presence_penalty"] = round(float(chatgpt_presence_penalty), 1)
-            chatgpt_frequency_penalty = self.ui.lineEdit_chatgpt_frequency_penalty.text()
-            config_data["chatgpt"]["frequency_penalty"] = round(float(chatgpt_frequency_penalty), 1)
-            chatgpt_preset = self.ui.lineEdit_chatgpt_preset.text()
-            config_data["chatgpt"]["preset"] = chatgpt_preset
+            config_data["chatgpt"]["temperature"] = round(float(self.ui.lineEdit_chatgpt_temperature.text()), 1)
+            config_data["chatgpt"]["max_tokens"] = int(self.ui.lineEdit_chatgpt_max_tokens.text())
+            config_data["chatgpt"]["top_p"] = round(float(self.ui.lineEdit_chatgpt_top_p.text()), 1)
+            config_data["chatgpt"]["presence_penalty"] = round(float(self.ui.lineEdit_chatgpt_presence_penalty.text()), 1)
+            config_data["chatgpt"]["frequency_penalty"] = round(float(self.ui.lineEdit_chatgpt_frequency_penalty.text()), 1)
+            config_data["chatgpt"]["preset"] = self.ui.lineEdit_chatgpt_preset.text()
 
             chatterbot_name = self.ui.lineEdit_chatterbot_name.text()
             config_data["chatterbot"]["name"] = chatterbot_name
