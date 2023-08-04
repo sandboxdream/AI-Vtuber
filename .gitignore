@@ -207,3 +207,5 @@ test.py
 
 # debug输出
 tmp/
+
+cookie/*.json

@@ -168,8 +168,10 @@ class kslive(object):
                 msg_list = obj.get('giftFeeds', '')
                 for i in msg_list:
                     username = i['user']['userName']
-                    pid = i['user']['principalId']
-                    logging.info(f"[🎁直播间礼物消息] {username} {pid}")
+                    # pid = i['user']['principalId']
+                    giftId = i['giftId']
+                    comboCount = i['comboCount']
+                    logging.info(f"[🎁直播间礼物消息] 用户：{username} 赠送礼物Id={giftId} 连击数={comboCount}")
             if obj.get('likeFeeds', ''):
                 msg_list = obj.get('likeFeeds', '')
                 for i in msg_list:
