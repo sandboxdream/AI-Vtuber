@@ -39,12 +39,6 @@ def start_server():
     # 日志文件路径
     log_path = "./log/log-" + common.get_bj_time(1) + ".txt"
     Configure_logger(log_path)
-  
-    my_handle = My_handle(config_path)
-    if my_handle is None:
-        logging.info("程序初始化失败！")
-        os._exit(0)
-
 
     # 最新入场的用户名列表
     last_username_list = [""]
