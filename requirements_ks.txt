@@ -29,3 +29,13 @@ pypinyin
 sparkdesk-api
 gradio_client
 schedule
+playwright
+protobuf==3.20.0
+certifi
+charset-normalizer
+greenlet
+idna
+lxml
+pyee
+typing_extensions
+urllib3
