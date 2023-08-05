@@ -6,6 +6,20 @@
   "before_prompt": "请简要回复:",
   "after_prompt": "",
   "commit_log_type": "回答",
+  "show_box": {
+    "read_user_name": true,
+    "filter": true,
+    "thanks": true,
+    "live2d": true,
+    "audio_random_speed": true,
+    "so_vits_svc": true,
+    "ddsp_svc": true,
+    "local_qa": true,
+    "choose_song": true,
+    "sd": true,
+    "log": true,
+    "schedule": true
+  },
   "read_user_name": {
     "enable": true,
     "voice_change": true,
