@@ -441,6 +441,28 @@ class My_handle():
                 self.audio.stop_current_audio()
 
                 return True
+            # 判断随机点歌命令是否正确
+            elif content == self.choose_song_config["random_cmd"]:
+                resp_content = self.common.random_search_a_audio_file(self.choose_song_config['song_path'])
+                if resp_content is None:
+                    return True
+                
+                logging.info(f"随机到的音频路径：{resp_content}")
+
+                message = {
+                    "type": "song",
+                    "tts_type": self.audio_synthesis_type,
+                    "data": self.config.get(self.audio_synthesis_type),
+                    "config": self.filter_config,
+                    "user_name": user_name,
+                    "content": resp_content
+                }
+                
+                # 音频合成（edge-tts / vits）并播放
+                self.audio.audio_synthesis(message)
+
+                return True
+
 
         return False
 

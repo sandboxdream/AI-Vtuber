@@ -186,6 +186,7 @@
     "enable": true,
     "start_cmd": "点歌 ",
     "stop_cmd": "取消点歌",
+    "random_cmd": "随机点歌",
     "song_path": "song",
     "match_fail_copy": "抱歉，我还没学会唱{content}"
   },
