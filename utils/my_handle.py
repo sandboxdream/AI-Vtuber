@@ -20,13 +20,22 @@ from .logger import Configure_logger
 
 
 class My_handle():
+    common = None
+    config = None
+    audio = None
+
     def __init__(self, config_path):
-        self.common = Common()
-        self.config = Config(config_path)
-        self.audio = Audio(config_path)
+        logging.info("初始化My_handle...")
+
+        if My_handle.common is None:
+            My_handle.common = Common()
+        if My_handle.config is None:
+            My_handle.config = Config(config_path)
+        if My_handle.audio is None:
+            My_handle.audio = Audio(config_path)
 
         # 日志文件路径
-        file_path = "./log/log-" + self.common.get_bj_time(1) + ".txt"
+        file_path = "./log/log-" + My_handle.common.get_bj_time(1) + ".txt"
         Configure_logger(file_path)
 
         self.proxy = None
@@ -41,52 +50,52 @@ class My_handle():
             self.timers = {}
 
             # 设置会话初始值
-            self.session_config = {'msg': [{"role": "system", "content": self.config.get('chatgpt', 'preset')}]}
+            self.session_config = {'msg': [{"role": "system", "content": My_handle.config.get('chatgpt', 'preset')}]}
             self.sessions = {}
             self.current_key_index = 0
 
             # 直播间号
-            self.room_id = self.config.get("room_display_id")
+            self.room_id = My_handle.config.get("room_display_id")
 
-            self.before_prompt = self.config.get("before_prompt")
-            self.after_prompt = self.config.get("after_prompt")
+            self.before_prompt = My_handle.config.get("before_prompt")
+            self.after_prompt = My_handle.config.get("after_prompt")
 
             # 过滤配置
-            self.filter_config = self.config.get("filter")
+            self.filter_config = My_handle.config.get("filter")
             # 答谢
-            self.thanks_config = self.config.get("thanks")
+            self.thanks_config = My_handle.config.get("thanks")
 
-            self.chat_type = self.config.get("chat_type")
+            self.chat_type = My_handle.config.get("chat_type")
 
-            self.need_lang = self.config.get("need_lang")
+            self.need_lang = My_handle.config.get("need_lang")
 
             # 优先本地问答
-            self.local_qa = self.config.get("local_qa")
+            self.local_qa = My_handle.config.get("local_qa")
             self.local_qa_audio_list = None
 
             # openai
-            self.openai_config = self.config.get("openai")
+            self.openai_config = My_handle.config.get("openai")
             # chatgpt
-            self.chatgpt_config = self.config.get("chatgpt")
+            self.chatgpt_config = My_handle.config.get("chatgpt")
             # claude
-            self.claude_config = self.config.get("claude")
+            self.claude_config = My_handle.config.get("claude")
             # chatterbot
-            self.chatterbot_config = self.config.get("chatterbot")
+            self.chatterbot_config = My_handle.config.get("chatterbot")
             # chatglm
-            self.chatglm_config = self.config.get("chatglm")
+            self.chatglm_config = My_handle.config.get("chatglm")
             # chat_with_file
-            self.chat_with_file_config = self.config.get("chat_with_file")
-            self.text_generation_webui_config = self.config.get("text_generation_webui")
-            self.sparkdesk_config = self.config.get("sparkdesk")
+            self.chat_with_file_config = My_handle.config.get("chat_with_file")
+            self.text_generation_webui_config = My_handle.config.get("text_generation_webui")
+            self.sparkdesk_config = My_handle.config.get("sparkdesk")
 
             # 音频合成使用技术
-            self.audio_synthesis_type = self.config.get("audio_synthesis_type")
+            My_handle.audio_synthesis_type = My_handle.config.get("audio_synthesis_type")
 
             # Stable Diffusion
-            self.sd_config = self.config.get("sd")
+            self.sd_config = My_handle.config.get("sd")
 
             # 点歌模块
-            self.choose_song_config = self.config.get("choose_song")
+            self.choose_song_config = My_handle.config.get("choose_song")
             self.choose_song_song_lists = None
 
             logging.info(f"配置数据加载成功。")
@@ -150,10 +159,10 @@ class My_handle():
         # 判断是否使能了点歌模式
         if self.choose_song_config["enable"]:
             # 获取本地音频文件夹内所有的音频文件名
-            self.choose_song_song_lists = self.audio.get_dir_audios_filename(self.choose_song_config["song_path"])
+            self.choose_song_song_lists = My_handle.audio.get_dir_audios_filename(self.choose_song_config["song_path"])
 
         # 日志文件路径
-        self.log_file_path = "./log/log-" + self.common.get_bj_time(1) + ".txt"
+        self.log_file_path = "./log/log-" + My_handle.common.get_bj_time(1) + ".txt"
         if os.path.isfile(self.log_file_path):
             logging.info(f'{self.log_file_path} 日志文件已存在，跳过')
         else:
@@ -161,7 +170,7 @@ class My_handle():
                 f.write('')
                 logging.info(f'{self.log_file_path} 日志文件已创建')
 
-        self.commit_file_path = "./log/commit-" + self.common.get_bj_time(1) + ".txt"
+        self.commit_file_path = "./log/commit-" + My_handle.common.get_bj_time(1) + ".txt"
         if os.path.isfile(self.commit_file_path):
             logging.info(f'{self.commit_file_path} 弹幕文件已存在，跳过')
         else:
@@ -191,7 +200,7 @@ class My_handle():
         q_list = [lines[i].strip() for i in range(0, len(lines), 2)]
         q_to_answer_index = {q: i + 1 for i, q in enumerate(q_list)}
 
-        q = self.common.find_best_match(question, q_list, similarity)
+        q = My_handle.common.find_best_match(question, q_list, similarity)
         # print(f"q={q}")
 
         if q is not None:
@@ -269,7 +278,7 @@ class My_handle():
         content = data["content"]
 
         # 合并字符串末尾连续的*  主要针对获取不到用户名的情况
-        user_name = self.common.merge_consecutive_asterisks(user_name)
+        user_name = My_handle.common.merge_consecutive_asterisks(user_name)
 
         # 1、匹配本地问答库 触发后不执行后面的其他功能
         if self.local_qa["text"]["enable"] == True:
@@ -283,7 +292,7 @@ class My_handle():
                 logging.info(f"触发本地问答库-文本 [{user_name}]: {content}")
                 # 将问答库中设定的参数替换为指定内容，开发者可以自定义替换内容
                 if "{cur_time}" in tmp:
-                    tmp = tmp.format(cur_time=self.common.get_bj_time(5))
+                    tmp = tmp.format(cur_time=My_handle.common.get_bj_time(5))
                 else:
                     tmp = tmp
                 
@@ -303,25 +312,25 @@ class My_handle():
                     resp_content_joined = '\n'.join(resp_content_substrings)
 
                     # 根据 弹幕日志类型进行各类日志写入
-                    if self.config.get("commit_log_type") == "问答":
+                    if My_handle.config.get("commit_log_type") == "问答":
                         f.write(
                             f"[{user_name} 提问]:{content}\n[AI回复{user_name}]:{resp_content_joined}\n" + tmp_content)
-                    elif self.config.get("commit_log_type") == "问题":
+                    elif My_handle.config.get("commit_log_type") == "问题":
                         f.write(f"[{user_name} 提问]:{content}\n" + tmp_content)
-                    elif self.config.get("commit_log_type") == "回答":
+                    elif My_handle.config.get("commit_log_type") == "回答":
                         f.write(f"[AI回复{user_name}]:{resp_content_joined}\n" + tmp_content)
 
                 message = {
                     "type": "commit",
-                    "tts_type": self.audio_synthesis_type,
-                    "data": self.config.get(self.audio_synthesis_type),
+                    "tts_type": My_handle.audio_synthesis_type,
+                    "data": My_handle.config.get(My_handle.audio_synthesis_type),
                     "config": self.filter_config,
                     "user_name": user_name,
                     "content": resp_content
                 }
 
                 # 音频合成（edge-tts / vits）并播放
-                self.audio.audio_synthesis(message)
+                My_handle.audio.audio_synthesis(message)
 
                 return True
 
@@ -330,11 +339,11 @@ class My_handle():
             # 输出当前用户发送的弹幕消息
             # logging.info(f"[{user_name}]: {content}")
             # 获取本地问答音频库文件夹内所有的音频文件名
-            local_qa_audio_filename_list = self.audio.get_dir_audios_filename(self.local_qa["audio"]["file_path"], type=1)
-            self.local_qa_audio_list = self.audio.get_dir_audios_filename(self.local_qa["audio"]["file_path"], type=0)
+            local_qa_audio_filename_list = My_handle.audio.get_dir_audios_filename(self.local_qa["audio"]["file_path"], type=1)
+            self.local_qa_audio_list = My_handle.audio.get_dir_audios_filename(self.local_qa["audio"]["file_path"], type=0)
 
             # 不含拓展名做查找
-            local_qv_audio_filename = self.common.find_best_match(content, local_qa_audio_filename_list, self.local_qa["audio"]["similarity"])
+            local_qv_audio_filename = My_handle.common.find_best_match(content, local_qa_audio_filename_list, self.local_qa["audio"]["similarity"])
             
             # print(f"local_qv_audio_filename={local_qv_audio_filename}")
 
@@ -342,10 +351,10 @@ class My_handle():
             if local_qv_audio_filename is not None:
                 logging.info(f"触发本地问答库-语音 [{user_name}]: {content}")
                 # 把结果从原文件名列表中在查找一遍，补上拓展名
-                local_qv_audio_filename = self.common.find_best_match(local_qv_audio_filename, self.local_qa_audio_list, 0)
+                local_qv_audio_filename = My_handle.common.find_best_match(local_qv_audio_filename, self.local_qa_audio_list, 0)
 
                 # 寻找对应的文件
-                resp_content = self.audio.search_files(self.local_qa["audio"]["file_path"], local_qv_audio_filename)
+                resp_content = My_handle.audio.search_files(self.local_qa["audio"]["file_path"], local_qv_audio_filename)
                 if resp_content != []:
                     logging.debug(f"匹配到的音频原相对路径：{resp_content[0]}")
 
@@ -354,15 +363,15 @@ class My_handle():
                     logging.info(f"匹配到的音频路径：{resp_content}")
                     message = {
                         "type": "local_qa_audio",
-                        "tts_type": self.audio_synthesis_type,
-                        "data": self.config.get(self.audio_synthesis_type),
+                        "tts_type": My_handle.audio_synthesis_type,
+                        "data": My_handle.config.get(My_handle.audio_synthesis_type),
                         "config": self.filter_config,
                         "user_name": user_name,
                         "content": resp_content
                     }
                     
                     # 音频合成（edge-tts / vits）并播放
-                    self.audio.audio_synthesis(message)
+                    My_handle.audio.audio_synthesis(message)
 
                     return True
             
@@ -383,7 +392,7 @@ class My_handle():
         content = data["content"]
 
         # 合并字符串末尾连续的*  主要针对获取不到用户名的情况
-        user_name = self.common.merge_consecutive_asterisks(user_name)
+        user_name = My_handle.common.merge_consecutive_asterisks(user_name)
 
         if self.choose_song_config["enable"] == True:
             # 判断点歌命令是否正确
@@ -393,7 +402,7 @@ class My_handle():
                 # 去除命令前缀
                 content = content[len(self.choose_song_config["start_cmd"]):]
                 # 判断是否有此歌曲
-                song_filename = self.common.find_best_match(content, self.choose_song_song_lists)
+                song_filename = My_handle.common.find_best_match(content, self.choose_song_song_lists)
                 if song_filename is None:
                     # resp_content = f"抱歉，我还没学会唱{content}"
                     # 根据配置的 匹配失败回复文案来进行合成
@@ -402,19 +411,19 @@ class My_handle():
 
                     message = {
                         "type": "commit",
-                        "tts_type": self.audio_synthesis_type,
-                        "data": self.config.get(self.audio_synthesis_type),
+                        "tts_type": My_handle.audio_synthesis_type,
+                        "data": My_handle.config.get(My_handle.audio_synthesis_type),
                         "config": self.filter_config,
                         "user_name": user_name,
                         "content": resp_content
                     }
 
                     # 音频合成（edge-tts / vits）并播放
-                    self.audio.audio_synthesis(message)
+                    My_handle.audio.audio_synthesis(message)
 
                     return True
                 
-                resp_content = self.audio.search_files(self.choose_song_config['song_path'], song_filename)
+                resp_content = My_handle.audio.search_files(self.choose_song_config['song_path'], song_filename)
                 if resp_content == []:
                     return True
                 
@@ -425,25 +434,25 @@ class My_handle():
                 logging.info(f"匹配到的音频路径：{resp_content}")
                 message = {
                     "type": "song",
-                    "tts_type": self.audio_synthesis_type,
-                    "data": self.config.get(self.audio_synthesis_type),
+                    "tts_type": My_handle.audio_synthesis_type,
+                    "data": My_handle.config.get(My_handle.audio_synthesis_type),
                     "config": self.filter_config,
                     "user_name": user_name,
                     "content": resp_content
                 }
                 
                 # 音频合成（edge-tts / vits）并播放
-                self.audio.audio_synthesis(message)
+                My_handle.audio.audio_synthesis(message)
 
                 return True
             # 判断取消点歌命令是否正确
             elif content.startswith(self.choose_song_config["stop_cmd"]):
-                self.audio.stop_current_audio()
+                My_handle.audio.stop_current_audio()
 
                 return True
             # 判断随机点歌命令是否正确
             elif content == self.choose_song_config["random_cmd"]:
-                resp_content = self.common.random_search_a_audio_file(self.choose_song_config['song_path'])
+                resp_content = My_handle.common.random_search_a_audio_file(self.choose_song_config['song_path'])
                 if resp_content is None:
                     return True
                 
@@ -451,15 +460,15 @@ class My_handle():
 
                 message = {
                     "type": "song",
-                    "tts_type": self.audio_synthesis_type,
-                    "data": self.config.get(self.audio_synthesis_type),
+                    "tts_type": My_handle.audio_synthesis_type,
+                    "data": My_handle.config.get(My_handle.audio_synthesis_type),
                     "config": self.filter_config,
                     "user_name": user_name,
                     "content": resp_content
                 }
                 
                 # 音频合成（edge-tts / vits）并播放
-                self.audio.audio_synthesis(message)
+                My_handle.audio.audio_synthesis(message)
 
                 return True
 
@@ -481,13 +490,13 @@ class My_handle():
         content = data["content"]
 
         # 合并字符串末尾连续的*  主要针对获取不到用户名的情况
-        user_name = self.common.merge_consecutive_asterisks(user_name)
+        user_name = My_handle.common.merge_consecutive_asterisks(user_name)
 
         if content.startswith(self.sd_config["trigger"]):
             # 含有违禁词/链接
-            if self.common.profanity_content(content) or self.common.check_sensitive_words2(
+            if My_handle.common.profanity_content(content) or My_handle.common.check_sensitive_words2(
                     self.filter_config["badwords_path"], content) or \
-                    self.common.is_url_check(content):
+                    My_handle.common.is_url_check(content):
                 logging.warning(f"违禁词/链接：{content}")
                 return
         
@@ -597,14 +606,14 @@ class My_handle():
                     break
 
         # 全为标点符号
-        if self.common.is_punctuation_string(content):
+        if My_handle.common.is_punctuation_string(content):
             return None
 
         # 换行转为,
         content = content.replace('\n', ',')
 
         # 语言检测
-        if self.common.lang_check(content, self.need_lang) is None:
+        if My_handle.common.lang_check(content, self.need_lang) is None:
             logging.warning("语言检测不通过，已过滤")
             return None
 
@@ -622,15 +631,15 @@ class My_handle():
             bool: 是否违禁词 是True 否False
         """
         # 含有违禁词/链接
-        if self.common.profanity_content(content) or self.common.check_sensitive_words2(
+        if My_handle.common.profanity_content(content) or My_handle.common.check_sensitive_words2(
                 self.filter_config["badwords_path"], content) or \
-                self.common.is_url_check(content):
+                My_handle.common.is_url_check(content):
             logging.warning(f"违禁词/链接：{content}")
             return True
 
         # 同拼音违禁词过滤
         if self.filter_config["bad_pinyin_path"] != "":
-            if self.common.check_sensitive_words3(self.filter_config["bad_pinyin_path"], content):
+            if My_handle.common.check_sensitive_words3(self.filter_config["bad_pinyin_path"], content):
                 logging.warning(f"同音违禁词：{content}")
                 return True
             
@@ -656,15 +665,15 @@ class My_handle():
         # 音频合成时需要用到的重要数据
         message = {
             "type": "reread",
-            "tts_type": self.audio_synthesis_type,
-            "data": self.config.get(self.audio_synthesis_type),
+            "tts_type": My_handle.audio_synthesis_type,
+            "data": My_handle.config.get(My_handle.audio_synthesis_type),
             "config": self.filter_config,
             "user_name": user_name,
             "content": content
         }
 
         # 音频合成（edge-tts / vits）并播放
-        self.audio.audio_synthesis(message)
+        My_handle.audio.audio_synthesis(message)
 
 
     # 弹幕处理
@@ -682,7 +691,7 @@ class My_handle():
         content = data["content"]
 
         # 合并字符串末尾连续的*  主要针对获取不到用户名的情况
-        user_name = self.common.merge_consecutive_asterisks(user_name)
+        user_name = My_handle.common.merge_consecutive_asterisks(user_name)
 
         """
         用户名也得过滤一下，防止炸弹人
@@ -809,31 +818,31 @@ class My_handle():
             resp_content_joined = '\n'.join(resp_content_substrings)
 
             # 根据 弹幕日志类型进行各类日志写入
-            if self.config.get("commit_log_type") == "问答":
+            if My_handle.config.get("commit_log_type") == "问答":
                 f.write(f"[{user_name} 提问]:\n{content}\n[AI回复{user_name}]:{resp_content_joined}\n" + tmp_content)
-            elif self.config.get("commit_log_type") == "问题":
+            elif My_handle.config.get("commit_log_type") == "问题":
                 f.write(f"[{user_name} 提问]:\n{content}\n" + tmp_content)
-            elif self.config.get("commit_log_type") == "回答":
+            elif My_handle.config.get("commit_log_type") == "回答":
                 f.write(f"[AI回复{user_name}]:\n{resp_content_joined}\n" + tmp_content)
 
         # 音频合成时需要用到的重要数据
         message = {
             "type": "commit",
-            "tts_type": self.audio_synthesis_type,
-            "data": self.config.get(self.audio_synthesis_type),
+            "tts_type": My_handle.audio_synthesis_type,
+            "data": My_handle.config.get(My_handle.audio_synthesis_type),
             "config": self.filter_config,
             "user_name": user_name,
             "content": resp_content
         }
 
         # 音频合成（edge-tts / vits）并播放
-        self.audio.audio_synthesis(message)
+        My_handle.audio.audio_synthesis(message)
 
 
     # 礼物处理
     def gift_handle(self, data):
         # 合并字符串末尾连续的*  主要针对获取不到用户名的情况
-        data['username'] = self.common.merge_consecutive_asterisks(data['username'])
+        data['username'] = My_handle.common.merge_consecutive_asterisks(data['username'])
 
         # 违禁处理
         if self.prohibitions_handle(data['username']):
@@ -853,15 +862,15 @@ class My_handle():
 
             message = {
                 "type": "gift",
-                "tts_type": self.audio_synthesis_type,
-                "data": self.config.get(self.audio_synthesis_type),
+                "tts_type": My_handle.audio_synthesis_type,
+                "data": My_handle.config.get(My_handle.audio_synthesis_type),
                 "config": self.filter_config,
                 "user_name": data["username"],
                 "content": resp_content
             }
 
             # 音频合成（edge-tts / vits）并播放
-            self.audio.audio_synthesis(message)
+            My_handle.audio.audio_synthesis(message)
         except Exception as e:
             logging.error(e)
 
@@ -869,7 +878,7 @@ class My_handle():
     # 入场处理
     def entrance_handle(self, data):
         # 合并字符串末尾连续的*  主要针对获取不到用户名的情况
-        data['username'] = self.common.merge_consecutive_asterisks(data['username'])
+        data['username'] = My_handle.common.merge_consecutive_asterisks(data['username'])
 
         # 违禁处理
         if self.prohibitions_handle(data['username']):
@@ -885,15 +894,15 @@ class My_handle():
 
             message = {
                 "type": "entrance",
-                "tts_type": self.audio_synthesis_type,
-                "data": self.config.get(self.audio_synthesis_type),
+                "tts_type": My_handle.audio_synthesis_type,
+                "data": My_handle.config.get(My_handle.audio_synthesis_type),
                 "config": self.filter_config,
                 "user_name": data['username'],
                 "content": resp_content
             }
 
             # 音频合成（edge-tts / vits）并播放
-            self.audio.audio_synthesis(message)
+            My_handle.audio.audio_synthesis(message)
         except Exception as e:
             logging.error(e)
 
@@ -905,15 +914,15 @@ class My_handle():
 
             message = {
                 "type": "entrance",
-                "tts_type": self.audio_synthesis_type,
-                "data": self.config.get(self.audio_synthesis_type),
+                "tts_type": My_handle.audio_synthesis_type,
+                "data": My_handle.config.get(My_handle.audio_synthesis_type),
                 "config": self.filter_config,
                 "user_name": data['username'],
                 "content": content
             }
 
             # 音频合成（edge-tts / vits）并播放
-            self.audio.audio_synthesis(message)
+            My_handle.audio.audio_synthesis(message)
         except Exception as e:
             logging.error(e)
 
@@ -954,11 +963,11 @@ class My_handle():
     def get_interval(self, timer_flag):
         # 根据标志定义不同计时器的间隔
         intervals = {
-            "commit": self.config.get("filter", "commit_forget_duration"),
-            "gift": self.config.get("filter", "gift_forget_duration"),
-            "entrance": self.config.get("filter", "entrance_forget_duration"),
-            "talk": self.config.get("filter", "talk_forget_duration"),
-            "schedule": self.config.get("filter", "schedule_forget_duration")
+            "commit": My_handle.config.get("filter", "commit_forget_duration"),
+            "gift": My_handle.config.get("filter", "gift_forget_duration"),
+            "entrance": My_handle.config.get("filter", "entrance_forget_duration"),
+            "talk": My_handle.config.get("filter", "talk_forget_duration"),
+            "schedule": My_handle.config.get("filter", "schedule_forget_duration")
             # 根据需要添加更多计时器及其间隔
         }
 
