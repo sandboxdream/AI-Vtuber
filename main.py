@@ -550,6 +550,7 @@ class AI_VTB(QMainWindow):
             self.ui.label_talk_google_tgt_lang.setToolTip("录音后识别转换成的目标语言（就是你说的语言）")
             self.ui.label_talk_chat_box.setToolTip("此处填写对话内容可以直接进行对话（前面配置好聊天模式，记得运行先）")
             self.ui.pushButton_talk_chat_box_send.setToolTip("点击发送聊天框内的内容")
+            self.ui.pushButton_talk_chat_box_reread.setToolTip("点击发送聊天框内的内容，直接让程序通过配置的TTS和变声进行复读")
             
 
             """
@@ -1134,7 +1135,9 @@ class AI_VTB(QMainWindow):
 
         # 聊天页
         self.ui.pushButton_talk_chat_box_send.disconnect()
+        self.ui.pushButton_talk_chat_box_reread.disconnect()
         self.ui.pushButton_talk_chat_box_send.clicked.connect(self.on_pushButton_talk_chat_box_send_clicked)
+        self.ui.pushButton_talk_chat_box_reread.clicked.connect(self.on_pushButton_talk_chat_box_reread_clicked)
 
         # 下拉框相关槽函数
         self.ui.comboBox_chat_type.disconnect()
@@ -1161,6 +1164,7 @@ class AI_VTB(QMainWindow):
         self.throttled_copywriting_loop_play = self.throttle(self.copywriting_loop_play, 1)
         self.throttled_copywriting_pasue_play = self.throttle(self.copywriting_pasue_play, 1)
         self.throttled_talk_chat_box_send = self.throttle(self.talk_chat_box_send, 0.5)
+        self.throttled_talk_chat_box_reread = self.throttle(self.talk_chat_box_reread, 0.5)
 
 
 
@@ -1869,10 +1873,49 @@ class AI_VTB(QMainWindow):
         # 正义执行
         my_handle.process_data(data, "commit")
     
+
+    # 发送 聊天框内容 进行复读
+    def talk_chat_box_reread(self):
+        global my_handle
+        
+        if self.running_flag != 1:
+            self.show_message_box("提醒", "请先点击“运行”，然后再进行复读",
+                QMessageBox.Information, 3000)
+            return
+        
+        if my_handle is None:
+            from utils.my_handle import My_handle
+        
+            my_handle = My_handle(config_path)
+            if my_handle is None:
+                logging.error("程序初始化失败！")
+                self.show_message_box("错误", "程序初始化失败！请排查原因", QMessageBox.Critical)
+                os._exit(0)
+        
+        # 获取用户名和文本内容
+        user_name = self.ui.lineEdit_talk_username.text()
+        content = self.ui.textEdit_talk_chat_box.toPlainText()
+        
+        # 清空聊天框
+        self.ui.textEdit_talk_chat_box.setText("")
+
+        data = {
+            "username": user_name,
+            "content": content
+        }
+        
+        # 正义执行 直接复读
+        my_handle.reread_handle(data)
+        
+
     
     def on_pushButton_talk_chat_box_send_clicked(self):
         self.throttled_talk_chat_box_send()
     
+
+    def on_pushButton_talk_chat_box_reread_clicked(self):
+        self.throttled_talk_chat_box_reread()
+
 
     '''
         餐单栏相关的函数

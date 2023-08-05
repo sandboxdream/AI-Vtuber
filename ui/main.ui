@@ -134,7 +134,7 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-6139</y>
+             <y>0</y>
              <width>980</width>
              <height>8234</height>
             </rect>
@@ -2852,34 +2852,16 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>0</y>
-             <width>328</width>
+             <y>-182</y>
+             <width>963</width>
              <height>919</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_3">
             <item>
              <widget class="QWidget" name="widget_2" native="true">
-              <layout class="QGridLayout" name="gridLayout_40" rowstretch="1,1,1,1,1,1,1,1,1,1,5,0" columnstretch="1,8,1" rowminimumheight="1,1,1,1,1,1,1,1,1,1,1,0">
-               <item row="6" column="1" colspan="2">
-                <widget class="QLineEdit" name="lineEdit_talk_silence_threshold"/>
-               </item>
-               <item row="9" column="2">
-                <widget class="QPushButton" name="pushButton_talk_chat_box_send">
-                 <property name="cursor">
-                  <cursorShape>PointingHandCursor</cursorShape>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">text-align: center;
-padding: 12px 16px;
-font: 80 10pt &quot;微软雅黑&quot;;</string>
-                 </property>
-                 <property name="text">
-                  <string>发送</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="8" column="0" colspan="3">
+              <layout class="QGridLayout" name="gridLayout_40" rowstretch="1,1,1,1,1,1,1,1,1,1,5,0" columnstretch="1,8,1,0,0,0,0" rowminimumheight="1,1,1,1,1,1,1,1,1,1,1,0">
+               <item row="8" column="0" colspan="5">
                 <widget class="QGroupBox" name="groupBox_talk_google">
                  <property name="title">
                   <string>谷歌</string>
@@ -2898,23 +2880,45 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
                  </layout>
                 </widget>
                </item>
-               <item row="4" column="1" colspan="2">
-                <widget class="QComboBox" name="comboBox_talk_type"/>
-               </item>
-               <item row="5" column="1" colspan="2">
-                <widget class="QLineEdit" name="lineEdit_talk_volume_threshold"/>
-               </item>
-               <item row="0" column="1" colspan="2">
-                <widget class="QLineEdit" name="lineEdit_talk_username"/>
-               </item>
-               <item row="9" column="0">
-                <widget class="QLabel" name="label_talk_chat_box">
+               <item row="4" column="0">
+                <widget class="QLabel" name="label_talk_type">
                  <property name="text">
-                  <string>聊天框</string>
+                  <string>录音类型</string>
                  </property>
                 </widget>
                </item>
-               <item row="7" column="0" colspan="3">
+               <item row="5" column="0">
+                <widget class="QLabel" name="label_talk_volume_threshold">
+                 <property name="text">
+                  <string>音量阈值</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_talk_username">
+                 <property name="text">
+                  <string>你的名字</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_talk_continuous_talk">
+                 <property name="text">
+                  <string>连续对话</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="1" colspan="4">
+                <widget class="QLineEdit" name="lineEdit_talk_volume_threshold"/>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_talk_trigger_key">
+                 <property name="text">
+                  <string>录音按键</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="7" column="0" colspan="5">
                 <widget class="QGroupBox" name="groupBox_talk_baidu">
                  <property name="title">
                   <string>百度</string>
@@ -2953,13 +2957,51 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
                  </layout>
                 </widget>
                </item>
+               <item row="4" column="1" colspan="4">
+                <widget class="QComboBox" name="comboBox_talk_type"/>
+               </item>
+               <item row="10" column="0" rowspan="2" colspan="5">
+                <widget class="QTextBrowser" name="textBrowser_talk_log">
+                 <property name="styleSheet">
+                  <string notr="true">font: 12pt &quot;仿宋&quot;;
+min-height:200px;
+</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1" colspan="4">
+                <widget class="QLineEdit" name="lineEdit_talk_username"/>
+               </item>
                <item row="9" column="1">
                 <widget class="QTextEdit" name="textEdit_talk_chat_box"/>
                </item>
-               <item row="4" column="0">
-                <widget class="QLabel" name="label_talk_type">
+               <item row="9" column="0">
+                <widget class="QLabel" name="label_talk_chat_box">
                  <property name="text">
-                  <string>录音类型</string>
+                  <string>聊天框</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1" colspan="4">
+                <widget class="QCheckBox" name="checkBox_talk_continuous_talk">
+                 <property name="text">
+                  <string>启用</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1" colspan="4">
+                <widget class="QComboBox" name="comboBox_talk_stop_trigger_key"/>
+               </item>
+               <item row="2" column="1" colspan="4">
+                <widget class="QComboBox" name="comboBox_talk_trigger_key"/>
+               </item>
+               <item row="6" column="1" colspan="4">
+                <widget class="QLineEdit" name="lineEdit_talk_silence_threshold"/>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_talk_stop_trigger_key">
+                 <property name="text">
+                  <string>停录按键</string>
                  </property>
                 </widget>
                </item>
@@ -2970,60 +3012,30 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
                  </property>
                 </widget>
                </item>
-               <item row="10" column="0" rowspan="2" colspan="3">
-                <widget class="QTextBrowser" name="textBrowser_talk_log">
+               <item row="9" column="3">
+                <widget class="QPushButton" name="pushButton_talk_chat_box_reread">
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
                  <property name="styleSheet">
-                  <string notr="true">font: 12pt &quot;仿宋&quot;;
-min-height:200px;
-</string>
+                  <string notr="true">text-align: center;
+padding: 12px 16px;
+font: 80 10pt &quot;微软雅黑&quot;;</string>
+                 </property>
+                 <property name="text">
+                  <string>直接复读</string>
                  </property>
                 </widget>
                </item>
-               <item row="2" column="1" colspan="2">
-                <widget class="QComboBox" name="comboBox_talk_trigger_key"/>
-               </item>
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_talk_username">
-                 <property name="text">
-                  <string>你的名字</string>
+               <item row="9" column="2">
+                <widget class="QPushButton" name="pushButton_talk_chat_box_send">
+                 <property name="styleSheet">
+                  <string notr="true">text-align: center;
+padding: 12px 16px;
+font: 80 10pt &quot;微软雅黑&quot;;</string>
                  </property>
-                </widget>
-               </item>
-               <item row="2" column="0">
-                <widget class="QLabel" name="label_talk_trigger_key">
                  <property name="text">
-                  <string>录音按键</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="5" column="0">
-                <widget class="QLabel" name="label_talk_volume_threshold">
-                 <property name="text">
-                  <string>音量阈值</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="0">
-                <widget class="QLabel" name="label_talk_stop_trigger_key">
-                 <property name="text">
-                  <string>停录按键</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="1" colspan="2">
-                <widget class="QComboBox" name="comboBox_talk_stop_trigger_key"/>
-               </item>
-               <item row="1" column="0">
-                <widget class="QLabel" name="label_talk_continuous_talk">
-                 <property name="text">
-                  <string>连续对话</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="1" colspan="2">
-                <widget class="QCheckBox" name="checkBox_talk_continuous_talk">
-                 <property name="text">
-                  <string>启用</string>
+                  <string>发送</string>
                  </property>
                 </widget>
                </item>
