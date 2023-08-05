@@ -615,6 +615,36 @@ class My_handle():
         return False
 
 
+    # 直接复读
+    def reread_handle(self, data):
+        """复读处理
+
+        Args:
+            data (dict): 包含用户名,弹幕内容
+
+        Returns:
+            _type_: 寂寞
+        """
+
+        user_name = data["username"]
+        content = data["content"]
+
+        logging.info(f"复读内容：{content}")
+        
+        # 音频合成时需要用到的重要数据
+        message = {
+            "type": "reread",
+            "tts_type": self.audio_synthesis_type,
+            "data": self.config.get(self.audio_synthesis_type),
+            "config": self.filter_config,
+            "user_name": user_name,
+            "content": content
+        }
+
+        # 音频合成（edge-tts / vits）并播放
+        self.audio.audio_synthesis(message)
+
+
     # 弹幕处理
     def commit_handle(self, data):
         """弹幕处理
