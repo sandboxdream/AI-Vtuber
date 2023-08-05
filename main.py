@@ -206,25 +206,31 @@ class AI_VTB(QMainWindow):
                 widget.setText(tmp_str)
                 widget.setObjectName(item["main_obj_name"] + "_QTextEdit_" + str(item["index"]))
 
+            # 判断readonly是否存在
+            if item.get("readonly") is not None:
+                widget.setReadOnly(item["readonly"])
+
             widgets.append(widget)
 
         return widgets
 
 
+    # 从gridLayout中读取所有的widget，返回widget列表
+    def read_widgets_from_gridLayout(self, gridLayout):
+        widgets = []
+        for row in range(gridLayout.rowCount()):
+            for col in range(gridLayout.columnCount()):
+                widget_item = gridLayout.itemAtPosition(row, col)
+                if widget_item is not None:
+                    widget = widget_item.widget()
+                    if widget is not None:
+                        widgets.append(widget)
+        return widgets
+
+
     # 从gridLayout的widgets中获取数据到data
     def update_data_from_gridLayout(self, gridLayout, type=""):
-        def read_widgets_from_gridLayout(gridLayout):
-            widgets = []
-            for row in range(gridLayout.rowCount()):
-                for col in range(gridLayout.columnCount()):
-                    widget_item = gridLayout.itemAtPosition(row, col)
-                    if widget_item is not None:
-                        widget = widget_item.widget()
-                        if widget is not None:
-                            widgets.append(widget)
-            return widgets
-
-        widgets = read_widgets_from_gridLayout(gridLayout)
+        widgets = self.read_widgets_from_gridLayout(gridLayout)
         logging.debug(widgets)
 
         data = {}
@@ -533,6 +539,9 @@ class AI_VTB(QMainWindow):
             self.ui.label_header_useragent.setToolTip("请求头，暂时没有用到，备用")
 
             # 文案
+            self.ui.label_copywriting_config_index.setToolTip("文案编号索引，用于对指定编号进行增加删除操作")
+            self.ui.pushButton_copywriting_config_index_add.setToolTip("对指定编号文案进行增加操作")
+            self.ui.pushButton_copywriting_config_index_del.setToolTip("对指定编号文案进行删除操作")
             self.ui.label_copywriting_audio_interval.setToolTip("文案音频播放之间的间隔时间。就是前一个文案播放完成后，到后一个文案开始播放之间的间隔时间。")
             self.ui.label_copywriting_switching_interval.setToolTip("文案音频切换到弹幕音频的切换间隔时间（反之一样）。\n就是在播放文案时，有弹幕触发并合成完毕，此时会暂停文案播放，然后等待这个间隔时间后，再播放弹幕回复音频。")
             self.ui.label_copywriting_switching_random_play.setToolTip("文案随机播放，就是不根据播放音频文件列表的顺序播放，而是随机打乱顺序进行播放。")
@@ -1125,11 +1134,12 @@ class AI_VTB(QMainWindow):
                     tmp_str = tmp_str + tmp_copywriting_file_name + "\n"
                 tmp_json = {
                     "label_text": "文案列表" + str(index),
-                    "label_tip": "加载配置文件中配置的文案路径（data/copywriting/）下的所有文件，请勿放入其他非文案文件",
+                    "label_tip": "加载配置文件中配置的文案路径下的所有文件，请勿放入其他非文案文件",
                     "data": [tmp_str],
                     "widget_text": "",
                     "click_func": "",
                     "main_obj_name": "copywriting_config_copywriting_list",
+                    "readonly": True,
                     "index": index
                 }
                 data_json.append(tmp_json)
@@ -1151,11 +1161,12 @@ class AI_VTB(QMainWindow):
                     tmp_str = tmp_str + tmp_copywriting_audio_file_name + "\n"
                 tmp_json = {
                     "label_text": "已合成\n音频列表" + str(index),
-                    "label_tip": "加载配置文件中配置的音频路径（out/copywriting/）下的所有文件，请勿放入其他非音频文件",
+                    "label_tip": "加载配置文件中配置的音频路径下的所有文件，请勿放入其他非音频文件",
                     "data": [tmp_str],
                     "widget_text": "",
                     "click_func": "",
                     "main_obj_name": "copywriting_config_audio_list",
+                    "readonly": True,
                     "index": index
                 }
                 data_json.append(tmp_json)
@@ -1259,12 +1270,16 @@ class AI_VTB(QMainWindow):
 
 
         # 文案页
+        self.ui.pushButton_copywriting_config_index_add.disconnect()
+        self.ui.pushButton_copywriting_config_index_del.disconnect()
         self.ui.pushButton_copywriting_select.disconnect()
         self.ui.pushButton_copywriting_refresh_list.disconnect()
         self.ui.pushButton_copywriting_save.disconnect()
         self.ui.pushButton_copywriting_synthetic_audio.disconnect()
         self.ui.pushButton_copywriting_loop_play.disconnect()
         self.ui.pushButton_copywriting_pause_play.disconnect()
+        self.ui.pushButton_copywriting_config_index_add.clicked.connect(self.on_pushButton_copywriting_config_index_add_clicked)
+        self.ui.pushButton_copywriting_config_index_del.clicked.connect(self.on_pushButton_copywriting_config_index_del_clicked)
         self.ui.pushButton_copywriting_select.clicked.connect(self.on_pushButton_copywriting_select_clicked)
         self.ui.pushButton_copywriting_refresh_list.clicked.connect(self.on_pushButton_copywriting_refresh_list_clicked)
         self.ui.pushButton_copywriting_save.clicked.connect(self.on_pushButton_copywriting_save_clicked)
@@ -1296,6 +1311,8 @@ class AI_VTB(QMainWindow):
         self.throttled_factory = self.throttle(self.factory, 1)
         self.throttled_run = self.throttle(self.run, 1)
         self.throttled_change_page = self.throttle(self.change_page, 0.5)
+        self.throttled_copywriting_config_index_add = self.throttle(self.copywriting_config_index_add, 1)
+        self.throttled_copywriting_config_index_del = self.throttle(self.copywriting_config_index_del, 1)
         self.throttled_copywriting_select = self.throttle(self.copywriting_select, 1)
         self.throttled_copywriting_refresh_list = self.throttle(self.copywriting_refresh_list, 1)
         self.throttled_copywriting_save = self.throttle(self.copywriting_save, 1)
@@ -1664,7 +1681,7 @@ class AI_VTB(QMainWindow):
             config_data["schedule"] = reorganize_schedule_data(schedule_data)
             # logging.info(config_data)
 
-            # 文案 TODO:做成动态
+            # 文案
             copywriting_config_data = self.update_data_from_gridLayout(self.ui.gridLayout_copywriting_config)
 
             def reorganize_copywriting_config_data(copywriting_config_data):
@@ -1847,6 +1864,127 @@ class AI_VTB(QMainWindow):
         self.throttled_change_page(index)
 
 
+    # 根据文案索引添加文案
+    def copywriting_config_index_add(self):
+        try:
+            index = int(self.ui.lineEdit_copywriting_config_index.text())
+
+            tmp = {
+                "file_path": "",
+                "audio_path": "",
+                "play_list": [],
+                "continuous_play_num": 1,
+                "max_play_time": 5.0
+            }
+
+            # 追加数据到成员变量
+            self.copywriting_config["config"].append(tmp)
+
+            data_json = []
+            tmp_json = {
+                "label_text": "文案存储路径" + str(index),
+                "label_tip": "文案文件存储路径，默认不可编辑。不建议更改。",
+                "data": tmp["file_path"],
+                "widget_text": "",
+                "click_func": "",
+                "main_obj_name": "copywriting_config_file_path",
+                "index": index
+            }
+            data_json.append(tmp_json)
+
+            tmp_json = {
+                "label_text": "音频存储路径" + str(index),
+                "label_tip": "文案音频文件存储路径，默认不可编辑。不建议更改。",
+                "data": tmp["audio_path"],
+                "widget_text": "",
+                "click_func": "",
+                "main_obj_name": "copywriting_config_audio_path",
+                "index": index
+            }
+            data_json.append(tmp_json)
+
+            tmp_json = {
+                "label_text": "文案列表" + str(index),
+                "label_tip": "加载配置文件中配置的文案路径（data/copywriting/）下的所有文件，请勿放入其他非文案文件",
+                "data": [],
+                "widget_text": "",
+                "click_func": "",
+                "main_obj_name": "copywriting_config_copywriting_list",
+                "index": index
+            }
+            data_json.append(tmp_json)
+
+            tmp_json = {
+                "label_text": "播放列表" + str(index),
+                "label_tip": "此处填写需要播放的音频文件全名，填写完毕后点击 保存配置。文件全名从音频列表中复制，换行分隔，请勿随意填写",
+                "data": tmp["play_list"],
+                "widget_text": "",
+                "click_func": "",
+                "main_obj_name": "copywriting_config_play_list",
+                "index": index
+            }
+            data_json.append(tmp_json)
+
+            tmp_json = {
+                "label_text": "已合成\n音频列表" + str(index),
+                "label_tip": "加载配置文件中配置的音频路径（out/copywriting/）下的所有文件，请勿放入其他非音频文件",
+                "data": [],
+                "widget_text": "",
+                "click_func": "",
+                "main_obj_name": "copywriting_config_audio_list",
+                "index": index
+            }
+            data_json.append(tmp_json)
+            
+            tmp_json = {
+                "label_text": "连续播放数" + str(index),
+                "label_tip": "文案播放列表中连续播放的音频文件个数，如果超过了这个个数就会切换下一个文案列表",
+                "data": tmp["continuous_play_num"],
+                "widget_text": "",
+                "click_func": "",
+                "main_obj_name": "copywriting_config_continuous_play_num",
+                "index": index
+            }
+            data_json.append(tmp_json)
+
+            tmp_json = {
+                "label_text": "连续播放时间" + str(index),
+                "label_tip": "文案播放列表中连续播放音频的时长，如果超过了这个时长就会切换下一个文案列表",
+                "data": tmp["max_play_time"],
+                "widget_text": "",
+                "click_func": "",
+                "main_obj_name": "copywriting_config_max_play_time",
+                "index": index
+            }
+            data_json.append(tmp_json)
+            widgets = self.create_widgets_from_json(data_json)
+
+            # 动态添加widget到对应的gridLayout
+            row = 0
+            for i in range(0, len(widgets), 2):
+                self.ui.gridLayout_copywriting_config.addWidget(widgets[i], row, 0)
+                self.ui.gridLayout_copywriting_config.addWidget(widgets[i + 1], row, 1)
+                row += 1
+            
+            self.copywriting_refresh_list()
+        except Exception as e:
+            logging.error(traceback.format_exc())
+
+
+    # 根据文案索引删除文案
+    def copywriting_config_index_del(self):
+        try:
+            index = int(self.ui.lineEdit_copywriting_config_index.text())
+
+            # 删除指定索引的数据
+            if 0 <= index < len(self.copywriting_config["config"]):
+                del self.copywriting_config["config"][index]
+
+            self.copywriting_refresh_list()
+        except Exception as e:
+            logging.error(traceback.format_exc())
+
+
     # 加载文案
     def copywriting_select(self):
         select_file_path = self.ui.lineEdit_copywriting_select.text()
@@ -1873,12 +2011,19 @@ class AI_VTB(QMainWindow):
         self.copywriting_refresh_list()
 
 
+    def on_pushButton_copywriting_config_index_add_clicked(self):
+        self.throttled_copywriting_config_index_add()
+
+    def on_pushButton_copywriting_config_index_del_clicked(self):
+        self.throttled_copywriting_config_index_del()
+
+
     # 加载文案按钮
     def on_pushButton_copywriting_select_clicked(self):
         self.throttled_copywriting_select()
     
 
-    # 刷新列表 TODO:改成动态加载
+    # 刷新列表
     def copywriting_refresh_list(self):
         try:
             while self.ui.gridLayout_copywriting_config.count():
@@ -1888,7 +2033,7 @@ class AI_VTB(QMainWindow):
                     widget.deleteLater()
 
             data_json = []
-            for index, tmp in enumerate(config.get("copywriting", "config")):
+            for index, tmp in enumerate(self.copywriting_config["config"]):
                 tmp_json = {
                     "label_text": "文案存储路径" + str(index),
                     "label_tip": "文案文件存储路径，默认不可编辑。不建议更改。",

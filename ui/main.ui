@@ -2566,6 +2566,9 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
                </item>
                <item row="4" column="5">
                 <widget class="QPushButton" name="pushButton_copywriting_refresh_list">
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
                  <property name="styleSheet">
                   <string notr="true">text-align: center;
 padding: 12px 16px;
@@ -2672,8 +2675,52 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
                   <layout class="QVBoxLayout" name="verticalLayout_4">
                    <item>
                     <widget class="QWidget" name="widget_copywriting_config" native="true">
-                     <layout class="QGridLayout" name="gridLayout_25">
+                     <layout class="QGridLayout" name="gridLayout_25" columnstretch="1,5,1,1">
+                      <item row="0" column="2">
+                       <widget class="QPushButton" name="pushButton_copywriting_config_index_add">
+                        <property name="cursor">
+                         <cursorShape>PointingHandCursor</cursorShape>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">text-align: center;
+padding: 12px 16px;
+font: 80 10pt &quot;微软雅黑&quot;;</string>
+                        </property>
+                        <property name="text">
+                         <string>增加</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="0" column="1">
+                       <widget class="QLineEdit" name="lineEdit_copywriting_config_index">
+                        <property name="styleSheet">
+                         <string notr="true">min-height:40px;</string>
+                        </property>
+                       </widget>
+                      </item>
                       <item row="0" column="0">
+                       <widget class="QLabel" name="label_copywriting_config_index">
+                        <property name="text">
+                         <string>文案编号</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="0" column="3">
+                       <widget class="QPushButton" name="pushButton_copywriting_config_index_del">
+                        <property name="cursor">
+                         <cursorShape>PointingHandCursor</cursorShape>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">text-align: center;
+padding: 12px 16px;
+font: 80 10pt &quot;微软雅黑&quot;;</string>
+                        </property>
+                        <property name="text">
+                         <string>删除</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="1" column="0" colspan="4">
                        <layout class="QGridLayout" name="gridLayout_copywriting_config"/>
                       </item>
                      </layout>
