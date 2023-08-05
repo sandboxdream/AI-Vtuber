@@ -65,7 +65,7 @@ class Audio:
 
 
     # 从指定文件夹中搜索指定文件，返回搜索到的文件路径
-    def search_files(self, root_dir, target_file):
+    def search_files(self, root_dir, target_file=""):
         matched_files = []
         
         for root, dirs, files in os.walk(root_dir):
@@ -75,7 +75,7 @@ class Audio:
                     relative_path = os.path.relpath(file_path, root_dir)
                     relative_path = relative_path.replace("\\", "/")  # 将反斜杠替换为斜杠
                     matched_files.append(relative_path)
-        
+
         return matched_files
 
 

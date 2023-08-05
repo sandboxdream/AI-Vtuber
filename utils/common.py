@@ -470,3 +470,48 @@ class Common:
         file_name_without_extension_list = [file_name.split('.')[0] for file_name in file_name_list]
         return file_name_without_extension_list
 
+
+    def is_audio_file(self, file_path):
+        """判断文件是否是音频文件
+
+        Args:
+            file_path (str): 文件路径
+
+        Returns:
+            bool: True / False
+        """
+        # List of supported audio file extensions
+        SUPPORTED_AUDIO_EXTENSIONS = ['.mp3', '.wav', '.MP3', '.WAV', '.ogg']
+
+        _, extension = os.path.splitext(file_path)
+        return extension.lower() in SUPPORTED_AUDIO_EXTENSIONS
+
+
+    def random_search_a_audio_file(self, root_dir):
+        """搜索指定文件夹内所有的音频文件，并随机返回一个音频文件路径
+
+        Args:
+            root_dir (str): 搜索的文件夹路径
+
+        Returns:
+            str: 随机返回一个音频文件路径
+        """
+        audio_files = []
+
+        for root, dirs, files in os.walk(root_dir):
+            for file in files:
+                file_path = os.path.join(root, file)
+                relative_path = os.path.relpath(file_path, root_dir)
+                relative_path = relative_path.replace("\\", "/")
+
+                logging.debug(file_path)
+
+                # 判断文件是否是音频文件
+                if self.is_audio_file(relative_path):
+                    audio_files.append(file_path)
+
+        if audio_files:
+            # 随机返回一个音频文件路径
+            return random.choice(audio_files)
+        else:
+            return None
