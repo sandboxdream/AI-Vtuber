@@ -102,7 +102,7 @@ class Audio:
             audio_files = []
             for root, dirs, files in os.walk(audio_path):
                 for file in files:
-                    if file.endswith(('.mp3', '.wav', '.flac', '.aac', '.ogg', '.m4a')):
+                    if file.endswith(('.mp3', '.wav', '.MP3', '.WAV', '.flac', '.aac', '.ogg', '.m4a')):
                         audio_files.append(os.path.join(root, file))
 
             # 提取文件名或保留完整文件名
