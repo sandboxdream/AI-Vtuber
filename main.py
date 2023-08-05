@@ -168,21 +168,35 @@ class AI_VTB(QMainWindow):
         widgets = []
 
         for item in data:
-            label_text = item["label_text"]
-            label = QLabel(label_text)
-            label.setToolTip(item["label_tip"])
-            widgets.append(label)
+            if item["label_text"] != "":
+                label_text = item["label_text"]
+                label = QLabel(label_text)
+                label.setToolTip(item["label_tip"])
+                widgets.append(label)
 
             data_type = type(item["data"])
+
+            # 根据数据类型，自动生成对应类实例
             if data_type == str or data_type == int or data_type == float:
                 widget = QLineEdit()
                 widget.setText(str(item["data"]))
                 widget.setObjectName(item["main_obj_name"] + "_QLineEdit_" + str(item["index"]))
             elif data_type == bool:
                 widget = QCheckBox()
-                widget.setText("启用")
+                if item["widget_text"] == "":
+                    widget.setText("启用")
+                else:
+                    widget.setText(item["widget_text"])
                 widget.setChecked(item["data"])
                 widget.setObjectName(item["main_obj_name"] + "_QCheckBox_" + str(item["index"]))
+
+                if item["click_func"] == "show_box":
+                    widget.disconnect()
+                    # 连接点击信号到槽函数
+                    widget.clicked.connect(lambda state, text=item["main_obj_name"]: self.show_box_clicked(state, text))
+                    # 直接运行恢复显隐状态
+                    self.show_box_clicked(item["data"], item["main_obj_name"])
+
             elif data_type == list:
                 widget = QTextEdit()
 
@@ -198,7 +212,7 @@ class AI_VTB(QMainWindow):
 
 
     # 从gridLayout的widgets中获取数据到data
-    def update_data_from_gridLayout(self, gridLayout):
+    def update_data_from_gridLayout(self, gridLayout, type=""):
         def read_widgets_from_gridLayout(gridLayout):
             widgets = []
             for row in range(gridLayout.rowCount()):
@@ -219,7 +233,10 @@ class AI_VTB(QMainWindow):
             if isinstance(widget, QLineEdit):
                 data["QLineEdit_" + str(index)] = widget.text()
             elif isinstance(widget, QCheckBox):
-                data["QCheckBox_" + str(index)] = widget.isChecked()
+                if type == "show_box":
+                    data[widget.objectName()] = widget.isChecked()
+                else:
+                    data["QCheckBox_" + str(index)] = widget.isChecked()
             elif isinstance(widget, QTextEdit):
                 data_list = widget.toPlainText().splitlines()
                 data["QTextEdit_" + str(index)] = data_list
@@ -1024,6 +1041,8 @@ class AI_VTB(QMainWindow):
                     "label_text": "任务" + str(index),
                     "label_tip": "是否启用此定时任务",
                     "data": tmp["enable"],
+                    "widget_text": "",
+                    "click_func": "",
                     "main_obj_name": "schedule",
                     "index": index
                 }
@@ -1054,6 +1073,53 @@ class AI_VTB(QMainWindow):
                 self.ui.gridLayout_schedule.addWidget(widgets[i], row, 0)
                 self.ui.gridLayout_schedule.addWidget(widgets[i + 1], row, 1)
                 row += 1
+
+            # 自定义显隐各板块
+            def get_box_name_by_key(key):
+                # 定义键和值的映射关系
+                key_value_map = {
+                    "read_user_name": "念用户名",
+                    "filter": "过滤",
+                    "thanks": "答谢",
+                    "live2d": "Live2D",
+                    "audio_random_speed": "音频随机变速",
+                    "so_vits_svc": "so-vits-svc",
+                    "ddsp_svc": "DDSP-SVC",
+                    "local_qa": "本地问答",
+                    "choose_song": "点歌模式",
+                    "sd": "Stable Diffusion",
+                    "log": "日志",
+                    "schedule": "定时任务"
+                    # 可以继续添加其他键和值
+                }
+
+                # 查找并返回对应的值，如果找不到键则返回None
+                return key_value_map.get(key)
+
+            data_json = []
+            # 遍历字典并获取键名和对应值
+            for index, (key, value) in enumerate(config.get("show_box").items()):
+                tmp_json = {
+                    "label_text": "",
+                    "label_tip": "",
+                    "data": value,
+                    "widget_text": get_box_name_by_key(key),
+                    "click_func": "show_box",
+                    "main_obj_name": key,
+                    "index": index
+                }
+                data_json.append(tmp_json)
+
+            widgets = self.create_widgets_from_json(data_json)
+
+            # 动态添加widget到对应的gridLayout
+            row, col, max_col = 0, 0, 3
+            for widget in widgets:
+                self.ui.gridLayout_show_box.addWidget(widget, row, col)
+                col += 1
+                if col > max_col:
+                    col = 0
+                    row += 1
 
             # 显隐各板块
             self.oncomboBox_chat_type_IndexChanged(chat_type_index)
@@ -1541,8 +1607,18 @@ class AI_VTB(QMainWindow):
 
             # 写回json
             config_data["schedule"] = reorganize_schedule_data(schedule_data)
-
             # logging.info(config_data)
+
+            # 获取自定义板块显隐的数据
+            show_box_data = self.update_data_from_gridLayout(self.ui.gridLayout_show_box, "show_box")
+            show_box_json = {}
+            for key, value in show_box_data.items():
+                checkbox_name = key.split('_QCheckBox')[0]
+                show_box_json[checkbox_name] = value
+
+            logging.info(show_box_json)
+            config_data["show_box"] = show_box_json
+            
         except Exception as e:
             logging.error(traceback.format_exc())
             self.show_message_box("错误", f"配置项格式有误，请检查配置！\n{e}", QMessageBox.Critical)
@@ -1938,6 +2014,17 @@ class AI_VTB(QMainWindow):
     '''
         UI操作的函数
     '''
+    # 自定义板块显隐
+    def show_box_clicked(self, status, text):
+        box_obj_name = "groupBox_" + text
+        # 使用getattr()函数来从self.ui对象中获取属性。getattr()函数接收三个参数：对象，属性名（字符串），和默认值（可选）。
+        # 如果属性存在，则返回对应的属性值（在这里是一个groupBox对象），否则返回默认值（在这里是None）。
+        # 这样就可以根据字符串构造变量名，并获取对应的groupBox对象。
+        box_widget = getattr(self.ui, box_obj_name, None)
+        if box_widget is not None:
+            box_widget.setVisible(status)
+
+
     # 聊天类型改变 加载显隐不同groupBox
     def oncomboBox_chat_type_IndexChanged(self, index):
         # 各index对应的groupbox的显隐值
