@@ -465,9 +465,11 @@ class AI_VTB(QMainWindow):
             self.ui.label_bark_gui_seed.setToolTip("用于随机数生成器的种子值。使用特定的种子确保相同的输入文本每次生成的语音输出都是相同的。值为-1表示将使用随机种子。")
             self.ui.label_bark_gui_batch_count.setToolTip("指定一次批量合成的句子或话语数量。将其设置为1意味着逐句合成一次。")
 
+            # 点歌
             self.ui.label_choose_song_enable.setToolTip("是否启用点歌模式")
             self.ui.label_choose_song_start_cmd.setToolTip("点歌触发命令（完全匹配才行）")
             self.ui.label_choose_song_stop_cmd.setToolTip("停止点歌命令（完全匹配才行）")
+            self.ui.label_choose_song_random_cmd.setToolTip("随机点歌命令（完全匹配才行）")
             self.ui.label_choose_song_song_path.setToolTip("歌曲音频路径（默认为本项目的song文件夹）")
             self.ui.label_choose_song_match_fail_copy.setToolTip("匹配失败返回的音频文案 注意 {content} 这个是用于替换用户发送的歌名的，请务必不要乱删！影响使用！")
 
@@ -889,6 +891,7 @@ class AI_VTB(QMainWindow):
                 self.ui.checkBox_choose_song_enable.setChecked(True)
             self.ui.lineEdit_choose_song_start_cmd.setText(self.choose_song_config['start_cmd'])
             self.ui.lineEdit_choose_song_stop_cmd.setText(self.choose_song_config['stop_cmd'])
+            self.ui.lineEdit_choose_song_random_cmd.setText(self.choose_song_config['random_cmd'])
             self.ui.lineEdit_choose_song_song_path.setText(self.choose_song_config['song_path'])
             self.ui.lineEdit_choose_song_match_fail_copy.setText(self.choose_song_config['match_fail_copy'])
 
@@ -1428,6 +1431,7 @@ class AI_VTB(QMainWindow):
             config_data["choose_song"]["enable"] = self.ui.checkBox_choose_song_enable.isChecked()
             config_data["choose_song"]["start_cmd"] = self.ui.lineEdit_choose_song_start_cmd.text()
             config_data["choose_song"]["stop_cmd"] = self.ui.lineEdit_choose_song_stop_cmd.text()
+            config_data["choose_song"]["random_cmd"] = self.ui.lineEdit_choose_song_random_cmd.text()
             config_data["choose_song"]["song_path"] = self.ui.lineEdit_choose_song_song_path.text()
             config_data["choose_song"]["match_fail_copy"] = self.ui.lineEdit_choose_song_match_fail_copy.text()
 

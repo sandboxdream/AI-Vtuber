@@ -134,9 +134,9 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>0</y>
+             <y>-5870</y>
              <width>980</width>
-             <height>8234</height>
+             <height>8277</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -1902,16 +1902,6 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
               <layout class="QGridLayout" name="gridLayout_34">
                <item row="0" column="0">
                 <layout class="QGridLayout" name="gridLayout_33">
-                 <item row="1" column="0">
-                  <widget class="QLabel" name="label_choose_song_start_cmd">
-                   <property name="text">
-                    <string>点歌触发命令</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="3" column="1">
-                  <widget class="QLineEdit" name="lineEdit_choose_song_song_path"/>
-                 </item>
                  <item row="2" column="0">
                   <widget class="QLabel" name="label_choose_song_stop_cmd">
                    <property name="text">
@@ -1922,14 +1912,7 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                  <item row="1" column="1">
                   <widget class="QLineEdit" name="lineEdit_choose_song_start_cmd"/>
                  </item>
-                 <item row="0" column="0">
-                  <widget class="QLabel" name="label_choose_song_enable">
-                   <property name="text">
-                    <string>启用</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="3" column="0">
+                 <item row="4" column="0">
                   <widget class="QLabel" name="label_choose_song_song_path">
                    <property name="text">
                     <string>歌曲路径</string>
@@ -1943,18 +1926,45 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="2" column="1">
-                  <widget class="QLineEdit" name="lineEdit_choose_song_stop_cmd"/>
+                 <item row="4" column="1">
+                  <widget class="QLineEdit" name="lineEdit_choose_song_song_path"/>
                  </item>
-                 <item row="4" column="0">
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="label_choose_song_start_cmd">
+                   <property name="text">
+                    <string>点歌触发命令</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_choose_song_enable">
+                   <property name="text">
+                    <string>启用</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="5" column="0">
                   <widget class="QLabel" name="label_choose_song_match_fail_copy">
                    <property name="text">
                     <string>匹配失败文案</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="4" column="1">
+                 <item row="2" column="1">
+                  <widget class="QLineEdit" name="lineEdit_choose_song_stop_cmd"/>
+                 </item>
+                 <item row="5" column="1">
                   <widget class="QLineEdit" name="lineEdit_choose_song_match_fail_copy"/>
+                 </item>
+                 <item row="3" column="1">
+                  <widget class="QLineEdit" name="lineEdit_choose_song_random_cmd"/>
+                 </item>
+                 <item row="3" column="0">
+                  <widget class="QLabel" name="label_choose_song_random_cmd">
+                   <property name="text">
+                    <string>随机点歌命令</string>
+                   </property>
+                  </widget>
                  </item>
                 </layout>
                </item>
@@ -2406,7 +2416,7 @@ p, li { white-space: pre-wrap; }
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>749</width>
+             <width>963</width>
              <height>1267</height>
             </rect>
            </property>
@@ -2852,7 +2862,7 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-182</y>
+             <y>0</y>
              <width>963</width>
              <height>919</height>
             </rect>
@@ -2860,7 +2870,7 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
            <layout class="QVBoxLayout" name="verticalLayout_3">
             <item>
              <widget class="QWidget" name="widget_2" native="true">
-              <layout class="QGridLayout" name="gridLayout_40" rowstretch="1,1,1,1,1,1,1,1,1,1,5,0" columnstretch="1,8,1,0,0,0,0" rowminimumheight="1,1,1,1,1,1,1,1,1,1,1,0">
+              <layout class="QGridLayout" name="gridLayout_40" rowstretch="1,1,1,1,1,1,1,1,1,1,5,0" columnstretch="1,8,1,0,0" rowminimumheight="1,1,1,1,1,1,1,1,1,1,1,0">
                <item row="8" column="0" colspan="5">
                 <widget class="QGroupBox" name="groupBox_talk_google">
                  <property name="title">
@@ -3029,6 +3039,9 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
                </item>
                <item row="9" column="2">
                 <widget class="QPushButton" name="pushButton_talk_chat_box_send">
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
                  <property name="styleSheet">
                   <string notr="true">text-align: center;
 padding: 12px 16px;
