@@ -808,7 +808,9 @@ D:\GitHub_pro\AI-Vtuber-20230: can't open file 'D:\\GitHub_pro\\AI-Vtuber-20230 
 `dy_old.py`不稳定：[douyin-live](https://github.com/YunzhiYike/douyin-live)   
 
 ### 快手弹幕获取
-[kuaishou-live](https://github.com/YunzhiYike/kuaishou-live)  
+旧版本：[kuaishou-live](https://github.com/YunzhiYike/kuaishou-live)  
+新版本：[kuaishou_websocket](https://github.com/Superheroff/kuaishou_websocket)  
+使用新版本时需要注意，请使用小号登录，然后在每次用完之后，把`cookie`文件夹下的`123.json`文件删掉！！！用过一次后cookie就异常了，所以需要删了重新登录！！！  
 
 ### ChatGPT
 官网：[https://chat.openai.com/chat](https://chat.openai.com/chat)  
