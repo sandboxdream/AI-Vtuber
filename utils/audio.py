@@ -30,6 +30,12 @@ class Audio:
     mixer_copywriting = pygame.mixer
     # 全局变量用于保存恢复文案播放计时器对象
     unpause_copywriting_play_timer = None
+    # # 创建消息队列
+    # message_queue = Queue()
+    # # 创建音频路径队列
+    # voice_tmp_path_queue = Queue()
+    # # 文案单独一个线程排队播放
+    # only_play_copywriting_thread = None
 
     def __init__(self, config_path, type=1):  
         self.config = Config(config_path)
@@ -39,16 +45,16 @@ class Audio:
         if type == 2:
             return
     
-
-        # 日志文件路径
-        file_path = "./log/log-" + self.common.get_bj_time(1) + ".txt"
-        Configure_logger(file_path)
-
-
         # 创建消息队列
         self.message_queue = Queue()
         # 创建音频路径队列
         self.voice_tmp_path_queue = Queue()
+        # 文案单独一个线程排队播放
+        self.only_play_copywriting_thread = None
+        
+        # 日志文件路径
+        file_path = "./log/log-" + self.common.get_bj_time(1) + ".txt"
+        Configure_logger(file_path)
 
         # 旧版同步写法
         # threading.Thread(target=self.message_queue_thread).start()
@@ -59,6 +65,7 @@ class Audio:
         threading.Thread(target=lambda: asyncio.run(self.only_play_audio())).start()
         # self.only_play_audio_thread = threading.Thread(target=self.only_play_audio)
         # self.only_play_audio_thread.start()
+
         # 文案单独一个线程排队播放
         self.only_play_copywriting_thread = threading.Thread(target=self.start_only_play_copywriting)
         self.only_play_copywriting_thread.start()
