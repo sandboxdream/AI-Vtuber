@@ -113,6 +113,17 @@
     }
   },
   "vits": {
+    "config_path": "E:\\vits-simple-api\\Model\\ikaros\\config.json",
+    "api_ip_port": "http://127.0.0.1:23456",
+    "id": "0",
+    "format": "1",
+    "lang": "0.33",
+    "length": "0.4",
+    "noise": "0",
+    "noisew": "wav",
+    "max": "ja"
+  },
+  "vits_fast": {
     "config_path": "D:\\GitHub_pro\\VITS-fast-fine-tuning\\inference\\finetune_speaker.json",
     "api_ip_port": "http://127.0.0.1:7860",
     "character": "ikaros",

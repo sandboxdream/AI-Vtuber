@@ -328,7 +328,7 @@ class AI_VTB(QMainWindow):
             self.audio_synthesis_type = config.get("audio_synthesis_type")
 
             self.edge_tts_config = config.get("edge-tts")
-            self.vits_config = config.get("vits")
+            self.vits_fast_config = config.get("vits_fast")
             self.elevenlabs_config = config.get("elevenlabs")
             self.genshinvoice_top_config = config.get("genshinvoice_top")
             self.bark_gui_config = config.get("bark_gui")
@@ -466,10 +466,10 @@ class AI_VTB(QMainWindow):
             self.ui.label_edge_tts_rate.setToolTip("语速增益 默认是 +0%，可以增减，注意 + - %符合别搞没了，不然会影响语音合成")
             self.ui.label_edge_tts_volume.setToolTip("音量增益 默认是 +0%，可以增减，注意 + - %符合别搞没了，不然会影响语音合成")
 
-            self.ui.label_vits_config_path.setToolTip("配置文件的路径，例如：E:\\inference\\finetune_speaker.json")
-            self.ui.label_vits_api_ip_port.setToolTip("推理服务运行的链接（需要完整的URL）")
-            self.ui.label_vits_character.setToolTip("选择的说话人，配置文件中的speaker中的其中一个")
-            self.ui.label_vits_speed.setToolTip("语速，默认为1")
+            self.ui.label_vits_fast_config_path.setToolTip("配置文件的路径，例如：E:\\inference\\finetune_speaker.json")
+            self.ui.label_vits_fast_api_ip_port.setToolTip("推理服务运行的链接（需要完整的URL）")
+            self.ui.label_vits_fast_character.setToolTip("选择的说话人，配置文件中的speaker中的其中一个")
+            self.ui.label_vits_fast_speed.setToolTip("语速，默认为1")
 
             self.ui.label_elevenlabs_api_key.setToolTip("elevenlabs密钥，可以不填，默认也有一定额度的免费使用权限，具体多少不知道")
             self.ui.label_elevenlabs_voice.setToolTip("选择的说话人名")
@@ -838,24 +838,26 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_sparkdesk_api_key.setText(self.sparkdesk_config['api_key'])
 
             self.ui.comboBox_audio_synthesis_type.clear()
-            self.ui.comboBox_audio_synthesis_type.addItems(["Edge-TTS", "VITS-Fast", "elevenlabs", "genshinvoice_top", "bark_gui"])
+            self.ui.comboBox_audio_synthesis_type.addItems(["Edge-TTS", "VITS", "VITS-Fast", "elevenlabs", "genshinvoice_top", "bark_gui"])
             audio_synthesis_type_index = 0
             if self.audio_synthesis_type == "edge-tts":
                 audio_synthesis_type_index = 0
             elif self.audio_synthesis_type == "vits":
                 audio_synthesis_type_index = 1
-            elif self.audio_synthesis_type == "elevenlabs":
+            elif self.audio_synthesis_type == "vits_fast":
                 audio_synthesis_type_index = 2
-            elif self.audio_synthesis_type == "genshinvoice_top":
+            elif self.audio_synthesis_type == "elevenlabs":
                 audio_synthesis_type_index = 3
-            elif self.audio_synthesis_type == "bark_gui":
+            elif self.audio_synthesis_type == "genshinvoice_top":
                 audio_synthesis_type_index = 4
+            elif self.audio_synthesis_type == "bark_gui":
+                audio_synthesis_type_index = 5
             self.ui.comboBox_audio_synthesis_type.setCurrentIndex(audio_synthesis_type_index)
 
-            self.ui.lineEdit_vits_config_path.setText(self.vits_config['config_path'])
-            self.ui.lineEdit_vits_api_ip_port.setText(self.vits_config['api_ip_port'])
-            self.ui.lineEdit_vits_character.setText(self.vits_config['character'])
-            self.ui.lineEdit_vits_speed.setText(str(self.vits_config['speed']))
+            self.ui.lineEdit_vits_fast_config_path.setText(self.vits_fast_config['config_path'])
+            self.ui.lineEdit_vits_fast_api_ip_port.setText(self.vits_fast_config['api_ip_port'])
+            self.ui.lineEdit_vits_fast_character.setText(self.vits_fast_config['character'])
+            self.ui.lineEdit_vits_fast_speed.setText(str(self.vits_fast_config['speed']))
 
             self.ui.comboBox_edge_tts_voice.clear()
             with open('data\edge-tts-voice-list.txt', 'r') as file:
@@ -1202,6 +1204,104 @@ class AI_VTB(QMainWindow):
                 row += 1
 
 
+            # VITS
+            def vits_gui_create():
+                data_json = []
+
+                vits_config = config.get("vits")
+                tmp_json = {
+                    "label_text": "配置文件路径",
+                    "label_tip": "模型配置文件存储路径",
+                    "data": vits_config["config_path"],
+                    "main_obj_name": "vits",
+                    "index": 0
+                }
+                data_json.append(tmp_json)
+
+                tmp_json = {
+                    "label_text": "API地址",
+                    "label_tip": "vits-simple-api启动后监听的ip端口地址",
+                    "data": vits_config["api_ip_port"],
+                    "main_obj_name": "vits",
+                    "index": 1
+                }
+                data_json.append(tmp_json)
+
+                tmp_json = {
+                    "label_text": "说话人ID",
+                    "label_tip": "API启动时会给配置文件重新划分id，一般为拼音顺序排列，从0开始",
+                    "data": vits_config["id"],
+                    "main_obj_name": "vits",
+                    "index": 2
+                }
+                data_json.append(tmp_json)
+
+                tmp_json = {
+                    "label_text": "语言",
+                    "label_tip": "auto为自动识别语言模式，也是默认模式。lang=mix时，文本应该用[ZH] 或 [JA] 包裹。方言无法自动识别。",
+                    "data": vits_config["lang"],
+                    "main_obj_name": "vits",
+                    "index": 4
+                }
+                data_json.append(tmp_json)
+
+                tmp_json = {
+                    "label_text": "语音长度",
+                    "label_tip": "调节语音长度，相当于调节语速，该数值越大语速越慢",
+                    "data": vits_config["length"],
+                    "main_obj_name": "vits",
+                    "index": 5
+                }
+                data_json.append(tmp_json)
+
+                tmp_json = {
+                    "label_text": "噪声",
+                    "label_tip": "控制感情变化程度",
+                    "data": vits_config["noise"],
+                    "main_obj_name": "vits",
+                    "index": 6
+                }
+                data_json.append(tmp_json)
+
+                tmp_json = {
+                    "label_text": "噪声偏差",
+                    "label_tip": "控制音素发音长度",
+                    "data": vits_config["noisew"],
+                    "main_obj_name": "vits",
+                    "index": 7
+                }
+                data_json.append(tmp_json)
+
+                tmp_json = {
+                    "label_text": "分段阈值",
+                    "label_tip": "按标点符号分段，加起来大于max时为一段文本。max<=0表示不分段。",
+                    "data": vits_config["max"],
+                    "main_obj_name": "vits",
+                    "index": 8
+                }
+                data_json.append(tmp_json)
+
+                tmp_json = {
+                    "label_text": "音频格式",
+                    "label_tip": "支持wav,ogg,silk,mp3,flac",
+                    "data": vits_config["format"],
+                    "main_obj_name": "vits",
+                    "index": 3
+                }
+                data_json.append(tmp_json)
+
+                widgets = self.create_widgets_from_json(data_json)
+
+                # 动态添加widget到对应的gridLayout
+                row = 0
+                # 分2列，左边就是label说明，右边就是输入框等
+                for i in range(0, len(widgets), 2):
+                    self.ui.gridLayout_vits.addWidget(widgets[i], row, 0)
+                    self.ui.gridLayout_vits.addWidget(widgets[i + 1], row, 1)
+                    row += 1
+
+            vits_gui_create()
+
             # 显隐各板块
             self.oncomboBox_chat_type_IndexChanged(chat_type_index)
             self.oncomboBox_audio_synthesis_type_IndexChanged(audio_synthesis_type_index)
@@ -1530,8 +1630,10 @@ class AI_VTB(QMainWindow):
             audio_synthesis_type = self.ui.comboBox_audio_synthesis_type.currentText()
             if audio_synthesis_type == "Edge-TTS":
                 config_data["audio_synthesis_type"] = "edge-tts"
-            elif audio_synthesis_type == "VITS-Fast":
+            elif audio_synthesis_type == "VITS":
                 config_data["audio_synthesis_type"] = "vits"
+            elif audio_synthesis_type == "VITS-Fast":
+                config_data["audio_synthesis_type"] = "vits_fast"
             elif audio_synthesis_type == "elevenlabs":
                 config_data["audio_synthesis_type"] = "elevenlabs"
             elif audio_synthesis_type == "genshinvoice_top":
@@ -1547,14 +1649,14 @@ class AI_VTB(QMainWindow):
             config_data["audio_random_speed"]["copywriting"]["speed_min"] = round(float(self.ui.lineEdit_audio_random_speed_copywriting_speed_min.text()), 2)
             config_data["audio_random_speed"]["copywriting"]["speed_max"] = round(float(self.ui.lineEdit_audio_random_speed_copywriting_speed_max.text()), 2)
 
-            vits_config_path = self.ui.lineEdit_vits_config_path.text()
-            config_data["vits"]["config_path"] = vits_config_path
-            vits_api_ip_port = self.ui.lineEdit_vits_api_ip_port.text()
-            config_data["vits"]["api_ip_port"] = vits_api_ip_port
-            vits_character = self.ui.lineEdit_vits_character.text()
-            config_data["vits"]["character"] = vits_character
-            vits_speed = self.ui.lineEdit_vits_speed.text()
-            config_data["vits"]["speed"] = round(float(vits_speed), 1)
+            vits_fast_config_path = self.ui.lineEdit_vits_fast_config_path.text()
+            config_data["vits_fast"]["config_path"] = vits_fast_config_path
+            vits_fast_api_ip_port = self.ui.lineEdit_vits_fast_api_ip_port.text()
+            config_data["vits_fast"]["api_ip_port"] = vits_fast_api_ip_port
+            vits_fast_character = self.ui.lineEdit_vits_fast_character.text()
+            config_data["vits_fast"]["character"] = vits_fast_character
+            vits_fast_speed = self.ui.lineEdit_vits_fast_speed.text()
+            config_data["vits_fast"]["speed"] = round(float(vits_fast_speed), 1)
 
             config_data["edge-tts"]["voice"] = self.ui.comboBox_edge_tts_voice.currentText()
             config_data["edge-tts"]["rate"] = self.ui.lineEdit_edge_tts_rate.text()
@@ -1730,6 +1832,30 @@ class AI_VTB(QMainWindow):
             config_data["copywriting"]["audio_interval"] = round(float(self.ui.lineEdit_copywriting_audio_interval.text()), 1)
             config_data["copywriting"]["switching_interval"] = round(float(self.ui.lineEdit_copywriting_switching_interval.text()), 1)
             config_data["copywriting"]["random_play"] = self.ui.checkBox_copywriting_switching_random_play.isChecked()
+
+            # VITS
+            def reorganize_vits_data(vits_data):
+                keys = list(vits_data.keys())
+
+                tmp_json = {
+                    "config_path": vits_data[keys[0]],
+                    "api_ip_port": vits_data[keys[1]],
+                    "id": vits_data[keys[2]],
+                    "format": vits_data[keys[3]],
+                    "lang": vits_data[keys[4]],
+                    "length": vits_data[keys[5]],
+                    "noise": vits_data[keys[6]],
+                    "noisew": vits_data[keys[7]],
+                    "max": vits_data[keys[8]]
+                }
+
+                logging.debug(f"tmp_json={tmp_json}")
+
+                return tmp_json
+
+            vits_data = self.update_data_from_gridLayout(self.ui.gridLayout_vits)
+            # 写回json
+            config_data["vits"] = reorganize_vits_data(vits_data)
 
             # 获取自定义板块显隐的数据
             show_box_data = self.update_data_from_gridLayout(self.ui.gridLayout_show_box, "show_box")
@@ -2384,20 +2510,22 @@ class AI_VTB(QMainWindow):
     def oncomboBox_audio_synthesis_type_IndexChanged(self, index):
         # 各index对应的groupbox的显隐值
         visibility_map = {
-            0: (1, 0, 0, 0, 0),
-            1: (0, 1, 0, 0, 0),
-            2: (0, 0, 1, 0, 0),
-            3: (0, 0, 0, 1, 0),
-            4: (0, 0, 0, 0, 1)
+            0: (1, 0, 0, 0, 0, 0),
+            1: (0, 1, 0, 0, 0, 0),
+            2: (0, 0, 1, 0, 0, 0),
+            3: (0, 0, 0, 1, 0, 0),
+            4: (0, 0, 0, 0, 1, 0),
+            5: (0, 0, 0, 0, 0, 1)
         }
 
-        visibility_values = visibility_map.get(index, (0, 0, 0, 0, 0))
+        visibility_values = visibility_map.get(index, (0, 0, 0, 0, 0, 0))
 
         self.ui.groupBox_edge_tts.setVisible(visibility_values[0])
-        self.ui.groupBox_vits_fast.setVisible(visibility_values[1])
-        self.ui.groupBox_elevenlabs.setVisible(visibility_values[2])
-        self.ui.groupBox_genshinvoice_top.setVisible(visibility_values[3])
-        self.ui.groupBox_bark_gui.setVisible(visibility_values[4])
+        self.ui.groupBox_vits.setVisible(visibility_values[1])
+        self.ui.groupBox_vits_fast.setVisible(visibility_values[2])
+        self.ui.groupBox_elevenlabs.setVisible(visibility_values[3])
+        self.ui.groupBox_genshinvoice_top.setVisible(visibility_values[4])
+        self.ui.groupBox_bark_gui.setVisible(visibility_values[5])
 
 
     # 语音识别类型改变 加载显隐不同groupBox

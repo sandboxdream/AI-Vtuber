@@ -20,6 +20,8 @@ from pydub import AudioSegment
 from .common import Common
 from .logger import Configure_logger
 from .config import Config
+from utils.audio_handle.my_tts import MY_TTS
+
 
 
 class Audio:
@@ -40,6 +42,7 @@ class Audio:
     def __init__(self, config_path, type=1):  
         self.config = Config(config_path)
         self.common = Common()
+        self.my_tts = MY_TTS(config_path)
 
         # 文案模式
         if type == 2:
@@ -303,7 +306,7 @@ class Audio:
             return None
         
 
-    # 音频合成（edge-tts / vits）并播放
+    # 音频合成（edge-tts / vits_fast）并播放
     def audio_synthesis(self, message):
         try:
             logging.debug(message)
@@ -413,6 +416,46 @@ class Audio:
                 # 语言检测
                 language = self.common.lang_check(message["content"])
 
+                logging.debug(f"message['content']={message['content']}")
+
+                # 自定义语言名称（需要匹配请求解析）
+                language_name_dict = {"en": "en", "zh": "zh", "jp": "ja"}  
+
+                if language in language_name_dict:
+                    language = language_name_dict[language]
+                else:
+                    language = "ja"  # 无法识别出语言代码时的默认值
+
+                # logging.info("language=" + language)
+
+                data = {
+                    "api_ip_port": message["data"]["api_ip_port"],
+                    "id": message["data"]["id"],
+                    "format": message["data"]["format"],
+                    "lang": language,
+                    "length": message["data"]["length"],
+                    "noise": message["data"]["noise"],
+                    "noisew": message["data"]["noisew"],
+                    "max": message["data"]["max"],
+                    "content": message["content"]
+                }
+
+                # 调用接口合成语音
+                voice_tmp_path = await self.my_tts.vits_api(data)
+                logging.info(f"vits合成成功，输出到={voice_tmp_path}") 
+
+                if voice_tmp_path is None:
+                    return
+
+                await voice_change_and_put_to_queue(message, voice_tmp_path)  
+            except Exception as e:
+                logging.error(e)
+                return
+        elif message["tts_type"] == "vits_fast":
+            try:
+                # 语言检测
+                language = self.common.lang_check(message["content"])
+
                 # 自定义语言名称（需要匹配请求解析）
                 language_name_dict = {"en": "英语", "zh": "中文", "jp": "日语"}  
 
@@ -439,7 +482,7 @@ class Audio:
                     return
 
                 voice_tmp_path = data_json["data"][1]["name"]
-                print(f"vits-fast合成成功，输出到={voice_tmp_path}")
+                logging.info(f"vits-fast合成成功，输出到={voice_tmp_path}")
 
                 await voice_change_and_put_to_queue(message, voice_tmp_path)   
             except Exception as e:
@@ -478,7 +521,7 @@ class Audio:
         elif message["tts_type"] == "genshinvoice_top":
             try:
                 voice_tmp_path = await self.genshinvoice_top_api(message["content"])
-                print(f"genshinvoice.top合成成功，输出到={voice_tmp_path}")
+                logging.info(f"genshinvoice.top合成成功，输出到={voice_tmp_path}")
 
                 if voice_tmp_path is None:
                     return
@@ -503,7 +546,7 @@ class Audio:
 
                 # 调用接口合成语音
                 voice_tmp_path = self.bark_gui_api(data)
-                print(f"vits-fast合成成功，输出到={voice_tmp_path}")
+                logging.info(f"bark_gui合成成功，输出到={voice_tmp_path}")
 
                 if voice_tmp_path is None:
                     return
@@ -828,7 +871,7 @@ class Audio:
             max_len = self.config.get("filter", "max_len")
             max_char_len = self.config.get("filter", "max_char_len")
             audio_synthesis_type = self.config.get("audio_synthesis_type")
-            vits = self.config.get("vits")
+            vits_fast = self.config.get("vits_fast")
             edge_tts_config = self.config.get("edge-tts")
             file_path = os.path.join(file_path)
 
@@ -873,7 +916,7 @@ class Audio:
             for content in sentences:
                 file_index = file_index + 1
 
-                if audio_synthesis_type == "vits":
+                if audio_synthesis_type == "vits_fast":
                     try:
                         # 语言检测
                         language = self.common.lang_check(content)
@@ -889,9 +932,9 @@ class Audio:
                         # logging.info("language=" + language)
 
                         data = {
-                            "api_ip_port": vits["api_ip_port"],
-                            "character": vits["character"],
-                            "speed": vits["speed"],
+                            "api_ip_port": vits_fast["api_ip_port"],
+                            "character": vits_fast["character"],
+                            "speed": vits_fast["speed"],
                             "language": language,
                             "content": content
                         }
