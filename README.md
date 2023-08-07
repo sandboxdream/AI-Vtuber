@@ -279,14 +279,14 @@ GUI程序运行后会自动加载配置文件，可以通过GUI程序进行配�
     // 默认本地向量数据库模型
     "local_vector_embedding_model": "sebastian-hofstaetter/distilbert-dot-tas_b-b256-msmarco"
   },
-  // 语音合成类型选择 edge-tts/vits/elevenlabs
+  // 语音合成类型选择 edge-tts/vits_fast/elevenlabs
   "audio_synthesis_type": "edge-tts",
-  // vits相关配置
-  "vits": {
+  // vits_fast相关配置
+  "vits_fast": {
     // 配置文件的路径
-    "vits_config_path": "E:\\GitHub_pro\\VITS-fast-fine-tuning\\inference\\finetune_speaker.json",
+    "vits_fast_config_path": "E:\\GitHub_pro\\VITS-fast-fine-tuning\\inference\\finetune_speaker.json",
     // 推理服务运行的链接（需要完整的URL）
-    "vits_api_ip_port": "http://127.0.0.1:7860",
+    "vits_fast_api_ip_port": "http://127.0.0.1:7860",
     // 选择的说话人，配置文件中的speaker中的其中一个
     "character": "ikaros"
   },
@@ -910,6 +910,11 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 整合包：[【AI绘画】Stable Diffusion整合包v4.2发布！全新加速 解压即用 防爆显存 三分钟入门AI绘画 ☆可更新 ☆训练 ☆汉化](https://www.bilibili.com/video/BV1iM4y1y7oA)  
 启动API模式，填写相关配置即可接入。  
 
+### VITS
+emotional-vits官方仓库：[emotional-vits](https://github.com/innnky/emotional-vits)  
+接入API：[vits-simple-api](https://github.com/Artrajz/vits-simple-api)  
+个人提供的已训练好的模型：[点我跳转](https://github.com/Ikaros-521/emotional-vits/releases)  
+
 ### VITS-fast-fine-tuning
 官方仓库：[VITS-fast-fine-tuning](https://github.com/Plachtaa/VITS-fast-fine-tuning)  
 个人提供的已训练好的模型：[点我跳转](https://github.com/Ikaros-521/VITS-fast-fine-tuning/releases)  
@@ -1299,6 +1304,9 @@ cmd输入命令即可：`doctoc /path/to/file`
 - 文案页，文案配置改为动态加载，即可以支持无限制的多套文案。
 - 修复文案和聊天同时使用时，音频播放会一次性播放2个的bug；b站重复调用的部分也做了删除。
 - 文案页 新增文案编号配置项和增删按钮，用于对文案配置进行动态的增删操作。
+
+### 2023-08-07
+- VITS全面改为VITS-Fast，新增VITS（原版，配合vits-simple-api使用），此更新变动较大，可能存在隐患，需要注意
 
 </details>
 

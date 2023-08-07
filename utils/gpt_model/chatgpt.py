@@ -67,7 +67,7 @@ class Chatgpt:
 
         # 捕获异常并打印堆栈跟踪信息
         except Exception as error:
-            traceback.logging.info_exc()
+            logging.error(traceback.format_exc())
             return str('异常: ' + str(error))
 
 

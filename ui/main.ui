@@ -134,9 +134,9 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-7624</y>
+             <y>-4853</y>
              <width>980</width>
-             <height>8340</height>
+             <height>8416</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -1604,6 +1604,18 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
              </widget>
             </item>
             <item>
+             <widget class="QGroupBox" name="groupBox_vits">
+              <property name="title">
+               <string>VITS</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_63">
+               <item row="0" column="0">
+                <layout class="QGridLayout" name="gridLayout_vits"/>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
              <widget class="QGroupBox" name="groupBox_vits_fast">
               <property name="title">
                <string>VITS-Fast</string>
@@ -1612,44 +1624,44 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                <item row="0" column="1">
                 <layout class="QGridLayout" name="gridLayout_24">
                  <item row="0" column="0">
-                  <widget class="QLabel" name="label_vits_config_path">
+                  <widget class="QLabel" name="label_vits_fast_config_path">
                    <property name="text">
                     <string>配置文件路径</string>
                    </property>
                   </widget>
                  </item>
                  <item row="2" column="2">
-                  <widget class="QLineEdit" name="lineEdit_vits_character"/>
+                  <widget class="QLineEdit" name="lineEdit_vits_fast_character"/>
                  </item>
                  <item row="2" column="0">
-                  <widget class="QLabel" name="label_vits_character">
+                  <widget class="QLabel" name="label_vits_fast_character">
                    <property name="text">
                     <string>说话人</string>
                    </property>
                   </widget>
                  </item>
                  <item row="1" column="2">
-                  <widget class="QLineEdit" name="lineEdit_vits_api_ip_port"/>
+                  <widget class="QLineEdit" name="lineEdit_vits_fast_api_ip_port"/>
                  </item>
                  <item row="0" column="2">
-                  <widget class="QLineEdit" name="lineEdit_vits_config_path"/>
+                  <widget class="QLineEdit" name="lineEdit_vits_fast_config_path"/>
                  </item>
                  <item row="1" column="0">
-                  <widget class="QLabel" name="label_vits_api_ip_port">
+                  <widget class="QLabel" name="label_vits_fast_api_ip_port">
                    <property name="text">
                     <string>API地址</string>
                    </property>
                   </widget>
                  </item>
                  <item row="3" column="0">
-                  <widget class="QLabel" name="label_vits_speed">
+                  <widget class="QLabel" name="label_vits_fast_speed">
                    <property name="text">
                     <string>语速</string>
                    </property>
                   </widget>
                  </item>
                  <item row="3" column="2">
-                  <widget class="QLineEdit" name="lineEdit_vits_speed"/>
+                  <widget class="QLineEdit" name="lineEdit_vits_fast_speed"/>
                  </item>
                 </layout>
                </item>
@@ -2428,7 +2440,7 @@ p, li { white-space: pre-wrap; }
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>963</width>
+             <width>690</width>
              <height>1113</height>
             </rect>
            </property>
@@ -2668,7 +2680,7 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>917</width>
+                    <width>644</width>
                     <height>498</height>
                    </rect>
                   </property>
@@ -2755,7 +2767,7 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>963</width>
+             <width>422</width>
              <height>919</height>
             </rect>
            </property>

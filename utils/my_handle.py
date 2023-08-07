@@ -329,7 +329,7 @@ class My_handle():
                     "content": resp_content
                 }
 
-                # 音频合成（edge-tts / vits）并播放
+                # 音频合成（edge-tts / vits_fast）并播放
                 My_handle.audio.audio_synthesis(message)
 
                 return True
@@ -370,7 +370,7 @@ class My_handle():
                         "content": resp_content
                     }
                     
-                    # 音频合成（edge-tts / vits）并播放
+                    # 音频合成（edge-tts / vits_fast）并播放
                     My_handle.audio.audio_synthesis(message)
 
                     return True
@@ -418,7 +418,7 @@ class My_handle():
                         "content": resp_content
                     }
 
-                    # 音频合成（edge-tts / vits）并播放
+                    # 音频合成（edge-tts / vits_fast）并播放
                     My_handle.audio.audio_synthesis(message)
 
                     return True
@@ -441,7 +441,7 @@ class My_handle():
                     "content": resp_content
                 }
                 
-                # 音频合成（edge-tts / vits）并播放
+                # 音频合成（edge-tts / vits_fast）并播放
                 My_handle.audio.audio_synthesis(message)
 
                 return True
@@ -467,7 +467,7 @@ class My_handle():
                     "content": resp_content
                 }
                 
-                # 音频合成（edge-tts / vits）并播放
+                # 音频合成（edge-tts / vits_fast）并播放
                 My_handle.audio.audio_synthesis(message)
 
                 return True
@@ -672,7 +672,7 @@ class My_handle():
             "content": content
         }
 
-        # 音频合成（edge-tts / vits）并播放
+        # 音频合成（edge-tts / vits_fast）并播放
         My_handle.audio.audio_synthesis(message)
 
 
@@ -835,7 +835,7 @@ class My_handle():
             "content": resp_content
         }
 
-        # 音频合成（edge-tts / vits）并播放
+        # 音频合成（edge-tts / vits_fast）并播放
         My_handle.audio.audio_synthesis(message)
 
 
@@ -869,7 +869,7 @@ class My_handle():
                 "content": resp_content
             }
 
-            # 音频合成（edge-tts / vits）并播放
+            # 音频合成（edge-tts / vits_fast）并播放
             My_handle.audio.audio_synthesis(message)
         except Exception as e:
             logging.error(e)
@@ -901,7 +901,7 @@ class My_handle():
                 "content": resp_content
             }
 
-            # 音频合成（edge-tts / vits）并播放
+            # 音频合成（edge-tts / vits_fast）并播放
             My_handle.audio.audio_synthesis(message)
         except Exception as e:
             logging.error(e)
@@ -921,7 +921,7 @@ class My_handle():
                 "content": content
             }
 
-            # 音频合成（edge-tts / vits）并播放
+            # 音频合成（edge-tts / vits_fast）并播放
             My_handle.audio.audio_synthesis(message)
         except Exception as e:
             logging.error(e)
