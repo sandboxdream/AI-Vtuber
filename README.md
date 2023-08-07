@@ -1307,6 +1307,7 @@ cmd输入命令即可：`doctoc /path/to/file`
 
 ### 2023-08-07
 - VITS全面改为VITS-Fast，新增VITS（原版，配合vits-simple-api使用），此更新变动较大，可能存在隐患，需要注意
+- 优化audio部分代码，tts部分源码全部拆到`utils\audio_handle\my_tts.py`中
 
 </details>
 
