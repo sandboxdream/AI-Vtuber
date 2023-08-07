@@ -1841,12 +1841,12 @@ class AI_VTB(QMainWindow):
                     "config_path": vits_data[keys[0]],
                     "api_ip_port": vits_data[keys[1]],
                     "id": vits_data[keys[2]],
-                    "format": vits_data[keys[3]],
-                    "lang": vits_data[keys[4]],
-                    "length": vits_data[keys[5]],
-                    "noise": vits_data[keys[6]],
-                    "noisew": vits_data[keys[7]],
-                    "max": vits_data[keys[8]]
+                    "format": vits_data[keys[8]],
+                    "lang": vits_data[keys[3]],
+                    "length": vits_data[keys[4]],
+                    "noise": vits_data[keys[5]],
+                    "noisew": vits_data[keys[6]],
+                    "max": vits_data[keys[7]]
                 }
 
                 logging.debug(f"tmp_json={tmp_json}")
