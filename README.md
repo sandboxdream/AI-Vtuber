@@ -611,6 +611,7 @@ pip install -r requirements_ks.txt
 
 新版本：  
 请在安装完依赖后，安装火狐浏览器内核。参考命令：`playwright install firefox`  
+如果你是整合包，项目路径打开cmd，然后使用`Miniconda3\python.exe Miniconda3\Scripts\playwright.exe install firefox`进行安装。
 使用新版本时需要注意，请使用小号登录，然后在每次用完之后，把`cookie`文件夹下的`123.json`文件删掉！！！用过一次后cookie就异常了，所以需要删了重新登录！！！  
 
 旧版本：  
@@ -816,6 +817,7 @@ D:\GitHub_pro\AI-Vtuber-20230: can't open file 'D:\\GitHub_pro\\AI-Vtuber-20230 
 `ks.py`新版本：[kuaishou_websocket](https://github.com/Superheroff/kuaishou_websocket)  
 使用新版本时需要注意，请使用小号登录，然后在每次用完之后，把`cookie`文件夹下的`123.json`文件删掉！！！用过一次后cookie就异常了，所以需要删了重新登录！！！  
 另外如果你是自行安装环境，请在安装完依赖后，安装火狐浏览器内核。参考命令：`playwright install firefox`  
+如果你是整合包，项目路径打开cmd，然后使用`Miniconda3\python.exe Miniconda3\Scripts\playwright.exe install firefox`进行安装。  
 
 
 `ks_old.py`旧版本：[kuaishou-live](https://github.com/YunzhiYike/kuaishou-live)  
