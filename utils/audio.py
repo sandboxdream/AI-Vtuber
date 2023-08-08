@@ -123,7 +123,7 @@ class Audio:
 
             return file_names
         except Exception as e:
-            logging.error(e)
+            logging.error(traceback.format_exc())
             return None
 
 
@@ -140,7 +140,7 @@ class Audio:
                 # 加个延时 降低点edge-tts的压力
                 # await asyncio.sleep(0.5)
             except Exception as e:
-                logging.error(e)
+                logging.error(traceback.format_exc())
 
 
     # 调用so-vits-svc的api
@@ -171,7 +171,7 @@ class Audio:
 
                         return None
         except Exception as e:
-            logging.error(e)
+            logging.error(traceback.format_exc())
             return None
 
 
@@ -206,7 +206,7 @@ class Audio:
                         return None
 
         except Exception as e:
-            logging.error(e)
+            logging.error(traceback.format_exc())
             return None
         
 
@@ -279,7 +279,7 @@ class Audio:
 
             message["content"] = message["content"].replace('\n', '。')
         except Exception as e:
-            logging.error(e)
+            logging.error(traceback.format_exc())
             return
         
 
@@ -353,7 +353,7 @@ class Audio:
 
                 await voice_change_and_put_to_queue(message, voice_tmp_path)  
             except Exception as e:
-                logging.error(e)
+                logging.error(traceback.format_exc())
                 return
         elif message["tts_type"] == "vits_fast":
             try:
@@ -395,7 +395,7 @@ class Audio:
 
                 await voice_change_and_put_to_queue(message, voice_tmp_path)   
             except Exception as e:
-                logging.error(e)
+                logging.error(traceback.format_exc())
                 return
         elif message["tts_type"] == "edge-tts":
             try:
@@ -410,7 +410,7 @@ class Audio:
 
                 await voice_change_and_put_to_queue(message, voice_tmp_path)  
             except Exception as e:
-                logging.error(e)
+                logging.error(traceback.format_exc())
         elif message["tts_type"] == "elevenlabs":
             try:
                 # 如果配置了密钥就设置上0.0
@@ -425,7 +425,7 @@ class Audio:
 
                 play(audio)
             except Exception as e:
-                logging.error(e)
+                logging.error(traceback.format_exc())
                 return
         elif message["tts_type"] == "genshinvoice_top":
             try:
@@ -437,7 +437,7 @@ class Audio:
 
                 await voice_change_and_put_to_queue(message, voice_tmp_path)  
             except Exception as e:
-                logging.error(e)
+                logging.error(traceback.format_exc())
                 return
         elif message["tts_type"] == "bark_gui":
             try:
@@ -462,7 +462,7 @@ class Audio:
                 
                 await voice_change_and_put_to_queue(message, voice_tmp_path)  
             except Exception as e:
-                logging.error(e)
+                logging.error(traceback.format_exc())
                 return
 
 
@@ -573,10 +573,10 @@ class Audio:
                         # 延时执行恢复文案播放
                         self.delayed_execution_unpause_copywriting_play()
                 except Exception as e:
-                    logging.error(e)
+                    logging.error(traceback.format_exc())
             Audio.mixer_normal.quit()
         except Exception as e:
-            logging.error(e)
+            logging.error(traceback.format_exc())
 
 
     # 停止当前播放的音频
@@ -716,10 +716,10 @@ class Audio:
                                 reload_tmp_play_list(index, play_list_arr)
 
             except Exception as e:
-                logging.error(e)
+                logging.error(traceback.format_exc())
             Audio.mixer_copywriting.quit()
         except Exception as e:
-            logging.error(e)
+            logging.error(traceback.format_exc())
 
 
     # 暂停文案播放
@@ -866,7 +866,7 @@ class Audio:
 
                         # self.voice_tmp_path_queue.put(voice_tmp_path)
                     except Exception as e:
-                        logging.error(e)
+                        logging.error(traceback.format_exc())
                         return
                 elif audio_synthesis_type == "vits_fast":
                     try:
@@ -902,7 +902,7 @@ class Audio:
 
                         # self.voice_tmp_path_queue.put(voice_tmp_path)
                     except Exception as e:
-                        logging.error(e)
+                        logging.error(traceback.format_exc())
                         return
                 elif audio_synthesis_type == "edge-tts":
                     try:
@@ -919,7 +919,7 @@ class Audio:
 
                         # self.voice_tmp_path_queue.put(voice_tmp_path)
                     except Exception as e:
-                        logging.error(e)
+                        logging.error(traceback.format_exc())
                 elif audio_synthesis_type == "elevenlabs":
                     return
                 
@@ -936,7 +936,7 @@ class Audio:
 
                         # play(audio)
                     except Exception as e:
-                        logging.error(e)
+                        logging.error(traceback.format_exc())
                         return
                 elif audio_synthesis_type == "bark_gui":
                     try:
@@ -961,7 +961,7 @@ class Audio:
                         
                         await voice_change_and_put_to_queue(voice_tmp_path)
                     except Exception as e:
-                        logging.error(e)
+                        logging.error(traceback.format_exc())
                         return
 
             # 进行音频合并 输出到文案音频路径
@@ -978,6 +978,6 @@ class Audio:
 
             return file_path
         except Exception as e:
-            logging.error(e)
+            logging.error(traceback.format_exc())
             return None
         
