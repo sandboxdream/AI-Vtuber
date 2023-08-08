@@ -1065,6 +1065,7 @@ cmd输入命令即可：`doctoc /path/to/file`
 - [ ] 文案拒绝打断机制
 - [x] 文案页支持动态加载文案
 - [x] 支持关闭聊天（LLM等）
+- [ ] langchain-chatglm的接入
 
 ## 📝更新日志
 
