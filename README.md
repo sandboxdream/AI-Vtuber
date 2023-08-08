@@ -1313,6 +1313,9 @@ cmd输入命令即可：`doctoc /path/to/file`
 - 优化audio部分代码，tts部分源码全部拆到`utils\audio_handle\my_tts.py`中
 - 修复VITS配置保存后错乱的bug
 
+### 2023-08-08
+- 修复违禁拼音在拼音部分包含违禁拼音的情况下也被过滤的bug
+
 </details>
 
 

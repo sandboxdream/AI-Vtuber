@@ -145,7 +145,8 @@ class Common:
 
         for word in sensitive_words:
             pinyin_word = self.text2pinyin(word)
-            if pinyin_word in pinyin_text:
+            pattern = r'\b' + re.escape(pinyin_word) + r'\b'
+            if re.search(pattern, pinyin_text):
                 logging.warning(f"同音违禁拼音：{pinyin_word}")
                 return True
 
