@@ -637,7 +637,7 @@ class My_handle():
 
         # 违禁词过滤
         if self.filter_config["badwords_path"] != "":
-            if My_handle.common.check_sensitive_words(self.filter_config["badwords_path"], content):
+            if My_handle.common.check_sensitive_words2(self.filter_config["badwords_path"], content):
                 logging.warning(f"本地违禁词：{content}")
                 return True
 
