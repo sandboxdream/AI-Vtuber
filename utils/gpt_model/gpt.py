@@ -14,6 +14,7 @@ from utils.gpt_model.chatgpt import Chatgpt
 from utils.gpt_model.claude import Claude
 from utils.gpt_model.text_generation_webui import TEXT_GENERATION_WEBUI
 from utils.gpt_model.sparkdesk import SPARKDESK
+from utils.gpt_model.langchain_chatglm import Langchain_ChatGLM
 
 
 class GPT_Model:
@@ -24,6 +25,7 @@ class GPT_Model:
     chatglm = None
     text_generation_webui = None
     sparkdesk = None
+    langchain_chatglm = None
 
     def set_model_config(self, model_name, config):
         if model_name == "openai":
@@ -41,6 +43,8 @@ class GPT_Model:
             self.text_generation_webui = TEXT_GENERATION_WEBUI(config)
         elif model_name == "sparkdesk":
             self.sparkdesk = SPARKDESK(config)
+        elif model_name == "langchain_chatglm":
+            self.langchain_chatglm = Langchain_ChatGLM(config)
 
     def get(self, name):
         logging.info("GPT_MODEL: 进入get方法")
@@ -57,6 +61,8 @@ class GPT_Model:
                 return self.text_generation_webui
             case "sparkdesk":
                 return self.sparkdesk
+            case "langchain_chatglm":
+                return self.langchain_chatglm
             case _:
                 logging.error(f"{name} 该模型不支持")
                 return

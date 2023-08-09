@@ -1319,6 +1319,8 @@ cmd输入命令即可：`doctoc /path/to/file`
 ### 2023-08-09
 - 修复本地违禁词库不配置时无法正常工作的bug
 - 修复so-vits-svc+ddsp套娃变声失败的bug
+- 修复音频变声bug
+- 新增langchain_chatglm的接入（GUI未适配）
 
 </details>
 

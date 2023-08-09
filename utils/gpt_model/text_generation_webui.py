@@ -5,8 +5,6 @@ from utils.common import Common
 from utils.logger import Configure_logger
 
 class TEXT_GENERATION_WEBUI:
-    api_ip_port= 'http://127.0.0.1:5000'
-
     def __init__(self, data):
         self.common = Common()
         # 日志文件路径
@@ -14,6 +12,7 @@ class TEXT_GENERATION_WEBUI:
         Configure_logger(file_path)
 
         # 配置过多，点到为止，需要的请自行修改
+        # http://127.0.0.1:5000
         self.api_ip_port = data["api_ip_port"]
         self.max_new_tokens = data["max_new_tokens"]
         self.mode = data["mode"]

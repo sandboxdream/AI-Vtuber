@@ -87,6 +87,8 @@ class My_handle():
             self.chat_with_file_config = My_handle.config.get("chat_with_file")
             self.text_generation_webui_config = My_handle.config.get("text_generation_webui")
             self.sparkdesk_config = My_handle.config.get("sparkdesk")
+            self.langchain_chatglm_config = My_handle.config.get("langchain_chatglm")
+
 
             # 音频合成使用技术
             My_handle.audio_synthesis_type = My_handle.config.get("audio_synthesis_type")
@@ -109,6 +111,7 @@ class My_handle():
         GPT_MODEL.set_model_config("chatglm", self.chatglm_config)
         GPT_MODEL.set_model_config("text_generation_webui", self.text_generation_webui_config)
         GPT_MODEL.set_model_config("sparkdesk", self.sparkdesk_config)
+        GPT_MODEL.set_model_config("langchain_chatglm", self.langchain_chatglm_config)
 
         self.chatgpt = None
         self.claude = None
@@ -116,6 +119,7 @@ class My_handle():
         self.chat_with_file = None
         self.text_generation_webui = None
         self.sparkdesk = None
+        self.langchain_chatglm = None
 
 
         # 聊天相关类实例化
@@ -147,6 +151,8 @@ class My_handle():
             self.text_generation_webui = GPT_MODEL.get(self.chat_type) 
         elif self.chat_type == "sparkdesk":
             self.sparkdesk = GPT_MODEL.get(self.chat_type)
+        elif self.chat_type == "langchain_chatglm":
+            self.langchain_chatglm = GPT_MODEL.get(self.chat_type)
         elif self.chat_type == "game":
             exit(0)
 
@@ -783,6 +789,15 @@ class My_handle():
             else:
                 resp_content = ""
                 logging.warning("警告：讯飞星火无返回")
+        elif self.chat_type == "langchain_chatglm":
+            # 生成回复
+            resp_content = self.langchain_chatglm.get_resp(content)
+            if resp_content is not None:
+                # 输出 返回的回复消息
+                logging.info(f"[AI回复{user_name}]：{resp_content}")
+            else:
+                resp_content = ""
+                logging.warning("警告：langchain_chatglm无返回")
         elif self.chat_type == "game":
             return
             g1 = game1()
@@ -798,6 +813,9 @@ class My_handle():
         else:
             resp_content = content
 
+        # 空数据结束
+        if resp_content == "" or resp_content is None:
+            return
 
         """
         双重过滤，为您保驾护航

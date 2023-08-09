@@ -325,7 +325,7 @@ class Audio:
                 self.voice_tmp_path_queue.put(data_json)
                 return
 
-            voice_tmp_path = self.voice_change(voice_tmp_path)
+            voice_tmp_path = await self.voice_change(voice_tmp_path)
             
             # 更新音频路径
             data_json["voice_path"] = voice_tmp_path
@@ -819,7 +819,7 @@ class Audio:
 
             # 变声并移动音频文件 减少冗余
             async def voice_change_and_put_to_queue(voice_tmp_path):
-                voice_tmp_path = self.voice_change(voice_tmp_path)
+                voice_tmp_path = await self.voice_change(voice_tmp_path)
 
                 # 移动音频到 临时音频路径（本项目的out文件夹） 并重命名
                 out_file_path = os.path.join(os.getcwd(), "out/")
