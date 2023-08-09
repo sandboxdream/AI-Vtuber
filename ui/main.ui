@@ -134,9 +134,9 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-4853</y>
+             <y>-3043</y>
              <width>980</width>
-             <height>8416</height>
+             <height>8698</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -785,6 +785,11 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                    <string>讯飞星火</string>
                   </property>
                  </item>
+                 <item>
+                  <property name="text">
+                   <string>Langchain_ChatGLM</string>
+                  </property>
+                 </item>
                 </widget>
                </item>
                <item row="4" column="0">
@@ -1210,6 +1215,73 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                   </item>
                  </layout>
                 </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QGroupBox" name="groupBox_langchain_chatglm">
+              <property name="title">
+               <string>Langchain_ChatGLM</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_64">
+               <item row="0" column="0">
+                <layout class="QGridLayout" name="gridLayout_langchain_chatglm">
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_langchain_chatglm_api_ip_port">
+                   <property name="text">
+                    <string>api地址</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QComboBox" name="comboBox_langchain_chatglm_chat_type"/>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="label_langchain_chatglm_chat_type">
+                   <property name="text">
+                    <string>聊天类型</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="0">
+                  <widget class="QLabel" name="label_langchain_chatglm_history_enable">
+                   <property name="text">
+                    <string>上下文记忆</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QLineEdit" name="lineEdit_langchain_chatglm_knowledge_base_id"/>
+                 </item>
+                 <item row="3" column="1">
+                  <widget class="QCheckBox" name="checkBox_langchain_chatglm_history_enable">
+                   <property name="text">
+                    <string>启用</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QLineEdit" name="lineEdit_langchain_chatglm_api_ip_port"/>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="QLabel" name="label_langchain_chatglm_knowledge_base_id">
+                   <property name="text">
+                    <string>知识库名称</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="4" column="0">
+                  <widget class="QLabel" name="label_langchain_chatglm_history_max_len">
+                   <property name="text">
+                    <string>最大记忆长度</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="4" column="1">
+                  <widget class="QLineEdit" name="lineEdit_langchain_chatglm_history_max_len"/>
+                 </item>
+                </layout>
                </item>
               </layout>
              </widget>
@@ -2680,8 +2752,8 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>644</width>
-                    <height>498</height>
+                    <width>355</width>
+                    <height>102</height>
                    </rect>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_4">

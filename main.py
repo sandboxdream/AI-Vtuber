@@ -250,7 +250,7 @@ class AI_VTB(QMainWindow):
                 # data["QTextEdit_" + str(index)] = data_list
                 data[str(index)] = data_list
 
-        logging.info(data)
+        logging.debug(data)
 
         return data
 
@@ -432,6 +432,13 @@ class AI_VTB(QMainWindow):
             self.ui.label_chatglm_history_enable.setToolTip("是否启用上下文历史记忆，让chatglm可以记得前面的内容")
             self.ui.label_chatglm_history_max_len.setToolTip("最大记忆的上下文字符数量，不建议设置过大，容易爆显存，自行根据情况配置")
 
+            # langchain_chatglm
+            self.ui.label_langchain_chatglm_api_ip_port.setToolTip("langchain_chatglm的API版本运行后的服务链接（需要完整的URL）")
+            self.ui.label_langchain_chatglm_chat_type.setToolTip("选择的聊天类型：模型/知识库/必应")
+            self.ui.label_langchain_chatglm_knowledge_base_id.setToolTip("本地存在的知识库名称，日志也有输出知识库列表，可以查看")
+            self.ui.label_langchain_chatglm_history_enable.setToolTip("是否启用上下文历史记忆，让langchain_chatglm可以记得前面的内容")
+            self.ui.label_langchain_chatglm_history_max_len.setToolTip("最大记忆的上下文字符数量，不建议设置过大，容易爆显存，自行根据情况配置")
+
             # 讯飞星火
             self.ui.label_sparkdesk_type.setToolTip("选择使用的类型，web抓包 或者 官方API")
             self.ui.label_sparkdesk_cookie.setToolTip("web抓包请求头中的cookie，参考文档教程")
@@ -601,7 +608,8 @@ class AI_VTB(QMainWindow):
                 "chat_with_file", 
                 "Chatterbot", 
                 "text_generation_webui", 
-                "sparkdesk"
+                "sparkdesk",
+                "langchain_chatglm"
             ])
             chat_type_index = 0
             if self.chat_type == "none":
@@ -622,6 +630,8 @@ class AI_VTB(QMainWindow):
                 chat_type_index = 7
             elif self.chat_type == "sparkdesk":
                 chat_type_index = 8
+            elif self.chat_type == "langchain_chatglm":
+                chat_type_index = 9
             self.ui.comboBox_chat_type.setCurrentIndex(chat_type_index)
             
             self.ui.comboBox_need_lang.clear()
@@ -782,6 +792,23 @@ class AI_VTB(QMainWindow):
             if self.chatglm_config['history_enable']:
                 self.ui.checkBox_chatglm_history_enable.setChecked(True)
             self.ui.lineEdit_chatglm_history_max_len.setText(str(self.chatglm_config['history_max_len']))
+
+            # langchain_chatglm
+            self.ui.lineEdit_langchain_chatglm_api_ip_port.setText(config.get("langchain_chatglm", "api_ip_port"))
+            self.ui.comboBox_langchain_chatglm_chat_type.clear()
+            self.ui.comboBox_langchain_chatglm_chat_type.addItems(["模型", "知识库", "必应"])
+            langchain_chatglm_chat_type_index = 0
+            if config.get("langchain_chatglm", "chat_type") == "模型":
+                langchain_chatglm_chat_type_index = 0
+            elif config.get("langchain_chatglm", "chat_type") == "知识库":
+                langchain_chatglm_chat_type_index = 1
+            elif config.get("langchain_chatglm", "chat_type") == "必应":
+                langchain_chatglm_chat_type_index = 2
+            self.ui.comboBox_langchain_chatglm_chat_type.setCurrentIndex(langchain_chatglm_chat_type_index)
+            self.ui.lineEdit_langchain_chatglm_knowledge_base_id.setText(config.get("langchain_chatglm", "knowledge_base_id"))
+            if config.get("langchain_chatglm", "history_enable"):
+                self.ui.checkBox_langchain_chatglm_history_enable.setChecked(True)
+            self.ui.lineEdit_langchain_chatglm_history_max_len.setText(str(config.get("langchain_chatglm", "history_max_len")))
 
             self.ui.comboBox_chat_with_file_chat_mode.clear()
             self.ui.comboBox_chat_with_file_chat_mode.addItems(["claude", "openai_gpt", "openai_vector_search"])
@@ -1478,7 +1505,7 @@ class AI_VTB(QMainWindow):
             config_data["room_display_id"] = room_display_id
                 
             chat_type = self.ui.comboBox_chat_type.currentText()
-            logging.info(chat_type)
+            logging.info(f"chat_type={chat_type}")
             if chat_type == "不启用":
                 config_data["chat_type"] = "none"
             elif chat_type == "复读机":
@@ -1497,6 +1524,9 @@ class AI_VTB(QMainWindow):
                 config_data["chat_type"] = "text_generation_webui"
             elif chat_type == "sparkdesk":
                 config_data["chat_type"] = "sparkdesk"
+            elif chat_type == "langchain_chatglm":
+                config_data["chat_type"] = "langchain_chatglm"
+            
 
             config_data["before_prompt"] = self.ui.lineEdit_before_prompt.text()
             config_data["after_prompt"] = self.ui.lineEdit_after_prompt.text()
@@ -1590,6 +1620,12 @@ class AI_VTB(QMainWindow):
             config_data["chatglm"]["temperature"] = round(float(self.ui.lineEdit_chatglm_temperature.text()), 2)
             config_data["chatglm"]["history_enable"] = self.ui.checkBox_chatglm_history_enable.isChecked()
             config_data["chatglm"]["history_max_len"] = int(self.ui.lineEdit_chatglm_history_max_len.text())
+
+            config_data["langchain_chatglm"]["api_ip_port"] = self.ui.lineEdit_langchain_chatglm_api_ip_port.text()
+            config_data["langchain_chatglm"]["chat_type"] = self.ui.comboBox_langchain_chatglm_chat_type.currentText()
+            config_data["langchain_chatglm"]["knowledge_base_id"] = self.ui.lineEdit_langchain_chatglm_knowledge_base_id.text()
+            config_data["langchain_chatglm"]["history_enable"] = self.ui.checkBox_langchain_chatglm_history_enable.isChecked()
+            config_data["langchain_chatglm"]["history_max_len"] = int(self.ui.lineEdit_langchain_chatglm_history_max_len.text())
 
             config_data["chat_with_file"]["chat_mode"] = self.ui.comboBox_chat_with_file_chat_mode.currentText()
             chat_with_file_data_path = self.ui.lineEdit_chat_with_file_data_path.text()
@@ -1864,7 +1900,7 @@ class AI_VTB(QMainWindow):
                 checkbox_name = key.split('_QCheckBox')[0]
                 show_box_json[checkbox_name] = value
 
-            logging.info(show_box_json)
+            logging.debug(show_box_json)
             config_data["show_box"] = show_box_json
             
         except Exception as e:
@@ -2482,18 +2518,19 @@ class AI_VTB(QMainWindow):
     def oncomboBox_chat_type_IndexChanged(self, index):
         # 各index对应的groupbox的显隐值
         visibility_map = {
-            0: (0, 0, 0, 0, 0, 0, 0, 0, 0),
-            1: (0, 0, 0, 0, 0, 0, 0, 0, 0),
-            2: (1, 1, 1, 0, 0, 0, 0, 0, 0),
-            3: (0, 0, 0, 1, 0, 0, 0, 0, 0),
-            4: (0, 0, 0, 0, 1, 0, 0, 0, 0),
-            5: (1, 1, 1, 1, 0, 1, 0, 0, 0),
-            6: (0, 0, 0, 0, 0, 0, 1, 0, 0),
-            7: (0, 0, 0, 0, 0, 0, 0, 1, 0),
-            8: (0, 0, 0, 0, 0, 0, 0, 0, 1)
+            0: (0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+            1: (0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+            2: (1, 1, 1, 0, 0, 0, 0, 0, 0, 0),
+            3: (0, 0, 0, 1, 0, 0, 0, 0, 0, 0),
+            4: (0, 0, 0, 0, 1, 0, 0, 0, 0, 0),
+            5: (1, 1, 1, 1, 0, 1, 0, 0, 0, 0),
+            6: (0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
+            7: (0, 0, 0, 0, 0, 0, 0, 1, 0, 0),
+            8: (0, 0, 0, 0, 0, 0, 0, 0, 1, 0),
+            9: (0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
         }
 
-        visibility_values = visibility_map.get(index, (0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+        visibility_values = visibility_map.get(index, (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
 
         self.ui.groupBox_openai.setVisible(visibility_values[0])
         self.ui.groupBox_chatgpt.setVisible(visibility_values[1])
@@ -2504,6 +2541,7 @@ class AI_VTB(QMainWindow):
         self.ui.groupBox_chatterbot.setVisible(visibility_values[6])
         self.ui.groupBox_text_generation_webui.setVisible(visibility_values[7])
         self.ui.groupBox_sparkdesk.setVisible(visibility_values[8])
+        self.ui.groupBox_langchain_chatglm.setVisible(visibility_values[9])
 
     
     # 语音合成类型改变 加载显隐不同groupBox

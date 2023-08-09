@@ -852,6 +852,10 @@ if __name__ == '__main__':
     uvicorn.run(app, host='0.0.0.0', port=8000, workers=1)
 ```
 
+### langchain-ChatGLM
+官方仓库：[langchain-ChatGLM](https://github.com/chatchat-space/langchain-ChatGLM)  
+运行`api.py`，然后配置相关信息接入本项目。  
+
 ### chat_with_file
 参考：[LangChainSummarize](https://github.com/Ikaros-521/LangChainSummarize)
 构建本地向量数据库时，如果本地电脑的配置太低，可以使用 [faiss_text2vec.ipynb](https://drive.google.com/file/d/1rbt2Yv7_pC1cmuODwmR2-1_cxFBFOfn8/view?usp=sharing) 云端解析向量数据库，拷贝回本地后再使用即可
@@ -1320,7 +1324,7 @@ cmd输入命令即可：`doctoc /path/to/file`
 - 修复本地违禁词库不配置时无法正常工作的bug
 - 修复so-vits-svc+ddsp套娃变声失败的bug
 - 修复音频变声bug
-- 新增langchain_chatglm的接入（GUI未适配）
+- 新增langchain_chatglm的接入
 
 </details>
 
