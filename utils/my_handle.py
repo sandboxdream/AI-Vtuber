@@ -636,11 +636,10 @@ class My_handle():
             return True
 
         # 违禁词过滤
-        if self.filter_config["bad_words_path"] != "":
-            if My_handle.common.check_sensitive_words(self.filter_config["bad_words_path"], content):
+        if self.filter_config["badwords_path"] != "":
+            if My_handle.common.check_sensitive_words(self.filter_config["badwords_path"], content):
                 logging.warning(f"本地违禁词：{content}")
                 return True
-
 
         # 同拼音违禁词过滤
         if self.filter_config["bad_pinyin_path"] != "":
