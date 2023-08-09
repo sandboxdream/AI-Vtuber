@@ -870,6 +870,7 @@ embedding_model_dict = {
     "m3e-base": "moka-ai/m3e-base",
 }
 
+
 llm_model_dict = {
     "chatglm-6b-int4-qe": {
         "name": "chatglm-6b-int4-qe",
@@ -884,6 +885,10 @@ llm_model_dict = {
         "local_model_path": "E:\\langchain-ChatGLM\\THUDM\\chatglm-6b-int4",
         "provides": "ChatGLMLLMChain"
     },
+
+
+# LLM 名称 改成你要用的模型name，没有的话会自动下载
+LLM_MODEL = "chatglm-6b-int4"
 ```
 运行`api.py`，然后接入本项目。  
 
