@@ -854,7 +854,43 @@ if __name__ == '__main__':
 
 ### langchain-ChatGLM
 官方仓库：[langchain-ChatGLM](https://github.com/chatchat-space/langchain-ChatGLM)  
-运行`api.py`，然后配置相关信息接入本项目。  
+配置相关信息，编辑`configs`文件夹下的`model_config.py`，模型路径需要是绝对路径，win的用户路径参考：`E:\\langchain-ChatGLM\\THUDM\\chatglm-6b-int4`  
+修改部分参考：  
+```
+embedding_model_dict = {
+    "ernie-tiny": "nghuyong/ernie-3.0-nano-zh",
+    "ernie-base": "nghuyong/ernie-3.0-base-zh",
+    "text2vec-base": "shibing624/text2vec-base-chinese",
+    # 下一行是改的地方
+    "text2vec": "E:\\langchain-ChatGLM\\GanymedeNil\\text2vec-large-chinese",
+    "text2vec-base-multilingual": "shibing624/text2vec-base-multilingual",
+    "text2vec-base-chinese-sentence": "shibing624/text2vec-base-chinese-sentence",
+    "text2vec-base-chinese-paraphrase": "shibing624/text2vec-base-chinese-paraphrase",
+    "m3e-small": "moka-ai/m3e-small",
+    "m3e-base": "moka-ai/m3e-base",
+}
+
+
+llm_model_dict = {
+    "chatglm-6b-int4-qe": {
+        "name": "chatglm-6b-int4-qe",
+        "pretrained_model_name": "THUDM/chatglm-6b-int4-qe",
+        "local_model_path": None,
+        "provides": "ChatGLMLLMChain"
+    },
+    "chatglm-6b-int4": {
+        "name": "chatglm-6b-int4",
+        "pretrained_model_name": "THUDM/chatglm-6b-int4",
+        # 下一行是改的地方
+        "local_model_path": "E:\\langchain-ChatGLM\\THUDM\\chatglm-6b-int4",
+        "provides": "ChatGLMLLMChain"
+    },
+
+
+# LLM 名称 改成你要用的模型name，没有的话会自动下载
+LLM_MODEL = "chatglm-6b-int4"
+```
+运行`api.py`，然后接入本项目。  
 
 ### chat_with_file
 参考：[LangChainSummarize](https://github.com/Ikaros-521/LangChainSummarize)
