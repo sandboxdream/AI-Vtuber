@@ -631,11 +631,15 @@ class My_handle():
             bool: 是否违禁词 是True 否False
         """
         # 含有违禁词/链接
-        if My_handle.common.profanity_content(content) or My_handle.common.check_sensitive_words2(
-                self.filter_config["badwords_path"], content) or \
-                My_handle.common.is_url_check(content):
+        if My_handle.common.profanity_content(content) or My_handle.common.is_url_check(content):
             logging.warning(f"违禁词/链接：{content}")
             return True
+
+        # 违禁词过滤
+        if self.filter_config["badwords_path"] != "":
+            if My_handle.common.check_sensitive_words2(self.filter_config["badwords_path"], content):
+                logging.warning(f"本地违禁词：{content}")
+                return True
 
         # 同拼音违禁词过滤
         if self.filter_config["bad_pinyin_path"] != "":

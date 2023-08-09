@@ -270,6 +270,35 @@ class Audio:
             return
 
 
+    # 音频变声 so-vits-svc + ddsp
+    async def voice_change(self, voice_tmp_path):
+        """音频变声 so-vits-svc + ddsp
+
+        Args:
+            voice_tmp_path (str): 待变声音频路径
+
+        Returns:
+            str: 变声后的音频路径
+        """
+        # 转换为绝对路径
+        voice_tmp_path = os.path.abspath(voice_tmp_path)
+
+        # 是否启用ddsp-svc来变声
+        if True == self.config.get("ddsp_svc", "enable"):
+            voice_tmp_path = await self.ddsp_svc_api(audio_path=voice_tmp_path)
+            logging.info(f"ddsp-svc合成成功，输出到={voice_tmp_path}")
+
+        # 转换为绝对路径
+        voice_tmp_path = os.path.abspath(voice_tmp_path)
+
+        # 是否启用so-vits-svc来变声
+        if True == self.config.get("so_vits_svc", "enable"):
+            voice_tmp_path = await self.so_vits_svc_api(audio_path=voice_tmp_path)
+            logging.info(f"so-vits-svc合成成功，输出到={voice_tmp_path}")
+        
+        return voice_tmp_path
+    
+
     # 播放音频
     async def my_play_voice(self, message):
         try:
@@ -296,18 +325,7 @@ class Audio:
                 self.voice_tmp_path_queue.put(data_json)
                 return
 
-            # 转换为绝对路径
-            voice_tmp_path = os.path.abspath(voice_tmp_path)
-
-            # 是否启用ddsp-svc来变声
-            if True == self.config.get("ddsp_svc", "enable"):
-                voice_tmp_path = await self.ddsp_svc_api(audio_path=voice_tmp_path)
-                logging.info(f"ddsp-svc合成成功，输出到={voice_tmp_path}")
-
-            # 是否启用so-vits-svc来变声
-            if True == self.config.get("so_vits_svc", "enable"):
-                voice_tmp_path = await self.so_vits_svc_api(audio_path=voice_tmp_path)
-                logging.info(f"so-vits-svc合成成功，输出到={voice_tmp_path}")
+            voice_tmp_path = self.voice_change(voice_tmp_path)
             
             # 更新音频路径
             data_json["voice_path"] = voice_tmp_path
@@ -801,17 +819,7 @@ class Audio:
 
             # 变声并移动音频文件 减少冗余
             async def voice_change_and_put_to_queue(voice_tmp_path):
-                # 转换为绝对路径
-                voice_tmp_path = os.path.abspath(voice_tmp_path)
-
-                # 是否启用ddsp-svc来变声
-                if True == self.config.get("ddsp_svc", "enable"):
-                    voice_tmp_path = await self.ddsp_svc_api(audio_path=voice_tmp_path)
-                    logging.info(f"ddsp-svc合成成功，输出到={voice_tmp_path}")
-
-                if True == self.config.get("so_vits_svc", "enable"):
-                    voice_tmp_path = await self.so_vits_svc_api(audio_path=voice_tmp_path)
-                    logging.info(f"so-vits-svc合成成功，输出到={voice_tmp_path}")
+                voice_tmp_path = self.voice_change(voice_tmp_path)
 
                 # 移动音频到 临时音频路径（本项目的out文件夹） 并重命名
                 out_file_path = os.path.join(os.getcwd(), "out/")
