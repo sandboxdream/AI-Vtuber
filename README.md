@@ -856,6 +856,7 @@ if __name__ == '__main__':
 官方仓库：[langchain-ChatGLM](https://github.com/chatchat-space/langchain-ChatGLM)  
 个人提供的整合包：[https://pan.quark.cn/s/8d8904fd4b30](https://pan.quark.cn/s/8d8904fd4b30)  
 chatglm-6b-int4模型下载(其实这个官方就行，有会员的话网盘快点)：[https://pan.quark.cn/s/a483e0c3e5fa](https://pan.quark.cn/s/a483e0c3e5fa)  
+官方模型仓库：[https://huggingface.co/THUDM](https://huggingface.co/THUDM)  
 配置相关信息，编辑`configs`文件夹下的`model_config.py`，模型路径需要是绝对路径，win的用户路径参考：`E:\\langchain-ChatGLM\\THUDM\\chatglm-6b-int4`  
 修改部分参考：  
 ```
