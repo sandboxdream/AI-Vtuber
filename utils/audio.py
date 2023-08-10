@@ -341,12 +341,12 @@ class Audio:
                 logging.debug(f"message['content']={message['content']}")
 
                 # 自定义语言名称（需要匹配请求解析）
-                language_name_dict = {"en": "en", "zh": "zh", "jp": "ja"}  
+                language_name_dict = {"en": "英文", "zh": "中文", "jp": "日文"}  
 
                 if language in language_name_dict:
                     language = language_name_dict[language]
                 else:
-                    language = "ja"  # 无法识别出语言代码时的默认值
+                    language = "自动"  # 无法识别出语言代码时的默认值
 
                 # logging.info("language=" + language)
 
