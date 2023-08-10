@@ -176,35 +176,47 @@ class AI_VTB(QMainWindow):
 
             data_type = type(item["data"])
 
-            # 根据数据类型，自动生成对应类实例
-            if data_type == str or data_type == int or data_type == float:
-                widget = QLineEdit()
-                widget.setText(str(item["data"]))
-                widget.setObjectName(item["main_obj_name"] + "_QLineEdit_" + str(item["index"]))
-            elif data_type == bool:
-                widget = QCheckBox()
-                if item["widget_text"] == "":
-                    widget.setText("启用")
-                else:
-                    widget.setText(item["widget_text"])
-                widget.setChecked(item["data"])
-                widget.setObjectName(item["main_obj_name"] + "_QCheckBox_" + str(item["index"]))
+            # 是否限定了widget的类型
+            if "widget_type" in item:
+                if item["widget_type"] == "combo_box":
+                    widget = QComboBox()
+                    # 添加多个item
+                    widget.addItems(item["combo_data_list"])
+                    # data必须在list中，不然，报错咯
+                    widget.setCurrentIndex(item["combo_data_list"].index(item["data"]))
 
-                if item["click_func"] == "show_box":
-                    widget.disconnect()
-                    # 连接点击信号到槽函数
-                    widget.clicked.connect(lambda state, text=item["main_obj_name"]: self.show_box_clicked(state, text))
-                    # 直接运行恢复显隐状态
-                    self.show_box_clicked(item["data"], item["main_obj_name"])
+                    # 设置下拉列表的对象名称
+                    widget.setObjectName(item["main_obj_name"] + "_QComboBox_" + str(item["index"]))
+            else:        
+                # 根据数据类型，自动生成对应类实例
+                if data_type == str or data_type == int or data_type == float:
+                    widget = QLineEdit()
+                    widget.setText(str(item["data"]))
+                    widget.setObjectName(item["main_obj_name"] + "_QLineEdit_" + str(item["index"]))
+                elif data_type == bool:
+                    widget = QCheckBox()
+                    if item["widget_text"] == "":
+                        widget.setText("启用")
+                    else:
+                        widget.setText(item["widget_text"])
+                    widget.setChecked(item["data"])
+                    widget.setObjectName(item["main_obj_name"] + "_QCheckBox_" + str(item["index"]))
 
-            elif data_type == list:
-                widget = QTextEdit()
+                    if item["click_func"] == "show_box":
+                        widget.disconnect()
+                        # 连接点击信号到槽函数
+                        widget.clicked.connect(lambda state, text=item["main_obj_name"]: self.show_box_clicked(state, text))
+                        # 直接运行恢复显隐状态
+                        self.show_box_clicked(item["data"], item["main_obj_name"])
 
-                tmp_str = ""
-                for tmp in item["data"]:
-                    tmp_str = tmp_str + tmp + "\n"
-                widget.setText(tmp_str)
-                widget.setObjectName(item["main_obj_name"] + "_QTextEdit_" + str(item["index"]))
+                elif data_type == list:
+                    widget = QTextEdit()
+
+                    tmp_str = ""
+                    for tmp in item["data"]:
+                        tmp_str = tmp_str + tmp + "\n"
+                    widget.setText(tmp_str)
+                    widget.setObjectName(item["main_obj_name"] + "_QTextEdit_" + str(item["index"]))
 
             # 判断readonly是否存在
             if item.get("readonly") is not None:
@@ -249,7 +261,10 @@ class AI_VTB(QMainWindow):
                 data_list = widget.toPlainText().splitlines()
                 # data["QTextEdit_" + str(index)] = data_list
                 data[str(index)] = data_list
-
+            elif isinstance(widget, QComboBox):
+                # data["QComboBox_" + str(index)] = widget.text()
+                data[str(index)] = widget.currentText()
+                
         logging.debug(data)
 
         return data
@@ -1266,6 +1281,8 @@ class AI_VTB(QMainWindow):
                 tmp_json = {
                     "label_text": "语言",
                     "label_tip": "auto为自动识别语言模式，也是默认模式。lang=mix时，文本应该用[ZH] 或 [JA] 包裹。方言无法自动识别。",
+                    "widget_type": "combo_box",
+                    "combo_data_list": ["自动", "中文", "英文", "日文"],
                     "data": vits_config["lang"],
                     "main_obj_name": "vits",
                     "index": 4

@@ -39,8 +39,15 @@ class MY_TTS:
                 data_json["lang"] = "en"
             elif data["lang"] == "韩文" or data["lang"] == "韩语":
                 data_json["lang"] = "ko"
-            else:
+            elif data["lang"] == "日文" or data["lang"] == "日语":
                 data_json["lang"] = "ja"
+            elif data["lang"] == "自动":
+                data_json["lang"] = "auto"
+            else:
+                data_json["lang"] = "auto"
+
+            # logging.info(f"data_json={data_json}")
+            # logging.info(f"data={data}")
 
             url = f"{API_URL}?{urlencode(data_json)}"
 
@@ -62,7 +69,7 @@ class MY_TTS:
 
 
     
-    # 请求VITS接口获取合成后的音频路径
+    # 请求VITS fast接口获取合成后的音频路径
     def vits_fast_api(self, data):
         try:
             # API地址

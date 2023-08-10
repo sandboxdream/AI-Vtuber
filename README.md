@@ -958,7 +958,15 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 ### VITS
 emotional-vits官方仓库：[emotional-vits](https://github.com/innnky/emotional-vits)  
 接入API：[vits-simple-api](https://github.com/Artrajz/vits-simple-api)  
+vits-simple-api整合包下载：[https://github.com/Artrajz/vits-simple-api/releases](https://github.com/Artrajz/vits-simple-api/releases)  
 个人提供的已训练好的模型：[点我跳转](https://github.com/Ikaros-521/emotional-vits/releases)  
+vits-simple-api配置，修改`config.py`，参考配置如下，路径为追加的相对模型路径和配置文件路径：
+```
+# Fill in the model path here
+MODEL_LIST = [
+    # VITS
+    [ABS_PATH + "/Model/ikaros/G_95500.pth", ABS_PATH + "/Model/ikaros/config.json"]
+```
 
 ### VITS-fast-fine-tuning
 官方仓库：[VITS-fast-fine-tuning](https://github.com/Plachtaa/VITS-fast-fine-tuning)  
@@ -1364,6 +1372,9 @@ cmd输入命令即可：`doctoc /path/to/file`
 - 修复so-vits-svc+ddsp套娃变声失败的bug
 - 修复音频变声bug
 - 新增langchain_chatglm的接入
+
+### 2023-08-10
+- vits修改语言配置为下拉框，改默认为自动，修复bug
 
 </details>
 

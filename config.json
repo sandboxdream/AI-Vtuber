@@ -124,7 +124,7 @@
     "api_ip_port": "http://127.0.0.1:23456",
     "id": "0",
     "format": "wav",
-    "lang": "ja",
+    "lang": "自动",
     "length": "1",
     "noise": "0.33",
     "noisew": "0.4",
