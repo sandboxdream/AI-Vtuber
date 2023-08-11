@@ -41,11 +41,16 @@
     "bad_pinyin_path": "data/违禁拼音.txt",
     "max_len": 80,
     "max_char_len": 200,
-    "commit_forget_duration": 2.0,
+    "commit_forget_duration": 1.0,
+    "commit_forget_reserve_num": 1,
     "gift_forget_duration": 5.0,
+    "gift_forget_reserve_num": 1,
     "entrance_forget_duration": 5.0,
+    "entrance_forget_reserve_num": 2,
     "talk_forget_duration": 0.1,
-    "schedule_forget_duration": 0.1
+    "talk_forget_reserve_num": 1,
+    "schedule_forget_duration": 0.1,
+    "schedule_forget_reserve_num": 1
   },
   "thanks": {
     "entrance_enable": true,

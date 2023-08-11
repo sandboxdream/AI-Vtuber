@@ -958,29 +958,45 @@ class My_handle():
                 self.timers[timer_flag] = threading.Timer(self.get_interval(timer_flag), self.process_last_data, args=(timer_flag,))
                 self.timers[timer_flag].start()
 
-            self.timers[timer_flag].last_data = data
+            # self.timers[timer_flag].last_data = data
+            if hasattr(self.timers[timer_flag], 'last_data'):
+                self.timers[timer_flag].last_data.append(data)
+                # 这里需要注意配置命名
+                if len(self.timers[timer_flag].last_data) > int(My_handle.config.get("filter", timer_flag + "_forget_reserve_num")):
+                    self.timers[timer_flag].last_data.pop(0)
+            else:
+                self.timers[timer_flag].last_data = [data]
 
     def process_last_data(self, timer_flag):
         with self.data_lock:
             timer = self.timers.get(timer_flag)
-            if timer and timer.last_data is not None:
+            if timer and timer.last_data is not None and timer.last_data != []:
                 logging.debug(f"预处理定时器触发 type={timer_flag}，data={timer.last_data}")
 
                 if timer_flag == "commit":
-                    self.commit_handle(timer.last_data)
+                    for data in timer.last_data:
+                        self.commit_handle(data)
                 elif timer_flag == "gift":
-                    self.gift_handle(timer.last_data)
+                    for data in timer.last_data:
+                        self.gift_handle(data)
+                    #self.gift_handle(timer.last_data)
                 elif timer_flag == "entrance":
-                    self.entrance_handle(timer.last_data)
+                    for data in timer.last_data:
+                        self.entrance_handle(data)
+                    #self.entrance_handle(timer.last_data)
                 elif timer_flag == "talk":
                     # 聊天暂时共用弹幕处理逻辑
-                    self.commit_handle(timer.last_data)
+                    for data in timer.last_data:
+                        self.commit_handle(data)
+                    #self.commit_handle(timer.last_data)
                 elif timer_flag == "schedule":
                     # 定时任务处理
-                    self.schedule_handle(timer.last_data)
+                    for data in timer.last_data:
+                        self.schedule_handle(data)
+                    #self.schedule_handle(timer.last_data)
 
                 # 清空数据
-                timer.last_data = None
+                timer.last_data = []
 
     def get_interval(self, timer_flag):
         # 根据标志定义不同计时器的间隔
