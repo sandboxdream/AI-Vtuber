@@ -134,9 +134,9 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-3043</y>
+             <y>-1614</y>
              <width>980</width>
-             <height>8698</height>
+             <height>8913</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -944,15 +944,75 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                  <layout class="QGridLayout" name="gridLayout_26">
                   <item row="0" column="0">
                    <layout class="QGridLayout" name="gridLayout_filter">
-                    <item row="9" column="1">
-                     <widget class="QLineEdit" name="lineEdit_filter_talk_forget_duration"/>
+                    <item row="15" column="1">
+                     <widget class="QLineEdit" name="lineEdit_filter_schedule_forget_reserve_num"/>
                     </item>
-                    <item row="10" column="0">
+                    <item row="14" column="0">
                      <widget class="QLabel" name="label_filter_schedule_forget_duration">
                       <property name="text">
                        <string>定时遗忘间隔</string>
                       </property>
                      </widget>
+                    </item>
+                    <item row="12" column="0">
+                     <widget class="QLabel" name="label_filter_talk_forget_duration">
+                      <property name="text">
+                       <string>聊天遗忘间隔</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="11" column="0">
+                     <widget class="QLabel" name="label_filter_entrance_forget_reserve_num">
+                      <property name="text">
+                       <string>入场保留数</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="2" column="0">
+                     <widget class="QLabel" name="label_filter_badwords_path">
+                      <property name="text">
+                       <string>违禁词路径</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="1">
+                     <widget class="QTextEdit" name="textEdit_filter_before_must_str"/>
+                    </item>
+                    <item row="6" column="0">
+                     <widget class="QLabel" name="label_filter_commit_forget_duration">
+                      <property name="text">
+                       <string>弹幕遗忘间隔</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="6" column="1">
+                     <widget class="QLineEdit" name="lineEdit_filter_commit_forget_duration"/>
+                    </item>
+                    <item row="2" column="1">
+                     <widget class="QLineEdit" name="lineEdit_filter_badwords_path"/>
+                    </item>
+                    <item row="13" column="1">
+                     <widget class="QLineEdit" name="lineEdit_filter_talk_forget_reserve_num"/>
+                    </item>
+                    <item row="4" column="0">
+                     <widget class="QLabel" name="label_filter_max_len">
+                      <property name="text">
+                       <string>最大单词数</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="3" column="1">
+                     <widget class="QLineEdit" name="lineEdit_filter_bad_pinyin_path"/>
+                    </item>
+                    <item row="15" column="0">
+                     <widget class="QLabel" name="label_filter_schedule_forget_reserve_num">
+                      <property name="text">
+                       <string>定时保留数</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="4" column="1">
+                     <widget class="QLineEdit" name="lineEdit_filter_max_len"/>
                     </item>
                     <item row="5" column="1">
                      <widget class="QLineEdit" name="lineEdit_filter_max_char_len"/>
@@ -964,6 +1024,13 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                       </property>
                      </widget>
                     </item>
+                    <item row="13" column="0">
+                     <widget class="QLabel" name="label_filter_talk_forget_reserve_num">
+                      <property name="text">
+                       <string>聊天保留数</string>
+                      </property>
+                     </widget>
+                    </item>
                     <item row="0" column="0">
                      <widget class="QLabel" name="label_filter_before_must_str">
                       <property name="text">
@@ -971,23 +1038,33 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                       </property>
                      </widget>
                     </item>
-                    <item row="9" column="0">
-                     <widget class="QLabel" name="label_filter_talk_forget_duration">
+                    <item row="3" column="0">
+                     <widget class="QLabel" name="label_filter_bad_pinyin_path">
                       <property name="text">
-                       <string>聊天遗忘间隔</string>
+                       <string>违禁拼音路径</string>
                       </property>
                      </widget>
                     </item>
-                    <item row="3" column="1">
-                     <widget class="QLineEdit" name="lineEdit_filter_bad_pinyin_path"/>
-                    </item>
-                    <item row="7" column="1">
-                     <widget class="QLineEdit" name="lineEdit_filter_gift_forget_duration"/>
-                    </item>
-                    <item row="4" column="0">
-                     <widget class="QLabel" name="label_filter_max_len">
+                    <item row="10" column="0">
+                     <widget class="QLabel" name="label_filter_entrance_forget_duration">
                       <property name="text">
-                       <string>最大单词数</string>
+                       <string>入场遗忘间隔</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="14" column="1">
+                     <widget class="QLineEdit" name="lineEdit_filter_schedule_forget_duration"/>
+                    </item>
+                    <item row="10" column="1">
+                     <widget class="QLineEdit" name="lineEdit_filter_entrance_forget_duration"/>
+                    </item>
+                    <item row="12" column="1">
+                     <widget class="QLineEdit" name="lineEdit_filter_talk_forget_duration"/>
+                    </item>
+                    <item row="9" column="0">
+                     <widget class="QLabel" name="label_filter_gift_forget_reserve_num">
+                      <property name="text">
+                       <string>礼物保留数</string>
                       </property>
                      </widget>
                     </item>
@@ -998,43 +1075,7 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                       </property>
                      </widget>
                     </item>
-                    <item row="6" column="1">
-                     <widget class="QLineEdit" name="lineEdit_filter_commit_forget_duration"/>
-                    </item>
-                    <item row="6" column="0">
-                     <widget class="QLabel" name="label_filter_commit_forget_duration">
-                      <property name="text">
-                       <string>弹幕遗忘间隔</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="2" column="0">
-                     <widget class="QLabel" name="label_filter_badwords_path">
-                      <property name="text">
-                       <string>违禁词路径</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="2" column="1">
-                     <widget class="QLineEdit" name="lineEdit_filter_badwords_path"/>
-                    </item>
-                    <item row="0" column="1">
-                     <widget class="QTextEdit" name="textEdit_filter_before_must_str"/>
-                    </item>
-                    <item row="10" column="1">
-                     <widget class="QLineEdit" name="lineEdit_filter_schedule_forget_duration"/>
-                    </item>
-                    <item row="4" column="1">
-                     <widget class="QLineEdit" name="lineEdit_filter_max_len"/>
-                    </item>
-                    <item row="3" column="0">
-                     <widget class="QLabel" name="label_filter_bad_pinyin_path">
-                      <property name="text">
-                       <string>违禁拼音路径</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="7" column="0">
+                    <item row="8" column="0">
                      <widget class="QLabel" name="label_filter_gift_forget_duration">
                       <property name="text">
                        <string>礼物遗忘间隔</string>
@@ -1044,15 +1085,24 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                     <item row="1" column="1">
                      <widget class="QTextEdit" name="textEdit_filter_after_must_str"/>
                     </item>
-                    <item row="8" column="0">
-                     <widget class="QLabel" name="label_filter_entrance_forget_duration">
+                    <item row="7" column="0">
+                     <widget class="QLabel" name="label_filter_commit_forget_reserve_num">
                       <property name="text">
-                       <string>入场遗忘间隔</string>
+                       <string>弹幕保留数</string>
                       </property>
                      </widget>
                     </item>
+                    <item row="7" column="1">
+                     <widget class="QLineEdit" name="lineEdit_filter_commit_forget_reserve_num"/>
+                    </item>
                     <item row="8" column="1">
-                     <widget class="QLineEdit" name="lineEdit_filter_entrance_forget_duration"/>
+                     <widget class="QLineEdit" name="lineEdit_filter_gift_forget_duration"/>
+                    </item>
+                    <item row="11" column="1">
+                     <widget class="QLineEdit" name="lineEdit_filter_entrance_forget_reserve_num"/>
+                    </item>
+                    <item row="9" column="1">
+                     <widget class="QLineEdit" name="lineEdit_filter_gift_forget_reserve_num"/>
                     </item>
                    </layout>
                   </item>

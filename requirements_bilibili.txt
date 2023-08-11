@@ -25,5 +25,5 @@ sparkdesk-api
 gradio_client
 schedule
 bilibili-api==9.1.0
-bilibili-api-python==15.5.1b0
+bilibili-api-python
 langchain==0.0.142
