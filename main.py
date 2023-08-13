@@ -603,16 +603,18 @@ class AI_VTB(QMainWindow):
             """
             # 修改下拉框内容
             self.ui.comboBox_platform.clear()
-            self.ui.comboBox_platform.addItems(["哔哩哔哩", "抖音", "快手", "聊天模式"])
+            self.ui.comboBox_platform.addItems(["聊天模式", "哔哩哔哩", "抖音", "快手", "斗鱼"])
             platform_index = 0
-            if self.platform == "bilibili":
+            if self.platform == "talk":
                 platform_index = 0
-            elif self.platform == "dy":
+            elif self.platform == "bilibili":
                 platform_index = 1
-            elif self.platform == "ks":
+            elif self.platform == "dy":
                 platform_index = 2
-            elif self.platform == "talk":
+            elif self.platform == "ks":
                 platform_index = 3
+            elif self.platform == "douyu":
+                platform_index = 4
             self.ui.comboBox_platform.setCurrentIndex(platform_index)
             
             # 修改输入框内容
@@ -1514,14 +1516,16 @@ class AI_VTB(QMainWindow):
         try:
             # 获取下拉框当前选中的内容
             platform = self.ui.comboBox_platform.currentText()
-            if platform == "哔哩哔哩":
+            if platform == "聊天模式":
+                config_data["platform"] = "talk"
+            elif platform == "哔哩哔哩":
                 config_data["platform"] = "bilibili"
             elif platform == "抖音":
                 config_data["platform"] = "dy"
             elif platform == "快手":
                 config_data["platform"] = "ks"
-            elif platform == "聊天模式":
-                config_data["platform"] = "talk"
+            elif platform == "斗鱼":
+                config_data["platform"] = "douyu"
 
             # 获取单行文本输入框的内容
             room_display_id = self.ui.lineEdit_room_display_id.text()

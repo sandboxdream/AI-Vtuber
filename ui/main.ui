@@ -134,7 +134,7 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-1614</y>
+             <y>0</y>
              <width>980</width>
              <height>8913</height>
             </rect>
@@ -366,26 +366,6 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                  <property name="cursor">
                   <cursorShape>PointingHandCursor</cursorShape>
                  </property>
-                 <item>
-                  <property name="text">
-                   <string>哔哩哔哩</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>抖音</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>快手</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>聊天模式-谷歌</string>
-                  </property>
-                 </item>
                 </widget>
                </item>
                <item row="2" column="0">
@@ -906,31 +886,6 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                  <property name="cursor">
                   <cursorShape>PointingHandCursor</cursorShape>
                  </property>
-                 <item>
-                  <property name="text">
-                   <string>Edge-TTS</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>VITS-Fast</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>elevenlabs</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>genshinvoice_top</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>bark_gui</string>
-                  </property>
-                 </item>
                 </widget>
                </item>
                <item row="17" column="0" colspan="3">

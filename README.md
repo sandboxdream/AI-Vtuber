@@ -53,6 +53,7 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
   - [抖音版](#%E6%8A%96%E9%9F%B3%E7%89%88)
   - [抖音版_旧版（不稳定）](#%E6%8A%96%E9%9F%B3%E7%89%88_%E6%97%A7%E7%89%88%E4%B8%8D%E7%A8%B3%E5%AE%9A)
   - [快手版](#%E5%BF%AB%E6%89%8B%E7%89%88)
+  - [斗鱼版](#%E6%96%97%E9%B1%BC%E7%89%88)
   - [聊天模式](#%E8%81%8A%E5%A4%A9%E6%A8%A1%E5%BC%8F)
 - [🃏效果图](#%E6%95%88%E6%9E%9C%E5%9B%BE)
   - [GUI界面](#gui%E7%95%8C%E9%9D%A2)
@@ -81,6 +82,7 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
   - [b站直播监听](#b%E7%AB%99%E7%9B%B4%E6%92%AD%E7%9B%91%E5%90%AC)
   - [<span id="dy">抖音弹幕获取</span>](#span-iddy%E6%8A%96%E9%9F%B3%E5%BC%B9%E5%B9%95%E8%8E%B7%E5%8F%96span)
   - [快手弹幕获取](#%E5%BF%AB%E6%89%8B%E5%BC%B9%E5%B9%95%E8%8E%B7%E5%8F%96)
+  - [斗鱼直播监听](#%E6%96%97%E9%B1%BC%E7%9B%B4%E6%92%AD%E7%9B%91%E5%90%AC)
   - [ChatGPT](#chatgpt)
   - [Claude](#claude)
   - [ChatGLM](#chatglm)
@@ -628,6 +630,17 @@ ps:依赖[golang](https://go.dev/dl/)环境，还没有的话，手动补一补[
 
 运行 `python main.py`  
 
+### 斗鱼版
+
+在命令行中使用以下命令安装所需库：
+```
+pip install -r requirements_douyu.txt
+```
+
+运行 `python main.py`  
+
+打开您的浏览器，找到您需要监听的直播间，然后按F12打开开发者工具，点击Console（控制台），复制[Scripts/直播ws脚本/douyu_ws_client.js](./Scripts/%E7%9B%B4%E6%92%ADws%E8%84%9A%E6%9C%AC/douyu_ws_client.js)脚本中的内容，粘贴到控制台，回车运行，启动监听服务。  
+
 ### 聊天模式
 
 在命令行中使用以下命令安装所需库：
@@ -826,6 +839,9 @@ D:\GitHub_pro\AI-Vtuber-20230: can't open file 'D:\\GitHub_pro\\AI-Vtuber-20230 
 
 
 `ks_old.py`旧版本：[kuaishou-live](https://github.com/YunzhiYike/kuaishou-live)  
+
+### 斗鱼直播监听
+借鉴[Live-Barrage](https://github.com/XiaoXinYo/Live-Barrage)  
 
 ### ChatGPT
 官网：[https://chat.openai.com/chat](https://chat.openai.com/chat)  
@@ -1063,6 +1079,7 @@ out_audio, out_sr, n_frames = svc_model.infer(spk, tran, raw_path)
 `pip install -r requirements_bilibili.txt -i https://pypi.tuna.tsinghua.edu.cn/simple`  
 `pip install -r requirements_dy.txt -i https://pypi.tuna.tsinghua.edu.cn/simple`  
 `pip install -r requirements_ks.txt -i https://pypi.tuna.tsinghua.edu.cn/simple`  
+`pip install -r requirements_douyu.txt -i https://pypi.tuna.tsinghua.edu.cn/simple`  
 4、安装chatterbot（可选）
 `pip install spacy SQLAlchemy==1.3.24 -i https://pypi.tuna.tsinghua.edu.cn/simple`  
 前提是你在当前目录下有clone chatterbot的项目（自行调整路径关系）  
@@ -1383,6 +1400,9 @@ cmd输入命令即可：`doctoc /path/to/file`
 
 ### 2023-08-11
 - 过滤板块 新增遗忘保留数的配置项，从默认的1个数改为可以根据自定义配置保留，在定时触发后依次响应。
+
+### 2023-08-12
+- 新增 斗鱼平台的接入（初步接入，仅有弹幕数据的监听）
 
 </details>
 
