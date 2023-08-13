@@ -151,7 +151,7 @@ def start_server():
                     "content": content
                 }
                 
-                my_handle.process_data(data, "commit")
+                my_handle.process_data(data, "comment")
 
                 pass
 

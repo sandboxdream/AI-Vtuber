@@ -118,7 +118,7 @@ def onMessage(ws: websocket.WebSocketApp, message: bytes):
                     "content": content
                 }
 
-                my_handle.process_data(data, "commit")
+                my_handle.process_data(data, "comment")
             # 用户点赞
             elif msg["type"] == "LikeMessage":
                 username = msg["name"]
@@ -178,7 +178,7 @@ def onMessage_old(ws: websocket.WebSocketApp, message: bytes):
                 "content": content
             }
 
-            my_handle.process_data(data, "commit")
+            my_handle.process_data(data, "comment")
 
             continue
 
@@ -400,7 +400,7 @@ def parseLiveRoomUrl(url):
 
 
 def test():
-    url = "https://www.douyin.com/aweme/v1/web/commit/follow/user/?device_platform=webapp&aid=6383&channel=channel_pc_web&pc_client_type=1&version_code=170400&version_name=17.4.0&cookie_enabled=true&screen_width=1440&screen_height=900&browser_language=zh&browser_platform=MacIntel&browser_name=Chrome&browser_version=109.0.0.0&browser_online=true&engine_name=Blink&engine_version=109.0.0.0&os_name=Mac+OS&os_version=10.15.7&cpu_core_num=8&device_memory=8&platform=PC&downlink=10&effective_type=4g&round_trip_time=50&webid=7188358506633528844&msToken=6j75IbD0uth58uE0p2svIf3-bGlzkqLnJ34RfGkr8Ooxgos99KHfw-4HzlJ26GI6C3uTwDUUIthFI0wUocJy2ZAMkpyPrUgGFgcshHRO3vw_kBc9yiZ-4EbErjwp8FI=&X-Bogus=DFSzswVYdOs9-MIISZ-yup7TlqtU"
+    url = "https://www.douyin.com/aweme/v1/web/comment/follow/user/?device_platform=webapp&aid=6383&channel=channel_pc_web&pc_client_type=1&version_code=170400&version_name=17.4.0&cookie_enabled=true&screen_width=1440&screen_height=900&browser_language=zh&browser_platform=MacIntel&browser_name=Chrome&browser_version=109.0.0.0&browser_online=true&engine_name=Blink&engine_version=109.0.0.0&os_name=Mac+OS&os_version=10.15.7&cpu_core_num=8&device_memory=8&platform=PC&downlink=10&effective_type=4g&round_trip_time=50&webid=7188358506633528844&msToken=6j75IbD0uth58uE0p2svIf3-bGlzkqLnJ34RfGkr8Ooxgos99KHfw-4HzlJ26GI6C3uTwDUUIthFI0wUocJy2ZAMkpyPrUgGFgcshHRO3vw_kBc9yiZ-4EbErjwp8FI=&X-Bogus=DFSzswVYdOs9-MIISZ-yup7TlqtU"
     h = {
         "accept": "application/json, text/plain, */*",
         # "accept-encoding": "gzip, deflate, br",

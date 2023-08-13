@@ -301,7 +301,7 @@ class AI_VTB(QMainWindow):
             self.before_prompt = config.get("before_prompt")
             self.after_prompt = config.get("after_prompt")
 
-            self.commit_log_type = config.get("commit_log_type")
+            self.comment_log_type = config.get("comment_log_type")
 
             # 日志
             self.captions_config = config.get("captions")
@@ -374,7 +374,7 @@ class AI_VTB(QMainWindow):
             self.ui.label_need_lang.setToolTip("只回复选中语言的弹幕，其他语言将被过滤")
             self.ui.label_before_prompt.setToolTip("提示词前缀，会自带追加在弹幕前，主要用于追加一些特殊的限制")
             self.ui.label_after_prompt.setToolTip("提示词后缀，会自带追加在弹幕后，主要用于追加一些特殊的限制")
-            self.ui.label_commit_log_type.setToolTip("弹幕日志类型，用于记录弹幕触发时记录的内容，默认只记录回答，降低当用户使用弹幕日志显示在直播间时，因为用户的不良弹幕造成直播间被封禁问题")
+            self.ui.label_comment_log_type.setToolTip("弹幕日志类型，用于记录弹幕触发时记录的内容，默认只记录回答，降低当用户使用弹幕日志显示在直播间时，因为用户的不良弹幕造成直播间被封禁问题")
             
             # 念用户名
             self.ui.label_read_user_name_enable.setToolTip("是否启用回复用户弹幕时，念用户的昵称，例：回复xxx。你好")
@@ -400,8 +400,8 @@ class AI_VTB(QMainWindow):
             self.ui.label_filter_bad_pinyin_path.setToolTip("本地违禁拼音数据路径（你如果不需要，可以清空文件内容）")
             self.ui.label_filter_max_len.setToolTip("最长阅读的英文单词数（空格分隔）")
             self.ui.label_filter_max_char_len.setToolTip("最长阅读的字符数，双重过滤，避免溢出")
-            self.ui.label_filter_commit_forget_duration.setToolTip("指的是每隔这个间隔时间（秒），就会丢弃这个间隔时间中接收到的数据，\n保留数据在以下配置中可以自定义")
-            self.ui.label_filter_commit_forget_reserve_num.setToolTip("保留最新收到的数据的数量")
+            self.ui.label_filter_comment_forget_duration.setToolTip("指的是每隔这个间隔时间（秒），就会丢弃这个间隔时间中接收到的数据，\n保留数据在以下配置中可以自定义")
+            self.ui.label_filter_comment_forget_reserve_num.setToolTip("保留最新收到的数据的数量")
             self.ui.label_filter_gift_forget_duration.setToolTip("指的是每隔这个间隔时间（秒），就会丢弃这个间隔时间中接收到的数据，\n保留数据在以下配置中可以自定义")
             self.ui.label_filter_gift_forget_reserve_num.setToolTip("保留最新收到的数据的数量")
             self.ui.label_filter_entrance_forget_duration.setToolTip("指的是每隔这个间隔时间（秒），就会丢弃这个间隔时间中接收到的数据，\n保留数据在以下配置中可以自定义")
@@ -686,11 +686,11 @@ class AI_VTB(QMainWindow):
                 tmp_str = tmp_str + tmp + "\n"
             self.ui.textEdit_read_user_name_reply_after.setText(tmp_str)
 
-            self.ui.comboBox_commit_log_type.clear()
-            commit_log_types = ["问答", "问题", "回答", "不记录"]
-            self.ui.comboBox_commit_log_type.addItems(commit_log_types)
-            commit_log_type_index = commit_log_types.index(self.commit_log_type)
-            self.ui.comboBox_commit_log_type.setCurrentIndex(commit_log_type_index)
+            self.ui.comboBox_comment_log_type.clear()
+            comment_log_types = ["问答", "问题", "回答", "不记录"]
+            self.ui.comboBox_comment_log_type.addItems(comment_log_types)
+            comment_log_type_index = comment_log_types.index(self.comment_log_type)
+            self.ui.comboBox_comment_log_type.setCurrentIndex(comment_log_type_index)
 
 
             # 日志
@@ -727,8 +727,8 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_filter_bad_pinyin_path.setText(self.filter_config['bad_pinyin_path'])
             self.ui.lineEdit_filter_max_len.setText(str(self.filter_config['max_len']))
             self.ui.lineEdit_filter_max_char_len.setText(str(self.filter_config['max_char_len']))
-            self.ui.lineEdit_filter_commit_forget_duration.setText(str(self.filter_config['commit_forget_duration']))
-            self.ui.lineEdit_filter_commit_forget_reserve_num.setText(str(self.filter_config['commit_forget_reserve_num']))
+            self.ui.lineEdit_filter_comment_forget_duration.setText(str(self.filter_config['comment_forget_duration']))
+            self.ui.lineEdit_filter_comment_forget_reserve_num.setText(str(self.filter_config['comment_forget_reserve_num']))
             self.ui.lineEdit_filter_gift_forget_duration.setText(str(self.filter_config['gift_forget_duration']))
             self.ui.lineEdit_filter_gift_forget_reserve_num.setText(str(self.filter_config['gift_forget_reserve_num']))
             self.ui.lineEdit_filter_entrance_forget_duration.setText(str(self.filter_config['entrance_forget_duration']))
@@ -1578,7 +1578,7 @@ class AI_VTB(QMainWindow):
             elif need_lang == "日文":
                 config_data["need_lang"] = "jp"
 
-            config_data["commit_log_type"] = self.ui.comboBox_commit_log_type.currentText()
+            config_data["comment_log_type"] = self.ui.comboBox_comment_log_type.currentText()
 
             # 日志
             config_data["captions"]["enable"] = self.ui.checkBox_captions_enable.isChecked()
@@ -1603,8 +1603,8 @@ class AI_VTB(QMainWindow):
             config_data["filter"]["bad_pinyin_path"] = self.ui.lineEdit_filter_bad_pinyin_path.text()
             config_data["filter"]["max_len"] = int(self.ui.lineEdit_filter_max_len.text())
             config_data["filter"]["max_char_len"] = int(self.ui.lineEdit_filter_max_char_len.text())
-            config_data["filter"]["commit_forget_duration"] = round(float(self.ui.lineEdit_filter_commit_forget_duration.text()), 2)
-            config_data["filter"]["commit_forget_reserve_num"] = int(self.ui.lineEdit_filter_commit_forget_reserve_num.text())
+            config_data["filter"]["comment_forget_duration"] = round(float(self.ui.lineEdit_filter_comment_forget_duration.text()), 2)
+            config_data["filter"]["comment_forget_reserve_num"] = int(self.ui.lineEdit_filter_comment_forget_reserve_num.text())
             config_data["filter"]["gift_forget_duration"] = round(float(self.ui.lineEdit_filter_gift_forget_duration.text()), 2)
             config_data["filter"]["gift_forget_reserve_num"] = int(self.ui.lineEdit_filter_gift_forget_reserve_num.text())
             config_data["filter"]["entrance_forget_duration"] = round(float(self.ui.lineEdit_filter_entrance_forget_duration.text()), 2)
@@ -2476,7 +2476,7 @@ class AI_VTB(QMainWindow):
         }
         
         # 正义执行
-        my_handle.process_data(data, "commit")
+        my_handle.process_data(data, "comment")
     
 
     # 发送 聊天框内容 进行复读

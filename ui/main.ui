@@ -934,14 +934,14 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                      <widget class="QTextEdit" name="textEdit_filter_before_must_str"/>
                     </item>
                     <item row="6" column="0">
-                     <widget class="QLabel" name="label_filter_commit_forget_duration">
+                     <widget class="QLabel" name="label_filter_comment_forget_duration">
                       <property name="text">
                        <string>弹幕遗忘间隔</string>
                       </property>
                      </widget>
                     </item>
                     <item row="6" column="1">
-                     <widget class="QLineEdit" name="lineEdit_filter_commit_forget_duration"/>
+                     <widget class="QLineEdit" name="lineEdit_filter_comment_forget_duration"/>
                     </item>
                     <item row="2" column="1">
                      <widget class="QLineEdit" name="lineEdit_filter_badwords_path"/>
@@ -1041,14 +1041,14 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                      <widget class="QTextEdit" name="textEdit_filter_after_must_str"/>
                     </item>
                     <item row="7" column="0">
-                     <widget class="QLabel" name="label_filter_commit_forget_reserve_num">
+                     <widget class="QLabel" name="label_filter_comment_forget_reserve_num">
                       <property name="text">
                        <string>弹幕保留数</string>
                       </property>
                      </widget>
                     </item>
                     <item row="7" column="1">
-                     <widget class="QLineEdit" name="lineEdit_filter_commit_forget_reserve_num"/>
+                     <widget class="QLineEdit" name="lineEdit_filter_comment_forget_reserve_num"/>
                     </item>
                     <item row="8" column="1">
                      <widget class="QLineEdit" name="lineEdit_filter_gift_forget_duration"/>
@@ -1150,7 +1150,7 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                   <item row="0" column="0">
                    <layout class="QGridLayout" name="gridLayout_46" columnstretch="1,5">
                     <item row="1" column="1">
-                     <widget class="QComboBox" name="comboBox_commit_log_type">
+                     <widget class="QComboBox" name="comboBox_comment_log_type">
                       <item>
                        <property name="text">
                         <string>问答</string>
@@ -1174,7 +1174,7 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                      </widget>
                     </item>
                     <item row="1" column="0">
-                     <widget class="QLabel" name="label_commit_log_type">
+                     <widget class="QLabel" name="label_comment_log_type">
                       <property name="text">
                        <string>弹幕日志类型</string>
                       </property>

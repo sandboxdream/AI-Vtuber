@@ -135,7 +135,7 @@ class Tool:
                     "content": content
                 }
 
-                my_handle.process_data(data, "commit")
+                my_handle.process_data(data, "comment")
             return
 
         if wssPackage.payloadType == PayloadType.SC_LIVE_WATCHING_LIST:

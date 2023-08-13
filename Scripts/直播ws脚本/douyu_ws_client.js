@@ -66,7 +66,7 @@ const observer = new MutationObserver(mutations => {
           // 获取到弹幕数据
           if (username != "" && content != "") {
             const data = {
-              type: "commit",
+              type: "comment",
               username: username,
               content: content
             };

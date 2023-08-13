@@ -17,11 +17,11 @@ from utils.my_handle import My_handle
 
 
 def start_server():
-    global thread, do_listen_and_commit_thread, stop_do_listen_and_commit_thread_event
+    global thread, do_listen_and_comment_thread, stop_do_listen_and_comment_thread_event
 
     thread = None
-    do_listen_and_commit_thread = None
-    stop_do_listen_and_commit_thread_event = threading.Event()
+    do_listen_and_comment_thread = None
+    stop_do_listen_and_comment_thread_event = threading.Event()
 
     common = Common()
     # 日志文件路径
@@ -139,12 +139,12 @@ def start_server():
     
 
     # 执行录音、识别&提交
-    def do_listen_and_commit(status=True):
-        global stop_do_listen_and_commit_thread_event
+    def do_listen_and_comment(status=True):
+        global stop_do_listen_and_comment_thread_event
 
         while True:
             # 检查是否收到停止事件
-            if stop_do_listen_and_commit_thread_event.is_set():
+            if stop_do_listen_and_comment_thread_event.is_set():
                 logging.info(f'停止录音~')
                 break
         
@@ -226,7 +226,7 @@ def start_server():
 
 
     def on_key_press(event):
-        global do_listen_and_commit_thread, stop_do_listen_and_commit_thread_event
+        global do_listen_and_comment_thread, stop_do_listen_and_comment_thread_event
 
         if event.name in ['z', 'Z', 'c', 'C'] and keyboard.is_pressed('ctrl'):
             print("退出程序")
@@ -258,7 +258,7 @@ def start_server():
                 logging.info(f'检测到单击键盘 {event.name}，即将开始录音~')
             elif event.name == stop_trigger_key or event.name == stop_trigger_key_lower:
                 logging.info(f'检测到单击键盘 {event.name}，即将停止录音~')
-                stop_do_listen_and_commit_thread_event.set()
+                stop_do_listen_and_comment_thread_event.set()
                 return
             else:
                 return
@@ -267,20 +267,20 @@ def start_server():
                 logging.info(f'检测到单击键盘 {event.name}，即将开始录音~')
             elif event.name == stop_trigger_key:
                 logging.info(f'检测到单击键盘 {event.name}，即将停止录音~')
-                stop_do_listen_and_commit_thread_event.set()
+                stop_do_listen_and_comment_thread_event.set()
                 return
             else:
                 return
 
         # 是否启用连续对话模式
         if talk_config["continuous_talk"]:
-            stop_do_listen_and_commit_thread_event.clear()
-            do_listen_and_commit_thread = threading.Thread(target=do_listen_and_commit, args=(True,))
-            do_listen_and_commit_thread.start()
+            stop_do_listen_and_comment_thread_event.clear()
+            do_listen_and_comment_thread = threading.Thread(target=do_listen_and_comment, args=(True,))
+            do_listen_and_comment_thread.start()
         else:
-            stop_do_listen_and_commit_thread_event.clear()
-            do_listen_and_commit_thread = threading.Thread(target=do_listen_and_commit, args=(False,))
-            do_listen_and_commit_thread.start()
+            stop_do_listen_and_comment_thread_event.clear()
+            do_listen_and_comment_thread = threading.Thread(target=do_listen_and_comment, args=(False,))
+            do_listen_and_comment_thread.start()
 
 
     # 按键监听
@@ -322,8 +322,8 @@ def exit_handler(signum, frame):
 if __name__ == '__main__':
     # 键盘监听线程
     thread = None
-    do_listen_and_commit_thread = None
-    stop_do_listen_and_commit_thread_event = None
+    do_listen_and_comment_thread = None
+    stop_do_listen_and_comment_thread_event = None
 
     signal.signal(signal.SIGINT, exit_handler)
     signal.signal(signal.SIGTERM, exit_handler)
