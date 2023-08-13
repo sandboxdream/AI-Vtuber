@@ -318,5 +318,11 @@
         "感谢{last_username}的支持"
       ]
     }
-  ]
+  ],
+  "database": {
+    "path": "data/data.db",
+    "comment_enable": false,
+    "entrance_enable": false,
+    "gift_enable": false
+  }
 }

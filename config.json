@@ -1,6 +1,6 @@
 {
   "platform": "bilibili",
-  "room_display_id": "278333",
+  "room_display_id": "26913540",
   "chat_type": "reread",
   "need_lang": "none",
   "before_prompt": "请简要回复:",
@@ -318,5 +318,11 @@
         "感谢{last_username}的支持"
       ]
     }
-  ]
+  ],
+  "database": {
+    "path": "data/data.db",
+    "comment_enable": false,
+    "entrance_enable": false,
+    "gift_enable": false
+  }
 }
