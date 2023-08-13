@@ -176,13 +176,13 @@ class My_handle():
                 f.write('')
                 logging.info(f'{self.log_file_path} 日志文件已创建')
 
-        self.commit_file_path = "./log/commit-" + My_handle.common.get_bj_time(1) + ".txt"
-        if os.path.isfile(self.commit_file_path):
-            logging.info(f'{self.commit_file_path} 弹幕文件已存在，跳过')
+        self.comment_file_path = "./log/comment-" + My_handle.common.get_bj_time(1) + ".txt"
+        if os.path.isfile(self.comment_file_path):
+            logging.info(f'{self.comment_file_path} 弹幕文件已存在，跳过')
         else:
-            with open(self.commit_file_path, 'w') as f:
+            with open(self.comment_file_path, 'w') as f:
                 f.write('')
-                logging.info(f'{self.commit_file_path} 弹幕文件已创建')
+                logging.info(f'{self.comment_file_path} 弹幕文件已创建')
 
 
     def get_room_id(self):
@@ -306,7 +306,7 @@ class My_handle():
 
                 resp_content = tmp
                 # 将 AI 回复记录到日志文件中
-                with open(self.commit_file_path, "r+", encoding="utf-8") as f:
+                with open(self.comment_file_path, "r+", encoding="utf-8") as f:
                     tmp_content = f.read()
                     # 将指针移到文件头部位置（此目的是为了让直播中读取日志文件时，可以一直让最新内容显示在顶部）
                     f.seek(0, 0)
@@ -318,16 +318,16 @@ class My_handle():
                     resp_content_joined = '\n'.join(resp_content_substrings)
 
                     # 根据 弹幕日志类型进行各类日志写入
-                    if My_handle.config.get("commit_log_type") == "问答":
+                    if My_handle.config.get("comment_log_type") == "问答":
                         f.write(
                             f"[{user_name} 提问]:{content}\n[AI回复{user_name}]:{resp_content_joined}\n" + tmp_content)
-                    elif My_handle.config.get("commit_log_type") == "问题":
+                    elif My_handle.config.get("comment_log_type") == "问题":
                         f.write(f"[{user_name} 提问]:{content}\n" + tmp_content)
-                    elif My_handle.config.get("commit_log_type") == "回答":
+                    elif My_handle.config.get("comment_log_type") == "回答":
                         f.write(f"[AI回复{user_name}]:{resp_content_joined}\n" + tmp_content)
 
                 message = {
-                    "type": "commit",
+                    "type": "comment",
                     "tts_type": My_handle.audio_synthesis_type,
                     "data": My_handle.config.get(My_handle.audio_synthesis_type),
                     "config": self.filter_config,
@@ -416,7 +416,7 @@ class My_handle():
                     logging.info(f"[AI回复{user_name}]：{resp_content}")
 
                     message = {
-                        "type": "commit",
+                        "type": "comment",
                         "tts_type": My_handle.audio_synthesis_type,
                         "data": My_handle.config.get(My_handle.audio_synthesis_type),
                         "config": self.filter_config,
@@ -582,7 +582,7 @@ class My_handle():
 
 
     # 弹幕格式检查和特殊字符替换
-    def commit_check_and_replace(self, content):
+    def comment_check_and_replace(self, content):
         """弹幕格式检查和特殊字符替换
 
         Args:
@@ -687,7 +687,7 @@ class My_handle():
 
 
     # 弹幕处理
-    def commit_handle(self, data):
+    def comment_handle(self, data):
         """弹幕处理
 
         Args:
@@ -722,7 +722,7 @@ class My_handle():
             return
 
         # 弹幕格式检查和特殊字符替换
-        content = self.commit_check_and_replace(content)
+        content = self.comment_check_and_replace(content)
         if content is None:
             return
         
@@ -829,7 +829,7 @@ class My_handle():
         # logger.info("resp_content=" + resp_content)
 
         # 将 AI 回复记录到日志文件中
-        with open(self.commit_file_path, "r+", encoding="utf-8") as f:
+        with open(self.comment_file_path, "r+", encoding="utf-8") as f:
             tmp_content = f.read()
             # 将指针移到文件头部位置（此目的是为了让直播中读取日志文件时，可以一直让最新内容显示在顶部）
             f.seek(0, 0)
@@ -840,16 +840,16 @@ class My_handle():
             resp_content_joined = '\n'.join(resp_content_substrings)
 
             # 根据 弹幕日志类型进行各类日志写入
-            if My_handle.config.get("commit_log_type") == "问答":
+            if My_handle.config.get("comment_log_type") == "问答":
                 f.write(f"[{user_name} 提问]:\n{content}\n[AI回复{user_name}]:{resp_content_joined}\n" + tmp_content)
-            elif My_handle.config.get("commit_log_type") == "问题":
+            elif My_handle.config.get("comment_log_type") == "问题":
                 f.write(f"[{user_name} 提问]:\n{content}\n" + tmp_content)
-            elif My_handle.config.get("commit_log_type") == "回答":
+            elif My_handle.config.get("comment_log_type") == "回答":
                 f.write(f"[AI回复{user_name}]:\n{resp_content_joined}\n" + tmp_content)
 
         # 音频合成时需要用到的重要数据
         message = {
-            "type": "commit",
+            "type": "comment",
             "tts_type": My_handle.audio_synthesis_type,
             "data": My_handle.config.get(My_handle.audio_synthesis_type),
             "config": self.filter_config,
@@ -973,9 +973,9 @@ class My_handle():
             if timer and timer.last_data is not None and timer.last_data != []:
                 logging.debug(f"预处理定时器触发 type={timer_flag}，data={timer.last_data}")
 
-                if timer_flag == "commit":
+                if timer_flag == "comment":
                     for data in timer.last_data:
-                        self.commit_handle(data)
+                        self.comment_handle(data)
                 elif timer_flag == "gift":
                     for data in timer.last_data:
                         self.gift_handle(data)
@@ -987,8 +987,8 @@ class My_handle():
                 elif timer_flag == "talk":
                     # 聊天暂时共用弹幕处理逻辑
                     for data in timer.last_data:
-                        self.commit_handle(data)
-                    #self.commit_handle(timer.last_data)
+                        self.comment_handle(data)
+                    #self.comment_handle(timer.last_data)
                 elif timer_flag == "schedule":
                     # 定时任务处理
                     for data in timer.last_data:
@@ -1001,7 +1001,7 @@ class My_handle():
     def get_interval(self, timer_flag):
         # 根据标志定义不同计时器的间隔
         intervals = {
-            "commit": My_handle.config.get("filter", "commit_forget_duration"),
+            "comment": My_handle.config.get("filter", "comment_forget_duration"),
             "gift": My_handle.config.get("filter", "gift_forget_duration"),
             "entrance": My_handle.config.get("filter", "entrance_forget_duration"),
             "talk": My_handle.config.get("filter", "talk_forget_duration"),

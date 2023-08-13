@@ -245,7 +245,7 @@ class Audio:
                 return
 
             # 只有信息类型是 弹幕，才会进行念用户名
-            if message['type'] == "commit":
+            if message['type'] == "comment":
                 # 回复时是否念用户名字
                 if self.config.get("read_user_name", "enable"):
                     tmp_message = deepcopy(message)

@@ -173,7 +173,7 @@ def start_server():
             "content": content
         }
 
-        my_handle.process_data(data, "commit")
+        my_handle.process_data(data, "comment")
 
     @room.on('COMBO_SEND')
     async def _(event):
@@ -263,7 +263,7 @@ def start_server():
 
         my_handle.process_data(data, "gift")
 
-        my_handle.process_data(data, "commit")
+        my_handle.process_data(data, "comment")
         
 
     @room.on('INTERACT_WORD')

@@ -164,7 +164,7 @@ class kslive(object):
                         "content": content
                     }
                     
-                    my_handle.process_data(data, "commit")
+                    my_handle.process_data(data, "comment")
             if obj.get('giftFeeds', ''):
                 msg_list = obj.get('giftFeeds', '')
                 for i in msg_list:

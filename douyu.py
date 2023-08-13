@@ -143,7 +143,7 @@ def start_server():
             try:
                 data_json = json.loads(message)
                 # logging.debug(data_json)
-                if data_json["type"] == "commit":
+                if data_json["type"] == "comment":
                     # logging.info(data_json)
 
                     user_name = data_json["username"]
@@ -156,7 +156,7 @@ def start_server():
                         "content": content
                     }
                     
-                    my_handle.process_data(data, "commit")
+                    my_handle.process_data(data, "comment")
 
                     # 添加用户名到最新的用户名列表
                     add_username_to_last_username_list(user_name)
