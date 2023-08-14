@@ -994,6 +994,8 @@ MODEL_LIST = [
 官方仓库：[VITS-fast-fine-tuning](https://github.com/Plachtaa/VITS-fast-fine-tuning)  
 个人提供的已训练好的模型：[点我跳转](https://github.com/Ikaros-521/VITS-fast-fine-tuning/releases)  
 视频教程：[【AI语音合成-数据集篇#00】模型使用简单讲解，手把手演示](https://www.bilibili.com/video/BV1Lm4y1r7Pi)  
+训练用整合包（原作者整合包备份）：[https://pan.quark.cn/s/da52e78983da](https://pan.quark.cn/s/da52e78983da)  
+整合包视频教程：[AI声音克隆又进化了，10分钟学会声音克隆！一键启动包发布！](https://www.bilibili.com/video/BV1K94y1k7Bw)  
 
 ### DDSP-SVC
 官方仓库：[DDSP-SVC](https://github.com/yxlllc/DDSP-SVC)  
