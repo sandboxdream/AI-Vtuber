@@ -327,6 +327,8 @@ class AI_VTB(QMainWindow):
             self.chatgpt_config = config.get("chatgpt")
             # claude
             self.claude_config = config.get("claude")
+            # claude2
+            self.claude2_config = config.get("claude2")
             # chatterbot
             self.chatterbot_config = config.get("chatterbot")
             # chat_with_file
@@ -443,6 +445,12 @@ class AI_VTB(QMainWindow):
 
             self.ui.label_claude_slack_user_token.setToolTip("Slack平台配置的用户Token，参考文档的Claude板块进行配置")
             self.ui.label_claude_bot_user_id.setToolTip("Slack平台添加的Claude显示的成员ID，参考文档的Claude板块进行配置")
+
+            self.ui.label_claude2_cookie.setToolTip("claude.ai官网，打开F12，随便提问抓个包，请求头cookie配置于此")
+            self.ui.label_claude2_use_proxy.setToolTip("是否启用代理发送请求")
+            self.ui.label_claude2_proxies_http.setToolTip("http代理地址，默认为 http://127.0.0.1:10809")
+            self.ui.label_claude2_proxies_https.setToolTip("https代理地址，默认为 http://127.0.0.1:10809")
+            self.ui.label_claude2_proxies_socks5.setToolTip("http代理地址，默认为 socks://127.0.0.1:10808")
 
             # chatglm
             self.ui.label_chatglm_api_ip_port.setToolTip("ChatGLM的API版本运行后的服务链接（需要完整的URL）")
@@ -626,6 +634,7 @@ class AI_VTB(QMainWindow):
                 "复读机", 
                 "ChatGPT/闻达", 
                 "Claude", 
+                "Claude2", 
                 "ChatGLM", 
                 "chat_with_file", 
                 "Chatterbot", 
@@ -641,19 +650,21 @@ class AI_VTB(QMainWindow):
             elif self.chat_type == "chatgpt":
                 chat_type_index = 2
             elif self.chat_type == "claude":
-                chat_type_index = 3 
-            elif self.chat_type == "chatglm":
+                chat_type_index = 3
+            elif self.chat_type == "claude2":
                 chat_type_index = 4
-            elif self.chat_type == "chat_with_file":
+            elif self.chat_type == "chatglm":
                 chat_type_index = 5
-            elif self.chat_type == "chatterbot":
+            elif self.chat_type == "chat_with_file":
                 chat_type_index = 6
-            elif self.chat_type == "text_generation_webui":
+            elif self.chat_type == "chatterbot":
                 chat_type_index = 7
-            elif self.chat_type == "sparkdesk":
+            elif self.chat_type == "text_generation_webui":
                 chat_type_index = 8
-            elif self.chat_type == "langchain_chatglm":
+            elif self.chat_type == "sparkdesk":
                 chat_type_index = 9
+            elif self.chat_type == "langchain_chatglm":
+                chat_type_index = 10
             self.ui.comboBox_chat_type.setCurrentIndex(chat_type_index)
             
             self.ui.comboBox_need_lang.clear()
@@ -810,6 +821,13 @@ class AI_VTB(QMainWindow):
 
             self.ui.lineEdit_claude_slack_user_token.setText(self.claude_config['slack_user_token'])
             self.ui.lineEdit_claude_bot_user_id.setText(self.claude_config['bot_user_id'])
+
+            self.ui.lineEdit_claude2_cookie.setText(self.claude2_config['cookie'])
+            if self.claude2_config['use_proxy']:
+                self.ui.checkBox_claude2_use_proxy.setChecked(True)
+            self.ui.lineEdit_claude2_proxies_http.setText(self.claude2_config['proxies']['http'])
+            self.ui.lineEdit_claude2_proxies_https.setText(self.claude2_config['proxies']['https'])
+            self.ui.lineEdit_claude2_proxies_socks5.setText(self.claude2_config['proxies']['socks5'])
 
             # chatglm
             self.ui.lineEdit_chatglm_api_ip_port.setText(self.chatglm_config['api_ip_port'])
@@ -1545,6 +1563,8 @@ class AI_VTB(QMainWindow):
                 config_data["chat_type"] = "chatgpt"
             elif chat_type == "Claude":
                 config_data["chat_type"] = "claude"
+            elif chat_type == "Claude2":
+                config_data["chat_type"] = "claude2"
             elif chat_type == "ChatGLM":
                 config_data["chat_type"] = "chatglm"
             elif chat_type == "chat_with_file":
@@ -1645,10 +1665,14 @@ class AI_VTB(QMainWindow):
             chatterbot_db_path = self.ui.lineEdit_chatterbot_db_path.text()
             config_data["chatterbot"]["db_path"] = chatterbot_db_path
 
-            claude_slack_user_token = self.ui.lineEdit_claude_slack_user_token.text()
-            config_data["claude"]["slack_user_token"] = claude_slack_user_token
-            claude_bot_user_id = self.ui.lineEdit_claude_bot_user_id.text()
-            config_data["claude"]["bot_user_id"] = claude_bot_user_id
+            config_data["claude"]["slack_user_token"] = self.ui.lineEdit_claude_slack_user_token.text()
+            config_data["claude"]["bot_user_id"] = self.ui.lineEdit_claude_bot_user_id.text()
+
+            config_data["claude2"]["cookie"] = self.ui.lineEdit_claude2_cookie.text()
+            config_data["claude2"]["use_proxy"] = self.ui.checkBox_claude2_use_proxy.isChecked()
+            config_data["claude2"]["proxies"]["http"] = self.ui.lineEdit_claude2_proxies_http.text()
+            config_data["claude2"]["proxies"]["https"] = self.ui.lineEdit_claude2_proxies_https.text()
+            config_data["claude2"]["proxies"]["socks5"] = self.ui.lineEdit_claude2_proxies_socks5.text()
 
             config_data["chatglm"]["api_ip_port"] = self.ui.lineEdit_chatglm_api_ip_port.text()
             config_data["chatglm"]["max_length"] = int(self.ui.lineEdit_chatglm_max_length.text())
@@ -2554,30 +2578,32 @@ class AI_VTB(QMainWindow):
     def oncomboBox_chat_type_IndexChanged(self, index):
         # 各index对应的groupbox的显隐值
         visibility_map = {
-            0: (0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-            1: (0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-            2: (1, 1, 1, 0, 0, 0, 0, 0, 0, 0),
-            3: (0, 0, 0, 1, 0, 0, 0, 0, 0, 0),
-            4: (0, 0, 0, 0, 1, 0, 0, 0, 0, 0),
-            5: (1, 1, 1, 1, 0, 1, 0, 0, 0, 0),
-            6: (0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
-            7: (0, 0, 0, 0, 0, 0, 0, 1, 0, 0),
-            8: (0, 0, 0, 0, 0, 0, 0, 0, 1, 0),
-            9: (0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+            0: (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+            1: (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+            2: (1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0),
+            3: (0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0),
+            4: (0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0),
+            5: (1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0),
+            6: (0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0),
+            7: (0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
+            8: (0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0),
+            9: (0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0),
+            9: (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
         }
 
-        visibility_values = visibility_map.get(index, (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+        visibility_values = visibility_map.get(index, (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
 
         self.ui.groupBox_openai.setVisible(visibility_values[0])
         self.ui.groupBox_chatgpt.setVisible(visibility_values[1])
         self.ui.groupBox_header.setVisible(visibility_values[2])
         self.ui.groupBox_claude.setVisible(visibility_values[3])
-        self.ui.groupBox_chatglm.setVisible(visibility_values[4])
-        self.ui.groupBox_chat_with_file.setVisible(visibility_values[5])
-        self.ui.groupBox_chatterbot.setVisible(visibility_values[6])
-        self.ui.groupBox_text_generation_webui.setVisible(visibility_values[7])
-        self.ui.groupBox_sparkdesk.setVisible(visibility_values[8])
-        self.ui.groupBox_langchain_chatglm.setVisible(visibility_values[9])
+        self.ui.groupBox_claude2.setVisible(visibility_values[4])
+        self.ui.groupBox_chatglm.setVisible(visibility_values[5])
+        self.ui.groupBox_chat_with_file.setVisible(visibility_values[6])
+        self.ui.groupBox_chatterbot.setVisible(visibility_values[7])
+        self.ui.groupBox_text_generation_webui.setVisible(visibility_values[8])
+        self.ui.groupBox_sparkdesk.setVisible(visibility_values[9])
+        self.ui.groupBox_langchain_chatglm.setVisible(visibility_values[10])
 
     
     # 语音合成类型改变 加载显隐不同groupBox

@@ -1,12 +1,15 @@
 import os, threading, json, random
 import difflib
 import logging
+from datetime import datetime
+import traceback
 
 from .config import Config
 from .common import Common
 from .audio import Audio
 from .gpt_model.gpt import GPT_MODEL
 from .logger import Configure_logger
+from .db import SQLiteDB
 
 
 """
@@ -79,6 +82,8 @@ class My_handle():
             self.chatgpt_config = My_handle.config.get("chatgpt")
             # claude
             self.claude_config = My_handle.config.get("claude")
+            # claude2
+            self.claude2_config = My_handle.config.get("claude2")
             # chatterbot
             self.chatterbot_config = My_handle.config.get("chatterbot")
             # chatglm
@@ -102,12 +107,13 @@ class My_handle():
 
             logging.info(f"配置数据加载成功。")
         except Exception as e:
-            logging.info(e)
+            logging.error(traceback.format_exc())
 
         # 设置GPT_Model全局模型列表
         GPT_MODEL.set_model_config("openai", self.openai_config)
         GPT_MODEL.set_model_config("chatgpt", self.chatgpt_config)
         GPT_MODEL.set_model_config("claude", self.claude_config)
+        GPT_MODEL.set_model_config("claude2", self.claude2_config)
         GPT_MODEL.set_model_config("chatglm", self.chatglm_config)
         GPT_MODEL.set_model_config("text_generation_webui", self.text_generation_webui_config)
         GPT_MODEL.set_model_config("sparkdesk", self.sparkdesk_config)
@@ -115,6 +121,7 @@ class My_handle():
 
         self.chatgpt = None
         self.claude = None
+        self.claude2 = None
         self.chatglm = None
         self.chat_with_file = None
         self.text_generation_webui = None
@@ -132,6 +139,12 @@ class My_handle():
             # 初次运行 先重置下会话
             if not self.claude.reset_claude():
                 logging.error("重置Claude会话失败喵~")
+        elif self.chat_type == "claude2":
+            self.claude2 = GPT_MODEL.get(self.chat_type)
+
+            # 初次运行 先重置下会话
+            if self.claude2.get_organization_id() is None:
+                logging.error("重置Claude2会话失败喵~")
         elif self.chat_type == "chatterbot":
             from chatterbot import ChatBot  # 导入聊天机器人库
             try:
@@ -183,6 +196,46 @@ class My_handle():
             with open(self.comment_file_path, 'w') as f:
                 f.write('')
                 logging.info(f'{self.comment_file_path} 弹幕文件已创建')
+
+        try:
+            # 数据库
+            self.db = SQLiteDB(My_handle.config.get("database", "path"))
+            logging.info(f'创建数据库:{My_handle.config.get("database", "path")}')
+
+            # 创建弹幕表
+            create_table_sql = '''
+            CREATE TABLE IF NOT EXISTS danmu (
+                username TEXT NOT NULL,
+                content TEXT NOT NULL,
+                ts DATETIME NOT NULL
+            )
+            '''
+            self.db.execute(create_table_sql)
+            logging.info('创建danmu表')
+
+            create_table_sql = '''
+            CREATE TABLE IF NOT EXISTS entrance (
+                username TEXT NOT NULL,
+                ts DATETIME NOT NULL
+            )
+            '''
+            self.db.execute(create_table_sql)
+            logging.info('创建entrance表')
+
+            create_table_sql = '''
+            CREATE TABLE IF NOT EXISTS gift (
+                username TEXT NOT NULL,
+                gift_name TEXT NOT NULL,
+                gift_num INT NOT NULL,
+                unit_price REAL NOT NULL,
+                total_price REAL NOT NULL,
+                ts DATETIME NOT NULL
+            )
+            '''
+            self.db.execute(create_table_sql)
+            logging.info('创建gift表')
+        except Exception as e:
+            logging.error(traceback.format_exc())
 
 
     def get_room_id(self):
@@ -546,6 +599,22 @@ class My_handle():
                     else:
                         resp_content = ""
                         logging.warning("警告：claude无返回")
+                elif self.sd_config["prompt_llm"]["type"] == "claude2":
+                    if self.claude2 is None:
+                        self.claude2 = GPT_MODEL.get(self.chat_type)
+
+                        # 初次运行 先重置下会话
+                        if self.claude2.get_organization_id() is None:
+                            logging.error("重置Claude2会话失败喵~")
+                        
+                    content = self.before_prompt + content + self.after_prompt
+                    resp_content = self.claude2.get_claude2_resp(content)
+                    if resp_content is not None:
+                        # 输出 返回的回复消息
+                        logging.info(f"[AI回复{user_name}]：{resp_content}")
+                    else:
+                        resp_content = ""
+                        logging.warning("警告：claude2无返回")
                 elif self.sd_config["prompt_llm"]["type"] == "chatglm":
                     if self.chatglm is None:
                         self.chatglm = GPT_MODEL.get(self.chat_type)
@@ -700,6 +769,13 @@ class My_handle():
         user_name = data["username"]
         content = data["content"]
 
+        # 记录数据库
+        if My_handle.config.get("database", "comment_enable"):
+            insert_data_sql = '''
+            INSERT INTO danmu (username, content, ts) VALUES (?, ?, ?)
+            '''
+            self.db.execute(insert_data_sql, (user_name, content, datetime.now()))
+
         # 合并字符串末尾连续的*  主要针对获取不到用户名的情况
         user_name = My_handle.common.merge_consecutive_asterisks(user_name)
 
@@ -749,6 +825,15 @@ class My_handle():
         elif self.chat_type == "claude":
             content = self.before_prompt + content + self.after_prompt
             resp_content = self.claude.get_claude_resp(content)
+            if resp_content is not None:
+                # 输出 返回的回复消息
+                logging.info(f"[AI回复{user_name}]：{resp_content}")
+            else:
+                resp_content = ""
+                logging.warning("警告：claude无返回")
+        elif self.chat_type == "claude2":
+            content = self.before_prompt + content + self.after_prompt
+            resp_content = self.claude2.get_claude2_resp(content)
             if resp_content is not None:
                 # 输出 返回的回复消息
                 logging.info(f"[AI回复{user_name}]：{resp_content}")
@@ -863,16 +948,30 @@ class My_handle():
 
     # 礼物处理
     def gift_handle(self, data):
-        # 合并字符串末尾连续的*  主要针对获取不到用户名的情况
-        data['username'] = My_handle.common.merge_consecutive_asterisks(data['username'])
-
-        # 违禁处理
-        if self.prohibitions_handle(data['username']):
-            return
-
-        # logging.debug(f"[{data['username']}]: {data}")
-
         try:
+            # 记录数据库
+            if My_handle.config.get("database", "gift_enable"):
+                insert_data_sql = '''
+                INSERT INTO gift (username, gift_name, gift_num, unit_price, total_price, ts) VALUES (?, ?, ?, ?, ?, ?)
+                '''
+                self.db.execute(insert_data_sql, (
+                    data['username'], 
+                    data['gift_name'], 
+                    data['num'], 
+                    data['unit_price'], 
+                    data['total_price'],
+                    datetime.now())
+                )
+            
+            # 合并字符串末尾连续的*  主要针对获取不到用户名的情况
+            data['username'] = My_handle.common.merge_consecutive_asterisks(data['username'])
+
+            # 违禁处理
+            if self.prohibitions_handle(data['username']):
+                return
+
+            # logging.debug(f"[{data['username']}]: {data}")
+        
             if False == self.thanks_config["gift_enable"]:
                 return
 
@@ -894,21 +993,28 @@ class My_handle():
             # 音频合成（edge-tts / vits_fast）并播放
             My_handle.audio.audio_synthesis(message)
         except Exception as e:
-            logging.error(e)
+            logging.error(traceback.format_exc())
 
 
     # 入场处理
     def entrance_handle(self, data):
-        # 合并字符串末尾连续的*  主要针对获取不到用户名的情况
-        data['username'] = My_handle.common.merge_consecutive_asterisks(data['username'])
-
-        # 违禁处理
-        if self.prohibitions_handle(data['username']):
-            return
-
-        # logging.debug(f"[{data['username']}]: {data['content']}")
-
         try:
+            # 记录数据库
+            if My_handle.config.get("database", "entrance_enable"):
+                insert_data_sql = '''
+                INSERT INTO entrance (username, ts) VALUES (?, ?)
+                '''
+                self.db.execute(insert_data_sql, (data['username'], datetime.now()))
+
+            # 合并字符串末尾连续的*  主要针对获取不到用户名的情况
+            data['username'] = My_handle.common.merge_consecutive_asterisks(data['username'])
+
+            # 违禁处理
+            if self.prohibitions_handle(data['username']):
+                return
+
+            # logging.debug(f"[{data['username']}]: {data['content']}")
+        
             if False == self.thanks_config["entrance_enable"]:
                 return
 
@@ -926,7 +1032,7 @@ class My_handle():
             # 音频合成（edge-tts / vits_fast）并播放
             My_handle.audio.audio_synthesis(message)
         except Exception as e:
-            logging.error(e)
+            logging.error(traceback.format_exc())
 
 
     # 定时处理
@@ -946,7 +1052,7 @@ class My_handle():
             # 音频合成（edge-tts / vits_fast）并播放
             My_handle.audio.audio_synthesis(message)
         except Exception as e:
-            logging.error(e)
+            logging.error(traceback.format_exc())
 
 
     """

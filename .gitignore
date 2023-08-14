@@ -209,3 +209,6 @@ test.py
 tmp/
 
 cookie/*.json
+
+# 数据库
+data/data.db
