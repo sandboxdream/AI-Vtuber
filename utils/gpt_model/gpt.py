@@ -12,6 +12,7 @@ import logging
 from utils.gpt_model.chatglm import Chatglm
 from utils.gpt_model.chatgpt import Chatgpt
 from utils.gpt_model.claude import Claude
+from utils.gpt_model.claude2 import Claude2
 from utils.gpt_model.text_generation_webui import TEXT_GENERATION_WEBUI
 from utils.gpt_model.sparkdesk import SPARKDESK
 from utils.gpt_model.langchain_chatglm import Langchain_ChatGLM
@@ -22,6 +23,7 @@ class GPT_Model:
     openai = None  # 只有openai是config配置，其他均是实例
     chatgpt = None
     claude = None
+    claude2 = None
     chatglm = None
     text_generation_webui = None
     sparkdesk = None
@@ -37,6 +39,8 @@ class GPT_Model:
             self.chatgpt = Chatgpt(self.openai, config)
         elif model_name == "claude":
             self.claude = Claude(config)
+        elif model_name == "claude2":
+            self.claude2 = Claude2(config)
         elif model_name == "chatglm":
             self.chatglm = Chatglm(config)
         elif model_name == "text_generation_webui":
@@ -55,6 +59,8 @@ class GPT_Model:
                 return self.chatgpt
             case "claude":
                 return self.claude
+            case "claude2":
+                return self.claude2
             case "chatglm":
                 return self.chatglm
             case "text_generation_webui":

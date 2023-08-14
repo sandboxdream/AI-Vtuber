@@ -118,8 +118,8 @@ class Audio:
                 # 保留子文件夹路径
                 # file_names = [os.path.relpath(file, audio_path) for file in audio_files]
 
-            logging.info("获取到本地音频文件名列表如下：")
-            logging.info(file_names)
+            logging.debug("获取到本地音频文件名列表如下：")
+            logging.debug(file_names)
 
             return file_names
         except Exception as e:

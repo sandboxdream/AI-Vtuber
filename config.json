@@ -1,6 +1,6 @@
 {
   "platform": "bilibili",
-  "room_display_id": "26913540",
+  "room_display_id": "278333",
   "chat_type": "reread",
   "need_lang": "none",
   "before_prompt": "请简要回复:",
@@ -73,6 +73,15 @@
   "claude": {
     "slack_user_token": "",
     "bot_user_id": ""
+  },
+  "claude2": {
+    "cookie": "",
+    "use_proxy": false,
+    "proxies": {
+      "http": "http://127.0.0.1:10809",
+      "https": "http://127.0.0.1:10809",
+      "socks5": "socks://127.0.0.1:10808"
+    }
   },
   "chatglm": {
     "api_ip_port": "http://127.0.0.1:8000",

@@ -1409,6 +1409,9 @@ cmd输入命令即可：`doctoc /path/to/file`
 - 修改commit为comment（大改动，单词拼错了，现在才发现，难绷）
 - 新增弹幕、入场、礼物的数据库日志记录(GUI未适配)
 
+### 2023-08-14
+- 新增Claude2的接入
+
 </details>
 
 

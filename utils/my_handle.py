@@ -82,6 +82,8 @@ class My_handle():
             self.chatgpt_config = My_handle.config.get("chatgpt")
             # claude
             self.claude_config = My_handle.config.get("claude")
+            # claude2
+            self.claude2_config = My_handle.config.get("claude2")
             # chatterbot
             self.chatterbot_config = My_handle.config.get("chatterbot")
             # chatglm
@@ -111,6 +113,7 @@ class My_handle():
         GPT_MODEL.set_model_config("openai", self.openai_config)
         GPT_MODEL.set_model_config("chatgpt", self.chatgpt_config)
         GPT_MODEL.set_model_config("claude", self.claude_config)
+        GPT_MODEL.set_model_config("claude2", self.claude2_config)
         GPT_MODEL.set_model_config("chatglm", self.chatglm_config)
         GPT_MODEL.set_model_config("text_generation_webui", self.text_generation_webui_config)
         GPT_MODEL.set_model_config("sparkdesk", self.sparkdesk_config)
@@ -118,6 +121,7 @@ class My_handle():
 
         self.chatgpt = None
         self.claude = None
+        self.claude2 = None
         self.chatglm = None
         self.chat_with_file = None
         self.text_generation_webui = None
@@ -135,6 +139,12 @@ class My_handle():
             # 初次运行 先重置下会话
             if not self.claude.reset_claude():
                 logging.error("重置Claude会话失败喵~")
+        elif self.chat_type == "claude2":
+            self.claude2 = GPT_MODEL.get(self.chat_type)
+
+            # 初次运行 先重置下会话
+            if self.claude2.get_organization_id() is None:
+                logging.error("重置Claude2会话失败喵~")
         elif self.chat_type == "chatterbot":
             from chatterbot import ChatBot  # 导入聊天机器人库
             try:
@@ -589,6 +599,22 @@ class My_handle():
                     else:
                         resp_content = ""
                         logging.warning("警告：claude无返回")
+                elif self.sd_config["prompt_llm"]["type"] == "claude2":
+                    if self.claude2 is None:
+                        self.claude2 = GPT_MODEL.get(self.chat_type)
+
+                        # 初次运行 先重置下会话
+                        if self.claude2.get_organization_id() is None:
+                            logging.error("重置Claude2会话失败喵~")
+                        
+                    content = self.before_prompt + content + self.after_prompt
+                    resp_content = self.claude2.get_claude2_resp(content)
+                    if resp_content is not None:
+                        # 输出 返回的回复消息
+                        logging.info(f"[AI回复{user_name}]：{resp_content}")
+                    else:
+                        resp_content = ""
+                        logging.warning("警告：claude2无返回")
                 elif self.sd_config["prompt_llm"]["type"] == "chatglm":
                     if self.chatglm is None:
                         self.chatglm = GPT_MODEL.get(self.chat_type)
@@ -799,6 +825,15 @@ class My_handle():
         elif self.chat_type == "claude":
             content = self.before_prompt + content + self.after_prompt
             resp_content = self.claude.get_claude_resp(content)
+            if resp_content is not None:
+                # 输出 返回的回复消息
+                logging.info(f"[AI回复{user_name}]：{resp_content}")
+            else:
+                resp_content = ""
+                logging.warning("警告：claude无返回")
+        elif self.chat_type == "claude2":
+            content = self.before_prompt + content + self.after_prompt
+            resp_content = self.claude2.get_claude2_resp(content)
             if resp_content is not None:
                 # 输出 返回的回复消息
                 logging.info(f"[AI回复{user_name}]：{resp_content}")

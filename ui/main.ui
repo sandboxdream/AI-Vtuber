@@ -134,9 +134,9 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>0</y>
+             <y>-2882</y>
              <width>980</width>
-             <height>8913</height>
+             <height>9184</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -176,29 +176,29 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                   <string>Claude</string>
                  </property>
                  <layout class="QGridLayout" name="gridLayout_7">
-                  <item row="0" column="1">
-                   <widget class="QLineEdit" name="lineEdit_claude_slack_user_token"/>
-                  </item>
                   <item row="0" column="0">
                    <layout class="QGridLayout" name="gridLayout_6">
-                    <item row="0" column="0">
+                    <item row="1" column="1">
+                     <widget class="QLineEdit" name="lineEdit_claude_slack_user_token"/>
+                    </item>
+                    <item row="1" column="0">
                      <widget class="QLabel" name="label_claude_slack_user_token">
                       <property name="text">
                        <string>slack_user_token</string>
                       </property>
                      </widget>
                     </item>
+                    <item row="2" column="0">
+                     <widget class="QLabel" name="label_claude_bot_user_id">
+                      <property name="text">
+                       <string>bot_user_id</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="2" column="1">
+                     <widget class="QLineEdit" name="lineEdit_claude_bot_user_id"/>
+                    </item>
                    </layout>
-                  </item>
-                  <item row="1" column="0">
-                   <widget class="QLabel" name="label_claude_bot_user_id">
-                    <property name="text">
-                     <string>bot_user_id</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="1">
-                   <widget class="QLineEdit" name="lineEdit_claude_bot_user_id"/>
                   </item>
                  </layout>
                 </widget>
@@ -1217,6 +1217,73 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                  <layout class="QGridLayout" name="gridLayout_62">
                   <item row="0" column="0">
                    <layout class="QGridLayout" name="gridLayout_show_box"/>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item row="28" column="0" colspan="3">
+                <widget class="QGroupBox" name="groupBox_claude2">
+                 <property name="title">
+                  <string>Claude2</string>
+                 </property>
+                 <layout class="QGridLayout" name="gridLayout_65">
+                  <item row="0" column="0">
+                   <layout class="QGridLayout" name="gridLayout_60">
+                    <item row="0" column="1">
+                     <widget class="QLineEdit" name="lineEdit_claude2_cookie"/>
+                    </item>
+                    <item row="4" column="1">
+                     <widget class="QLineEdit" name="lineEdit_claude2_proxies_socks5"/>
+                    </item>
+                    <item row="3" column="0">
+                     <widget class="QLabel" name="label_claude2_proxies_https">
+                      <property name="text">
+                       <string>https代理地址</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="4" column="0">
+                     <widget class="QLabel" name="label_claude2_proxies_socks5">
+                      <property name="text">
+                       <string>socks5代理地址</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="1">
+                     <widget class="QCheckBox" name="checkBox_claude2_use_proxy">
+                      <property name="text">
+                       <string>启用</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label_claude2_cookie">
+                      <property name="text">
+                       <string>cookie</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="0">
+                     <widget class="QLabel" name="label_claude2_use_proxy">
+                      <property name="text">
+                       <string>启用代理</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="2" column="0">
+                     <widget class="QLabel" name="label_claude2_proxies_http">
+                      <property name="text">
+                       <string>http代理地址</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="3" column="1">
+                     <widget class="QLineEdit" name="lineEdit_claude2_proxies_https"/>
+                    </item>
+                    <item row="2" column="1">
+                     <widget class="QLineEdit" name="lineEdit_claude2_proxies_http"/>
+                    </item>
+                   </layout>
                   </item>
                  </layout>
                 </widget>
@@ -2757,8 +2824,8 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>355</width>
-                    <height>102</height>
+                    <width>644</width>
+                    <height>498</height>
                    </rect>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_4">
