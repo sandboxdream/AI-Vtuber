@@ -1139,7 +1139,8 @@ class AI_VTB(QMainWindow):
                     "choose_song": "点歌模式",
                     "sd": "Stable Diffusion",
                     "log": "日志",
-                    "schedule": "定时任务"
+                    "schedule": "定时任务",
+                    "database": "数据库"
                     # 可以继续添加其他键和值
                 }
 
@@ -1375,6 +1376,65 @@ class AI_VTB(QMainWindow):
                     row += 1
 
             vits_gui_create()
+
+            # 数据库
+            def database_gui_create():
+                data_json = []
+
+                database_config = config.get("database")
+                tmp_json = {
+                    "label_text": "数据库路径",
+                    "label_tip": "数据库文件存储路径",
+                    "data": database_config["path"],
+                    "main_obj_name": "database",
+                    "index": 0
+                }
+                data_json.append(tmp_json)
+
+                tmp_json = {
+                    "label_text": "弹幕日志",
+                    "label_tip": "存储记录原始的用户弹幕数据，用于后期排查问题、分析用户画像等",
+                    "data": database_config["comment_enable"],
+                    "widget_text": "",
+                    "click_func": "",
+                    "main_obj_name": "database",
+                    "index": 1
+                }
+                data_json.append(tmp_json)
+
+                tmp_json = {
+                    "label_text": "入场日志",
+                    "label_tip": "存储记录原始的用户入场数据，用于后期排查问题、分析流量等",
+                    "data": database_config["entrance_enable"],
+                    "widget_text": "",
+                    "click_func": "",
+                    "main_obj_name": "database",
+                    "index": 1
+                }
+                data_json.append(tmp_json)
+
+                tmp_json = {
+                    "label_text": "礼物日志",
+                    "label_tip": "存储记录原始的用户礼物数据，用于后期排查问题、分析富哥富婆等",
+                    "data": database_config["gift_enable"],
+                    "widget_text": "",
+                    "click_func": "",
+                    "main_obj_name": "database",
+                    "index": 1
+                }
+                data_json.append(tmp_json)
+
+                widgets = self.create_widgets_from_json(data_json)
+
+                # 动态添加widget到对应的gridLayout
+                row = 0
+                # 分2列，左边就是label说明，右边就是输入框等
+                for i in range(0, len(widgets), 2):
+                    self.ui.gridLayout_database.addWidget(widgets[i], row, 0)
+                    self.ui.gridLayout_database.addWidget(widgets[i + 1], row, 1)
+                    row += 1
+
+            database_gui_create()
 
             # 显隐各板块
             self.oncomboBox_chat_type_IndexChanged(chat_type_index)
@@ -1952,6 +2012,25 @@ class AI_VTB(QMainWindow):
             vits_data = self.update_data_from_gridLayout(self.ui.gridLayout_vits)
             # 写回json
             config_data["vits"] = reorganize_vits_data(vits_data)
+
+            # 数据库
+            def reorganize_database_data(database_data):
+                keys = list(database_data.keys())
+
+                tmp_json = {
+                    "path": database_data[keys[0]],
+                    "comment_enable": database_data[keys[1]],
+                    "entrance_enable": database_data[keys[2]],
+                    "gift_enable": database_data[keys[3]]
+                }
+
+                logging.debug(f"tmp_json={tmp_json}")
+
+                return tmp_json
+
+            database_data = self.update_data_from_gridLayout(self.ui.gridLayout_database)
+            # 写回json
+            config_data["database"] = reorganize_database_data(database_data)
 
             # 获取自定义板块显隐的数据
             show_box_data = self.update_data_from_gridLayout(self.ui.gridLayout_show_box, "show_box")

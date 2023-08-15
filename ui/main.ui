@@ -134,9 +134,9 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-2882</y>
+             <y>-8518</y>
              <width>980</width>
-             <height>9184</height>
+             <height>9260</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -2543,6 +2543,18 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
               </layout>
              </widget>
             </item>
+            <item>
+             <widget class="QGroupBox" name="groupBox_database">
+              <property name="title">
+               <string>数据库</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_67">
+               <item row="0" column="0">
+                <layout class="QGridLayout" name="gridLayout_database"/>
+               </item>
+              </layout>
+             </widget>
+            </item>
            </layout>
           </widget>
          </widget>
@@ -2824,8 +2836,8 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>644</width>
-                    <height>498</height>
+                    <width>355</width>
+                    <height>102</height>
                    </rect>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_4">

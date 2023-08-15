@@ -18,7 +18,8 @@
     "choose_song": true,
     "sd": true,
     "log": true,
-    "schedule": true
+    "schedule": true,
+    "database": true
   },
   "read_user_name": {
     "enable": true,
@@ -330,8 +331,8 @@
   ],
   "database": {
     "path": "data/data.db",
-    "comment_enable": false,
-    "entrance_enable": false,
-    "gift_enable": false
+    "comment_enable": true,
+    "entrance_enable": true,
+    "gift_enable": true
   }
 }
