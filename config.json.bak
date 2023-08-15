@@ -18,7 +18,8 @@
     "choose_song": true,
     "sd": true,
     "log": true,
-    "schedule": true
+    "schedule": true,
+    "database": true
   },
   "read_user_name": {
     "enable": true,
