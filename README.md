@@ -1105,6 +1105,19 @@ node.js环境
 cmd输入命令即可：`doctoc /path/to/file`  
 例如：`doctoc README.md`  
 
+### 文档生成
+
+依赖[node.js](https://nodejs.org/en/)环境。  
+
+#### 安装docsify-cli工具
+cmd运行`npm i docsify-cli -g`  
+
+#### 初始化项目
+项目根目录cmd运行`docsify init .`  
+
+#### 启动服务
+项目根目录cmd运行`docsify serve .`  
+
 </details>
 
 ### 测试
@@ -1141,7 +1154,7 @@ cmd输入命令即可：`doctoc /path/to/file`
 - [ ] 文案拒绝打断机制
 - [x] 文案页支持动态加载文案
 - [x] 支持关闭聊天（LLM等）
-- [ ] langchain-chatglm的接入
+- [x] langchain-chatglm的接入
 
 ## 📝更新日志
 
