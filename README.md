@@ -1430,6 +1430,7 @@ cmd运行`npm i docsify-cli -g`
 
 ### 2023-08-16
 - 增加基于docsify的文档
+- 美化logo
 
 </details>
 
