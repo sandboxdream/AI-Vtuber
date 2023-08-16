@@ -6,9 +6,9 @@ import asyncio
 
 from utils.config import Config
 
-from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QLabel, QComboBox, QLineEdit, QTextEdit, QCheckBox
-from PyQt5.QtGui import QFont, QDesktopServices, QIcon
-from PyQt5.QtCore import QTimer, QThread, QEventLoop, pyqtSignal, QUrl
+from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QLabel, QComboBox, QLineEdit, QTextEdit, QCheckBox, QGroupBox
+from PyQt5.QtGui import QFont, QDesktopServices, QIcon, QPixmap
+from PyQt5.QtCore import QTimer, QThread, QEventLoop, pyqtSignal, QUrl, Qt
 
 import http.server
 import socketserver
@@ -114,8 +114,8 @@ class AI_VTB(QMainWindow):
         logging.debug("Screen height {}".format(self.screenheight))
         logging.debug("Screen width {}".format(self.screenwidth))
 
-        self.height = int(self.screenheight * 0.7)
-        self.width = int(self.screenwidth * 0.7)
+        # self.height = int(self.screenheight * 0.7)
+        # self.width = int(self.screenwidth * 0.7)
 
         # 设置软件图标
         app_icon = QIcon("ui/icon.png")
@@ -126,12 +126,39 @@ class AI_VTB(QMainWindow):
         # 页面索引
         self.stackedWidget_index = 0
 
+        # 调用设置背景图的方法
+        self.set_background()
+
         # 设置实例
         self.CreateItems()
         # 读取配置文件 进行初始化
         self.init_config()
         # 初始化
         self.init_ui()
+
+
+    # 设置背景图
+    def set_background(self):
+        # 创建一个 QLabel 用于显示背景图
+        background_label = QLabel(self)
+        
+        # 加载背景图，替换 'background.jpg' 为你的图片路径
+        pixmap = QPixmap('ui/bg.png')
+
+        screen = QApplication.primaryScreen()
+        screen_size = screen.size()
+
+        # 计算缩放比例，使图片等比缩放至全屏
+        scaled_pixmap = pixmap.scaled(screen_size, aspectRatioMode=Qt.KeepAspectRatio)
+        
+        # 设置 Label 大小为窗口大小
+        background_label.setPixmap(scaled_pixmap)
+
+        # 高度减一点，顶部菜单栏覆盖不到，什么dio问题
+        background_label.setGeometry(0, 0, screen_size.width(), screen_size.height() - 15)
+
+        # 让 Label 放置在顶层，成为背景
+        background_label.lower()
 
 
     # 关闭窗口
@@ -1454,6 +1481,41 @@ class AI_VTB(QMainWindow):
     
     # ui初始化
     def init_ui(self):
+        # 统一设置下样式先
+        comboBox_common_css = '''
+            margin: 5px 0px; 
+            height: 40px;
+            background-color: rgba(255, 255, 255, 100);
+        '''
+
+        # 无效设置
+        font = QFont("仿宋", 14)  # 创建一个字体对象
+        font.setWeight(QFont.Bold)  # 设置字体粗细
+
+        comboBoxs = self.findChildren(QComboBox)
+        for comboBox in comboBoxs:
+            comboBox.setStyleSheet(comboBox_common_css)
+            comboBox.setFont(font)
+
+        label_common_css = '''
+            background-color: rgba(255, 255, 255, 0);
+        '''
+
+        labels = self.findChildren(QLabel)
+        for label in labels:
+            label.setStyleSheet(label_common_css)
+            label.setFont(font)
+        
+        
+        groupBox_common_css = '''
+            background-color: rgba(255, 255, 255, 0);
+        '''
+
+        groupBoxs = self.findChildren(QGroupBox)
+        for groupBox in groupBoxs:
+            groupBox.setStyleSheet(groupBox_common_css)
+            groupBox.setFont(font)
+
         if False:
             # 统一设置下样式先
             common_css = "margin: 5px 0px; height: 40px;"

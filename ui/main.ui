@@ -14,10 +14,7 @@
    <string>AI Vtuber</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QPushButton:hover {
-            background-color: #1976D2;
-            
-        }</string>
+   <string notr="true">background-color: rgba(255, 255, 255, 50);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_20">
@@ -113,6 +110,10 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
     </item>
     <item row="0" column="0" rowspan="10">
      <widget class="QStackedWidget" name="stackedWidget">
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(255, 255, 255, 0);
+</string>
+      </property>
       <property name="currentIndex">
        <number>0</number>
       </property>
@@ -122,6 +123,7 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
          <widget class="QScrollArea" name="scrollArea">
           <property name="styleSheet">
            <string notr="true">font: 75 14pt &quot;微软雅黑&quot;;
+background-color: rgba(255, 255, 255, 50);
 </string>
           </property>
           <property name="verticalScrollBarPolicy">
@@ -134,9 +136,9 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-8518</y>
-             <width>980</width>
-             <height>9260</height>
+             <y>-8514</y>
+             <width>984</width>
+             <height>9230</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -157,6 +159,9 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
             </property>
             <item>
              <widget class="QWidget" name="formWidget" native="true">
+              <property name="styleSheet">
+               <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+              </property>
               <layout class="QGridLayout" name="gridLayout">
                <property name="leftMargin">
                 <number>0</number>
@@ -708,7 +713,7 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
                <item row="0" column="0">
                 <widget class="QLabel" name="label_platform">
                  <property name="autoFillBackground">
-                  <bool>true</bool>
+                  <bool>false</bool>
                  </property>
                  <property name="text">
                   <string>平台</string>
@@ -2837,7 +2842,7 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
                     <x>0</x>
                     <y>0</y>
                     <width>355</width>
-                    <height>102</height>
+                    <height>477</height>
                    </rect>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -2923,8 +2928,8 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>422</width>
-             <height>919</height>
+             <width>963</width>
+             <height>911</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_3">
