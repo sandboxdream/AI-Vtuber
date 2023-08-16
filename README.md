@@ -26,8 +26,10 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
 它使用自然语言处理和文本转语音技术(Edge-TTS/VITS-Fast/elevenlabs)生成对观众问题的回答并可以通过so-vits-svc/DDSP-SVC变声；另外还可以通过特定指令协同Stable Diffusion进行画图展示。并且可以自定义文案进行循环播放。 
 </p>
 
-<img src="https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/4384e236-337b-4119-8525-8830671e671a" style="width:100px;"><span style="vertical-align: super;">
-<a href="https://space.bilibili.com/3709626/channel/collectiondetail?sid=1422512" target="_blank">视频教程合集</span></a>
+
+<a href="https://space.bilibili.com/3709626/channel/collectiondetail?sid=1422512" target="_blank">▶︎ 视频教程合集</span></a>
+<span> | </span>
+<a href="http://ikaros521.eu.org/AI-Vtuber/" target="_blank">📄 在线文档</span></a>
 
 </div>
 
@@ -1105,6 +1107,19 @@ node.js环境
 cmd输入命令即可：`doctoc /path/to/file`  
 例如：`doctoc README.md`  
 
+### 文档生成
+
+依赖[node.js](https://nodejs.org/en/)环境。  
+
+#### 安装docsify-cli工具
+cmd运行`npm i docsify-cli -g`  
+
+#### 初始化项目
+项目根目录cmd运行`docsify init .`  
+
+#### 启动服务
+项目根目录cmd运行`docsify serve .`  
+
 </details>
 
 ### 测试
@@ -1141,7 +1156,7 @@ cmd输入命令即可：`doctoc /path/to/file`
 - [ ] 文案拒绝打断机制
 - [x] 文案页支持动态加载文案
 - [x] 支持关闭聊天（LLM等）
-- [ ] langchain-chatglm的接入
+- [x] langchain-chatglm的接入
 
 ## 📝更新日志
 
@@ -1417,6 +1432,7 @@ cmd输入命令即可：`doctoc /path/to/file`
 
 ### 2023-08-16
 - 增加基于docsify的文档
+- 美化logo
 
 </details>
 
