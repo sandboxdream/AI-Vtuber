@@ -160,6 +160,7 @@ class Claude2:
         completions = []
         for data_string in data_strings:
             json_str = data_string[6:].strip()
+            logging.debug(f"json_str={json_str}")
             data = json.loads(json_str)
             if 'completion' in data:
                 completions.append(data['completion'])
@@ -344,7 +345,7 @@ class Claude2:
             resp_content = self.send_message(prompt, self.conversation_id)
             return resp_content
         except Exception as e:
-            logging.info(e)
+            logging.error(traceback.format_exc())
             return None
 
 

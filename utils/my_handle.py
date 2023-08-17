@@ -112,12 +112,7 @@ class My_handle():
         # 设置GPT_Model全局模型列表
         GPT_MODEL.set_model_config("openai", self.openai_config)
         GPT_MODEL.set_model_config("chatgpt", self.chatgpt_config)
-        GPT_MODEL.set_model_config("claude", self.claude_config)
-        GPT_MODEL.set_model_config("claude2", self.claude2_config)
-        GPT_MODEL.set_model_config("chatglm", self.chatglm_config)
-        GPT_MODEL.set_model_config("text_generation_webui", self.text_generation_webui_config)
-        GPT_MODEL.set_model_config("sparkdesk", self.sparkdesk_config)
-        GPT_MODEL.set_model_config("langchain_chatglm", self.langchain_chatglm_config)
+        GPT_MODEL.set_model_config("claude", self.claude_config)        
 
         self.chatgpt = None
         self.claude = None
@@ -140,6 +135,8 @@ class My_handle():
             if not self.claude.reset_claude():
                 logging.error("重置Claude会话失败喵~")
         elif self.chat_type == "claude2":
+            GPT_MODEL.set_model_config("claude2", self.claude2_config)
+
             self.claude2 = GPT_MODEL.get(self.chat_type)
 
             # 初次运行 先重置下会话
@@ -156,15 +153,23 @@ class My_handle():
                 logging.info(e)
                 exit(0)
         elif self.chat_type == "chatglm":
+            GPT_MODEL.set_model_config("chatglm", self.chatglm_config)
+
             self.chatglm = GPT_MODEL.get(self.chat_type)
         elif self.chat_type == "chat_with_file":
             from utils.chat_with_file.chat_with_file import Chat_with_file
             self.chat_with_file = Chat_with_file(self.chat_with_file_config)
         elif self.chat_type == "text_generation_webui":
+            GPT_MODEL.set_model_config("text_generation_webui", self.text_generation_webui_config)
+
             self.text_generation_webui = GPT_MODEL.get(self.chat_type) 
         elif self.chat_type == "sparkdesk":
+            GPT_MODEL.set_model_config("sparkdesk", self.sparkdesk_config)
+
             self.sparkdesk = GPT_MODEL.get(self.chat_type)
         elif self.chat_type == "langchain_chatglm":
+            GPT_MODEL.set_model_config("langchain_chatglm", self.langchain_chatglm_config)
+
             self.langchain_chatglm = GPT_MODEL.get(self.chat_type)
         elif self.chat_type == "game":
             # from game.game import Game
@@ -843,7 +848,7 @@ class My_handle():
                 logging.info(f"[AI回复{user_name}]：{resp_content}")
             else:
                 resp_content = ""
-                logging.warning("警告：claude无返回")
+                logging.warning("警告：claude2无返回")
         elif self.chat_type == "chatterbot":
             # 生成回复
             resp_content = self.bot.get_response(content).text
