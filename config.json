@@ -334,5 +334,8 @@
     "comment_enable": true,
     "entrance_enable": true,
     "gift_enable": true
+  },
+  "game": {
+    "module_name": "game2"
   }
 }
