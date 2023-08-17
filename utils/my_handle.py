@@ -167,6 +167,10 @@ class My_handle():
         elif self.chat_type == "langchain_chatglm":
             self.langchain_chatglm = GPT_MODEL.get(self.chat_type)
         elif self.chat_type == "game":
+            # from game.game import Game
+
+            # game = Game()
+
             exit(0)
 
         # 判断是否使能了SD
