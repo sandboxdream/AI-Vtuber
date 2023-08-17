@@ -1435,6 +1435,10 @@ cmd运行`npm i docsify-cli -g`
 - 美化logo
 - 简单的初步美化下GUI
 
+### 2023-08-18
+- 后置部分GPT_MODEL配置，规避一次性全加载问题
+- 修复 LLM部分GUI板块显隐bug
+
 </details>
 
 
