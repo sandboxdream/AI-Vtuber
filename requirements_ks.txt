@@ -39,3 +39,4 @@ lxml
 pyee
 typing_extensions
 urllib3
+pyhandytools

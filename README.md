@@ -1447,6 +1447,9 @@ cmd运行`npm i docsify-cli -g`
 - 2023-08-18
   - 后置部分GPT_MODEL配置，规避一次性全加载问题
   - 修复 LLM部分GUI板块显隐bug
+  - 讯飞星火库需要升级才能恢复兼容（已更新依赖）
+  - 修复部分GUI显示bug
+
 
 </details>
 

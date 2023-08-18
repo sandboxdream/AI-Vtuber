@@ -27,3 +27,4 @@ schedule
 bilibili-api
 bilibili-api-python
 langchain==0.0.142
+pyhandytools
