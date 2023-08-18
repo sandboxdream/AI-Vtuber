@@ -1,4 +1,4 @@
-import requests
+from curl_cffi import requests
 import json
 import os
 import uuid
@@ -149,19 +149,17 @@ class Claude2:
             'Sec-Fetch-Dest': 'empty',
             'Sec-Fetch-Mode': 'cors',
             'Sec-Fetch-Site': 'same-origin',
-            'TE': 'trailers',
-            'Referer': f'https://claude.ai/chat/{conversation_id}'
+            'TE': 'trailers'
         }
 
         response = self.send_request("POST",url,headers=headers, data=payload, stream=True)
         decoded_data = response.content.decode("utf-8")
-        #logging.info("send_message {} decoded_data：".format(decoded_data))
+        #logger.info("send_message {} decoded_data：".format(decoded_data))
         decoded_data = re.sub('\n+', '\n', decoded_data).strip()
         data_strings = decoded_data.split('\n')
         completions = []
         for data_string in data_strings:
             json_str = data_string[6:].strip()
-            logging.debug(f"json_str={json_str}")
             data = json.loads(json_str)
             if 'completion' in data:
                 completions.append(data['completion'])
@@ -188,8 +186,7 @@ class Claude2:
             'Sec-Fetch-Site': 'same-origin',
             'Connection': 'keep-alive',
             'Cookie': f'{self.cookie}',
-            'TE': 'trailers',
-            'Referer': f'https://claude.ai/chat/{conversation_id}'
+            'TE': 'trailers'
         }
 
         response = self.send_request("DELETE",url,headers=headers, data=payload)
@@ -213,8 +210,7 @@ class Claude2:
             'Sec-Fetch-Mode': 'cors',
             'Sec-Fetch-Site': 'same-origin',
             'Connection': 'keep-alive',
-            'Cookie': f'{self.cookie}',
-            'Referer': f'https://claude.ai/chat/{conversation_id}'
+            'Cookie': f'{self.cookie}'
         }
 
         response = self.send_request("GET",url,headers=headers,params={'encoding': 'utf-8'})
@@ -337,9 +333,9 @@ class Claude2:
 
     def send_request(self, method, url, headers, data=None, files=None, params=None, stream=False):
         if self.use_proxy:
-            return requests.request(method, url, headers=headers, data=data, files=files, params=params, stream=stream,proxies=self.proxies)
+            return requests.request(method, url, headers=headers, data=data, files=files, params=params,impersonate="chrome110",proxies=self.proxies,timeout=500)
         else:
-            return requests.request(method, url, headers=headers, data=data, files=files, params=params, stream=stream)
+            return requests.request(method, url, headers=headers, data=data, files=files, params=params,impersonate="chrome110",timeout=500)
     
 
     # 获取Claude2的请求结果，共用一个conversation_id，变向记忆功能

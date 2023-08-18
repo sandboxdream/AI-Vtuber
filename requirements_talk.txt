@@ -31,3 +31,4 @@ sparkdesk-api
 gradio_client
 schedule
 pyhandytools
+curl_cffi

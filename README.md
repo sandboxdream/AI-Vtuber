@@ -1453,7 +1453,7 @@ cmd运行`npm i docsify-cli -g`
   - 修复 LLM部分GUI板块显隐bug
   - 讯飞星火库需要升级才能恢复兼容（已更新依赖）
   - 修复部分GUI显示bug
-
+  - 恢复Claude2的兼容
 
 </details>
 

@@ -131,3 +131,4 @@ playwright==1.36.0
 pyee==9.0.4
 urllib3==2.0.3
 pyhandytools==0.0.7
+curl_cffi==0.5.7
