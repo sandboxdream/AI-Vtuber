@@ -30,3 +30,4 @@ pypinyin
 sparkdesk-api
 gradio_client
 schedule
+pyhandytools

@@ -30,6 +30,10 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
 <a href="https://space.bilibili.com/3709626/channel/collectiondetail?sid=1422512" target="_blank">▶︎ 视频教程合集</span></a>
 <span> | </span>
 <a href="http://ikaros521.eu.org/AI-Vtuber/" target="_blank">📄 在线文档</span></a>
+<span> | </span>
+<a href="https://github.com/Ikaros-521/AI-Vtuber" target="_blank">🍉 GitHub</span></a>
+<span> | </span>
+<a href="https://gitee.com/ikaros-521/AI-Vtuber" target="_blank">🍓 Gitee</span></a>
 
 </div>
 
@@ -1447,6 +1451,9 @@ cmd运行`npm i docsify-cli -g`
 - 2023-08-18
   - 后置部分GPT_MODEL配置，规避一次性全加载问题
   - 修复 LLM部分GUI板块显隐bug
+  - 讯飞星火库需要升级才能恢复兼容（已更新依赖）
+  - 修复部分GUI显示bug
+
 
 </details>
 
