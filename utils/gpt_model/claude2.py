@@ -149,7 +149,8 @@ class Claude2:
             'Sec-Fetch-Dest': 'empty',
             'Sec-Fetch-Mode': 'cors',
             'Sec-Fetch-Site': 'same-origin',
-            'TE': 'trailers'
+            'TE': 'trailers',
+            'Referer': f'https://claude.ai/chat/{conversation_id}'
         }
 
         response = self.send_request("POST",url,headers=headers, data=payload, stream=True)
@@ -187,7 +188,8 @@ class Claude2:
             'Sec-Fetch-Site': 'same-origin',
             'Connection': 'keep-alive',
             'Cookie': f'{self.cookie}',
-            'TE': 'trailers'
+            'TE': 'trailers',
+            'Referer': f'https://claude.ai/chat/{conversation_id}'
         }
 
         response = self.send_request("DELETE",url,headers=headers, data=payload)
@@ -211,7 +213,8 @@ class Claude2:
             'Sec-Fetch-Mode': 'cors',
             'Sec-Fetch-Site': 'same-origin',
             'Connection': 'keep-alive',
-            'Cookie': f'{self.cookie}'
+            'Cookie': f'{self.cookie}',
+            'Referer': f'https://claude.ai/chat/{conversation_id}'
         }
 
         response = self.send_request("GET",url,headers=headers,params={'encoding': 'utf-8'})

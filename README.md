@@ -867,6 +867,11 @@ slack官网：[https://slack.com/intl/zh-cn/](https://slack.com/intl/zh-cn/)
 [完美替代chatGPT！保姆级Claude注册教程及使用上的优点和缺点](https://www.bilibili.com/video/BV1PP41127mQ)  
 [解决现阶段slack新建工作区Claude不回复](https://www.bilibili.com/video/BV17k4y1H7aa)  
 
+### Claude2
+[Claude2-PyAPI](https://github.com/wwwzhouhui/Claude2-PyAPI)  
+claude2官网：[https://claude.ai/](https://claude.ai/)  
+cookie获取方式：F12抓包XHR，然后请求头获取cookie  
+
 ### ChatGLM
 官方仓库：[ChatGLM-6B](https://github.com/THUDM/ChatGLM-6B)  
 整合包：[【ChatGLM】本地版ChatGPT？6G显存可用！ChatGLM-6B 清华开源模型一键包发布 可更新](https://www.bilibili.com/video/BV1E24y1u7Go)  
