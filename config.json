@@ -6,6 +6,9 @@
   "before_prompt": "请简要回复:",
   "after_prompt": "",
   "comment_log_type": "回答",
+  "play_audio": {
+    "enable": true
+  },
   "show_box": {
     "read_user_name": true,
     "filter": true,
@@ -19,7 +22,8 @@
     "sd": true,
     "log": true,
     "schedule": true,
-    "database": true
+    "database": true,
+    "play_audio": true
   },
   "read_user_name": {
     "enable": true,

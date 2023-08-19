@@ -223,7 +223,9 @@ class Audio:
                     "content": message["content"]
                 }
 
-                self.voice_tmp_path_queue.put(data_json)
+                # 是否开启了音频播放，如果没开，则不会传文件路径给播放队列
+                if self.config.get("play_audio", "enable"):
+                    self.voice_tmp_path_queue.put(data_json)
                 return
             # 是否为本地问答音频
             elif message['type'] == "local_qa_audio":
@@ -241,7 +243,9 @@ class Audio:
                     tmp_message['content'] = tmp_message['content'].format(username=message['user_name'])
                 self.message_queue.put(tmp_message)
 
-                self.voice_tmp_path_queue.put(data_json)
+                # 是否开启了音频播放，如果没开，则不会传文件路径给播放队列
+                if self.config.get("play_audio", "enable"):
+                    self.voice_tmp_path_queue.put(data_json)
                 return
 
             # 只有信息类型是 弹幕，才会进行念用户名
@@ -322,15 +326,19 @@ class Audio:
 
             # 区分消息类型是否是 回复xxx 并且 关闭了变声
             if message["type"] == "reply" and False == self.config.get("read_user_name", "voice_change"):
-                self.voice_tmp_path_queue.put(data_json)
-                return
+                # 是否开启了音频播放，如果没开，则不会传文件路径给播放队列
+                if self.config.get("play_audio", "enable"):
+                    self.voice_tmp_path_queue.put(data_json)
+                    return
 
             voice_tmp_path = await self.voice_change(voice_tmp_path)
             
             # 更新音频路径
             data_json["voice_path"] = voice_tmp_path
 
-            self.voice_tmp_path_queue.put(data_json)
+            # 是否开启了音频播放，如果没开，则不会传文件路径给播放队列
+            if self.config.get("play_audio", "enable"):
+                self.voice_tmp_path_queue.put(data_json)
 
         # 区分TTS类型
         if message["tts_type"] == "vits":
@@ -541,7 +549,7 @@ class Audio:
         return temp_path
 
 
-    # 只进行音频播放   
+    # 只进行普通音频播放   
     async def only_play_audio(self):
         try:
             captions_config = self.config.get("captions")

@@ -1455,6 +1455,9 @@ cmd运行`npm i docsify-cli -g`
   - 修复部分GUI显示bug
   - 恢复Claude2的兼容
 
+- 2023-08-19
+  - 新增 音频播放板块，暂时只提供音频播放的开关。
+
 </details>
 
 
