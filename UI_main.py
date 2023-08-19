@@ -1421,7 +1421,7 @@ class Ui_MainWindow(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollArea_2.setObjectName("scrollArea_2")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 690, 1113))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 963, 1115))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
@@ -1441,7 +1441,9 @@ class Ui_MainWindow(object):
         self.pushButton_copywriting_select.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_copywriting_select.setStyleSheet("text-align: center;\n"
 "padding: 12px 16px;\n"
-"font: 80 10pt \"微软雅黑\";")
+"font: 80 10pt \"微软雅黑\";\n"
+"border:2px solid #ffffff;\n"
+"border-radius: 3px;")
         self.pushButton_copywriting_select.setObjectName("pushButton_copywriting_select")
         self.gridLayout_37.addWidget(self.pushButton_copywriting_select, 4, 4, 1, 1)
         self.label_copywriting_select = QtWidgets.QLabel(self.widget)
@@ -1456,14 +1458,18 @@ class Ui_MainWindow(object):
         self.pushButton_copywriting_synthetic_audio.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_copywriting_synthetic_audio.setStyleSheet("text-align: center;\n"
 "padding: 12px 16px;\n"
-"font: 80 10pt \"微软雅黑\";")
+"font: 80 10pt \"微软雅黑\";\n"
+"border:2px solid #ffffff;\n"
+"border-radius: 3px;")
         self.pushButton_copywriting_synthetic_audio.setObjectName("pushButton_copywriting_synthetic_audio")
         self.gridLayout_37.addWidget(self.pushButton_copywriting_synthetic_audio, 6, 3, 1, 1)
         self.pushButton_copywriting_pause_play = QtWidgets.QPushButton(self.widget)
         self.pushButton_copywriting_pause_play.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_copywriting_pause_play.setStyleSheet("text-align: center;\n"
 "padding: 12px 16px;\n"
-"font: 80 10pt \"微软雅黑\";")
+"font: 80 10pt \"微软雅黑\";\n"
+"border:2px solid #ffffff;\n"
+"border-radius: 3px;")
         self.pushButton_copywriting_pause_play.setObjectName("pushButton_copywriting_pause_play")
         self.gridLayout_37.addWidget(self.pushButton_copywriting_pause_play, 6, 5, 1, 1)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -1484,7 +1490,9 @@ class Ui_MainWindow(object):
         self.pushButton_copywriting_refresh_list.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_copywriting_refresh_list.setStyleSheet("text-align: center;\n"
 "padding: 12px 16px;\n"
-"font: 80 10pt \"微软雅黑\";")
+"font: 80 10pt \"微软雅黑\";\n"
+"border:2px solid #ffffff;\n"
+"border-radius: 3px;")
         self.pushButton_copywriting_refresh_list.setObjectName("pushButton_copywriting_refresh_list")
         self.gridLayout_37.addWidget(self.pushButton_copywriting_refresh_list, 4, 5, 1, 1)
         self.lineEdit_copywriting_select = QtWidgets.QLineEdit(self.widget)
@@ -1507,14 +1515,18 @@ class Ui_MainWindow(object):
         self.pushButton_copywriting_save.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_copywriting_save.setStyleSheet("text-align: center;\n"
 "padding: 12px 16px;\n"
-"font: 80 10pt \"微软雅黑\";")
+"font: 80 10pt \"微软雅黑\";\n"
+"border:2px solid #ffffff;\n"
+"border-radius: 3px;")
         self.pushButton_copywriting_save.setObjectName("pushButton_copywriting_save")
         self.gridLayout_37.addWidget(self.pushButton_copywriting_save, 6, 2, 1, 1)
         self.pushButton_copywriting_loop_play = QtWidgets.QPushButton(self.widget)
         self.pushButton_copywriting_loop_play.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_copywriting_loop_play.setStyleSheet("text-align: center;\n"
 "padding: 12px 16px;\n"
-"font: 80 10pt \"微软雅黑\";")
+"font: 80 10pt \"微软雅黑\";\n"
+"border:2px solid #ffffff;\n"
+"border-radius: 3px;")
         self.pushButton_copywriting_loop_play.setObjectName("pushButton_copywriting_loop_play")
         self.gridLayout_37.addWidget(self.pushButton_copywriting_loop_play, 6, 4, 1, 1)
         self.scrollArea_copywriting_config = QtWidgets.QScrollArea(self.widget)
@@ -1523,7 +1535,7 @@ class Ui_MainWindow(object):
         self.scrollArea_copywriting_config.setWidgetResizable(True)
         self.scrollArea_copywriting_config.setObjectName("scrollArea_copywriting_config")
         self.scrollAreaWidgetContents_4 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_4.setGeometry(QtCore.QRect(0, 0, 644, 498))
+        self.scrollAreaWidgetContents_4.setGeometry(QtCore.QRect(0, 0, 917, 498))
         self.scrollAreaWidgetContents_4.setObjectName("scrollAreaWidgetContents_4")
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_4)
         self.verticalLayout_4.setObjectName("verticalLayout_4")
@@ -1535,7 +1547,9 @@ class Ui_MainWindow(object):
         self.pushButton_copywriting_config_index_add.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_copywriting_config_index_add.setStyleSheet("text-align: center;\n"
 "padding: 12px 16px;\n"
-"font: 80 10pt \"微软雅黑\";")
+"font: 80 10pt \"微软雅黑\";\n"
+"border:2px solid #ffffff;\n"
+"border-radius: 3px;")
         self.pushButton_copywriting_config_index_add.setObjectName("pushButton_copywriting_config_index_add")
         self.gridLayout_25.addWidget(self.pushButton_copywriting_config_index_add, 0, 2, 1, 1)
         self.lineEdit_copywriting_config_index = QtWidgets.QLineEdit(self.widget_copywriting_config)
@@ -1549,7 +1563,9 @@ class Ui_MainWindow(object):
         self.pushButton_copywriting_config_index_del.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_copywriting_config_index_del.setStyleSheet("text-align: center;\n"
 "padding: 12px 16px;\n"
-"font: 80 10pt \"微软雅黑\";")
+"font: 80 10pt \"微软雅黑\";\n"
+"border:2px solid #ffffff;\n"
+"border-radius: 3px;")
         self.pushButton_copywriting_config_index_del.setObjectName("pushButton_copywriting_config_index_del")
         self.gridLayout_25.addWidget(self.pushButton_copywriting_config_index_del, 0, 3, 1, 1)
         self.gridLayout_copywriting_config = QtWidgets.QGridLayout()
@@ -1582,7 +1598,7 @@ class Ui_MainWindow(object):
         self.scrollArea_3.setWidgetResizable(True)
         self.scrollArea_3.setObjectName("scrollArea_3")
         self.scrollAreaWidgetContents_3 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 422, 911))
+        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 963, 911))
         self.scrollAreaWidgetContents_3.setObjectName("scrollAreaWidgetContents_3")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_3)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
@@ -1684,14 +1700,18 @@ class Ui_MainWindow(object):
         self.pushButton_talk_chat_box_reread.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_talk_chat_box_reread.setStyleSheet("text-align: center;\n"
 "padding: 12px 16px;\n"
-"font: 80 10pt \"微软雅黑\";")
+"font: 80 10pt \"微软雅黑\";\n"
+"border:2px solid #ffffff;\n"
+"border-radius: 3px;")
         self.pushButton_talk_chat_box_reread.setObjectName("pushButton_talk_chat_box_reread")
         self.gridLayout_40.addWidget(self.pushButton_talk_chat_box_reread, 9, 3, 1, 1)
         self.pushButton_talk_chat_box_send = QtWidgets.QPushButton(self.widget_2)
         self.pushButton_talk_chat_box_send.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_talk_chat_box_send.setStyleSheet("text-align: center;\n"
 "padding: 12px 16px;\n"
-"font: 80 10pt \"微软雅黑\";")
+"font: 80 10pt \"微软雅黑\";\n"
+"border:2px solid #ffffff;\n"
+"border-radius: 3px;")
         self.pushButton_talk_chat_box_send.setObjectName("pushButton_talk_chat_box_send")
         self.gridLayout_40.addWidget(self.pushButton_talk_chat_box_send, 9, 2, 1, 1)
         self.gridLayout_40.setRowMinimumHeight(0, 1)
@@ -1762,8 +1782,11 @@ class Ui_MainWindow(object):
         self.action_video_tutorials.setObjectName("action_video_tutorials")
         self.action_exit = QtWidgets.QAction(MainWindow)
         self.action_exit.setObjectName("action_exit")
+        self.action_online_doc = QtWidgets.QAction(MainWindow)
+        self.action_online_doc.setObjectName("action_online_doc")
         self.menu_about.addAction(self.action_official_store)
         self.menu_about.addAction(self.action_video_tutorials)
+        self.menu_about.addAction(self.action_online_doc)
         self.menu.addAction(self.action_exit)
         self.menubar.addAction(self.menu.menuAction())
         self.menubar.addAction(self.menu_about.menuAction())
@@ -2085,3 +2108,4 @@ class Ui_MainWindow(object):
         self.action_official_store.setText(_translate("MainWindow", "官方仓库"))
         self.action_video_tutorials.setText(_translate("MainWindow", "视频教程"))
         self.action_exit.setText(_translate("MainWindow", "退出"))
+        self.action_online_doc.setText(_translate("MainWindow", "在线文档"))

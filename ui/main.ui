@@ -2613,8 +2613,8 @@ p, li { white-space: pre-wrap; }
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>690</width>
-             <height>1113</height>
+             <width>963</width>
+             <height>1115</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -2655,7 +2655,9 @@ p, li { white-space: pre-wrap; }
                  <property name="styleSheet">
                   <string notr="true">text-align: center;
 padding: 12px 16px;
-font: 80 10pt &quot;微软雅黑&quot;;</string>
+font: 80 10pt &quot;微软雅黑&quot;;
+border:2px solid #ffffff;
+border-radius: 3px;</string>
                  </property>
                  <property name="text">
                   <string>加载</string>
@@ -2687,7 +2689,9 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
                  <property name="styleSheet">
                   <string notr="true">text-align: center;
 padding: 12px 16px;
-font: 80 10pt &quot;微软雅黑&quot;;</string>
+font: 80 10pt &quot;微软雅黑&quot;;
+border:2px solid #ffffff;
+border-radius: 3px;</string>
                  </property>
                  <property name="text">
                   <string>合成音频</string>
@@ -2702,7 +2706,9 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
                  <property name="styleSheet">
                   <string notr="true">text-align: center;
 padding: 12px 16px;
-font: 80 10pt &quot;微软雅黑&quot;;</string>
+font: 80 10pt &quot;微软雅黑&quot;;
+border:2px solid #ffffff;
+border-radius: 3px;</string>
                  </property>
                  <property name="text">
                   <string>暂停播放</string>
@@ -2757,7 +2763,9 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
                  <property name="styleSheet">
                   <string notr="true">text-align: center;
 padding: 12px 16px;
-font: 80 10pt &quot;微软雅黑&quot;;</string>
+font: 80 10pt &quot;微软雅黑&quot;;
+border:2px solid #ffffff;
+border-radius: 3px;</string>
                  </property>
                  <property name="text">
                   <string>刷新列表</string>
@@ -2809,7 +2817,9 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
                  <property name="styleSheet">
                   <string notr="true">text-align: center;
 padding: 12px 16px;
-font: 80 10pt &quot;微软雅黑&quot;;</string>
+font: 80 10pt &quot;微软雅黑&quot;;
+border:2px solid #ffffff;
+border-radius: 3px;</string>
                  </property>
                  <property name="text">
                   <string>保存文案</string>
@@ -2824,7 +2834,9 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
                  <property name="styleSheet">
                   <string notr="true">text-align: center;
 padding: 12px 16px;
-font: 80 10pt &quot;微软雅黑&quot;;</string>
+font: 80 10pt &quot;微软雅黑&quot;;
+border:2px solid #ffffff;
+border-radius: 3px;</string>
                  </property>
                  <property name="text">
                   <string>循环播放</string>
@@ -2853,7 +2865,7 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>644</width>
+                    <width>917</width>
                     <height>498</height>
                    </rect>
                   </property>
@@ -2869,7 +2881,9 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
                         <property name="styleSheet">
                          <string notr="true">text-align: center;
 padding: 12px 16px;
-font: 80 10pt &quot;微软雅黑&quot;;</string>
+font: 80 10pt &quot;微软雅黑&quot;;
+border:2px solid #ffffff;
+border-radius: 3px;</string>
                         </property>
                         <property name="text">
                          <string>增加</string>
@@ -2898,7 +2912,9 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
                         <property name="styleSheet">
                          <string notr="true">text-align: center;
 padding: 12px 16px;
-font: 80 10pt &quot;微软雅黑&quot;;</string>
+font: 80 10pt &quot;微软雅黑&quot;;
+border:2px solid #ffffff;
+border-radius: 3px;</string>
                         </property>
                         <property name="text">
                          <string>删除</string>
@@ -2940,7 +2956,7 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>422</width>
+             <width>963</width>
              <height>911</height>
             </rect>
            </property>
@@ -3107,7 +3123,9 @@ min-height:200px;
                  <property name="styleSheet">
                   <string notr="true">text-align: center;
 padding: 12px 16px;
-font: 80 10pt &quot;微软雅黑&quot;;</string>
+font: 80 10pt &quot;微软雅黑&quot;;
+border:2px solid #ffffff;
+border-radius: 3px;</string>
                  </property>
                  <property name="text">
                   <string>直接复读</string>
@@ -3122,7 +3140,9 @@ font: 80 10pt &quot;微软雅黑&quot;;</string>
                  <property name="styleSheet">
                   <string notr="true">text-align: center;
 padding: 12px 16px;
-font: 80 10pt &quot;微软雅黑&quot;;</string>
+font: 80 10pt &quot;微软雅黑&quot;;
+border:2px solid #ffffff;
+border-radius: 3px;</string>
                  </property>
                  <property name="text">
                   <string>发送</string>
@@ -3193,6 +3213,7 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
     </property>
     <addaction name="action_official_store"/>
     <addaction name="action_video_tutorials"/>
+    <addaction name="action_online_doc"/>
    </widget>
    <widget class="QMenu" name="menu">
     <property name="title">
@@ -3217,6 +3238,11 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
   <action name="action_exit">
    <property name="text">
     <string>退出</string>
+   </property>
+  </action>
+  <action name="action_online_doc">
+   <property name="text">
+    <string>在线文档</string>
    </property>
   </action>
  </widget>
