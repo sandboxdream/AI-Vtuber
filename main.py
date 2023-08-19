@@ -1153,7 +1153,8 @@ class AI_VTB(QMainWindow):
 
             # 自定义显隐各板块
             def get_box_name_by_key(key):
-                # 定义键和值的映射关系
+                # 定义键和值的映射关系，请和配置文件中的键保持一致
+                # 添加时需要同步给配置文件中的show_box配置项追加你添加的键名
                 key_value_map = {
                     "read_user_name": "念用户名",
                     "filter": "过滤",
@@ -1167,7 +1168,8 @@ class AI_VTB(QMainWindow):
                     "sd": "Stable Diffusion",
                     "log": "日志",
                     "schedule": "定时任务",
-                    "database": "数据库"
+                    "database": "数据库",
+                    "play_audio": "播放音频"
                     # 可以继续添加其他键和值
                 }
 
@@ -1462,6 +1464,34 @@ class AI_VTB(QMainWindow):
                     row += 1
 
             database_gui_create()
+
+            # 播放音频
+            def play_audio_gui_create():
+                data_json = []
+
+                play_audio_config = config.get("play_audio")
+                tmp_json = {
+                    "label_text": "启用",
+                    "label_tip": "是否开启音频播放，如果不启用，则会只合成音频文件，不会进行播放操作",
+                    "data": play_audio_config["enable"],
+                    "widget_text": "",
+                    "click_func": "",
+                    "main_obj_name": "play_audio",
+                    "index": 0
+                }
+                data_json.append(tmp_json)
+
+                widgets = self.create_widgets_from_json(data_json)
+
+                # 动态添加widget到对应的gridLayout
+                row = 0
+                # 分2列，左边就是label说明，右边就是输入框等
+                for i in range(0, len(widgets), 2):
+                    self.ui.gridLayout_play_audio.addWidget(widgets[i], row, 0)
+                    self.ui.gridLayout_play_audio.addWidget(widgets[i + 1], row, 1)
+                    row += 1
+
+            play_audio_gui_create()
 
             # 显隐各板块
             self.oncomboBox_chat_type_IndexChanged(chat_type_index)
@@ -2093,6 +2123,22 @@ class AI_VTB(QMainWindow):
             database_data = self.update_data_from_gridLayout(self.ui.gridLayout_database)
             # 写回json
             config_data["database"] = reorganize_database_data(database_data)
+
+            # 音频播放
+            def reorganize_play_audio_data(play_audio_data):
+                keys = list(play_audio_data.keys())
+
+                tmp_json = {
+                    "enable": play_audio_data[keys[0]]
+                }
+
+                logging.debug(f"tmp_json={tmp_json}")
+
+                return tmp_json
+
+            play_audio_data = self.update_data_from_gridLayout(self.ui.gridLayout_play_audio)
+            # 写回json
+            config_data["play_audio"] = reorganize_play_audio_data(play_audio_data)
 
             # 获取自定义板块显隐的数据
             show_box_data = self.update_data_from_gridLayout(self.ui.gridLayout_show_box, "show_box")
