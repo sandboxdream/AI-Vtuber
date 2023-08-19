@@ -665,25 +665,8 @@ pip install -r requirements_talk.txt
 ## 🃏效果图
 ### GUI界面  
 
-![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/a4b18914-1454-444c-9c42-33d7a835da5a)
+![动画](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/6ba4ba49-aa1b-43b0-989f-58a851dfd054)
 
-<details>
-<summary>展开/收起详细截图</summary>
-
-#### 配置页
-
-![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/a0550dba-52d7-4594-a804-98181ec3f80c)
-
-#### 运行页
-![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/7ef15a72-e6fc-4547-b028-172c93f15802)
-
-#### 文案页
-![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/2a35d806-6948-4826-a491-844fff2419bc)
-
-#### 聊天页
-![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/ae888ce2-f507-4c00-b728-f9ee4228db2a)
-
-</details>
 
 ### SD接入
 ![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/a3e4b3b7-96d1-41b1-b45e-f2725acee27c)
