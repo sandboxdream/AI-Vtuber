@@ -136,9 +136,9 @@ background-color: rgba(255, 255, 255, 50);
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>0</y>
+             <y>-8653</y>
              <width>984</width>
-             <height>9293</height>
+             <height>9496</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -2534,6 +2534,60 @@ background-color: rgba(255, 255, 255, 50);
              </widget>
             </item>
             <item>
+             <widget class="QGroupBox" name="groupBox_trends_copywriting">
+              <property name="title">
+               <string>动态文案</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_66">
+               <item row="0" column="0">
+                <layout class="QGridLayout" name="gridLayout_trends_copywriting">
+                 <item row="2" column="0">
+                  <widget class="QLabel" name="label_trends_copywriting_random_play">
+                   <property name="text">
+                    <string>随机播放</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QCheckBox" name="checkBox_trends_copywriting_random_play">
+                   <property name="text">
+                    <string>启用</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="1">
+                  <widget class="QLineEdit" name="lineEdit_trends_copywriting_play_interval"/>
+                 </item>
+                 <item row="0" column="0" colspan="2">
+                  <layout class="QGridLayout" name="gridLayout_trends_copywriting_2"/>
+                 </item>
+                 <item row="3" column="0">
+                  <widget class="QLabel" name="label_trends_copywriting_play_interval">
+                   <property name="text">
+                    <string>文案播放间隔</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="label_trends_copywriting_enable">
+                   <property name="text">
+                    <string>启用</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QCheckBox" name="checkBox_trends_copywriting_enable">
+                   <property name="text">
+                    <string>是</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
              <widget class="QGroupBox" name="groupBox_header">
               <property name="title">
                <string>请求头</string>
@@ -2612,7 +2666,7 @@ p, li { white-space: pre-wrap; }
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>0</y>
+             <y>-128</y>
              <width>963</width>
              <height>1115</height>
             </rect>

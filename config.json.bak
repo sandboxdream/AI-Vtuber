@@ -338,5 +338,17 @@
     "comment_enable": false,
     "entrance_enable": false,
     "gift_enable": false
+  },
+  "trends_copywriting": {
+    "enable": true,
+    "copywriting": [
+      {
+        "folder_path": "data/动态文案1",
+        "prompt_change_enable": true,
+        "prompt_change_content": "请根据我发送的内容，重新帮我写一份类似的文案："
+      }
+    ],
+    "random_play": true,
+    "play_interval": 5000
   }
 }
