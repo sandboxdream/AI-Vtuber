@@ -24,8 +24,8 @@ pypinyin
 sparkdesk-api
 gradio_client
 schedule
-bilibili-api
 bilibili-api-python
+bilibili-api
 langchain==0.0.142
 pyhandytools
 curl_cffi

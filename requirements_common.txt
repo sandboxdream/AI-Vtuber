@@ -8,8 +8,8 @@ asyncio==3.4.3
 attrs==23.1.0
 backcall==0.2.0
 beautifulsoup4==4.11.2
-bilibili-api
 bilibili-api-python==15.5.4
+bilibili-api
 blis==0.7.9
 Brotli==1.0.9
 cachetools==5.3.0
