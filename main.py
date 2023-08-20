@@ -632,6 +632,10 @@ class AI_VTB(QMainWindow):
             self.ui.pushButton_talk_chat_box_send.setToolTip("点击发送聊天框内的内容")
             self.ui.pushButton_talk_chat_box_reread.setToolTip("点击发送聊天框内的内容，直接让程序通过配置的TTS和变声进行复读")
             
+            # 动态文案
+            self.ui.label_trends_copywriting_enable.setToolTip("是否启用动态文案功能")
+            self.ui.label_trends_copywriting_random_play.setToolTip("是否启用随机播放功能")
+            self.ui.label_trends_copywriting_play_interval.setToolTip("文案于文案之间的播放间隔时间（毫秒）")
 
             """
                 配置同步UI
@@ -1493,6 +1497,56 @@ class AI_VTB(QMainWindow):
 
             play_audio_gui_create()
 
+            # 动态文案
+            self.ui.checkBox_trends_copywriting_enable.setChecked(config.get("trends_copywriting", "enable"))
+            self.ui.checkBox_trends_copywriting_random_play.setChecked(config.get("trends_copywriting", "random_play"))
+            self.ui.lineEdit_trends_copywriting_play_interval.setText(str(config.get("trends_copywriting", "play_interval")))
+            def trends_copywriting_gui_create():
+                data_json = []
+
+                trends_copywriting_config = config.get("trends_copywriting", "copywriting")
+                for tmp in trends_copywriting_config:
+                    tmp_json = {
+                        "label_text": "文案路径",
+                        "label_tip": "文案文件存储的文件夹路径",
+                        "data": tmp["folder_path"],
+                        "main_obj_name": "trends_copywriting",
+                        "index": 0
+                    }
+                    data_json.append(tmp_json)
+
+                    tmp_json = {
+                        "label_text": "提示词转换",
+                        "label_tip": "是否启用提示词对文案内容进行转换",
+                        "data": tmp["prompt_change_enable"],
+                        "widget_text": "",
+                        "click_func": "",
+                        "main_obj_name": "trends_copywriting",
+                        "index": 0
+                    }
+                    data_json.append(tmp_json)
+
+                    tmp_json = {
+                        "label_text": "提示词转换内容",
+                        "label_tip": "使用此提示词内容对文案内容进行转换后再进行合成，使用的LLM为聊天类型配置",
+                        "data": tmp["prompt_change_content"],
+                        "main_obj_name": "trends_copywriting",
+                        "index": 0
+                    }
+                    data_json.append(tmp_json)
+
+                widgets = self.create_widgets_from_json(data_json)
+
+                # 动态添加widget到对应的gridLayout
+                row = 0
+                # 分2列，左边就是label说明，右边就是输入框等
+                for i in range(0, len(widgets), 2):
+                    self.ui.gridLayout_trends_copywriting_2.addWidget(widgets[i], row, 0)
+                    self.ui.gridLayout_trends_copywriting_2.addWidget(widgets[i + 1], row, 1)
+                    row += 1
+
+            trends_copywriting_gui_create()
+
             # 显隐各板块
             self.oncomboBox_chat_type_IndexChanged(chat_type_index)
             self.oncomboBox_audio_synthesis_type_IndexChanged(audio_synthesis_type_index)
@@ -2140,6 +2194,37 @@ class AI_VTB(QMainWindow):
             play_audio_data = self.update_data_from_gridLayout(self.ui.gridLayout_play_audio)
             # 写回json
             config_data["play_audio"] = reorganize_play_audio_data(play_audio_data)
+
+            # 动态文案
+            config_data["trends_copywriting"]["enable"] = self.ui.checkBox_trends_copywriting_enable.isChecked()
+            config_data["trends_copywriting"]["random_play"] = self.ui.checkBox_trends_copywriting_random_play.isChecked()
+            config_data["trends_copywriting"]["play_interval"] = int(self.ui.lineEdit_trends_copywriting_play_interval.text())
+            def reorganize_trends_copywriting_data(trends_copywriting_data):
+                tmp_json = []
+                keys = list(trends_copywriting_data.keys())
+
+                for i in range(0, len(keys), 3):
+                    item = {}
+
+                    folder_path = keys[i]
+                    prompt_change_enable = keys[i + 1]
+                    prompt_change_content = keys[i + 2]
+
+                    item["folder_path"] = trends_copywriting_data[folder_path]
+                    item["prompt_change_enable"] = trends_copywriting_data[prompt_change_enable]
+                    item["prompt_change_content"] = trends_copywriting_data[prompt_change_content]
+
+                    tmp_json.append(item)
+
+                logging.debug(f"tmp_json={tmp_json}")
+
+                return tmp_json
+
+            trends_copywriting_data = self.update_data_from_gridLayout(self.ui.gridLayout_trends_copywriting_2)
+            # 写回json
+            config_data["trends_copywriting"]["copywriting"] = reorganize_trends_copywriting_data(trends_copywriting_data)
+
+
 
             # 获取自定义板块显隐的数据
             show_box_data = self.update_data_from_gridLayout(self.ui.gridLayout_show_box, "show_box")
