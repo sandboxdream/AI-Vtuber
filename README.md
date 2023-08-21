@@ -987,6 +987,11 @@ MODEL_LIST = [
     # VITS
     [ABS_PATH + "/Model/ikaros/G_95500.pth", ABS_PATH + "/Model/ikaros/config.json"]
 ```
+另外如果运行报错，大概率是这个bug，需要修改`utils\merge.py` 116行左右。  
+```
+for id, (key, name) in enumerate(obj.get_speakers().items()):
+# for id, name in enumerate(obj.get_speakers()):
+```
 
 ### VITS-fast-fine-tuning
 官方仓库：[VITS-fast-fine-tuning](https://github.com/Plachtaa/VITS-fast-fine-tuning)  
