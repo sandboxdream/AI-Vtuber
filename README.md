@@ -987,6 +987,11 @@ MODEL_LIST = [
     # VITS
     [ABS_PATH + "/Model/ikaros/G_95500.pth", ABS_PATH + "/Model/ikaros/config.json"]
 ```
+另外如果运行报错，大概率是这个bug，需要修改`utils\merge.py` 116行左右。  
+```
+for id, (key, name) in enumerate(obj.get_speakers().items()):
+# for id, name in enumerate(obj.get_speakers()):
+```
 
 ### VITS-fast-fine-tuning
 官方仓库：[VITS-fast-fine-tuning](https://github.com/Plachtaa/VITS-fast-fine-tuning)  
@@ -1444,6 +1449,10 @@ cmd运行`npm i docsify-cli -g`
 
 - 2023-08-20
   - 新增 动态文案 版本GUI部分的实现（功能还未实现）
+
+- 2023-08-23
+  - 近期发现有第三方直接套娃售卖项目，可怜的娃呀，收手吧。另外，套娃的，不分钱给我，我觉得这不合适吧（
+
 
 </details>
 

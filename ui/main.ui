@@ -136,7 +136,7 @@ background-color: rgba(255, 255, 255, 50);
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-8653</y>
+             <y>0</y>
              <width>984</width>
              <height>9496</height>
             </rect>
@@ -2666,8 +2666,8 @@ p, li { white-space: pre-wrap; }
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-128</y>
-             <width>963</width>
+             <y>0</y>
+             <width>698</width>
              <height>1115</height>
             </rect>
            </property>
@@ -2919,8 +2919,8 @@ border-radius: 3px;</string>
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>917</width>
-                    <height>498</height>
+                    <width>359</width>
+                    <height>104</height>
                    </rect>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -3010,7 +3010,7 @@ border-radius: 3px;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>963</width>
+             <width>426</width>
              <height>911</height>
             </rect>
            </property>
@@ -3268,6 +3268,7 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
     <addaction name="action_official_store"/>
     <addaction name="action_video_tutorials"/>
     <addaction name="action_online_doc"/>
+    <addaction name="action_about"/>
    </widget>
    <widget class="QMenu" name="menu">
     <property name="title">
@@ -3297,6 +3298,11 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
   <action name="action_online_doc">
    <property name="text">
     <string>在线文档</string>
+   </property>
+  </action>
+  <action name="action_about">
+   <property name="text">
+    <string>关于</string>
    </property>
   </action>
  </widget>
