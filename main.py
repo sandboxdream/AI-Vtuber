@@ -1685,6 +1685,7 @@ class AI_VTB(QMainWindow):
         self.ui.action_official_store.triggered.connect(self.openBrowser_github)
         self.ui.action_video_tutorials.triggered.connect(self.openBrowser_video)
         self.ui.action_online_doc.triggered.connect(self.openBrowser_online_doc)
+        self.ui.action_about.triggered.connect(self.alert_about)
         self.ui.action_exit.triggered.connect(self.exit_soft)
 
         # 创建节流函数，并将其保存为类的属性，delay秒内只执行一次
@@ -2833,6 +2834,17 @@ class AI_VTB(QMainWindow):
     def openBrowser_online_doc(self):
         url = QUrl("http://ikaros521.eu.org/AI-Vtuber")  # 指定要打开的网页地址
         QDesktopServices.openUrl(url)
+
+    # 弹出关于窗口
+    def alert_about(self):
+        about_str = """
+项目地址：https://github.com/Ikaros-521/AI-Vtuber
+视频教程：https://space.bilibili.com/3709626/channel/collectiondetail?sid=1422512
+在线文档：http://ikaros521.eu.org/AI-Vtuber
+
+项目完全免费，如果您是在第三方平台购买了本项目，均为盗版，请及时止损（可怜的娃呀~）
+        """
+        self.show_message_box("关于", about_str, QMessageBox.Information, 180000)
 
     def exit_soft(self):
         os._exit(0)
