@@ -372,7 +372,7 @@ class Audio:
 
                 # 调用接口合成语音
                 voice_tmp_path = await self.my_tts.vits_api(data)
-                logging.info(f"vits合成成功，输出到={voice_tmp_path}") 
+                logging.info(f"vits合成成功，合成内容：【{message['content']}】，输出到={voice_tmp_path}") 
 
                 if voice_tmp_path is None:
                     return
@@ -417,7 +417,7 @@ class Audio:
                     logging.error(f"vits-fast合成失败，请检查配置是否正确，接口返回：{data_json}")
                     return
 
-                logging.info(f"vits-fast合成成功，输出到={voice_tmp_path}")
+                logging.info(f"vits-fast合成成功，合成内容：【{message['content']}】，输出到={voice_tmp_path}")
 
                 await voice_change_and_put_to_queue(message, voice_tmp_path)   
             except Exception as e:
@@ -432,7 +432,7 @@ class Audio:
                 communicate = edge_tts.Communicate(text=message["content"], voice=message["data"]["voice"], rate=message["data"]["rate"], volume=message["data"]["volume"])
                 await communicate.save(voice_tmp_path)
 
-                logging.info(f"edge-tts合成成功，输出到={voice_tmp_path}")
+                logging.info(f"edge-tts合成成功，合成内容：【{message['content']}】，输出到={voice_tmp_path}")
 
                 await voice_change_and_put_to_queue(message, voice_tmp_path)  
             except Exception as e:
@@ -456,7 +456,7 @@ class Audio:
         elif message["tts_type"] == "genshinvoice_top":
             try:
                 voice_tmp_path = await self.my_tts.genshinvoice_top_api(message["content"])
-                logging.info(f"genshinvoice.top合成成功，输出到={voice_tmp_path}")
+                logging.info(f"genshinvoice.top合成成功，合成内容：【{message['content']}】，输出到={voice_tmp_path}")
 
                 if voice_tmp_path is None:
                     return
@@ -481,7 +481,7 @@ class Audio:
 
                 # 调用接口合成语音
                 voice_tmp_path = self.my_tts.bark_gui_api(data)
-                logging.info(f"bark_gui合成成功，输出到={voice_tmp_path}")
+                logging.info(f"bark_gui合成成功，合成内容：【{message['content']}】，输出到={voice_tmp_path}")
 
                 if voice_tmp_path is None:
                     return
@@ -873,7 +873,7 @@ class Audio:
 
                         # 调用接口合成语音
                         voice_tmp_path = await self.my_tts.vits_api(data)
-                        logging.info(f"vits合成成功，输出到={voice_tmp_path}") 
+                        logging.info(f"vits合成成功，合成内容：【{content}】，输出到={voice_tmp_path}") 
 
                         if voice_tmp_path is None:
                             return
@@ -912,7 +912,7 @@ class Audio:
                         # logging.info(data_json)
 
                         voice_tmp_path = data_json["data"][1]["name"]
-                        logging.info(f"vits-fast合成成功，输出到={voice_tmp_path}")
+                        logging.info(f"vits-fast合成成功，合成内容：【{content}】，输出到={voice_tmp_path}")
 
                         await voice_change_and_put_to_queue(voice_tmp_path)
 
@@ -929,7 +929,7 @@ class Audio:
                         communicate = edge_tts.Communicate(text=content, voice=edge_tts_config["voice"], rate=edge_tts_config["rate"], volume=edge_tts_config["volume"])
                         await communicate.save(voice_tmp_path)
 
-                        logging.info(f"edge-tts合成成功，输出到={voice_tmp_path}")
+                        logging.info(f"edge-tts合成成功，合成内容：【{content}】，输出到={voice_tmp_path}")
 
                         await voice_change_and_put_to_queue(voice_tmp_path)
 
@@ -970,7 +970,7 @@ class Audio:
 
                         # 调用接口合成语音
                         voice_tmp_path = self.my_tts.bark_gui_api(data)
-                        logging.info(f"bark_gui合成成功，输出到={voice_tmp_path}")
+                        logging.info(f"bark_gui合成成功，合成内容：【{content}】，输出到={voice_tmp_path}")
 
                         if voice_tmp_path is None:
                             return
