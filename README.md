@@ -808,6 +808,24 @@ D:\GitHub_pro\AI-Vtuber-20230: can't open file 'D:\\GitHub_pro\\AI-Vtuber-20230 
 解决方案：请将项目放在`非中文，无空格`的路径下。  
 `D:\\GitHub_pro\\AI-Vtuber-20230 729` ——> `D:\\GitHub_pro\\AI-Vtuber-20230729`  
 
+#### 8.更新后报错 ImportError: cannot import name 'sync' from 'bilibili_api'
+完整报错：
+```
+File "D:\GitHub_pro\AI-Vtuber-20230815\bilibili.py", line 9, in <module>
+    from bilibili_api import live, sync
+ImportError: cannot import name 'sync' from 'bilibili_api' (D:\GitHub_pro\AI-Vtuber-20230815\Miniconda3\lib\site-packages\bilibili_api\__init__.py)
+```
+问题根因：`bilibili_api`没有`sync`模块，其实是更新后，`bilibili_api`不对了，需要重新安装对应依赖。  
+解决方案：
+1.删除`bilibili-api-python`和`bilibili-api`，参考命令（整合包）：`Miniconda3\python.exe -m pip uninstall bilibili-api-python bilibili-api`，然后在提示出入（y/n）部分输入`y`，然后回车，共2次。  
+```
+Proceed (Y/n)? y
+  Successfully uninstalled bilibili-api-python-15.5.3
+Proceed (Y/n)? y
+  Successfully uninstalled bilibili-api-4.1.0
+```  
+2.重新安装，可以手动安装`Miniconda3\python.exe -m pip install bilibili-api-python bilibili-api`，也可以直接执行`2-2.安装依赖.bat`完成安装。  
+
 </details>
 
 
