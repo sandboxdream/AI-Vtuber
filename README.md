@@ -969,6 +969,17 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 配合VB虚拟声卡时，如果想要让扬声器也可以听到输出的音频，可以通过 侦听 来实现，配置方法如下：
 ![1](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/b2c0d632-c6ad-4044-892e-e809dfea8f21)
 
+### NVIDIA Omniverse Audio2Face
+NVIDIA Omniverse下载：[https://www.nvidia.com/en-us/omniverse/download/](https://www.nvidia.com/en-us/omniverse/download/)  
+Character Creator 4下载：[https://www.reallusion.com/character-creator/download.html](https://www.reallusion.com/character-creator/download.html)  
+Epic下载：[https://store.epicgames.com/zh-CN/](https://store.epicgames.com/zh-CN/)  
+参考教程：  
+[【Omniverse教程】【Audio2Face】1-仅需一个音频来源即可生成表情丰富的面部动画，也支持实时录音](https://www.bilibili.com/video/BV1TS4y187P9)  
+[玩转Omniverse | Reallusion Character Creator：生成角色](https://www.bilibili.com/video/BV1wB4y1W7g4)  
+[玩转Omniverse | Reallusion Character Creator：将角色 USD 文件导入NVIDIA Omniverse](https://www.bilibili.com/video/BV1uG411x7we)  
+[零代码让UE Metahuman说话的方法（使用omniverse audio2face串流至UE）](https://www.bilibili.com/video/BV1FV411375V)   
+[P6-UE5角色资产导入与说明!](https://www.bilibili.com/video/BV1A24y1S77m)  
+
 
 ### Stable Diffusion
 官方仓库：[stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui)  
