@@ -340,6 +340,10 @@ class Audio:
             if self.config.get("play_audio", "enable"):
                 self.voice_tmp_path_queue.put(data_json)
 
+            # 判断是否发送web字幕打印机
+            if self.config.get("web_captions_printer", "enable"):
+                self.common.send_to_web_captions_printer(self.config.get("web_captions_printer", "api_ip_port"), data_json)
+
         # 区分TTS类型
         if message["tts_type"] == "vits":
             try:

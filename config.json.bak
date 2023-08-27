@@ -23,7 +23,8 @@
     "log": true,
     "schedule": true,
     "database": true,
-    "play_audio": true
+    "play_audio": true,
+    "web_captions_printer": true
   },
   "read_user_name": {
     "enable": true,
@@ -350,5 +351,9 @@
     ],
     "random_play": true,
     "play_interval": 5000
+  },
+  "web_captions_printer": {
+    "enable": true,
+    "api_ip_port": "http://127.0.0.1:5500"
   }
 }

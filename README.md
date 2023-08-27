@@ -1076,6 +1076,10 @@ out_audio, out_sr = svc_model.infer(spk, tran, raw_path)
 out_audio, out_sr, n_frames = svc_model.infer(spk, tran, raw_path)
 ```
 
+### web字幕打印机
+项目地址：[captions_printer](https://github.com/Ikaros-521/captions_printer)  
+具体使用参考项目文档即可。  
+
 ### 聊天模式 百度
 新用户+实名认证后有半年的免费额度可以使用。  
 申请地址：[https://console.bce.baidu.com/ai/#/ai/speech/overview/index](https://console.bce.baidu.com/ai/#/ai/speech/overview/index)  
@@ -1485,6 +1489,10 @@ cmd运行`npm i docsify-cli -g`
 
 - 2023-08-24
   - audio合成 音频合成部分新增合成内容的日志，方便后期合成音频时的bug定位
+
+- 2023-08-27
+  - 新增web字幕打印机的接入
+
 
 </details>
 

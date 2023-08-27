@@ -1,5 +1,5 @@
 # 导入所需的库
-import re, random
+import re, random, requests, json
 import time
 import os
 import logging
@@ -516,3 +516,39 @@ class Common:
             return random.choice(audio_files)
         else:
             return None
+
+
+    # 请求web字幕打印机
+    def send_to_web_captions_printer(self, api_ip_port, data):
+        """请求web字幕打印机
+
+        Args:
+            api_ip_port (str): api请求地址
+            data (dict): 包含用户名,弹幕内容
+
+        Returns:
+            bool: True/False
+        """
+
+        # user_name = data["username"]
+        content = data["content"]
+
+        # 记录数据库):
+        try:
+            response = requests.get(url=api_ip_port + f'/send_message?content={content}')
+            response.raise_for_status()  # 检查响应的状态码
+
+            result = response.content
+            ret = json.loads(result)
+
+            logging.debug(ret)
+
+            if ret['code'] == 200:
+                logging.debug(ret['message'])
+                return True
+            else:
+                logging.error(ret['message'])
+                return False
+        except Exception as e:
+            logging.info(e)
+            return False
