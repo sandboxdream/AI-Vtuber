@@ -136,9 +136,9 @@ background-color: rgba(255, 255, 255, 50);
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>0</y>
+             <y>-8830</y>
              <width>984</width>
-             <height>9496</height>
+             <height>9572</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -2610,6 +2610,18 @@ background-color: rgba(255, 255, 255, 50);
                   </widget>
                  </item>
                 </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QGroupBox" name="groupBox_web_captions_printer">
+              <property name="title">
+               <string>web字幕打印机</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_69">
+               <item row="0" column="0">
+                <layout class="QGridLayout" name="gridLayout_web_captions_printer"/>
                </item>
               </layout>
              </widget>

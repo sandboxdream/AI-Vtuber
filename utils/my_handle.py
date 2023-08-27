@@ -437,7 +437,7 @@ class My_handle():
                         "user_name": user_name,
                         "content": resp_content
                     }
-                    
+
                     # 音频合成（edge-tts / vits_fast）并播放
                     My_handle.audio.audio_synthesis(message)
 
@@ -508,7 +508,7 @@ class My_handle():
                     "user_name": user_name,
                     "content": resp_content
                 }
-                
+
                 # 音频合成（edge-tts / vits_fast）并播放
                 My_handle.audio.audio_synthesis(message)
 
@@ -534,7 +534,7 @@ class My_handle():
                     "user_name": user_name,
                     "content": resp_content
                 }
-                
+
                 # 音频合成（edge-tts / vits_fast）并播放
                 My_handle.audio.audio_synthesis(message)
 
@@ -760,7 +760,6 @@ class My_handle():
             "content": content
         }
 
-        # 音频合成（edge-tts / vits_fast）并播放
         My_handle.audio.audio_synthesis(message)
 
 
@@ -817,6 +816,7 @@ class My_handle():
         # 用户弹幕违禁判断
         if self.prohibitions_handle(content):
             return
+        
 
         """
         根据聊天类型执行不同逻辑

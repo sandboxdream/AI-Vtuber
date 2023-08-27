@@ -1173,7 +1173,8 @@ class AI_VTB(QMainWindow):
                     "log": "日志",
                     "schedule": "定时任务",
                     "database": "数据库",
-                    "play_audio": "播放音频"
+                    "play_audio": "播放音频",
+                    "web_captions_printer": "web字幕打印机"
                     # 可以继续添加其他键和值
                 }
 
@@ -1546,6 +1547,55 @@ class AI_VTB(QMainWindow):
                     row += 1
 
             trends_copywriting_gui_create()
+
+            # web字幕打印机
+            def web_captions_printer_gui_create():
+                data_json = []
+
+                web_captions_printer_config = config.get("web_captions_printer")
+                tmp_json = {
+                    "label_text": "启用",
+                    "label_tip": "是否启用web字幕打印机功能（需要先启动web字幕打印机程序才能使用）",
+                    "data": web_captions_printer_config["enable"],
+                    "widget_text": "",
+                    "click_func": "",
+                    "main_obj_name": "web_captions_printer",
+                    "index": 0
+                }
+                data_json.append(tmp_json)
+
+                tmp_json = {
+                    "label_text": "API地址",
+                    "label_tip": "web字幕打印机的API地址，只需要 http://ip:端口 即可",
+                    "data": web_captions_printer_config["api_ip_port"],
+                    "main_obj_name": "web_captions_printer",
+                    "index": 1
+                }
+                data_json.append(tmp_json)
+
+                # tmp_json = {
+                #     "label_text": "类型",
+                #     "label_tip": "发送给web字幕打印机内容，可以自定义哪些内容发过去显示",
+                #     "widget_type": "combo_box",
+                #     "combo_data_list": ["弹幕", "回复", "复读", "弹幕+回复", "回复+复读", "弹幕+回复+复读"],
+                #     "data": web_captions_printer_config["type"],
+                #     "main_obj_name": "web_captions_printer",
+                #     "index": 1
+                # }
+                # data_json.append(tmp_json)
+
+                widgets = self.create_widgets_from_json(data_json)
+
+                # 动态添加widget到对应的gridLayout
+                row = 0
+                # 分2列，左边就是label说明，右边就是输入框等
+                for i in range(0, len(widgets), 2):
+                    self.ui.gridLayout_web_captions_printer.addWidget(widgets[i], row, 0)
+                    self.ui.gridLayout_web_captions_printer.addWidget(widgets[i + 1], row, 1)
+                    row += 1
+
+            web_captions_printer_gui_create()
+
 
             # 显隐各板块
             self.oncomboBox_chat_type_IndexChanged(chat_type_index)
@@ -2225,7 +2275,23 @@ class AI_VTB(QMainWindow):
             # 写回json
             config_data["trends_copywriting"]["copywriting"] = reorganize_trends_copywriting_data(trends_copywriting_data)
 
+            # web字幕打印机
+            def reorganize_web_captions_printer_data(web_captions_printer_data):
+                keys = list(web_captions_printer_data.keys())
 
+                tmp_json = {
+                    "enable": web_captions_printer_data[keys[0]],
+                    "api_ip_port": web_captions_printer_data[keys[1]]
+                    # "type": web_captions_printer_data[keys[2]]
+                }
+
+                logging.debug(f"tmp_json={tmp_json}")
+
+                return tmp_json
+
+            web_captions_printer_data = self.update_data_from_gridLayout(self.ui.gridLayout_web_captions_printer)
+            # 写回json
+            config_data["web_captions_printer"] = reorganize_web_captions_printer_data(web_captions_printer_data)
 
             # 获取自定义板块显隐的数据
             show_box_data = self.update_data_from_gridLayout(self.ui.gridLayout_show_box, "show_box")
