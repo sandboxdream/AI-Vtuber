@@ -353,7 +353,7 @@
     "play_interval": 5000
   },
   "web_captions_printer": {
-    "enable": true,
+    "enable": false,
     "api_ip_port": "http://127.0.0.1:5500"
   }
 }
