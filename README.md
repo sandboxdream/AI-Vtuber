@@ -37,7 +37,8 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
 
 </div>
 
-![1](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/33d10fd4-d1f0-4c2e-9cca-023c8889426f)
+![1](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/7e96bdc3-a7b0-4d4f-b74d-8e23067b1990)
+
 
 
 
