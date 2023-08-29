@@ -200,6 +200,13 @@
     "seed": -1.0,
     "batch_count": 1
   },
+  "vall_e_x": {
+    "api_ip_port": "http://127.0.0.1:7860",
+    "language": "auto-detect",
+    "accent": "no-accent",
+    "voice_preset": "ikaros",
+    "voice_preset_file_path": "D:\\GitHub_pro\\AI-Vtuber\\tests\\test_VALL-E-X\\ikaros.npz"
+  },
   "chatterbot": {
     "name": "bot",
     "db_path": "db.sqlite3"

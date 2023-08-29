@@ -23,7 +23,7 @@
 
 <p>
 AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text-generation-webui/讯飞星火 做为"大脑"驱动的虚拟主播（Live2D/Vtube Studio），可以在 Bilibili/抖音/快手 直播中与观众实时互动 或者 直接在本地和您进行聊天。
-它使用自然语言处理和文本转语音技术(Edge-TTS/VITS-Fast/elevenlabs)生成对观众问题的回答并可以通过so-vits-svc/DDSP-SVC变声；另外还可以通过特定指令协同Stable Diffusion进行画图展示。并且可以自定义文案进行循环播放。 
+它使用自然语言处理和文本转语音技术(Edge-TTS/VITS-Fast/elevenlabs/bark-gui/VALL-E-X)生成对观众问题的回答并可以通过so-vits-svc/DDSP-SVC变声；另外还可以通过特定指令协同Stable Diffusion进行画图展示。并且可以自定义文案进行循环播放。 
 </p>
 
 
@@ -64,10 +64,6 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
   - [聊天模式](#%E8%81%8A%E5%A4%A9%E6%A8%A1%E5%BC%8F)
 - [🃏效果图](#%E6%95%88%E6%9E%9C%E5%9B%BE)
   - [GUI界面](#gui%E7%95%8C%E9%9D%A2)
-    - [配置页](#%E9%85%8D%E7%BD%AE%E9%A1%B5)
-    - [运行页](#%E8%BF%90%E8%A1%8C%E9%A1%B5)
-    - [文案页](#%E6%96%87%E6%A1%88%E9%A1%B5)
-    - [聊天页](#%E8%81%8A%E5%A4%A9%E9%A1%B5)
   - [SD接入](#sd%E6%8E%A5%E5%85%A5)
 - [❓️FAQ 常问问题](#%EF%B8%8Ffaq-%E5%B8%B8%E9%97%AE%E9%97%AE%E9%A2%98)
   - [部署过程问题](#%E9%83%A8%E7%BD%B2%E8%BF%87%E7%A8%8B%E9%97%AE%E9%A2%98)
@@ -85,29 +81,40 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
     - [5.RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)](#5runtimewarning-couldnt-find-ffmpeg-or-avconv---defaulting-to-ffmpeg-but-may-not-work-warncouldnt-find-ffmpeg-or-avconv---defaulting-to-ffmpeg-but-may-not-work-runtimewarning)
     - [6.qt.qpa.plugin: Could not find the Qt platform plugin "windows" in "" This application failed to start because no Qt platform plugin could be initialized. Reinstalling the application may fix this problem.](#6qtqpaplugin-could-not-find-the-qt-platform-plugin-windows-in--this-application-failed-to-start-because-no-qt-platform-plugin-could-be-initialized-reinstalling-the-application-may-fix-this-problem)
     - [7.保存配置后没有自动重启，报错 [Errno 2] No such file or directory](#7%E4%BF%9D%E5%AD%98%E9%85%8D%E7%BD%AE%E5%90%8E%E6%B2%A1%E6%9C%89%E8%87%AA%E5%8A%A8%E9%87%8D%E5%90%AF%E6%8A%A5%E9%94%99-errno-2-no-such-file-or-directory)
+    - [8.更新后报错 ImportError: cannot import name 'sync' from 'bilibili_api'](#8%E6%9B%B4%E6%96%B0%E5%90%8E%E6%8A%A5%E9%94%99-importerror-cannot-import-name-sync-from-bilibili_api)
 - [♏️补充](#%E8%A1%A5%E5%85%85)
-  - [b站直播监听](#b%E7%AB%99%E7%9B%B4%E6%92%AD%E7%9B%91%E5%90%AC)
-  - [<span id="dy">抖音弹幕获取</span>](#span-iddy%E6%8A%96%E9%9F%B3%E5%BC%B9%E5%B9%95%E8%8E%B7%E5%8F%96span)
-  - [快手弹幕获取](#%E5%BF%AB%E6%89%8B%E5%BC%B9%E5%B9%95%E8%8E%B7%E5%8F%96)
-  - [斗鱼直播监听](#%E6%96%97%E9%B1%BC%E7%9B%B4%E6%92%AD%E7%9B%91%E5%90%AC)
-  - [ChatGPT](#chatgpt)
-  - [Claude](#claude)
-  - [ChatGLM](#chatglm)
-  - [langchain-ChatGLM](#langchain-chatglm)
-  - [chat_with_file](#chat_with_file)
-  - [text-generation-webui](#text-generation-webui)
-  - [讯飞星火](#%E8%AE%AF%E9%A3%9E%E6%98%9F%E7%81%AB)
-  - [闻达](#%E9%97%BB%E8%BE%BE)
-  - [elevenlabs](#elevenlabs)
-  - [genshinvoice.top](#genshinvoicetop)
-  - [ChatterBot](#chatterbot)
-  - [Live2D](#live2d)
-  - [Stable Diffusion](#stable-diffusion)
-  - [VITS](#vits)
-  - [VITS-fast-fine-tuning](#vits-fast-fine-tuning)
-  - [DDSP-SVC](#ddsp-svc)
-  - [so-vits-svc](#so-vits-svc)
-  - [聊天模式 百度](#%E8%81%8A%E5%A4%A9%E6%A8%A1%E5%BC%8F-%E7%99%BE%E5%BA%A6)
+  - [平台](#%E5%B9%B3%E5%8F%B0)
+    - [b站直播监听](#b%E7%AB%99%E7%9B%B4%E6%92%AD%E7%9B%91%E5%90%AC)
+    - [<span id="dy">抖音弹幕获取</span>](#span-iddy%E6%8A%96%E9%9F%B3%E5%BC%B9%E5%B9%95%E8%8E%B7%E5%8F%96span)
+    - [快手弹幕获取](#%E5%BF%AB%E6%89%8B%E5%BC%B9%E5%B9%95%E8%8E%B7%E5%8F%96)
+    - [斗鱼直播监听](#%E6%96%97%E9%B1%BC%E7%9B%B4%E6%92%AD%E7%9B%91%E5%90%AC)
+    - [聊天模式 百度](#%E8%81%8A%E5%A4%A9%E6%A8%A1%E5%BC%8F-%E7%99%BE%E5%BA%A6)
+  - [LLM](#llm)
+    - [ChatGPT](#chatgpt)
+    - [Claude](#claude)
+    - [Claude2](#claude2)
+    - [ChatGLM](#chatglm)
+    - [langchain-ChatGLM](#langchain-chatglm)
+    - [chat_with_file](#chat_with_file)
+    - [text-generation-webui](#text-generation-webui)
+    - [讯飞星火](#%E8%AE%AF%E9%A3%9E%E6%98%9F%E7%81%AB)
+    - [闻达](#%E9%97%BB%E8%BE%BE)
+    - [ChatterBot](#chatterbot)
+  - [TTS](#tts)
+    - [elevenlabs](#elevenlabs)
+    - [genshinvoice.top](#genshinvoicetop)
+    - [VITS](#vits)
+    - [VITS-fast-fine-tuning](#vits-fast-fine-tuning)
+    - [VALL-E-X](#vall-e-x)
+  - [变声](#%E5%8F%98%E5%A3%B0)
+    - [DDSP-SVC](#ddsp-svc)
+    - [so-vits-svc](#so-vits-svc)
+  - [模型皮套](#%E6%A8%A1%E5%9E%8B%E7%9A%AE%E5%A5%97)
+    - [Live2D](#live2d)
+    - [NVIDIA Omniverse Audio2Face](#nvidia-omniverse-audio2face)
+  - [其他](#%E5%85%B6%E4%BB%96)
+    - [Stable Diffusion](#stable-diffusion)
+    - [web字幕打印机](#web%E5%AD%97%E5%B9%95%E6%89%93%E5%8D%B0%E6%9C%BA)
 - [🀅开发&项目相关](#%F0%9F%80%85%E5%BC%80%E5%8F%91%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3)
   - [简易流程图](#%E7%AE%80%E6%98%93%E6%B5%81%E7%A8%8B%E5%9B%BE)
   - [UI设计](#ui%E8%AE%BE%E8%AE%A1)
@@ -833,17 +840,19 @@ Proceed (Y/n)? y
 
 补充板块提供了对项目接入的第三方技术或应用的详细说明。如果您需要与第三方应用进行对接，您可以查阅此板块的内容，并访问第三方官方网站以了解其使用方法。  
 
-### b站直播监听
+### 平台
+
+#### b站直播监听
 [bilibili-api](https://github.com/Nemo2011/bilibili-api)  
 
-### <span id="dy">抖音弹幕获取</span>
+#### <span id="dy">抖音弹幕获取</span>
 `dy.py`稳定：[dy-barrage-grab](https://gitee.com/haodong108/dy-barrage-grab)  
 请到此仓库的releases下载官方软件包，并仔细阅读官方的使用说明，运行后能在cmd看到弹幕消息的话，即为成功。  
 
 
 `dy_old.py`不稳定：[douyin-live](https://github.com/YunzhiYike/douyin-live)   
 
-### 快手弹幕获取
+#### 快手弹幕获取
 `ks.py`新版本：[kuaishou_websocket](https://github.com/Superheroff/kuaishou_websocket)  
 使用新版本时需要注意，请使用小号登录，然后在每次用完之后，把`cookie`文件夹下的`123.json`文件删掉！！！用过一次后cookie就异常了，所以需要删了重新登录！！！  
 另外如果你是自行安装环境，请在安装完依赖后，安装火狐浏览器内核。参考命令：`playwright install firefox`  
@@ -852,17 +861,35 @@ Proceed (Y/n)? y
 
 `ks_old.py`旧版本：[kuaishou-live](https://github.com/YunzhiYike/kuaishou-live)  
 
-### 斗鱼直播监听
+#### 斗鱼直播监听
 借鉴[Live-Barrage](https://github.com/XiaoXinYo/Live-Barrage)  
 
-### ChatGPT
+#### 聊天模式 百度
+新用户+实名认证后有半年的免费额度可以使用。  
+申请地址：[https://console.bce.baidu.com/ai/#/ai/speech/overview/index](https://console.bce.baidu.com/ai/#/ai/speech/overview/index)  
+<details>
+<summary>展开/收起详细教程</summary>
+
+![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/a91e9dcb-c894-4844-885c-89b8f9f78e6e)
+![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/355e4d12-d854-4249-a736-03c2c93017db)
+![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/3028e135-0791-4638-b56f-028b8397f35f)
+![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/7731d5a0-72f5-4a07-bf98-4f6e34f8ef32)
+![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/6c2fca12-5c6b-478e-a1d3-d3dead79f192)
+
+
+</details>
+
+
+### LLM
+
+#### ChatGPT
 官网：[https://chat.openai.com/chat](https://chat.openai.com/chat)  
 openai后台：[https://platform.openai.com/](https://platform.openai.com/)  
 新建API KEY：[https://platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys)  
 查看账号额度：[https://platform.openai.com/account/usage](https://platform.openai.com/account/usage)  
 官方API文档：[https://platform.openai.com/docs/api-reference](https://platform.openai.com/docs/api-reference)  
 
-### Claude
+#### Claude
 实现参考：[claude-in-slack-api](https://github.com/yokonsan/claude-in-slack-api)  
 API申请方法：[claude-api](https://github.com/bincooo/claude-api)  
 slack官网：[https://slack.com/intl/zh-cn/](https://slack.com/intl/zh-cn/)  
@@ -872,12 +899,12 @@ slack官网：[https://slack.com/intl/zh-cn/](https://slack.com/intl/zh-cn/)
 [完美替代chatGPT！保姆级Claude注册教程及使用上的优点和缺点](https://www.bilibili.com/video/BV1PP41127mQ)  
 [解决现阶段slack新建工作区Claude不回复](https://www.bilibili.com/video/BV17k4y1H7aa)  
 
-### Claude2
+#### Claude2
 [Claude2-PyAPI](https://github.com/wwwzhouhui/Claude2-PyAPI)  
 claude2官网：[https://claude.ai/](https://claude.ai/)  
 cookie获取方式：F12抓包XHR，然后请求头获取cookie  
 
-### ChatGLM
+#### ChatGLM
 官方仓库：[ChatGLM-6B](https://github.com/THUDM/ChatGLM-6B)  
 整合包：[【ChatGLM】本地版ChatGPT？6G显存可用！ChatGLM-6B 清华开源模型一键包发布 可更新](https://www.bilibili.com/video/BV1E24y1u7Go)  
 运行`api.py`，然后配置相关信息接入本项目。  
@@ -890,7 +917,7 @@ if __name__ == '__main__':
     uvicorn.run(app, host='0.0.0.0', port=8000, workers=1)
 ```
 
-### langchain-ChatGLM
+#### langchain-ChatGLM
 官方仓库：[langchain-ChatGLM](https://github.com/chatchat-space/langchain-ChatGLM)  
 个人提供的整合包：[https://pan.quark.cn/s/8d8904fd4b30](https://pan.quark.cn/s/8d8904fd4b30)  
 chatglm-6b-int4模型下载(其实这个官方就行，有会员的话网盘快点)：[https://pan.quark.cn/s/a483e0c3e5fa](https://pan.quark.cn/s/a483e0c3e5fa)  
@@ -933,24 +960,24 @@ LLM_MODEL = "chatglm-6b-int4"
 ```
 运行`api.py`，然后接入本项目。  
 
-### chat_with_file
+#### chat_with_file
 参考：[LangChainSummarize](https://github.com/Ikaros-521/LangChainSummarize)
 构建本地向量数据库时，如果本地电脑的配置太低，可以使用 [faiss_text2vec.ipynb](https://drive.google.com/file/d/1rbt2Yv7_pC1cmuODwmR2-1_cxFBFOfn8/view?usp=sharing) 云端解析向量数据库，拷贝回本地后再使用即可
 - author: [HildaM/text2vec_colab](https://github.com/HildaM/text2vec_colab)
 
-### text-generation-webui
+#### text-generation-webui
 官方仓库：[text-generation-webui](https://github.com/oobabooga/text-generation-webui)  
 懒人包：b站：coyude [AI对话 懒人包v1发布 图形化启动界面(oobabooga/text-generation-webui)可用chatglm/rwkv/vicuna](https://www.bilibili.com/video/BV1tP411d7wo)  
 API调用demo：[api-examples](https://github.com/oobabooga/text-generation-webui/tree/main/api-examples)  
 
 
-### 讯飞星火
+#### 讯飞星火
 官网：[https://xinghuo.xfyun.cn/](https://xinghuo.xfyun.cn/)  
 api库（HildaM开发）：[sparkdesk-api](https://github.com/HildaM/sparkdesk-api)  
 web配置获取方法：[sparkdesk-api/tree/main/docs](https://github.com/HildaM/sparkdesk-api/tree/main/docs)  
 api申请：提交工单申请，工单提交页 [https://console.xfyun.cn/services/cbm](https://console.xfyun.cn/services/cbm)  
 
-### 闻达
+#### 闻达
 官方仓库：[https://github.com/wenda-LLM/wenda](https://github.com/wenda-LLM/wenda)  
 整合包下载：[https://pan.quark.cn/s/c4cb08de666e](https://pan.quark.cn/s/c4cb08de666e) 提取码：4b4R  
 接入说明：  
@@ -958,18 +985,7 @@ api申请：提交工单申请，工单提交页 [https://console.xfyun.cn/servi
 ![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/2c3167ae-13ad-4f68-911b-d4262210e81d)
 ![闻达-接入说明](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/228da499-9de6-45a3-8bb3-5cc684569c00)
 
-
-### elevenlabs
-[elevenlabs官网](https://beta.elevenlabs.io/)  
-[官方文档](https://docs.elevenlabs.io/api-reference/quick-start/introduction)  
-不注册账号也可以使用，不过应该是有限制的（具体多少未知）。免费账号拥有每月1万字的额度。  
-
-### genshinvoice.top
-[在线体验官网](http://genshinvoice.top/)  
-[官方GitHub仓库](https://github.com/Stardust-minus/vits)，内含api使用说明  
-官方视频讲解：[【在线合成&效果优化】基于VITS的米哈游全角色语音合成现已发布](https://www.bilibili.com/video/BV1Sg4y1K7kg)  
-
-### ChatterBot
+#### ChatterBot
 [官方仓库](https://github.com/gunthercox/ChatterBot)  
 ChatterBot 是一个开源的 Python 聊天机器人框架，使用机器学习算法（尤其是自然语言处理、文本语义分析等）来实现基于规则和语境的自动聊天系统。它可以让开发者通过简单的配置和训练，构建出各种类型的聊天机器人，包括问答机器人、任务型机器人、闲聊机器人等。
 
@@ -978,33 +994,21 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 总的来说，ChatterBot 是一个非常强大、灵活、易用的聊天机器人框架，帮助开发者快速搭建出个性化、定制化的聊天机器人，从而提升用户体验和服务质量。  
 
 
-### Live2D
-源自：[CyberWaifu](https://github.com/jieran233/CyberWaifu)  
-官方免费模型下载：[releases/tag/live2d](https://github.com/Ikaros-521/AI-Vtuber/releases/tag/live2d)  
-官网：[https://www.live2d.com/zh-CHS](https://www.live2d.com/zh-CHS)  
 
-第三方软件`Vtube Studio`，配置教程：[【AI主播】虚拟人部分方案#1 基于Vtube Studio的口型驱动](https://www.bilibili.com/video/BV1vs4y1k71M)  
-配合VB虚拟声卡时，如果想要让扬声器也可以听到输出的音频，可以通过 侦听 来实现，配置方法如下：
-![1](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/b2c0d632-c6ad-4044-892e-e809dfea8f21)
+### TTS
 
-### NVIDIA Omniverse Audio2Face
-NVIDIA Omniverse下载：[https://www.nvidia.com/en-us/omniverse/download/](https://www.nvidia.com/en-us/omniverse/download/)  
-Character Creator 4下载：[https://www.reallusion.com/character-creator/download.html](https://www.reallusion.com/character-creator/download.html)  
-Epic下载：[https://store.epicgames.com/zh-CN/](https://store.epicgames.com/zh-CN/)  
-参考教程：  
-[【Omniverse教程】【Audio2Face】1-仅需一个音频来源即可生成表情丰富的面部动画，也支持实时录音](https://www.bilibili.com/video/BV1TS4y187P9)  
-[玩转Omniverse | Reallusion Character Creator：生成角色](https://www.bilibili.com/video/BV1wB4y1W7g4)  
-[玩转Omniverse | Reallusion Character Creator：将角色 USD 文件导入NVIDIA Omniverse](https://www.bilibili.com/video/BV1uG411x7we)  
-[零代码让UE Metahuman说话的方法（使用omniverse audio2face串流至UE）](https://www.bilibili.com/video/BV1FV411375V)   
-[P6-UE5角色资产导入与说明!](https://www.bilibili.com/video/BV1A24y1S77m)  
+#### elevenlabs
+[elevenlabs官网](https://beta.elevenlabs.io/)  
+[官方文档](https://docs.elevenlabs.io/api-reference/quick-start/introduction)  
+不注册账号也可以使用，不过应该是有限制的（具体多少未知）。免费账号拥有每月1万字的额度。  
+
+#### genshinvoice.top
+[在线体验官网](http://genshinvoice.top/)  
+[官方GitHub仓库](https://github.com/Stardust-minus/vits)，内含api使用说明  
+官方视频讲解：[【在线合成&效果优化】基于VITS的米哈游全角色语音合成现已发布](https://www.bilibili.com/video/BV1Sg4y1K7kg)  
 
 
-### Stable Diffusion
-官方仓库：[stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui)  
-整合包：[【AI绘画】Stable Diffusion整合包v4.2发布！全新加速 解压即用 防爆显存 三分钟入门AI绘画 ☆可更新 ☆训练 ☆汉化](https://www.bilibili.com/video/BV1iM4y1y7oA)  
-启动API模式，填写相关配置即可接入。  
-
-### VITS
+#### VITS
 emotional-vits官方仓库：[emotional-vits](https://github.com/innnky/emotional-vits)  
 接入API：[vits-simple-api](https://github.com/Artrajz/vits-simple-api)  
 vits-simple-api整合包下载：[https://github.com/Artrajz/vits-simple-api/releases](https://github.com/Artrajz/vits-simple-api/releases)  
@@ -1022,14 +1026,22 @@ for id, (key, name) in enumerate(obj.get_speakers().items()):
 # for id, name in enumerate(obj.get_speakers()):
 ```
 
-### VITS-fast-fine-tuning
+#### VITS-fast-fine-tuning
 官方仓库：[VITS-fast-fine-tuning](https://github.com/Plachtaa/VITS-fast-fine-tuning)  
 个人提供的已训练好的模型：[点我跳转](https://github.com/Ikaros-521/VITS-fast-fine-tuning/releases)  
 视频教程：[【AI语音合成-数据集篇#00】模型使用简单讲解，手把手演示](https://www.bilibili.com/video/BV1Lm4y1r7Pi)  
 训练用整合包（原作者整合包备份）：[https://pan.quark.cn/s/da52e78983da](https://pan.quark.cn/s/da52e78983da)  
 整合包视频教程：[AI声音克隆又进化了，10分钟学会声音克隆！一键启动包发布！](https://www.bilibili.com/video/BV1K94y1k7Bw)  
 
-### DDSP-SVC
+#### VALL-E-X
+官方仓库：[VALL-E-X](https://github.com/Plachtaa/VALL-E-X)  
+个人提供的已训练好的preset预设：[点我跳转](https://github.com/Ikaros-521/VALL-E-X/releases/tag/preset)  
+官方视频讲解：[仅需3秒音频实现声音克隆！我开源了微软的最新语音合成模型VALL-E X](https://www.bilibili.com/video/av617666708)  
+整合包下载：[https://pan.quark.cn/s/b817e285ab41](https://pan.quark.cn/s/b817e285ab41)  
+
+### 变声
+
+#### DDSP-SVC
 官方仓库：[DDSP-SVC](https://github.com/yxlllc/DDSP-SVC)  
 个人提供的已训练好的模型：[点我跳转](https://github.com/Ikaros-521/DDSP-SVC/releases)  
 羽毛佬视频教程：[【AI翻唱/变声/整合包】有张N卡就能跑！媲美So-VITS却不吃配置，全新的DDSP-SVC 3.0训练/推理教程](https://www.bilibili.com/video/BV1rs4y1Q7BQ)  
@@ -1054,7 +1066,7 @@ spk_id = 1
 enable_spk_id_cover = False
 ```
 
-### so-vits-svc
+#### so-vits-svc
 官方仓库：[so-vits-svc](https://github.com/svc-develop-team/so-vits-svc)  
 个人提供的已训练好的模型：[点我跳转](https://github.com/Ikaros-521/so-vits-svc/releases)  
 视频教程：[【AI歌姬】so-vits-svc 简单使用讲解 + 伊卡洛斯 模型开源](https://www.bilibili.com/video/BV1k24y1F7Us)  
@@ -1076,24 +1088,38 @@ out_audio, out_sr = svc_model.infer(spk, tran, raw_path)
 out_audio, out_sr, n_frames = svc_model.infer(spk, tran, raw_path)
 ```
 
-### web字幕打印机
+### 模型皮套
+
+#### Live2D
+源自：[CyberWaifu](https://github.com/jieran233/CyberWaifu)  
+官方免费模型下载：[releases/tag/live2d](https://github.com/Ikaros-521/AI-Vtuber/releases/tag/live2d)  
+官网：[https://www.live2d.com/zh-CHS](https://www.live2d.com/zh-CHS)  
+
+第三方软件`Vtube Studio`，配置教程：[【AI主播】虚拟人部分方案#1 基于Vtube Studio的口型驱动](https://www.bilibili.com/video/BV1vs4y1k71M)  
+配合VB虚拟声卡时，如果想要让扬声器也可以听到输出的音频，可以通过 侦听 来实现，配置方法如下：
+![1](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/b2c0d632-c6ad-4044-892e-e809dfea8f21)
+
+#### NVIDIA Omniverse Audio2Face
+NVIDIA Omniverse下载：[https://www.nvidia.com/en-us/omniverse/download/](https://www.nvidia.com/en-us/omniverse/download/)  
+Character Creator 4下载：[https://www.reallusion.com/character-creator/download.html](https://www.reallusion.com/character-creator/download.html)  
+Epic下载：[https://store.epicgames.com/zh-CN/](https://store.epicgames.com/zh-CN/)  
+参考教程：  
+[【Omniverse教程】【Audio2Face】1-仅需一个音频来源即可生成表情丰富的面部动画，也支持实时录音](https://www.bilibili.com/video/BV1TS4y187P9)  
+[玩转Omniverse | Reallusion Character Creator：生成角色](https://www.bilibili.com/video/BV1wB4y1W7g4)  
+[玩转Omniverse | Reallusion Character Creator：将角色 USD 文件导入NVIDIA Omniverse](https://www.bilibili.com/video/BV1uG411x7we)  
+[零代码让UE Metahuman说话的方法（使用omniverse audio2face串流至UE）](https://www.bilibili.com/video/BV1FV411375V)   
+[P6-UE5角色资产导入与说明!](https://www.bilibili.com/video/BV1A24y1S77m)  
+
+### 其他
+
+#### Stable Diffusion
+官方仓库：[stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui)  
+整合包：[【AI绘画】Stable Diffusion整合包v4.2发布！全新加速 解压即用 防爆显存 三分钟入门AI绘画 ☆可更新 ☆训练 ☆汉化](https://www.bilibili.com/video/BV1iM4y1y7oA)  
+启动API模式，填写相关配置即可接入。  
+
+#### web字幕打印机
 项目地址：[captions_printer](https://github.com/Ikaros-521/captions_printer)  
 具体使用参考项目文档即可。  
-
-### 聊天模式 百度
-新用户+实名认证后有半年的免费额度可以使用。  
-申请地址：[https://console.bce.baidu.com/ai/#/ai/speech/overview/index](https://console.bce.baidu.com/ai/#/ai/speech/overview/index)  
-<details>
-<summary>展开/收起详细教程</summary>
-
-![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/a91e9dcb-c894-4844-885c-89b8f9f78e6e)
-![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/355e4d12-d854-4249-a736-03c2c93017db)
-![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/3028e135-0791-4638-b56f-028b8397f35f)
-![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/7731d5a0-72f5-4a07-bf98-4f6e34f8ef32)
-![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/6c2fca12-5c6b-478e-a1d3-d3dead79f192)
-
-
-</details>
 
 ## 🀅开发&项目相关
 
@@ -1192,6 +1218,7 @@ cmd运行`npm i docsify-cli -g`
 - [x] 支持关闭聊天（LLM等）
 - [x] langchain-chatglm的接入
 - [ ] Edge-TTS在合成音频时会出现合成成功但是系统找不到文件的bug
+- [ ] 抖音关注事件可以触发关注感谢话术
 
 ## 📝更新日志
 
@@ -1493,6 +1520,8 @@ cmd运行`npm i docsify-cli -g`
 - 2023-08-27
   - 新增web字幕打印机的接入
 
+- 2023-08-29
+  - TTS新增VALL-E-X的接入
 
 </details>
 

@@ -494,6 +494,28 @@ class Audio:
             except Exception as e:
                 logging.error(traceback.format_exc())
                 return
+        elif message["tts_type"] == "vall_e_x":
+            try:
+                data = {
+                    "api_ip_port": message["data"]["api_ip_port"],
+                    "language": message["data"]["language"],
+                    "accent": message["data"]["accent"],
+                    "voice_preset": message["data"]["voice_preset"],
+                    "voice_preset_file_path": message["data"]["voice_preset_file_path"],
+                    "content": message["content"]
+                }
+
+                # 调用接口合成语音
+                voice_tmp_path = self.my_tts.vall_e_x_api(data)
+                logging.info(f"vall_e_x合成成功，合成内容：【{message['content']}】，输出到={voice_tmp_path}")
+
+                if voice_tmp_path is None:
+                    return
+                
+                await voice_change_and_put_to_queue(message, voice_tmp_path)  
+            except Exception as e:
+                logging.error(traceback.format_exc())
+                return
 
 
     # 音频变速
@@ -814,6 +836,7 @@ class Audio:
             vits_fast = self.config.get("vits_fast")
             edge_tts_config = self.config.get("edge-tts")
             bark_gui = self.config.get("bark_gui")
+            vall_e_x = self.config.get("vall_e_x")
             file_path = os.path.join(file_path)
 
             logging.info(f"即将合成的文案：{file_path}")
@@ -983,6 +1006,29 @@ class Audio:
                     except Exception as e:
                         logging.error(traceback.format_exc())
                         return
+                elif audio_synthesis_type == "vall_e_x":
+                    try:
+                        data = {
+                            "api_ip_port": vall_e_x["api_ip_port"],
+                            "language": vall_e_x["language"],
+                            "accent": vall_e_x["accent"],
+                            "voice_preset": vall_e_x["voice_preset"],
+                            "voice_preset_file_path":vall_e_x["voice_preset_file_path"],
+                            "content": content
+                        }
+
+                        # 调用接口合成语音
+                        voice_tmp_path = self.my_tts.vall_e_x_api(data)
+                        logging.info(f"vall_e_x合成成功，合成内容：【{content}】，输出到={voice_tmp_path}")
+
+                        if voice_tmp_path is None:
+                            return
+                        
+                        await voice_change_and_put_to_queue(voice_tmp_path)
+                    except Exception as e:
+                        logging.error(traceback.format_exc())
+                        return
+
 
             # 进行音频合并 输出到文案音频路径
             out_file_path = os.path.join(os.getcwd(), "out")

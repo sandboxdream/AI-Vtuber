@@ -129,6 +129,48 @@ def start_server():
     schedule_thread = threading.Thread(target=run_schedule)
     schedule_thread.start()
 
+
+    # 启动动态文案
+    def run_trends_copywriting():
+        global config
+
+        try:
+            if False == config.get("trends_copywriting", "enable"):
+                return
+            
+            while True:
+                # 文案文件路径列表
+                copywriting_file_path_list = []
+
+                # 获取动态文案列表
+                for copywriting in config.get("trends_copywriting", "copywriting"):
+                    # 获取文件夹内所有文件的文件绝对路径，包括文件扩展名
+                    for tmp in common.get_all_file_paths(copywriting["folder_path"]):
+                        copywriting_file_path_list.append(tmp)
+
+                    # 是否开启随机播放
+                    if config.get("trends_copywriting", "random_play"):
+                        random.shuffle(copywriting_file_path_list)
+
+                    # 遍历文案文件路径列表  
+                    for copywriting_file_path in copywriting_file_path_list:
+                        # 获取文案文件内容
+                        copywriting_file_content = common.read_file_return_content(copywriting_file_path)
+                        # 是否启用提示词对文案内容进行转换
+                        if copywriting["prompt_change_enable"]:
+                            # TODO:调用函数进行LLM处理，以及生成回复内容，进行音频合成，需要好好考虑考虑实现
+                            pass
+
+                        # TODO：需要考虑延时问题
+        except Exception as e:
+            logging.error(e)
+
+
+    # 创建动态文案子线程并启动
+    # trends_copywriting_thread = threading.Thread(target=run_trends_copywriting)
+    # trends_copywriting_thread.start()
+
+
     # 初始化 Bilibili 直播间
     room = live.LiveDanmaku(my_handle.get_room_id())
 
