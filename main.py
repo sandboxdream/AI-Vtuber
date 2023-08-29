@@ -941,7 +941,7 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_sparkdesk_api_key.setText(self.sparkdesk_config['api_key'])
 
             self.ui.comboBox_audio_synthesis_type.clear()
-            self.ui.comboBox_audio_synthesis_type.addItems(["Edge-TTS", "VITS", "VITS-Fast", "elevenlabs", "genshinvoice_top", "bark_gui"])
+            self.ui.comboBox_audio_synthesis_type.addItems(["Edge-TTS", "VITS", "VITS-Fast", "elevenlabs", "genshinvoice_top", "bark_gui", "VALL-E-X"])
             audio_synthesis_type_index = 0
             if self.audio_synthesis_type == "edge-tts":
                 audio_synthesis_type_index = 0
@@ -955,6 +955,8 @@ class AI_VTB(QMainWindow):
                 audio_synthesis_type_index = 4
             elif self.audio_synthesis_type == "bark_gui":
                 audio_synthesis_type_index = 5
+            elif self.audio_synthesis_type == "vall_e_x":
+                audio_synthesis_type_index = 6
             self.ui.comboBox_audio_synthesis_type.setCurrentIndex(audio_synthesis_type_index)
 
             self.ui.lineEdit_vits_fast_config_path.setText(self.vits_fast_config['config_path'])
@@ -1115,6 +1117,9 @@ class AI_VTB(QMainWindow):
                 talk_google_tgt_lang_index = 2 
             self.ui.comboBox_talk_google_tgt_lang.setCurrentIndex(talk_google_tgt_lang_index)
             
+            """
+            GUI部分 动态生成的widget
+            """
             # 定时任务动态加载
             data_json = []
             for index, tmp in enumerate(config.get("schedule")):
@@ -1596,6 +1601,77 @@ class AI_VTB(QMainWindow):
 
             web_captions_printer_gui_create()
 
+            # VALL-E-X
+            def vall_e_x_gui_create():
+                data_json = []
+                vall_e_x_config = config.get("vall_e_x")
+
+                tmp_json = {
+                    "label_text": "API地址",
+                    "label_tip": "VALL-E-X启动后监听的ip端口地址",
+                    "data": vall_e_x_config["api_ip_port"],
+                    "main_obj_name": "vall_e_x",
+                    "index": 1
+                }
+                data_json.append(tmp_json)
+
+                tmp_json = {
+                    "label_text": "language",
+                    "label_tip": "VALL-E-X language",
+                    "widget_type": "combo_box",
+                    "combo_data_list": ['auto-detect', 'English', '中文', '日本語', 'Mix'],
+                    "data": vall_e_x_config["language"],
+                    "main_obj_name": "vall_e_x",
+                    "index": 1
+                }
+                data_json.append(tmp_json)
+
+                tmp_json = {
+                    "label_text": "accent",
+                    "label_tip": "VALL-E-X accent",
+                    "widget_type": "combo_box",
+                    "combo_data_list": ['no-accent', 'English', '中文', '日本語'],
+                    "data": vall_e_x_config["accent"],
+                    "main_obj_name": "vall_e_x",
+                    "index": 1
+                }
+                data_json.append(tmp_json)
+
+                tmp_json = {
+                    "label_text": "voice preset",
+                    "label_tip": "VALL-E-X说话人预设名（Prompt name）",
+                    "data": vall_e_x_config["voice_preset"],
+                    "main_obj_name": "vall_e_x",
+                    "index": 1
+                }
+                data_json.append(tmp_json)
+
+                tmp_json = {
+                    "label_text": "voice_preset_file_path",
+                    "label_tip": "VALL-E-X说话人预设文件路径（npz）",
+                    "data": vall_e_x_config["voice_preset_file_path"],
+                    "main_obj_name": "vall_e_x",
+                    "index": 1
+                }
+                data_json.append(tmp_json)
+
+                widgets = self.create_widgets_from_json(data_json)
+
+                # 动态添加widget到对应的gridLayout
+                row = 0
+                # 分2列，左边就是label说明，右边就是输入框等
+                for i in range(0, len(widgets), 2):
+                    self.ui.gridLayout_vall_e_x.addWidget(widgets[i], row, 0)
+                    self.ui.gridLayout_vall_e_x.addWidget(widgets[i + 1], row, 1)
+                    row += 1
+
+            vall_e_x_gui_create()
+
+
+            """
+            ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+            -------------------------------------------------------------------------------------------------------------
+            """
 
             # 显隐各板块
             self.oncomboBox_chat_type_IndexChanged(chat_type_index)
@@ -1994,6 +2070,8 @@ class AI_VTB(QMainWindow):
                 config_data["audio_synthesis_type"] = "genshinvoice_top"
             elif audio_synthesis_type == "bark_gui":
                 config_data["audio_synthesis_type"] = "bark_gui"
+            elif audio_synthesis_type == "VALL-E-X":
+                config_data["audio_synthesis_type"] = "vall_e_x"
 
             # 音频随机变速
             config_data["audio_random_speed"]["normal"]["enable"] = self.ui.checkBox_audio_random_speed_normal_enable.isChecked()
@@ -2100,6 +2178,10 @@ class AI_VTB(QMainWindow):
             config_data["talk"]["google"]["tgt_lang"] = self.ui.comboBox_talk_google_tgt_lang.currentText()
             
             schedule_data = self.update_data_from_gridLayout(self.ui.gridLayout_schedule)
+
+            """
+            动态读取GUI内数据到配置变量
+            """
 
             def reorganize_schedule_data(schedule_data):
                 tmp_json = []
@@ -2292,6 +2374,31 @@ class AI_VTB(QMainWindow):
             web_captions_printer_data = self.update_data_from_gridLayout(self.ui.gridLayout_web_captions_printer)
             # 写回json
             config_data["web_captions_printer"] = reorganize_web_captions_printer_data(web_captions_printer_data)
+
+            # VALL-E-X
+            def reorganize_vall_e_x_data(vall_e_x_data):
+                keys = list(vall_e_x_data.keys())
+
+                tmp_json = {
+                    "api_ip_port": vall_e_x_data[keys[0]],
+                    "language": vall_e_x_data[keys[1]],
+                    "accent": vall_e_x_data[keys[2]],
+                    "voice_preset": vall_e_x_data[keys[3]],
+                    "voice_preset_file_path": vall_e_x_data[keys[4]]
+                }
+
+                logging.debug(f"tmp_json={tmp_json}")
+
+                return tmp_json
+
+            vall_e_x_data = self.update_data_from_gridLayout(self.ui.gridLayout_vall_e_x)
+            # 写回json
+            config_data["vall_e_x"] = reorganize_vall_e_x_data(vall_e_x_data)
+
+            """
+            ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+            -------------------------------------------------------------------------------------------------------------
+            """
 
             # 获取自定义板块显隐的数据
             show_box_data = self.update_data_from_gridLayout(self.ui.gridLayout_show_box, "show_box")
@@ -2962,18 +3069,20 @@ class AI_VTB(QMainWindow):
 
     
     # 语音合成类型改变 加载显隐不同groupBox
+    # 当你新增TTS时，你需要同步修改此处的TTS配置的显隐
     def oncomboBox_audio_synthesis_type_IndexChanged(self, index):
         # 各index对应的groupbox的显隐值
         visibility_map = {
-            0: (1, 0, 0, 0, 0, 0),
-            1: (0, 1, 0, 0, 0, 0),
-            2: (0, 0, 1, 0, 0, 0),
-            3: (0, 0, 0, 1, 0, 0),
-            4: (0, 0, 0, 0, 1, 0),
-            5: (0, 0, 0, 0, 0, 1)
+            0: (1, 0, 0, 0, 0, 0, 0),
+            1: (0, 1, 0, 0, 0, 0, 0),
+            2: (0, 0, 1, 0, 0, 0, 0),
+            3: (0, 0, 0, 1, 0, 0, 0),
+            4: (0, 0, 0, 0, 1, 0, 0),
+            5: (0, 0, 0, 0, 0, 1, 0),
+            6: (0, 0, 0, 0, 0, 0, 1)
         }
 
-        visibility_values = visibility_map.get(index, (0, 0, 0, 0, 0, 0))
+        visibility_values = visibility_map.get(index, (0, 0, 0, 0, 0, 0, 0))
 
         self.ui.groupBox_edge_tts.setVisible(visibility_values[0])
         self.ui.groupBox_vits.setVisible(visibility_values[1])
@@ -2981,6 +3090,7 @@ class AI_VTB(QMainWindow):
         self.ui.groupBox_elevenlabs.setVisible(visibility_values[3])
         self.ui.groupBox_genshinvoice_top.setVisible(visibility_values[4])
         self.ui.groupBox_bark_gui.setVisible(visibility_values[5])
+        self.ui.groupBox_vall_e_x.setVisible(visibility_values[6])
 
 
     # 语音识别类型改变 加载显隐不同groupBox

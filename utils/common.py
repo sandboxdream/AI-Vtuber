@@ -361,6 +361,7 @@ class Common:
 
 
     # 从文件路径中提取出带有扩展名的文件名
+    # 返回：str
     def extract_filename(self, file_path):
         file_name_with_extension = os.path.basename(file_path)
         file_name_without_extension = os.path.splitext(file_name_with_extension)[0]
@@ -371,6 +372,26 @@ class Common:
     def get_folder_names(self, path):
         folder_names = next(os.walk(path))[1]
         return folder_names
+
+
+    def get_all_file_paths(self, folder_path):
+        """返回指定文件夹内所有文件的文件绝对路径，包括文件扩展名
+
+        Args:
+            folder_path (str): 文件夹路径
+
+        Returns:
+            list: 文件绝对路径列表
+        """
+        file_paths = []  # 用于存储文件绝对路径的列表
+
+        # 使用 os.walk 遍历文件夹内所有文件和子文件夹
+        for root, directories, files in os.walk(folder_path):
+            for filename in files:
+                file_path = os.path.join(root, filename)  # 获取文件的绝对路径
+                file_paths.append(file_path)
+
+        return file_paths
 
 
     # 获取Live2D模型名

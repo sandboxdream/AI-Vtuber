@@ -126,7 +126,7 @@
     "history_enable": true,
     "history_max_len": 500
   },
-  "audio_synthesis_type": "edge-tts",
+  "audio_synthesis_type": "vall_e_x",
   "audio_random_speed": {
     "normal": {
       "enable": false,
@@ -199,6 +199,13 @@
     "quick_generation": true,
     "seed": -1.0,
     "batch_count": 1
+  },
+  "vall_e_x": {
+    "api_ip_port": "http://127.0.0.1:7860",
+    "language": "auto-detect",
+    "accent": "no-accent",
+    "voice_preset": "ikaros",
+    "voice_preset_file_path": "D:\\GitHub_pro\\AI-Vtuber\\tests\\test_VALL-E-X\\ikaros.npz"
   },
   "chatterbot": {
     "name": "bot",
@@ -353,7 +360,7 @@
       }
     ],
     "random_play": true,
-    "play_interval": 5000
+    "play_interval": 30000
   },
   "web_captions_printer": {
     "enable": false,

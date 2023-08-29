@@ -136,9 +136,9 @@ background-color: rgba(255, 255, 255, 50);
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-8830</y>
+             <y>-6514</y>
              <width>984</width>
-             <height>9572</height>
+             <height>9648</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -2028,6 +2028,18 @@ background-color: rgba(255, 255, 255, 50);
                   </widget>
                  </item>
                 </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QGroupBox" name="groupBox_vall_e_x">
+              <property name="title">
+               <string>VALL-E-X</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_70">
+               <item row="0" column="0">
+                <layout class="QGridLayout" name="gridLayout_vall_e_x"/>
                </item>
               </layout>
              </widget>

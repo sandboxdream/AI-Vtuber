@@ -1029,6 +1029,12 @@ for id, (key, name) in enumerate(obj.get_speakers().items()):
 训练用整合包（原作者整合包备份）：[https://pan.quark.cn/s/da52e78983da](https://pan.quark.cn/s/da52e78983da)  
 整合包视频教程：[AI声音克隆又进化了，10分钟学会声音克隆！一键启动包发布！](https://www.bilibili.com/video/BV1K94y1k7Bw)  
 
+### VALL-E-X
+官方仓库：[VALL-E-X](https://github.com/Plachtaa/VALL-E-X)  
+个人提供的已训练好的preset预设：[点我跳转](https://github.com/Ikaros-521/VALL-E-X/releases/tag/preset)  
+官方视频讲解：[仅需3秒音频实现声音克隆！我开源了微软的最新语音合成模型VALL-E X](https://www.bilibili.com/video/av617666708)  
+整合包下载：[https://pan.quark.cn/s/b817e285ab41](https://pan.quark.cn/s/b817e285ab41)  
+
 ### DDSP-SVC
 官方仓库：[DDSP-SVC](https://github.com/yxlllc/DDSP-SVC)  
 个人提供的已训练好的模型：[点我跳转](https://github.com/Ikaros-521/DDSP-SVC/releases)  
@@ -1192,6 +1198,7 @@ cmd运行`npm i docsify-cli -g`
 - [x] 支持关闭聊天（LLM等）
 - [x] langchain-chatglm的接入
 - [ ] Edge-TTS在合成音频时会出现合成成功但是系统找不到文件的bug
+- [ ] 抖音关注事件可以触发关注感谢话术
 
 ## 📝更新日志
 
@@ -1493,6 +1500,8 @@ cmd运行`npm i docsify-cli -g`
 - 2023-08-27
   - 新增web字幕打印机的接入
 
+- 2023-08-29
+  - TTS新增VALL-E-X的接入
 
 </details>
 

@@ -133,6 +133,24 @@ class MY_TTS:
             return None
     
 
+    # 请求VALL-E-X的api
+    def vall_e_x_api(self, data):
+        try:
+            client = Client(data["api_ip_port"])
+            result = client.predict(
+				data["content"],	# str in 'Text' Textbox component
+				data["language"],	# str (Option from: ['auto-detect', 'English', '中文', '日本語', 'Mix']) in 'language' Dropdown component
+				data["accent"],	# str (Option from: ['no-accent', 'English', '中文', '日本語']) in 'accent' Dropdown component
+				data["voice_preset"],	# str (Option from: ['astraea', 'cafe', 'dingzhen', 'esta', 'ikaros', 'MakiseKurisu', 'mikako', 'nymph', 'rosalia', 'seel', 'sohara', 'sukata', 'tomoki', 'tomoko', 'yaesakura', '早见沙织', '神里绫华-日语']) in 'Voice preset' Dropdown component
+				data["voice_preset_file_path"],	# str (filepath or URL to file) in 'parameter_46' File component
+				fn_index=5
+            )
+
+            return result[1]
+        except Exception as e:
+            logging.error(f'vall_e_x_api请求失败: {e}')
+            return None
+
 
     # 请求genshinvoice.top的api
     async def genshinvoice_top_api(self, text):
