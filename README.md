@@ -918,6 +918,11 @@ if __name__ == '__main__':
     uvicorn.run(app, host='0.0.0.0', port=8000, workers=1)
 ```
 
+#### 智谱AI
+官方：[https://open.bigmodel.cn/](https://open.bigmodel.cn/)  
+api key申请地址：[https://open.bigmodel.cn/usercenter/apikeys](https://open.bigmodel.cn/usercenter/apikeys)  
+注意，需要在"设置"->"账号设置"中完成实名认证后，才能使用API。新账号默认赠送了18元的免费额度。  
+
 #### langchain-ChatGLM
 官方仓库：[langchain-ChatGLM](https://github.com/chatchat-space/langchain-ChatGLM)  
 个人提供的整合包：[https://pan.quark.cn/s/8d8904fd4b30](https://pan.quark.cn/s/8d8904fd4b30)  
@@ -1139,6 +1144,20 @@ Epic下载：[https://store.epicgames.com/zh-CN/](https://store.epicgames.com/zh
 打开QT设计师~o( =∩ω∩= )m `pyqt5-tools designer`  
 生成UI代码 `pyuic5 -o UI_main.py ui\main.ui`  
 对UI做改动时，加入新的配置，一般需要修改init_config和save部分，新配置的读取和写入部分。  
+
+### 源码开发
+
+#### 新增LLM
+1.`utils/gpt_model`下新建 新llm的py文件，内部封装类，实现通用函数`get_resp(prompt)`，传入提问，返回回答。
+2.`utils/gpt_model`下新增下模型相关的配置内容，照葫芦画瓢`gpt.py`
+3.根据相关传参，给`config.json`添加对应的配置。
+4.`utils`下，修改`my_handle.py`，`__init__`初始化中相关配置读取，加载模型等。
+5.`utils`下，修改`my_handle.py`，`comment_handle`中新增对应LLM选中时，所做的逻辑处理。
+6.打开QT设计师，修改`ui\main.ui`。为新的LLM设计位置和相应控件，可以参考其他LLM的设计。
+7.修改`main.py`，实现LLM的UI显示部分以及数据读取和配置保存。另外需要注意新增的LLM会影响到其他配置项的内容，以及显隐关系。需要修改的部分如下：
+- init_config()
+- init_ui()
+- oncomboBox_chat_type_IndexChanged()
 
 
 ### 打包懒人包
@@ -1527,6 +1546,9 @@ cmd运行`npm i docsify-cli -g`
 
 - 2023-08-29
   - TTS新增VALL-E-X的接入
+
+- 2023-09-01
+  - 新增 智谱AI的接入，支持上下文记忆。
 
 </details>
 

@@ -136,9 +136,9 @@ background-color: rgba(255, 255, 255, 50);
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-6514</y>
+             <y>-3421</y>
              <width>984</width>
-             <height>9648</height>
+             <height>9724</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -1304,6 +1304,18 @@ background-color: rgba(255, 255, 255, 50);
                   </item>
                  </layout>
                 </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QGroupBox" name="groupBox_zhipu">
+              <property name="title">
+               <string>智谱AI</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_71">
+               <item row="0" column="0">
+                <layout class="QGridLayout" name="gridLayout_zhipu"/>
                </item>
               </layout>
              </widget>

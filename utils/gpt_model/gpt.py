@@ -16,6 +16,7 @@ from utils.gpt_model.claude2 import Claude2
 from utils.gpt_model.text_generation_webui import TEXT_GENERATION_WEBUI
 from utils.gpt_model.sparkdesk import SPARKDESK
 from utils.gpt_model.langchain_chatglm import Langchain_ChatGLM
+from utils.gpt_model.zhipu import Zhipu
 
 
 class GPT_Model:
@@ -28,6 +29,7 @@ class GPT_Model:
     text_generation_webui = None
     sparkdesk = None
     langchain_chatglm = None
+    zhipu = None
 
     def set_model_config(self, model_name, config):
         if model_name == "openai":
@@ -49,6 +51,8 @@ class GPT_Model:
             self.sparkdesk = SPARKDESK(config)
         elif model_name == "langchain_chatglm":
             self.langchain_chatglm = Langchain_ChatGLM(config)
+        elif model_name == "zhipu":
+            self.zhipu = Zhipu(config)
 
     def get(self, name):
         logging.info("GPT_MODEL: 进入get方法")
@@ -69,6 +73,8 @@ class GPT_Model:
                 return self.sparkdesk
             case "langchain_chatglm":
                 return self.langchain_chatglm
+            case "zhipu":
+                return self.zhipu
             case _:
                 logging.error(f"{name} 该模型不支持")
                 return
