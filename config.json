@@ -107,6 +107,14 @@
     "api_secret": "",
     "api_key": ""
   },
+  "zhipu": {
+    "api_key": "",
+    "model": "chatglm_lite",
+    "top_p": "0.7",
+    "temperature": "0.9",
+    "history_enable": true,
+    "history_max_len": "300"
+  },
   "chat_with_file": {
     "chat_mode": "openai_gpt",
     "data_path": "data/伊卡洛斯百度百科.zip",
@@ -126,7 +134,7 @@
     "history_enable": true,
     "history_max_len": 500
   },
-  "audio_synthesis_type": "vall_e_x",
+  "audio_synthesis_type": "edge-tts",
   "audio_random_speed": {
     "normal": {
       "enable": false,

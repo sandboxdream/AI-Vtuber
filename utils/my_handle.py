@@ -76,6 +76,9 @@ class My_handle():
             self.local_qa = My_handle.config.get("local_qa")
             self.local_qa_audio_list = None
 
+            """
+            新增LLM时，需要追加新的配置，其实这块可以优化掉
+            """
             # openai
             self.openai_config = My_handle.config.get("openai")
             # chatgpt
@@ -93,6 +96,7 @@ class My_handle():
             self.text_generation_webui_config = My_handle.config.get("text_generation_webui")
             self.sparkdesk_config = My_handle.config.get("sparkdesk")
             self.langchain_chatglm_config = My_handle.config.get("langchain_chatglm")
+            self.zhipu_config = My_handle.config.get("zhipu")
 
 
             # 音频合成使用技术
@@ -114,6 +118,9 @@ class My_handle():
         GPT_MODEL.set_model_config("chatgpt", self.chatgpt_config)
         GPT_MODEL.set_model_config("claude", self.claude_config)        
 
+        """
+        新增LLM后，这边先定义下各个变量，下面会用到
+        """
         self.chatgpt = None
         self.claude = None
         self.claude2 = None
@@ -122,6 +129,7 @@ class My_handle():
         self.text_generation_webui = None
         self.sparkdesk = None
         self.langchain_chatglm = None
+        self.zhipu = None
 
 
         # 聊天相关类实例化
@@ -171,6 +179,10 @@ class My_handle():
             GPT_MODEL.set_model_config("langchain_chatglm", self.langchain_chatglm_config)
 
             self.langchain_chatglm = GPT_MODEL.get(self.chat_type)
+        elif self.chat_type == "zhipu":
+            GPT_MODEL.set_model_config("zhipu", self.zhipu_config)
+
+            self.zhipu = GPT_MODEL.get(self.chat_type)
         elif self.chat_type == "game":
             # from game.game import Game
 
@@ -892,6 +904,15 @@ class My_handle():
             else:
                 resp_content = ""
                 logging.warning("警告：langchain_chatglm无返回")
+        elif self.chat_type == "zhipu":
+            # 生成回复
+            resp_content = self.zhipu.get_resp(content)
+            if resp_content is not None:
+                # 输出 返回的回复消息
+                logging.info(f"[AI回复{user_name}]：{resp_content}")
+            else:
+                resp_content = ""
+                logging.warning("警告：智谱AI无返回")
         elif self.chat_type == "game":
             return
             g1 = game1()

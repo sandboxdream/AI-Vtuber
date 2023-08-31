@@ -195,6 +195,8 @@ class AI_VTB(QMainWindow):
         widgets = []
 
         for item in data:
+            # logging.info(item)
+
             if item["label_text"] != "":
                 label_text = item["label_text"]
                 label = QLabel(label_text)
@@ -366,7 +368,8 @@ class AI_VTB(QMainWindow):
             self.text_generation_webui_config = config.get("text_generation_webui")
             # sparkdesk
             self.sparkdesk_config = config.get("sparkdesk")
-            
+            # 智谱AI
+            self.zhipu_config = config.get("zhipu")
 
             # 音频合成使用技术
             self.audio_synthesis_type = config.get("audio_synthesis_type")
@@ -659,6 +662,7 @@ class AI_VTB(QMainWindow):
             # 修改输入框内容
             self.ui.lineEdit_room_display_id.setText(self.room_id)
             
+            # 新增LLM时，需要为这块的下拉菜单追加配置项
             self.ui.comboBox_chat_type.clear()
             self.ui.comboBox_chat_type.addItems([
                 "不启用", 
@@ -670,8 +674,9 @@ class AI_VTB(QMainWindow):
                 "chat_with_file", 
                 "Chatterbot", 
                 "text_generation_webui", 
-                "sparkdesk",
-                "langchain_chatglm"
+                "讯飞星火",
+                "langchain_chatglm",
+                "智谱AI"
             ])
             chat_type_index = 0
             if self.chat_type == "none":
@@ -696,6 +701,8 @@ class AI_VTB(QMainWindow):
                 chat_type_index = 9
             elif self.chat_type == "langchain_chatglm":
                 chat_type_index = 10
+            elif self.chat_type == "zhipu":
+                chat_type_index = 11
             self.ui.comboBox_chat_type.setCurrentIndex(chat_type_index)
             
             self.ui.comboBox_need_lang.clear()
@@ -1119,6 +1126,7 @@ class AI_VTB(QMainWindow):
             
             """
             GUI部分 动态生成的widget
+            推荐使用这种形式进行UI加载，更具动态，不过目前封装实现还是垃圾了些，不是很好用，待优化
             """
             # 定时任务动态加载
             data_json = []
@@ -1315,6 +1323,82 @@ class AI_VTB(QMainWindow):
                 self.ui.gridLayout_copywriting_config.addWidget(widgets[i + 1], row, 1)
                 row += 1
 
+            # 智谱AI
+            def zhipu_gui_create():
+                data_json = []
+                zhipu_config = config.get("zhipu")
+
+                tmp_json = {
+                    "label_text": "api key",
+                    "label_tip": "具体参考官方文档，申请地址：https://open.bigmodel.cn/usercenter/apikeys",
+                    "data": zhipu_config["api_key"],
+                    "main_obj_name": "zhipu",
+                    "index": 1
+                }
+                data_json.append(tmp_json)
+
+                tmp_json = {
+                    "label_text": "模型",
+                    "label_tip": "使用的语言模型",
+                    "widget_type": "combo_box",
+                    "combo_data_list": ['chatglm_pro', 'chatglm_std', 'chatglm_lite'],
+                    "data": zhipu_config["model"],
+                    "main_obj_name": "zhipu",
+                    "index": 1
+                }
+                data_json.append(tmp_json)
+
+                tmp_json = {
+                    "label_text": "top_p",
+                    "label_tip": "用温度取样的另一种方法，称为核取样\n取值范围是：(0.0,1.0)；开区间，不能等于 0 或 1，默认值为 0.7\n模型考虑具有 top_p 概率质量的令牌的结果。所以 0.1 意味着模型解码器只考虑从前 10% 的概率的候选集中取tokens\n建议您根据应用场景调整 top_p 或 temperature 参数，但不要同时调整两个参数",
+                    "data": zhipu_config["top_p"],
+                    "main_obj_name": "zhipu",
+                    "index": 1
+                }
+                data_json.append(tmp_json)
+
+                tmp_json = {
+                    "label_text": "temperature",
+                    "label_tip": "采样温度，控制输出的随机性，必须为正数\n取值范围是：(0.0,1.0]，不能等于 0,默认值为 0.95\n值越大，会使输出更随机，更具创造性；值越小，输出会更加稳定或确定\n建议您根据应用场景调整 top_p 或 temperature 参数，但不要同时调整两个参数",
+                    "data": zhipu_config["temperature"],
+                    "main_obj_name": "zhipu",
+                    "index": 1
+                }
+                data_json.append(tmp_json)
+
+                tmp_json = {
+                    "label_text": "上下文记忆",
+                    "label_tip": "是否开启上下文记忆功能，可以记住前面说的内容",
+                    "data": zhipu_config["history_enable"],
+                    "widget_text": "启用",
+                    "click_func": "",
+                    "main_obj_name": "zhipu",
+                    "index": 1
+                }
+                data_json.append(tmp_json)
+
+                tmp_json = {
+                    "label_text": "最大记忆长度",
+                    "label_tip": "最长能记忆的问答字符串长度，超长会丢弃最早记忆的内容，请慎用！配置过大可能会有丢大米",
+                    "data": zhipu_config["history_max_len"],
+                    "main_obj_name": "zhipu",
+                    "index": 1
+                }
+                data_json.append(tmp_json)
+
+                # logging.info(data_json)
+
+                widgets = self.create_widgets_from_json(data_json)
+
+                # 动态添加widget到对应的gridLayout
+                row = 0
+                # 分2列，左边就是label说明，右边就是输入框等
+                for i in range(0, len(widgets), 2):
+                    self.ui.gridLayout_zhipu.addWidget(widgets[i], row, 0)
+                    self.ui.gridLayout_zhipu.addWidget(widgets[i + 1], row, 1)
+                    row += 1
+
+            zhipu_gui_create()
 
             # VITS
             def vits_gui_create():
@@ -1887,6 +1971,7 @@ class AI_VTB(QMainWindow):
                 return False
             config_data["room_display_id"] = room_display_id
                 
+            # 新增LLM时，这块也需要适配，保存回配置文件
             chat_type = self.ui.comboBox_chat_type.currentText()
             logging.info(f"chat_type={chat_type}")
             if chat_type == "不启用":
@@ -1907,10 +1992,12 @@ class AI_VTB(QMainWindow):
                 config_data["chat_type"] = "chatterbot"
             elif chat_type == "text_generation_webui":
                 config_data["chat_type"] = "text_generation_webui"
-            elif chat_type == "sparkdesk":
+            elif chat_type == "讯飞星火":
                 config_data["chat_type"] = "sparkdesk"
             elif chat_type == "langchain_chatglm":
                 config_data["chat_type"] = "langchain_chatglm"
+            elif chat_type == "智谱AI":
+                config_data["chat_type"] = "zhipu"
             
 
             config_data["before_prompt"] = self.ui.lineEdit_before_prompt.text()
@@ -2268,6 +2355,27 @@ class AI_VTB(QMainWindow):
             config_data["copywriting"]["audio_interval"] = round(float(self.ui.lineEdit_copywriting_audio_interval.text()), 1)
             config_data["copywriting"]["switching_interval"] = round(float(self.ui.lineEdit_copywriting_switching_interval.text()), 1)
             config_data["copywriting"]["random_play"] = self.ui.checkBox_copywriting_switching_random_play.isChecked()
+
+            # 智谱AI
+            def reorganize_zhipu_data(zhipu_data):
+                keys = list(zhipu_data.keys())
+
+                tmp_json = {
+                    "api_key": zhipu_data[keys[0]],
+                    "model": zhipu_data[keys[1]],
+                    "top_p": zhipu_data[keys[2]],
+                    "temperature": zhipu_data[keys[3]],
+                    "history_enable": zhipu_data[keys[4]],
+                    "history_max_len": zhipu_data[keys[5]]
+                }
+
+                logging.debug(f"tmp_json={tmp_json}")
+
+                return tmp_json
+
+            zhipu_data = self.update_data_from_gridLayout(self.ui.gridLayout_zhipu)
+            # 写回json
+            config_data["zhipu"] = reorganize_zhipu_data(zhipu_data)
 
             # VITS
             def reorganize_vits_data(vits_data):
@@ -2983,7 +3091,6 @@ class AI_VTB(QMainWindow):
         # 正义执行 直接复读
         my_handle.reread_handle(data)
         
-
     
     def on_pushButton_talk_chat_box_send_clicked(self):
         self.throttled_talk_chat_box_send()
@@ -3040,20 +3147,21 @@ class AI_VTB(QMainWindow):
     def oncomboBox_chat_type_IndexChanged(self, index):
         # 各index对应的groupbox的显隐值
         visibility_map = {
-            0: (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-            1: (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-            2: (1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0),
-            3: (0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0),
-            4: (0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0),
-            5: (0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0),
-            6: (1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0),
-            7: (0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
-            8: (0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0),
-            9: (0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0),
-            10: (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+            0: (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+            1: (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+            2: (1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+            3: (0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0),
+            4: (0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0),
+            5: (0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0),
+            6: (1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0),
+            7: (0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0),
+            8: (0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
+            9: (0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0),
+            10: (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0),
+            11: (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
         }
 
-        visibility_values = visibility_map.get(index, (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+        visibility_values = visibility_map.get(index, (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
 
         self.ui.groupBox_openai.setVisible(visibility_values[0])
         self.ui.groupBox_chatgpt.setVisible(visibility_values[1])
@@ -3066,6 +3174,7 @@ class AI_VTB(QMainWindow):
         self.ui.groupBox_text_generation_webui.setVisible(visibility_values[8])
         self.ui.groupBox_sparkdesk.setVisible(visibility_values[9])
         self.ui.groupBox_langchain_chatglm.setVisible(visibility_values[10])
+        self.ui.groupBox_zhipu.setVisible(visibility_values[11])
 
     
     # 语音合成类型改变 加载显隐不同groupBox

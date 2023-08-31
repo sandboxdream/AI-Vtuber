@@ -7,7 +7,7 @@
   "after_prompt": "",
   "comment_log_type": "回答",
   "play_audio": {
-    "enable": false
+    "enable": true
   },
   "show_box": {
     "read_user_name": true,
@@ -106,6 +106,14 @@
     "app_id": "",
     "api_secret": "",
     "api_key": ""
+  },
+  "zhipu": {
+    "api_key": "",
+    "model": "chatglm_lite",
+    "top_p": "0.7",
+    "temperature": "0.9",
+    "history_enable": true,
+    "history_max_len": "300"
   },
   "chat_with_file": {
     "chat_mode": "openai_gpt",
@@ -343,9 +351,12 @@
   ],
   "database": {
     "path": "data/data.db",
-    "comment_enable": false,
-    "entrance_enable": false,
-    "gift_enable": false
+    "comment_enable": true,
+    "entrance_enable": true,
+    "gift_enable": true
+  },
+  "game": {
+    "module_name": "game2"
   },
   "trends_copywriting": {
     "enable": true,
@@ -357,7 +368,7 @@
       }
     ],
     "random_play": true,
-    "play_interval": 5000
+    "play_interval": 30000
   },
   "web_captions_printer": {
     "enable": false,
