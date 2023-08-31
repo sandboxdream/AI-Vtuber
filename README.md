@@ -22,7 +22,7 @@
 
 
 <p>
-AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text-generation-webui/讯飞星火 做为"大脑"驱动的虚拟主播（Live2D/Vtube Studio/UE5+Audio2Face），可以在 Bilibili/抖音/快手/斗鱼 直播中与观众实时互动 或者 直接在本地和您进行聊天。
+AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text-generation-webui/讯飞星火/智谱AI 做为"大脑"驱动的虚拟主播（Live2D/Vtube Studio/UE5+Audio2Face），可以在 Bilibili/抖音/快手/斗鱼 直播中与观众实时互动 或者 直接在本地和您进行聊天。
 它使用自然语言处理和文本转语音技术(Edge-TTS/VITS-Fast/elevenlabs/bark-gui/VALL-E-X)生成对观众问题的回答并可以通过so-vits-svc/DDSP-SVC变声；另外还可以通过特定指令协同Stable Diffusion进行画图展示。并且可以自定义文案进行循环播放。 
 </p>
 
@@ -37,7 +37,7 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
 
 </div>
 
-![1](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/7e96bdc3-a7b0-4d4f-b74d-8e23067b1990)
+![思维导图](./docs/xmind.png)
 
 
 
@@ -95,6 +95,7 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
     - [Claude](#claude)
     - [Claude2](#claude2)
     - [ChatGLM](#chatglm)
+    - [智谱AI](#%E6%99%BA%E8%B0%B1ai)
     - [langchain-ChatGLM](#langchain-chatglm)
     - [chat_with_file](#chat_with_file)
     - [text-generation-webui](#text-generation-webui)
@@ -119,6 +120,8 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
 - [🀅开发&项目相关](#%F0%9F%80%85%E5%BC%80%E5%8F%91%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3)
   - [简易流程图](#%E7%AE%80%E6%98%93%E6%B5%81%E7%A8%8B%E5%9B%BE)
   - [UI设计](#ui%E8%AE%BE%E8%AE%A1)
+  - [源码开发](#%E6%BA%90%E7%A0%81%E5%BC%80%E5%8F%91)
+    - [新增LLM](#%E6%96%B0%E5%A2%9Ellm)
   - [打包懒人包](#%E6%89%93%E5%8C%85%E6%87%92%E4%BA%BA%E5%8C%85)
   - [MD目录自动生成](#md%E7%9B%AE%E5%BD%95%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90)
     - [安装](#%E5%AE%89%E8%A3%85)
