@@ -136,7 +136,7 @@ background-color: rgba(255, 255, 255, 50);
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-3421</y>
+             <y>0</y>
              <width>984</width>
              <height>9724</height>
             </rect>
@@ -3299,12 +3299,15 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
    </property>
    <widget class="QMenu" name="menu_about">
     <property name="title">
-     <string>关于</string>
+     <string>帮助</string>
     </property>
     <addaction name="action_official_store"/>
     <addaction name="action_video_tutorials"/>
     <addaction name="action_online_doc"/>
     <addaction name="action_about"/>
+    <addaction name="separator"/>
+    <addaction name="action_tip1"/>
+    <addaction name="action_official_qq_group"/>
    </widget>
    <widget class="QMenu" name="menu">
     <property name="title">
@@ -3339,6 +3342,16 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
   <action name="action_about">
    <property name="text">
     <string>关于</string>
+   </property>
+  </action>
+  <action name="action_tip1">
+   <property name="text">
+    <string>本软件完全免费</string>
+   </property>
+  </action>
+  <action name="action_official_qq_group">
+   <property name="text">
+    <string>官方Q群：587663288</string>
    </property>
   </action>
  </widget>

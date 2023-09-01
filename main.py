@@ -1897,6 +1897,7 @@ class AI_VTB(QMainWindow):
         self.ui.action_online_doc.triggered.connect(self.openBrowser_online_doc)
         self.ui.action_about.triggered.connect(self.alert_about)
         self.ui.action_exit.triggered.connect(self.exit_soft)
+        self.ui.action_official_qq_group.triggered.connect(self.openBrowser_official_qq_group)
 
         # 创建节流函数，并将其保存为类的属性，delay秒内只执行一次
         self.throttled_save = self.throttle(self.save, 1)
@@ -3113,6 +3114,11 @@ class AI_VTB(QMainWindow):
 
     def openBrowser_online_doc(self):
         url = QUrl("http://ikaros521.eu.org/AI-Vtuber")  # 指定要打开的网页地址
+        QDesktopServices.openUrl(url)
+
+    # 跳转到官方Q群
+    def openBrowser_official_qq_group(self):
+        url = QUrl("https://qm.qq.com/cgi-bin/qm/qr?k=sYTkGUFactreB4MJZx-aPeWvYtpWaJYG&jump_from=webapi&authKey=NVHJc5hDHOk0ynysKZ8BqIpnLxYfsJWnCb0vH02xBwE2BYP8UPSce7qJ4EPa6wGu")  # 指定要打开的网页地址
         QDesktopServices.openUrl(url)
 
     # 弹出关于窗口
