@@ -311,6 +311,10 @@ class Audio:
             # logging.info("裁剪后的合成文本:" + text)
 
             message["content"] = message["content"].replace('\n', '。')
+
+            # 空数据就散了吧
+            if message["content"] == "":
+                return
         except Exception as e:
             logging.error(traceback.format_exc())
             return
