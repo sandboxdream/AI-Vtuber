@@ -119,7 +119,12 @@ class Zhipu:
 
             logging.info(f"总耗费token：{ret['data']['usage']['total_tokens']}")
 
-            return ret['data']['choices'][0]['content']
+            # 返回的文本回答，追加删除\n 字符    
+            resp_content = ret['data']['choices'][0]['content'].replace("\\n", "")
+
+            # logging.info(f"resp_content={resp_content}")
+
+            return resp_content
         except Exception as e:
             logging.error(traceback.format_exc())
             return None
