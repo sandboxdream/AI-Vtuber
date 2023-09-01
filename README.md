@@ -1031,7 +1031,20 @@ MODEL_LIST = [
     # VITS
     [ABS_PATH + "/Model/ikaros/G_95500.pth", ABS_PATH + "/Model/ikaros/config.json"]
 ```
-另外如果运行报错，大概率是这个bug，需要修改`utils\merge.py` 116行左右。  
+
+
+另外如果运行闪退、报错  
+```
+Traceback (most recent call last):
+  File "E:\vits-simple-api\app.py", line 49, in <module>
+    tts = merge_model(app.config["MODEL_LIST"])
+  File "E:\vits-simple-api\utils\merge.py", line 117, in merge_model
+    for id, name in enumerate(obj.get_speakers()):
+  File "E:\vits-simple-api\utils\utils.py", line 29, in __getitem__
+    return getattr(self, key)
+TypeError: getattr(): attribute name must be string
+```
+需要修改`utils\merge.py` 116行左右。  
 ```
 for id, (key, name) in enumerate(obj.get_speakers().items()):
 # for id, name in enumerate(obj.get_speakers()):
