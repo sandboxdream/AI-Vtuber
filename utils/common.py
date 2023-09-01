@@ -573,3 +573,20 @@ class Common:
         except Exception as e:
             logging.info(e)
             return False
+
+
+    def replace_special_characters(self, input_string, special_characters):
+        """
+        将指定的特殊字符替换为空字符。
+
+        Args:
+            input_string (str): 要替换特殊字符的输入字符串。
+            special_characters (str): 包含要替换的特殊字符的字符串。
+
+        Returns:
+            str: 替换后的字符串。
+        """
+        for char in special_characters:
+            input_string = input_string.replace(char, "")
+        
+        return input_string
