@@ -256,6 +256,8 @@ class Audio:
                     tmp_message['type'] = "reply"
                     tmp_message['content'] = random.choice(self.config.get("read_user_name", "reply_before"))
                     if "{username}" in tmp_message['content']:
+                        # 将用户名中特殊字符替换为空
+                        message['user_name'] = self.common.replace_special_characters(message['user_name'], "！!@#￥$%^&*_-+/——=()（）【】}|{:;<>~`\\")
                         tmp_message['content'] = tmp_message['content'].format(username=message['user_name'])
                     self.message_queue.put(tmp_message)
 
