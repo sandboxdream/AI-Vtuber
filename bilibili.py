@@ -190,6 +190,9 @@ def start_server():
 
     try:
         if config.get("bilibili", "login_type") == "cookie":
+            logging.info("b站登录后F12抓网络包获取cookie，强烈建议使用小号！有封号风险")
+            logging.info("b站登录后，F12控制台，输入 window.localStorage.ac_time_value 回车获取(如果没有，请重新登录)")
+
             bilibili_cookie = config.get("bilibili", "cookie")
             bilibili_ac_time_value = config.get("bilibili", "ac_time_value")
             if bilibili_ac_time_value == "":
