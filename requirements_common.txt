@@ -132,3 +132,4 @@ pyee==9.0.4
 urllib3==2.0.3
 pyhandytools==0.0.7
 curl_cffi==0.5.7
+zhipuai==1.0.7

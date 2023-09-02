@@ -41,3 +41,4 @@ typing_extensions
 urllib3
 pyhandytools
 curl_cffi
+zhipuai
