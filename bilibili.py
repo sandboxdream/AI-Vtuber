@@ -8,7 +8,7 @@ import traceback
 from functools import partial
 
 # 导入所需的库
-from bilibili_api import live, sync
+from bilibili_api import Credential, live, sync, login
 
 from utils.common import Common
 from utils.config import Config
@@ -188,9 +188,35 @@ def start_server():
     # 创建动态文案子线程并启动
     threading.Thread(target=lambda: asyncio.run(run_trends_copywriting())).start()
 
+    try:
+        if config.get("bilibili", "login_type") == "cookie":
+            bilibili_cookie = config.get("bilibili", "cookie")
+            bilibili_ac_time_value = config.get("bilibili", "ac_time_value")
+            if bilibili_ac_time_value == "":
+                bilibili_ac_time_value = None
 
-    # 初始化 Bilibili 直播间
-    room = live.LiveDanmaku(my_handle.get_room_id())
+            # print(f'SESSDATA={common.parse_cookie_data(bilibili_cookie, "SESSDATA")}')
+            # print(f'bili_jct={common.parse_cookie_data(bilibili_cookie, "bili_jct")}')
+            # print(f'buvid3={common.parse_cookie_data(bilibili_cookie, "buvid3")}')
+            # print(f'DedeUserID={common.parse_cookie_data(bilibili_cookie, "DedeUserID")}')
+
+            # 生成一个 Credential 对象
+            credential = Credential(
+                sessdata=common.parse_cookie_data(bilibili_cookie, "SESSDATA"), 
+                bili_jct=common.parse_cookie_data(bilibili_cookie, "bili_jct"), 
+                buvid3=common.parse_cookie_data(bilibili_cookie, "buvid3"), 
+                dedeuserid=common.parse_cookie_data(bilibili_cookie, "DedeUserID"), 
+                ac_time_value=bilibili_ac_time_value
+            )
+        elif config.get("bilibili", "login_type") == "手机扫码":
+            credential = login.login_with_qrcode()
+        else:
+            credential = login.login_with_qrcode()
+
+        # 初始化 Bilibili 直播间
+        room = live.LiveDanmaku(my_handle.get_room_id(), credential=credential)
+    except Exception as e:
+        logging.error(traceback.format_exc())
 
     """
     DANMU_MSG: 用户发送弹幕

@@ -41,8 +41,6 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
 ![思维导图](./docs/xmind.png)
 
 
-
-
 ## 🕺🏻目录
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -1577,6 +1575,8 @@ cmd运行`npm i docsify-cli -g`
   - 入场和礼物感谢部分删除用户名中存在的特殊符号
   - 抖音关注事件可以触发关注感谢话术
   - 基本实现动态文案功能，待后续使用体验中完善
+  - 更新b站监听库到16.0.0版本，新增b站登录板块，获取cookie等信息解决弹幕监听丢失问题（强烈建议使用小号登录，有风险）
+
 
 </details>
 

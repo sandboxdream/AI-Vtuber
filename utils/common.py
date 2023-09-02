@@ -590,3 +590,29 @@ class Common:
             input_string = input_string.replace(char, "")
         
         return input_string
+
+
+    # 将cookie数据字符串分割成键值对列表
+    def parse_cookie_data(self, data_str, field_name):
+        """将cookie数据字符串分割成键值对列表
+
+        Args:
+            data_str (str): 待提取数据的cookie字符串
+            field_name (str): 要提取的键名
+
+        Returns:
+            str: 键所对应的值
+        """
+        # 将数据字符串分割成键值对列表
+        key_value_pairs = data_str.split(';')
+
+        # print(key_value_pairs)
+
+        # 遍历键值对列表，查找指定字段名
+        for pair in key_value_pairs:
+            key, value = pair.strip().split('=')
+            if key == field_name:
+                return value
+
+        # 如果未找到指定字段，返回空字符串
+        return ""
