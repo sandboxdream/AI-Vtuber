@@ -1069,6 +1069,39 @@ class My_handle():
             logging.error(traceback.format_exc())
 
 
+    # 关注处理
+    def follow_handle(self, data):
+        try:
+            # 合并字符串末尾连续的*  主要针对获取不到用户名的情况
+            data['username'] = My_handle.common.merge_consecutive_asterisks(data['username'])
+            # 删除用户名中的特殊字符
+            data['username'] = My_handle.common.replace_special_characters(data['username'], "！!@#￥$%^&*_-+/——=()（）【】}|{:;<>~`\\")
+
+            # 违禁处理
+            if self.prohibitions_handle(data['username']):
+                return
+
+            # logging.debug(f"[{data['username']}]: {data['content']}")
+        
+            if False == self.thanks_config["follow_enable"]:
+                return
+
+            resp_content = self.thanks_config["follow_copy"].format(username=data["username"])
+
+            message = {
+                "type": "follow",
+                "tts_type": My_handle.audio_synthesis_type,
+                "data": My_handle.config.get(My_handle.audio_synthesis_type),
+                "config": self.filter_config,
+                "user_name": data['username'],
+                "content": resp_content
+            }
+
+            # 音频合成（edge-tts / vits_fast）并播放
+            My_handle.audio.audio_synthesis(message)
+        except Exception as e:
+            logging.error(traceback.format_exc())
+
     # 定时处理
     def schedule_handle(self, data):
         try:
@@ -1091,6 +1124,7 @@ class My_handle():
 
     """
     数据丢弃部分
+    增加新的处理事件时，需要进行这块部分的内容追加
     """
     def process_data(self, data, timer_flag):
         with self.data_lock:
@@ -1101,7 +1135,7 @@ class My_handle():
             # self.timers[timer_flag].last_data = data
             if hasattr(self.timers[timer_flag], 'last_data'):
                 self.timers[timer_flag].last_data.append(data)
-                # 这里需要注意配置命名
+                # 这里需要注意配置命名!!!
                 if len(self.timers[timer_flag].last_data) > int(My_handle.config.get("filter", timer_flag + "_forget_reserve_num")):
                     self.timers[timer_flag].last_data.pop(0)
             else:
@@ -1124,6 +1158,9 @@ class My_handle():
                     for data in timer.last_data:
                         self.entrance_handle(data)
                     #self.entrance_handle(timer.last_data)
+                elif timer_flag == "follow":
+                    for data in timer.last_data:
+                        self.follow_handle(data)
                 elif timer_flag == "talk":
                     # 聊天暂时共用弹幕处理逻辑
                     for data in timer.last_data:
@@ -1144,9 +1181,10 @@ class My_handle():
             "comment": My_handle.config.get("filter", "comment_forget_duration"),
             "gift": My_handle.config.get("filter", "gift_forget_duration"),
             "entrance": My_handle.config.get("filter", "entrance_forget_duration"),
+            "follow": My_handle.config.get("filter", "follow_forget_duration"),
             "talk": My_handle.config.get("filter", "talk_forget_duration"),
             "schedule": My_handle.config.get("filter", "schedule_forget_duration")
-            # 根据需要添加更多计时器及其间隔
+            # 根据需要添加更多计时器及其间隔，记得添加config.json中的配置项
         }
 
         # 默认间隔为0.1秒
