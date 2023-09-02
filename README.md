@@ -846,7 +846,8 @@ Proceed (Y/n)? y
 ### 平台
 
 #### b站直播监听
-[bilibili-api](https://github.com/Nemo2011/bilibili-api)  
+监听库：[bilibili-api](https://github.com/Nemo2011/bilibili-api)  
+需要进行扫描登录或者配置cookie等信息，才能稳定监听弹幕。注意！！！请使用小号登录，有封号风险！！！  
 
 #### <span id="dy">抖音弹幕获取</span>
 `dy.py`稳定：[dy-barrage-grab](https://gitee.com/haodong108/dy-barrage-grab)  
