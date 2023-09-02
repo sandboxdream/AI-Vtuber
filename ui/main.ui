@@ -136,9 +136,9 @@ background-color: rgba(255, 255, 255, 50);
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-2153</y>
+             <y>0</y>
              <width>984</width>
-             <height>9894</height>
+             <height>9957</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -1345,6 +1345,18 @@ background-color: rgba(255, 255, 255, 50);
                  <layout class="QGridLayout" name="gridLayout_68">
                   <item row="0" column="0">
                    <layout class="QGridLayout" name="gridLayout_play_audio"/>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item row="11" column="0" colspan="2">
+                <widget class="QGroupBox" name="groupBox_bilibili">
+                 <property name="title">
+                  <string>哔哩哔哩</string>
+                 </property>
+                 <layout class="QGridLayout" name="gridLayout_72">
+                  <item row="0" column="0">
+                   <layout class="QGridLayout" name="gridLayout_bilibili"/>
                   </item>
                  </layout>
                 </widget>
@@ -2999,8 +3011,8 @@ border-radius: 3px;</string>
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>652</width>
-                    <height>498</height>
+                    <width>359</width>
+                    <height>104</height>
                    </rect>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_4">

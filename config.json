@@ -26,6 +26,11 @@
     "play_audio": true,
     "web_captions_printer": true
   },
+  "bilibili": {
+    "login_type": "手机扫码",
+    "cookie": "",
+    "ac_time_value": ""
+  },
   "read_user_name": {
     "enable": true,
     "voice_change": true,
@@ -76,7 +81,7 @@
   "openai": {
     "api": "https://api.openai.com/v1",
     "api_key": [
-      "修改为你的api key"
+      "修改为你的api_key"
     ],
     "model": "gpt-3.5-turbo-0301"
   },
@@ -224,7 +229,7 @@
     "db_path": "db.sqlite3"
   },
   "chatgpt": {
-    "model": "gpt-3.5-turbo",
+    "model": "gpt-3.5-turbo-0613",
     "temperature": 0.9,
     "max_tokens": 2048,
     "top_p": 1.0,
