@@ -757,7 +757,7 @@ class My_handle():
             _type_: 寂寞
         """
 
-        user_name = data["username"]
+        user_name = data["user_name"]
         content = data["content"]
 
         logging.info(f"复读内容：{content}")
@@ -773,6 +773,57 @@ class My_handle():
         }
 
         My_handle.audio.audio_synthesis(message)
+
+
+    # LLM处理
+    def llm_handle(self, chat_type, data):
+        """LLM统一处理
+
+        Args:
+            chat_type (str): 聊天类型
+            data (str): dict，含用户名和内容
+
+        Returns:
+            str: LLM返回的结果
+        """
+        resp_content = None
+
+        if chat_type == "chatgpt":
+            # 调用gpt接口，获取返回内容
+            resp_content = self.chatgpt.get_gpt_resp(data["user_name"], data["content"])
+        elif chat_type == "claude":
+            resp_content = self.claude.get_claude_resp(data["content"])
+        elif chat_type == "claude2":
+            resp_content = self.claude2.get_claude2_resp(data["content"])
+        elif chat_type == "chatterbot":
+            # 生成回复
+            resp_content = self.bot.get_response(data["content"]).text
+        elif chat_type == "chatglm":
+            resp_content = self.chatglm.get_chatglm_resp(data["content"])
+        elif chat_type == "chat_with_file":
+            resp_content = self.chat_with_file.get_model_resp(data["content"])
+        elif chat_type == "text_generation_webui":
+            # 生成回复
+            resp_content = self.text_generation_webui.get_text_generation_webui_resp(data["content"])
+        elif chat_type == "sparkdesk":
+            # 生成回复
+            resp_content = self.sparkdesk.get_sparkdesk_resp(data["content"])
+        elif chat_type == "langchain_chatglm":
+            # 生成回复
+            resp_content = self.langchain_chatglm.get_resp(data["content"])
+        elif chat_type == "zhipu":
+            # 生成回复
+            resp_content = self.zhipu.get_resp(data["content"])
+        elif chat_type == "reread":
+            # 复读机
+            resp_content = data["content"]
+        elif chat_type == "none":
+            # 不启用
+            pass
+        else:
+            resp_content = data["content"]
+
+        return resp_content
 
 
     # 弹幕处理
@@ -829,14 +880,19 @@ class My_handle():
         if self.prohibitions_handle(content):
             return
         
+        data_json = {
+            "user_name": user_name,
+            "content": content
+        }
 
         """
         根据聊天类型执行不同逻辑
         """ 
         if self.chat_type == "chatgpt":
-            content = self.before_prompt + content + self.after_prompt
-            # 调用gpt接口，获取返回内容
-            resp_content = self.chatgpt.get_gpt_resp(user_name, content)
+            data_json["content"] = self.before_prompt + content + self.after_prompt
+
+            # 调用LLM统一接口，获取返回内容
+            resp_content = self.llm_handle(self.chat_type, data_json)
             if resp_content is not None:
                 # 输出 ChatGPT 返回的回复消息
                 logging.info(f"[AI回复{user_name}]：{resp_content}")
@@ -844,8 +900,10 @@ class My_handle():
                 resp_content = ""
                 logging.warning("警告：chatgpt无返回")
         elif self.chat_type == "claude":
-            content = self.before_prompt + content + self.after_prompt
-            resp_content = self.claude.get_claude_resp(content)
+            data_json["content"] = self.before_prompt + content + self.after_prompt
+
+            # 调用LLM统一接口，获取返回内容
+            resp_content = self.llm_handle(self.chat_type, data_json)
             if resp_content is not None:
                 # 输出 返回的回复消息
                 logging.info(f"[AI回复{user_name}]：{resp_content}")
@@ -853,8 +911,10 @@ class My_handle():
                 resp_content = ""
                 logging.warning("警告：claude无返回")
         elif self.chat_type == "claude2":
-            content = self.before_prompt + content + self.after_prompt
-            resp_content = self.claude2.get_claude2_resp(content)
+            data_json["content"] = self.before_prompt + content + self.after_prompt
+
+            # 调用LLM统一接口，获取返回内容
+            resp_content = self.llm_handle(self.chat_type, data_json)
             if resp_content is not None:
                 # 输出 返回的回复消息
                 logging.info(f"[AI回复{user_name}]：{resp_content}")
@@ -862,12 +922,14 @@ class My_handle():
                 resp_content = ""
                 logging.warning("警告：claude2无返回")
         elif self.chat_type == "chatterbot":
-            # 生成回复
-            resp_content = self.bot.get_response(content).text
+            # 调用LLM统一接口，获取返回内容
+            resp_content = self.llm_handle(self.chat_type, data_json)
             logging.info(f"[AI回复{user_name}]：{resp_content}")
         elif self.chat_type == "chatglm":
-            # 生成回复
-            resp_content = self.chatglm.get_chatglm_resp(content)
+            data_json["content"] = self.before_prompt + content + self.after_prompt
+
+            # 调用LLM统一接口，获取返回内容
+            resp_content = self.llm_handle(self.chat_type, data_json)
             if resp_content is not None:
                 # 输出 返回的回复消息
                 logging.info(f"[AI回复{user_name}]：{resp_content}")
@@ -875,11 +937,16 @@ class My_handle():
                 resp_content = ""
                 logging.warning("警告：chatglm无返回")
         elif self.chat_type == "chat_with_file":
-            resp_content = self.chat_with_file.get_model_resp(content)
+            data_json["content"] = self.before_prompt + content + self.after_prompt
+
+            # 调用LLM统一接口，获取返回内容
+            resp_content = self.llm_handle(self.chat_type, data_json)
             print(f"[AI回复{user_name}]：{resp_content}")
         elif self.chat_type == "text_generation_webui":
-            # 生成回复
-            resp_content = self.text_generation_webui.get_text_generation_webui_resp(content)
+            data_json["content"] = self.before_prompt + content + self.after_prompt
+
+            # 调用LLM统一接口，获取返回内容
+            resp_content = self.llm_handle(self.chat_type, data_json)
             if resp_content is not None:
                 # 输出 返回的回复消息
                 logging.info(f"[AI回复{user_name}]：{resp_content}")
@@ -887,8 +954,10 @@ class My_handle():
                 resp_content = ""
                 logging.warning("警告：text_generation_webui无返回")
         elif self.chat_type == "sparkdesk":
-            # 生成回复
-            resp_content = self.sparkdesk.get_sparkdesk_resp(content)
+            data_json["content"] = self.before_prompt + content + self.after_prompt
+
+            # 调用LLM统一接口，获取返回内容
+            resp_content = self.llm_handle(self.chat_type, data_json)
             if resp_content is not None:
                 # 输出 返回的回复消息
                 logging.info(f"[AI回复{user_name}]：{resp_content}")
@@ -896,8 +965,10 @@ class My_handle():
                 resp_content = ""
                 logging.warning("警告：讯飞星火无返回")
         elif self.chat_type == "langchain_chatglm":
-            # 生成回复
-            resp_content = self.langchain_chatglm.get_resp(content)
+            data_json["content"] = self.before_prompt + content + self.after_prompt
+
+            # 调用LLM统一接口，获取返回内容
+            resp_content = self.llm_handle(self.chat_type, data_json)
             if resp_content is not None:
                 # 输出 返回的回复消息
                 logging.info(f"[AI回复{user_name}]：{resp_content}")
@@ -905,8 +976,10 @@ class My_handle():
                 resp_content = ""
                 logging.warning("警告：langchain_chatglm无返回")
         elif self.chat_type == "zhipu":
-            # 生成回复
-            resp_content = self.zhipu.get_resp(content)
+            data_json["content"] = self.before_prompt + content + self.after_prompt
+
+            # 调用LLM统一接口，获取返回内容
+            resp_content = self.llm_handle(self.chat_type, data_json)
             if resp_content is not None:
                 # 输出 返回的回复消息
                 logging.info(f"[AI回复{user_name}]：{resp_content}")
@@ -920,8 +993,8 @@ class My_handle():
 
             return
         elif self.chat_type == "reread":
-            # 复读机
-            resp_content = content
+            # 调用LLM统一接口，获取返回内容
+            resp_content = self.llm_handle(self.chat_type, data_json)
         elif self.chat_type == "none":
             # 不启用
             return

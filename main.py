@@ -644,7 +644,7 @@ class AI_VTB(QMainWindow):
             # 动态文案
             self.ui.label_trends_copywriting_enable.setToolTip("是否启用动态文案功能")
             self.ui.label_trends_copywriting_random_play.setToolTip("是否启用随机播放功能")
-            self.ui.label_trends_copywriting_play_interval.setToolTip("文案于文案之间的播放间隔时间（毫秒）")
+            self.ui.label_trends_copywriting_play_interval.setToolTip("文案于文案之间的播放间隔时间（秒）")
 
             """
                 配置同步UI
@@ -3102,7 +3102,7 @@ class AI_VTB(QMainWindow):
         self.ui.textEdit_talk_chat_box.setText("")
 
         data = {
-            "username": user_name,
+            "user_name": user_name,
             "content": content
         }
         

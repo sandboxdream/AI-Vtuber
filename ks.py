@@ -5,6 +5,7 @@ import threading
 import schedule
 import random
 import traceback
+import asyncio
 
 from functools import partial
 
@@ -302,6 +303,63 @@ def start_server():
     # 创建定时任务子线程并启动
     schedule_thread = threading.Thread(target=run_schedule)
     schedule_thread.start()
+
+    # 启动动态文案
+    async def run_trends_copywriting():
+        global config
+
+        try:
+            if False == config.get("trends_copywriting", "enable"):
+                return
+            
+            logging.info(f"动态文案任务线程运行中...")
+
+            while True:
+                # 文案文件路径列表
+                copywriting_file_path_list = []
+
+                # 获取动态文案列表
+                for copywriting in config.get("trends_copywriting", "copywriting"):
+                    # 获取文件夹内所有文件的文件绝对路径，包括文件扩展名
+                    for tmp in common.get_all_file_paths(copywriting["folder_path"]):
+                        copywriting_file_path_list.append(tmp)
+
+                    # 是否开启随机播放
+                    if config.get("trends_copywriting", "random_play"):
+                        random.shuffle(copywriting_file_path_list)
+
+                    # 遍历文案文件路径列表  
+                    for copywriting_file_path in copywriting_file_path_list:
+                        # 获取文案文件内容
+                        copywriting_file_content = common.read_file_return_content(copywriting_file_path)
+                        # 是否启用提示词对文案内容进行转换
+                        if copywriting["prompt_change_enable"]:
+                            data_json = {
+                                "user_name": "trends_copywriting",
+                                "content": copywriting["prompt_change_content"] + copywriting_file_content
+                            }
+
+                            # 调用函数进行LLM处理，以及生成回复内容，进行音频合成，需要好好考虑考虑实现
+                            data_json["content"] = my_handle.llm_handle(config.get("chat_type"), data_json)
+                        else:
+                            data_json = {
+                                "user_name": "trends_copywriting",
+                                "content": copywriting_file_content
+                            }
+
+                        # 空数据判断
+                        if data_json["content"] != None and data_json["content"] != "":
+                            # 发给直接复读进行处理
+                            my_handle.reread_handle(data_json)
+
+                            await asyncio.sleep(config.get("trends_copywriting", "play_interval"))
+        except Exception as e:
+            logging.error(traceback.format_exc())
+
+
+    # 创建动态文案子线程并启动
+    threading.Thread(target=lambda: asyncio.run(run_trends_copywriting())).start()
+
 
     run().run_live()
 

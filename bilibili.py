@@ -2,6 +2,8 @@ import logging, os
 import threading
 import schedule
 import random
+import asyncio
+import traceback
 
 from functools import partial
 
@@ -118,7 +120,7 @@ def start_server():
                     # 设置定时任务，每隔n秒执行一次
                     schedule.every(task["time"]).seconds.do(partial(schedule_task, index))
         except Exception as e:
-            logging.error(e)
+            logging.error(traceback.format_exc())
 
         while True:
             schedule.run_pending()
@@ -131,13 +133,15 @@ def start_server():
 
 
     # 启动动态文案
-    def run_trends_copywriting():
+    async def run_trends_copywriting():
         global config
 
         try:
             if False == config.get("trends_copywriting", "enable"):
                 return
             
+            logging.info(f"动态文案任务线程运行中...")
+
             while True:
                 # 文案文件路径列表
                 copywriting_file_path_list = []
@@ -158,17 +162,31 @@ def start_server():
                         copywriting_file_content = common.read_file_return_content(copywriting_file_path)
                         # 是否启用提示词对文案内容进行转换
                         if copywriting["prompt_change_enable"]:
-                            # TODO:调用函数进行LLM处理，以及生成回复内容，进行音频合成，需要好好考虑考虑实现
-                            pass
+                            data_json = {
+                                "user_name": "trends_copywriting",
+                                "content": copywriting["prompt_change_content"] + copywriting_file_content
+                            }
 
-                        # TODO：需要考虑延时问题
+                            # 调用函数进行LLM处理，以及生成回复内容，进行音频合成，需要好好考虑考虑实现
+                            data_json["content"] = my_handle.llm_handle(config.get("chat_type"), data_json)
+                        else:
+                            data_json = {
+                                "user_name": "trends_copywriting",
+                                "content": copywriting_file_content
+                            }
+
+                        # 空数据判断
+                        if data_json["content"] != None and data_json["content"] != "":
+                            # 发给直接复读进行处理
+                            my_handle.reread_handle(data_json)
+
+                            await asyncio.sleep(config.get("trends_copywriting", "play_interval"))
         except Exception as e:
-            logging.error(e)
+            logging.error(traceback.format_exc())
 
 
     # 创建动态文案子线程并启动
-    # trends_copywriting_thread = threading.Thread(target=run_trends_copywriting)
-    # trends_copywriting_thread.start()
+    threading.Thread(target=lambda: asyncio.run(run_trends_copywriting())).start()
 
 
     # 初始化 Bilibili 直播间
