@@ -995,6 +995,8 @@ class My_handle():
             
             # 合并字符串末尾连续的*  主要针对获取不到用户名的情况
             data['username'] = My_handle.common.merge_consecutive_asterisks(data['username'])
+            # 删除用户名中的特殊字符
+            data['username'] = My_handle.common.replace_special_characters(data['username'], "！!@#￥$%^&*_-+/——=()（）【】}|{:;<>~`\\")
 
             # 违禁处理
             if self.prohibitions_handle(data['username']):
@@ -1038,6 +1040,8 @@ class My_handle():
 
             # 合并字符串末尾连续的*  主要针对获取不到用户名的情况
             data['username'] = My_handle.common.merge_consecutive_asterisks(data['username'])
+            # 删除用户名中的特殊字符
+            data['username'] = My_handle.common.replace_special_characters(data['username'], "！!@#￥$%^&*_-+/——=()（）【】}|{:;<>~`\\")
 
             # 违禁处理
             if self.prohibitions_handle(data['username']):
