@@ -1780,7 +1780,7 @@ class AI_VTB(QMainWindow):
                 data_json.append(tmp_json)
 
                 tmp_json = {
-                    "label_text": "API地址",
+                    "label_text": "cookie",
                     "label_tip": "b站登录后F12抓网络包获取cookie，强烈建议使用小号！有封号风险",
                     "data": bilibili_config["cookie"],
                     "main_obj_name": "bilibili",
@@ -1789,7 +1789,7 @@ class AI_VTB(QMainWindow):
                 data_json.append(tmp_json)
 
                 tmp_json = {
-                    "label_text": "voice preset",
+                    "label_text": "ac_time_value",
                     "label_tip": "b站登录后，F12控制台，输入window.localStorage.ac_time_value获取(如果没有，请重新登录)",
                     "data": bilibili_config["ac_time_value"],
                     "main_obj_name": "bilibili",
