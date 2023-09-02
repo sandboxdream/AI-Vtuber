@@ -177,7 +177,15 @@ def start_server():
                 my_handle.process_data(data, "entrance")
 
             elif type == 4:
+                user_name = data_json["User"]["Nickname"]
+                
                 logging.info(f'[➕直播间关注消息] 感谢 {data_json["User"]["Nickname"]} 的关注')
+
+                data = {
+                    "username": user_name
+                }
+                
+                my_handle.process_data(data, "follow")
 
                 pass
 
@@ -241,6 +249,7 @@ def start_server():
 
     def on_error(ws, error):
         logging.error("Error:", error)
+
 
     def on_close(ws):
         logging.debug("WebSocket connection closed")

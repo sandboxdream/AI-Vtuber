@@ -426,6 +426,7 @@ class AI_VTB(QMainWindow):
             self.ui.label_local_qa_audio_file_path.setToolTip("本地问答音频文件存储路径")
             self.ui.label_local_qa_audio_similarity.setToolTip("最低音频匹配相似度，就是说用户发送的内容和本地音频库中音频文件名的最低相似度。\n低了就会被当做一般弹幕处理")
 
+            # 过滤
             self.ui.label_filter_before_must_str.setToolTip("弹幕过滤，必须携带的触发前缀字符串（任一）\n例如：配置#，那么就需要发送：#你好")
             self.ui.label_filter_after_must_str.setToolTip("弹幕过滤，必须携带的触发后缀字符串（任一）\n例如：配置。那么就需要发送：你好。")
             self.ui.label_filter_badwords_path.setToolTip("本地违禁词数据路径（你如果不需要，可以清空文件内容）")
@@ -438,16 +439,21 @@ class AI_VTB(QMainWindow):
             self.ui.label_filter_gift_forget_reserve_num.setToolTip("保留最新收到的数据的数量")
             self.ui.label_filter_entrance_forget_duration.setToolTip("指的是每隔这个间隔时间（秒），就会丢弃这个间隔时间中接收到的数据，\n保留数据在以下配置中可以自定义")
             self.ui.label_filter_entrance_forget_reserve_num.setToolTip("保留最新收到的数据的数量")
+            self.ui.label_filter_follow_forget_duration.setToolTip("指的是每隔这个间隔时间（秒），就会丢弃这个间隔时间中接收到的数据，\n保留数据在以下配置中可以自定义")
+            self.ui.label_filter_follow_forget_reserve_num.setToolTip("保留最新收到的数据的数量")
             self.ui.label_filter_talk_forget_duration.setToolTip("指的是每隔这个间隔时间（秒），就会丢弃这个间隔时间中接收到的数据，\n保留数据在以下配置中可以自定义")
             self.ui.label_filter_talk_forget_reserve_num.setToolTip("保留最新收到的数据的数量")
             self.ui.label_filter_schedule_forget_duration.setToolTip("指的是每隔这个间隔时间（秒），就会丢弃这个间隔时间中接收到的数据，\n保留数据在以下配置中可以自定义")
             self.ui.label_filter_schedule_forget_reserve_num.setToolTip("保留最新收到的数据的数量")
 
+            # 答谢
             self.ui.label_thanks_entrance_enable.setToolTip("是否启用欢迎用户进入直播间功能")
-            self.ui.label_thanks_gift_enable.setToolTip("是否启用感谢用户赠送礼物功能")
             self.ui.label_thanks_entrance_copy.setToolTip("用户进入直播间的相关文案，请勿动 {username}，此字符串用于替换用户名")
+            self.ui.label_thanks_gift_enable.setToolTip("是否启用感谢用户赠送礼物功能")
             self.ui.label_thanks_gift_copy.setToolTip("用户赠送礼物的相关文案，请勿动 {username} 和 {gift_name}，此字符串用于替换用户名和礼物名")
             self.ui.label_thanks_lowest_price.setToolTip("设置最低答谢礼物的价格（元），低于这个设置的礼物不会触发答谢")
+            self.ui.label_thanks_follow_enable.setToolTip("是否启用感谢用户关注的功能")
+            self.ui.label_thanks_follow_copy.setToolTip("用户关注时的相关文案，请勿动 {username}，此字符串用于替换用户名")
 
             self.ui.label_live2d_enable.setToolTip("启动web服务，用于加载本地Live2D模型")
             self.ui.label_live2d_port.setToolTip("web服务运行的端口号，默认：12345，范围:0-65535，没事不要乱改就好")
@@ -764,6 +770,7 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_local_qa_audio_file_path.setText(self.local_qa_config['audio']['file_path'])
             self.ui.lineEdit_local_qa_audio_similarity.setText(str(self.local_qa_config['audio']['similarity']))
 
+            # 过滤
             tmp_str = ""
             for tmp in self.filter_config['before_must_str']:
                 tmp_str = tmp_str + tmp + "\n"
@@ -782,6 +789,8 @@ class AI_VTB(QMainWindow):
             self.ui.lineEdit_filter_gift_forget_reserve_num.setText(str(self.filter_config['gift_forget_reserve_num']))
             self.ui.lineEdit_filter_entrance_forget_duration.setText(str(self.filter_config['entrance_forget_duration']))
             self.ui.lineEdit_filter_entrance_forget_reserve_num.setText(str(self.filter_config['entrance_forget_reserve_num']))
+            self.ui.lineEdit_filter_follow_forget_duration.setText(str(self.filter_config['follow_forget_duration']))
+            self.ui.lineEdit_filter_follow_forget_reserve_num.setText(str(self.filter_config['follow_forget_reserve_num']))
             self.ui.lineEdit_filter_talk_forget_duration.setText(str(self.filter_config['talk_forget_duration']))
             self.ui.lineEdit_filter_talk_forget_reserve_num.setText(str(self.filter_config['talk_forget_reserve_num']))
             self.ui.lineEdit_filter_schedule_forget_duration.setText(str(self.filter_config['schedule_forget_duration']))
@@ -791,11 +800,14 @@ class AI_VTB(QMainWindow):
             # 答谢
             if self.thanks_config['entrance_enable']:
                 self.ui.checkBox_thanks_entrance_enable.setChecked(True)
+            self.ui.lineEdit_thanks_entrance_copy.setText(self.thanks_config['entrance_copy'])
             if self.thanks_config['gift_enable']:
                 self.ui.checkBox_thanks_gift_enable.setChecked(True)
-            self.ui.lineEdit_thanks_entrance_copy.setText(self.thanks_config['entrance_copy'])
             self.ui.lineEdit_thanks_gift_copy.setText(self.thanks_config['gift_copy'])
             self.ui.lineEdit_thanks_lowest_price.setText(str(self.thanks_config['lowest_price']))
+            if self.thanks_config['follow_enable']:
+                self.ui.checkBox_thanks_follow_enable.setChecked(True)
+            self.ui.lineEdit_thanks_follow_copy.setText(self.thanks_config['follow_copy'])
 
             if self.live2d_config['enable']:
                 self.ui.checkBox_live2d_enable.setChecked(True)
@@ -2039,6 +2051,7 @@ class AI_VTB(QMainWindow):
             config_data["local_qa"]["audio"]["file_path"] = self.ui.lineEdit_local_qa_audio_file_path.text()
             config_data["local_qa"]["audio"]["similarity"] = round(float(self.ui.lineEdit_local_qa_audio_similarity.text()), 2)
 
+            # 过滤
             config_data["filter"]["before_must_str"] = common_textEdit_handle(self.ui.textEdit_filter_before_must_str.toPlainText())
             config_data["filter"]["after_must_str"] = common_textEdit_handle(self.ui.textEdit_filter_after_must_str.toPlainText())
             config_data["filter"]["badwords_path"] = self.ui.lineEdit_filter_badwords_path.text()
@@ -2051,6 +2064,8 @@ class AI_VTB(QMainWindow):
             config_data["filter"]["gift_forget_reserve_num"] = int(self.ui.lineEdit_filter_gift_forget_reserve_num.text())
             config_data["filter"]["entrance_forget_duration"] = round(float(self.ui.lineEdit_filter_entrance_forget_duration.text()), 2)
             config_data["filter"]["entrance_forget_reserve_num"] = int(self.ui.lineEdit_filter_entrance_forget_reserve_num.text())
+            config_data["filter"]["follow_forget_duration"] = round(float(self.ui.lineEdit_filter_follow_forget_duration.text()), 2)
+            config_data["filter"]["follow_forget_reserve_num"] = int(self.ui.lineEdit_filter_follow_forget_reserve_num.text())
             config_data["filter"]["talk_forget_duration"] = round(float(self.ui.lineEdit_filter_talk_forget_duration.text()), 2)
             config_data["filter"]["talk_forget_reserve_num"] = int(self.ui.lineEdit_filter_talk_forget_reserve_num.text())
             config_data["filter"]["schedule_forget_duration"] = round(float(self.ui.lineEdit_filter_schedule_forget_duration.text()), 2)
@@ -2058,10 +2073,12 @@ class AI_VTB(QMainWindow):
 
             # 答谢
             config_data["thanks"]["entrance_enable"] = self.ui.checkBox_thanks_entrance_enable.isChecked()
-            config_data["thanks"]["gift_enable"] = self.ui.checkBox_thanks_gift_enable.isChecked()
             config_data["thanks"]["entrance_copy"] = self.ui.lineEdit_thanks_entrance_copy.text()
+            config_data["thanks"]["gift_enable"] = self.ui.checkBox_thanks_gift_enable.isChecked()
             config_data["thanks"]["gift_copy"] = self.ui.lineEdit_thanks_gift_copy.text()
             config_data["thanks"]["lowest_price"] = round(float(self.ui.lineEdit_thanks_lowest_price.text()), 2)
+            config_data["thanks"]["follow_enable"] = self.ui.checkBox_thanks_follow_enable.isChecked()
+            config_data["thanks"]["follow_copy"] = self.ui.lineEdit_thanks_follow_copy.text()
 
             config_data["live2d"]["enable"] = self.ui.checkBox_live2d_enable.isChecked()
             live2d_port = self.ui.lineEdit_live2d_port.text()
