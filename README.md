@@ -101,6 +101,7 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
     - [讯飞星火](#%E8%AE%AF%E9%A3%9E%E6%98%9F%E7%81%AB)
     - [闻达](#%E9%97%BB%E8%BE%BE)
     - [ChatterBot](#chatterbot)
+    - [Bard](#bard)
   - [TTS](#tts)
     - [elevenlabs](#elevenlabs)
     - [genshinvoice.top](#genshinvoicetop)
@@ -1004,7 +1005,12 @@ ChatterBot 的核心思想是：基于历史对话数据，使用机器学习和
 
 总的来说，ChatterBot 是一个非常强大、灵活、易用的聊天机器人框架，帮助开发者快速搭建出个性化、定制化的聊天机器人，从而提升用户体验和服务质量。  
 
-
+#### Bard
+官方：[https://bard.google.com/](https://bard.google.com/)  
+token获取方式：  
+访问 https://bard.google.com/，登录账号  
+键盘F12 打开开发者工具  
+应用程序 → Cookie → 复制 Cookie 中 __Secure-1PSID 对应的值。  
 
 ### TTS
 
@@ -1578,6 +1584,9 @@ cmd运行`npm i docsify-cli -g`
   - 基本实现动态文案功能，待后续使用体验中完善
   - 更新b站监听库到16.0.0版本，新增b站登录板块，获取cookie等信息解决弹幕监听丢失问题（强烈建议使用小号登录，有风险）
   - 修复GUI b站部分配置项描述错误
+
+- 2023-09-03
+  - 新增 谷歌bard的接入，支持上下文记忆。
 
 </details>
 

@@ -75,30 +75,7 @@ class My_handle():
             # 优先本地问答
             self.local_qa = My_handle.config.get("local_qa")
             self.local_qa_audio_list = None
-
-            """
-            新增LLM时，需要追加新的配置，其实这块可以优化掉
-            """
-            # openai
-            self.openai_config = My_handle.config.get("openai")
-            # chatgpt
-            self.chatgpt_config = My_handle.config.get("chatgpt")
-            # claude
-            self.claude_config = My_handle.config.get("claude")
-            # claude2
-            self.claude2_config = My_handle.config.get("claude2")
-            # chatterbot
-            self.chatterbot_config = My_handle.config.get("chatterbot")
-            # chatglm
-            self.chatglm_config = My_handle.config.get("chatglm")
-            # chat_with_file
-            self.chat_with_file_config = My_handle.config.get("chat_with_file")
-            self.text_generation_webui_config = My_handle.config.get("text_generation_webui")
-            self.sparkdesk_config = My_handle.config.get("sparkdesk")
-            self.langchain_chatglm_config = My_handle.config.get("langchain_chatglm")
-            self.zhipu_config = My_handle.config.get("zhipu")
-
-
+            
             # 音频合成使用技术
             My_handle.audio_synthesis_type = My_handle.config.get("audio_synthesis_type")
 
@@ -114,9 +91,9 @@ class My_handle():
             logging.error(traceback.format_exc())
 
         # 设置GPT_Model全局模型列表
-        GPT_MODEL.set_model_config("openai", self.openai_config)
-        GPT_MODEL.set_model_config("chatgpt", self.chatgpt_config)
-        GPT_MODEL.set_model_config("claude", self.claude_config)        
+        GPT_MODEL.set_model_config("openai", My_handle.config.get("openai"))
+        GPT_MODEL.set_model_config("chatgpt", My_handle.config.get("chatgpt"))
+        GPT_MODEL.set_model_config("claude", My_handle.config.get("claude"))        
 
         """
         新增LLM后，这边先定义下各个变量，下面会用到
@@ -130,6 +107,7 @@ class My_handle():
         self.sparkdesk = None
         self.langchain_chatglm = None
         self.zhipu = None
+        self.bard_api = None
 
 
         # 聊天相关类实例化
@@ -143,7 +121,7 @@ class My_handle():
             if not self.claude.reset_claude():
                 logging.error("重置Claude会话失败喵~")
         elif self.chat_type == "claude2":
-            GPT_MODEL.set_model_config("claude2", self.claude2_config)
+            GPT_MODEL.set_model_config("claude2", My_handle.config.get("claude2"))
 
             self.claude2 = GPT_MODEL.get(self.chat_type)
 
@@ -152,6 +130,9 @@ class My_handle():
                 logging.error("重置Claude2会话失败喵~")
         elif self.chat_type == "chatterbot":
             from chatterbot import ChatBot  # 导入聊天机器人库
+
+            self.chatterbot_config = My_handle.config.get("chatterbot")
+
             try:
                 self.bot = ChatBot(
                     self.chatterbot_config["name"],  # 聊天机器人名字
@@ -161,28 +142,32 @@ class My_handle():
                 logging.info(e)
                 exit(0)
         elif self.chat_type == "chatglm":
-            GPT_MODEL.set_model_config("chatglm", self.chatglm_config)
+            GPT_MODEL.set_model_config("chatglm", My_handle.config.get("chatglm"))
 
             self.chatglm = GPT_MODEL.get(self.chat_type)
         elif self.chat_type == "chat_with_file":
             from utils.chat_with_file.chat_with_file import Chat_with_file
-            self.chat_with_file = Chat_with_file(self.chat_with_file_config)
+            self.chat_with_file = Chat_with_file(My_handle.config.get("chat_with_file"))
         elif self.chat_type == "text_generation_webui":
-            GPT_MODEL.set_model_config("text_generation_webui", self.text_generation_webui_config)
+            GPT_MODEL.set_model_config("text_generation_webui", My_handle.config.get("text_generation_webui"))
 
             self.text_generation_webui = GPT_MODEL.get(self.chat_type) 
         elif self.chat_type == "sparkdesk":
-            GPT_MODEL.set_model_config("sparkdesk", self.sparkdesk_config)
+            GPT_MODEL.set_model_config("sparkdesk", My_handle.config.get("sparkdesk"))
 
             self.sparkdesk = GPT_MODEL.get(self.chat_type)
         elif self.chat_type == "langchain_chatglm":
-            GPT_MODEL.set_model_config("langchain_chatglm", self.langchain_chatglm_config)
+            GPT_MODEL.set_model_config("langchain_chatglm", My_handle.config.get("langchain_chatglm"))
 
             self.langchain_chatglm = GPT_MODEL.get(self.chat_type)
         elif self.chat_type == "zhipu":
-            GPT_MODEL.set_model_config("zhipu", self.zhipu_config)
+            GPT_MODEL.set_model_config("zhipu", My_handle.config.get("zhipu"))
 
             self.zhipu = GPT_MODEL.get(self.chat_type)
+        elif self.chat_type == "bard":
+            GPT_MODEL.set_model_config("bard", My_handle.config.get("bard"))
+
+            self.bard_api = GPT_MODEL.get(self.chat_type)
         elif self.chat_type == "game":
             # from game.game import Game
 
@@ -262,6 +247,8 @@ class My_handle():
     def get_room_id(self):
         return self.room_id
 
+
+    # 从本地问答库中搜索问题的答案
     def find_answer(self, question, qa_file_path, similarity=1):
         """从本地问答库中搜索问题的答案
 
@@ -292,6 +279,7 @@ class My_handle():
         return None
 
 
+    # 本地问答库 文本模式  根据相似度查找答案
     def find_similar_answer(self, input_str, qa_file_path, min_similarity=0.8):
         """本地问答库 文本模式  根据相似度查找答案
 
@@ -814,6 +802,9 @@ class My_handle():
         elif chat_type == "zhipu":
             # 生成回复
             resp_content = self.zhipu.get_resp(data["content"])
+        elif chat_type == "bard":
+            # 生成回复
+            resp_content = self.bard_api.get_resp(data["content"])
         elif chat_type == "reread":
             # 复读机
             resp_content = data["content"]
@@ -986,6 +977,17 @@ class My_handle():
             else:
                 resp_content = ""
                 logging.warning("警告：智谱AI无返回")
+        elif self.chat_type == "bard":
+            data_json["content"] = self.before_prompt + content + self.after_prompt
+
+            # 调用LLM统一接口，获取返回内容
+            resp_content = self.llm_handle(self.chat_type, data_json)
+            if resp_content is not None:
+                # 输出 返回的回复消息
+                logging.info(f"[AI回复{user_name}]：{resp_content}")
+            else:
+                resp_content = ""
+                logging.warning("警告：Bard无返回，请检查配置、网络是否正确，也可能是token过期，需要清空cookie重新登录获取")
         elif self.chat_type == "game":
             return
             g1 = game1()

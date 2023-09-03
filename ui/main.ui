@@ -136,9 +136,9 @@ background-color: rgba(255, 255, 255, 50);
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>0</y>
+             <y>-5167</y>
              <width>984</width>
-             <height>9957</height>
+             <height>10033</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -1745,6 +1745,18 @@ background-color: rgba(255, 255, 255, 50);
                   <widget class="QLineEdit" name="lineEdit_sparkdesk_api_key"/>
                  </item>
                 </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QGroupBox" name="groupBox_bard">
+              <property name="title">
+               <string>Bard</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_74">
+               <item row="0" column="0">
+                <layout class="QGridLayout" name="gridLayout_bard"/>
                </item>
               </layout>
              </widget>
