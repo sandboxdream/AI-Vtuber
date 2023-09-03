@@ -1775,7 +1775,7 @@ class AI_VTB(QMainWindow):
                     "label_text": "登录方式",
                     "label_tip": "选择登录b站账号的方式，用于获取b站账号相关信息",
                     "widget_type": "combo_box",
-                    "combo_data_list": ['手机扫码', 'cookie'],
+                    "combo_data_list": ['手机扫码', 'cookie', '不登录'],
                     "data": bilibili_config["login_type"],
                     "main_obj_name": "bilibili",
                     "index": 1
