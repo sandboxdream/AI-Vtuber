@@ -101,6 +101,7 @@ AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
     - [讯飞星火](#%E8%AE%AF%E9%A3%9E%E6%98%9F%E7%81%AB)
     - [闻达](#%E9%97%BB%E8%BE%BE)
     - [ChatterBot](#chatterbot)
+    - [Bard](#bard)
   - [TTS](#tts)
     - [elevenlabs](#elevenlabs)
     - [genshinvoice.top](#genshinvoicetop)
