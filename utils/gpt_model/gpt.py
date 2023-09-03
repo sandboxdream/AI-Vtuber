@@ -17,6 +17,7 @@ from utils.gpt_model.text_generation_webui import TEXT_GENERATION_WEBUI
 from utils.gpt_model.sparkdesk import SPARKDESK
 from utils.gpt_model.langchain_chatglm import Langchain_ChatGLM
 from utils.gpt_model.zhipu import Zhipu
+from utils.gpt_model.bard import Bard_api
 
 
 class GPT_Model:
@@ -30,6 +31,7 @@ class GPT_Model:
     sparkdesk = None
     langchain_chatglm = None
     zhipu = None
+    bard_api = None
 
     def set_model_config(self, model_name, config):
         if model_name == "openai":
@@ -53,6 +55,8 @@ class GPT_Model:
             self.langchain_chatglm = Langchain_ChatGLM(config)
         elif model_name == "zhipu":
             self.zhipu = Zhipu(config)
+        elif model_name == "bard":
+            self.bard_api = Bard_api(config)
 
     def get(self, name):
         logging.info("GPT_MODEL: 进入get方法")
@@ -75,6 +79,8 @@ class GPT_Model:
                 return self.langchain_chatglm
             case "zhipu":
                 return self.zhipu
+            case "bard":
+                return self.bard_api
             case _:
                 logging.error(f"{name} 该模型不支持")
                 return

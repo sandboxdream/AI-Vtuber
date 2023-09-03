@@ -682,7 +682,8 @@ class AI_VTB(QMainWindow):
                 "text_generation_webui", 
                 "讯飞星火",
                 "langchain_chatglm",
-                "智谱AI"
+                "智谱AI",
+                "Bard"
             ])
             chat_type_index = 0
             if self.chat_type == "none":
@@ -709,6 +710,8 @@ class AI_VTB(QMainWindow):
                 chat_type_index = 10
             elif self.chat_type == "zhipu":
                 chat_type_index = 11
+            elif self.chat_type == "bard":
+                chat_type_index = 12
             self.ui.comboBox_chat_type.setCurrentIndex(chat_type_index)
             
             self.ui.comboBox_need_lang.clear()
@@ -1809,6 +1812,31 @@ class AI_VTB(QMainWindow):
 
             bilibili_gui_create()
 
+            # bard
+            def bard_gui_create():
+                data_json = []
+                bard_config = config.get("bard")
+
+                tmp_json = {
+                    "label_text": "token",
+                    "label_tip": "登录bard，打开F12，在cookie中获取 __Secure-1PSID 对应的值",
+                    "data": bard_config["token"],
+                    "main_obj_name": "bard",
+                    "index": 1
+                }
+                data_json.append(tmp_json)
+
+                widgets = self.create_widgets_from_json(data_json)
+
+                # 动态添加widget到对应的gridLayout
+                row = 0
+                # 分2列，左边就是label说明，右边就是输入框等
+                for i in range(0, len(widgets), 2):
+                    self.ui.gridLayout_bard.addWidget(widgets[i], row, 0)
+                    self.ui.gridLayout_bard.addWidget(widgets[i + 1], row, 1)
+                    row += 1
+
+            bard_gui_create()
 
             """
             ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
@@ -2057,6 +2085,8 @@ class AI_VTB(QMainWindow):
                 config_data["chat_type"] = "langchain_chatglm"
             elif chat_type == "智谱AI":
                 config_data["chat_type"] = "zhipu"
+            elif chat_type == "Bard":
+                config_data["chat_type"] = "bard"
             
 
             config_data["before_prompt"] = self.ui.lineEdit_before_prompt.text()
@@ -2584,6 +2614,22 @@ class AI_VTB(QMainWindow):
             bilibili_data = self.update_data_from_gridLayout(self.ui.gridLayout_bilibili)
             # 写回json
             config_data["bilibili"] = reorganize_bilibili_data(bilibili_data)
+
+            # bard
+            def reorganize_bard_data(bard_data):
+                keys = list(bard_data.keys())
+
+                tmp_json = {
+                    "token": bard_data[keys[0]]
+                }
+
+                logging.debug(f"tmp_json={tmp_json}")
+
+                return tmp_json
+
+            bard_data = self.update_data_from_gridLayout(self.ui.gridLayout_bard)
+            # 写回json
+            config_data["bard"] = reorganize_bard_data(bard_data)
 
             """
             ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
@@ -3234,21 +3280,22 @@ class AI_VTB(QMainWindow):
     def oncomboBox_chat_type_IndexChanged(self, index):
         # 各index对应的groupbox的显隐值
         visibility_map = {
-            0: (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-            1: (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-            2: (1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-            3: (0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0),
-            4: (0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0),
-            5: (0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0),
-            6: (1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0),
-            7: (0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0),
-            8: (0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
-            9: (0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0),
-            10: (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0),
-            11: (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+            0: (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+            1: (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+            2: (1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+            3: (0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+            4: (0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0),
+            5: (0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0),
+            6: (1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0),
+            7: (0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0),
+            8: (0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0),
+            9: (0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
+            10: (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0),
+            11: (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0),
+            12: (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
         }
 
-        visibility_values = visibility_map.get(index, (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+        visibility_values = visibility_map.get(index, (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
 
         self.ui.groupBox_openai.setVisible(visibility_values[0])
         self.ui.groupBox_chatgpt.setVisible(visibility_values[1])
@@ -3262,6 +3309,7 @@ class AI_VTB(QMainWindow):
         self.ui.groupBox_sparkdesk.setVisible(visibility_values[9])
         self.ui.groupBox_langchain_chatglm.setVisible(visibility_values[10])
         self.ui.groupBox_zhipu.setVisible(visibility_values[11])
+        self.ui.groupBox_bard.setVisible(visibility_values[12])
 
     
     # 语音合成类型改变 加载显隐不同groupBox
@@ -3652,3 +3700,4 @@ if __name__ == '__main__':
     e = AI_VTB()
 
     sys.exit(e.app.exec())
+    
