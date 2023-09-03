@@ -213,6 +213,8 @@ def start_server():
             )
         elif config.get("bilibili", "login_type") == "手机扫码":
             credential = login.login_with_qrcode()
+        elif config.get("bilibili", "login_type") == "不登录":
+            credential = None
         else:
             credential = login.login_with_qrcode()
 
