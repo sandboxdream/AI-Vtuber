@@ -42,3 +42,4 @@ urllib3
 pyhandytools
 curl_cffi
 zhipuai
+bardapi

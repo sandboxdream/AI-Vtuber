@@ -31,3 +31,4 @@ schedule
 pyhandytools
 curl_cffi
 zhipuai
+bardapi

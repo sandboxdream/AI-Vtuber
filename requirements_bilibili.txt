@@ -30,3 +30,4 @@ langchain==0.0.142
 pyhandytools
 curl_cffi
 zhipuai
+bardapi
