@@ -1271,6 +1271,10 @@ cmd运行`npm i docsify-cli -g`
 <details>
 <summary>展开/收起</summary>
 
+- 2023-09-05
+  - 修复后置回复没法关闭 念用户名 的bug
+  - 删除部分无关紧要的违禁词
+
 - 2023-06-13
   - 兼容本地版ChatGLM API接口  
 

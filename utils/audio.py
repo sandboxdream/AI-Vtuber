@@ -235,13 +235,17 @@ class Audio:
                     "content": message["content"]
                 }
 
-                # 由于线程是独立的，所以回复音频的合成会慢于本地音频直接播放，所以以倒述的形式回复
-                tmp_message = deepcopy(message)
-                tmp_message['type'] = "reply"
-                tmp_message['content'] = random.choice(self.config.get("read_user_name", "reply_after"))
-                if "{username}" in tmp_message['content']:
-                    tmp_message['content'] = tmp_message['content'].format(username=message['user_name'])
-                self.message_queue.put(tmp_message)
+                # 回复时是否念用户名字
+                if self.config.get("read_user_name", "enable"):
+                    # 由于线程是独立的，所以回复音频的合成会慢于本地音频直接播放，所以以倒述的形式回复
+                    tmp_message = deepcopy(message)
+                    tmp_message['type'] = "reply"
+                    tmp_message['content'] = random.choice(self.config.get("read_user_name", "reply_after"))
+                    if "{username}" in tmp_message['content']:
+                        tmp_message['content'] = tmp_message['content'].format(username=message['user_name'])
+                    self.message_queue.put(tmp_message)
+                else:
+                    self.message_queue.put(message)
 
                 # 是否开启了音频播放，如果没开，则不会传文件路径给播放队列
                 if self.config.get("play_audio", "enable"):

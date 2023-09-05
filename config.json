@@ -83,7 +83,7 @@
     "api_key": [
       "修改为你的api_key"
     ],
-    "model": "gpt-3.5-turbo-0301"
+    "model": "gpt-3.5-turbo"
   },
   "claude": {
     "slack_user_token": "",
