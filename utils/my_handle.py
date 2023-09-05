@@ -361,6 +361,8 @@ class My_handle():
                 # 将问答库中设定的参数替换为指定内容，开发者可以自定义替换内容
                 if "{cur_time}" in tmp:
                     tmp = tmp.format(cur_time=My_handle.common.get_bj_time(5))
+                if "{username}" in tmp:
+                    tmp = tmp.format(username=user_name)
                 else:
                     tmp = tmp
                 
