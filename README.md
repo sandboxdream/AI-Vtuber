@@ -837,6 +837,12 @@ Proceed (Y/n)? y
 ```  
 2.重新安装，可以手动安装`Miniconda3\python.exe -m pip install bilibili-api-python bilibili-api`，也可以直接执行`2-2.安装依赖.bat`完成安装。  
 
+#### 9.使用ChatGPT API，报错：error_message='You exceeded your current quota, please check your plan and billing details.'
+可能是API KEY过期了/额度没了，请检查API KEY是否可用。  
+在线测试参考：  
+[chatgpt-html](http://ikaros521.eu.org/chatgpt-html/)  
+[ChatGPT-Next-Web](https://chat-gpt-next-web-ikaros-521.vercel.app/)  
+
 </details>
 
 

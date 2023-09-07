@@ -3152,6 +3152,7 @@ class AI_VTB(QMainWindow):
     '''
         聊天页相关的函数
     '''
+
     # 发送 聊天框内容
     def talk_chat_box_send(self):
         global my_handle
