@@ -839,9 +839,12 @@ Proceed (Y/n)? y
 
 #### 9.使用ChatGPT API，报错：error_message='You exceeded your current quota, please check your plan and billing details.'
 可能是API KEY过期了/额度没了，请检查API KEY是否可用。  
+![image](https://github.com/Ikaros-521/AI-Vtuber/assets/40910637/46821c28-0a16-4b86-a395-358a6c8b5b89)
+
 在线测试参考：  
 [chatgpt-html](http://ikaros521.eu.org/chatgpt-html/)  
 [ChatGPT-Next-Web](https://chat-gpt-next-web-ikaros-521.vercel.app/)  
+
 
 </details>
 
