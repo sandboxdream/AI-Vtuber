@@ -20,31 +20,59 @@ class MY_TTS:
     # 请求vits的api
     async def vits_api(self, data):
         try:
-            # API地址 "http://127.0.0.1:23456/voice/vits"
-            API_URL = data["api_ip_port"] + '/voice/vits'
-            data_json = {
-                "text": data["content"],
-                "id": data["id"],
-                "format": data["format"],
-                "lang": "ja",
-                "length": data["length"],
-                "noise": data["noise"],
-                "noisew": data["noisew"],
-                "max": data["max"]
-            }
-            
-            if data["lang"] == "中文" or data["lang"] == "汉语":
-                data_json["lang"] = "zh"
-            elif data["lang"] == "英文" or data["lang"] == "英语":
-                data_json["lang"] = "en"
-            elif data["lang"] == "韩文" or data["lang"] == "韩语":
-                data_json["lang"] = "ko"
-            elif data["lang"] == "日文" or data["lang"] == "日语":
-                data_json["lang"] = "ja"
-            elif data["lang"] == "自动":
-                data_json["lang"] = "auto"
-            else:
-                data_json["lang"] = "auto"
+            if data["type"] == "vits":
+                # API地址 "http://127.0.0.1:23456/voice/vits"
+                API_URL = data["api_ip_port"] + '/voice/vits'
+                data_json = {
+                    "text": data["content"],
+                    "id": data["id"],
+                    "format": data["format"],
+                    "lang": "ja",
+                    "length": data["length"],
+                    "noise": data["noise"],
+                    "noisew": data["noisew"],
+                    "max": data["max"]
+                }
+                
+                if data["lang"] == "中文" or data["lang"] == "汉语":
+                    data_json["lang"] = "zh"
+                elif data["lang"] == "英文" or data["lang"] == "英语":
+                    data_json["lang"] = "en"
+                elif data["lang"] == "韩文" or data["lang"] == "韩语":
+                    data_json["lang"] = "ko"
+                elif data["lang"] == "日文" or data["lang"] == "日语":
+                    data_json["lang"] = "ja"
+                elif data["lang"] == "自动":
+                    data_json["lang"] = "auto"
+                else:
+                    data_json["lang"] = "auto"
+            elif data["type"] == "bert_vits2":
+                # API地址 "http://127.0.0.1:23456/voice/bert-vits2"
+                API_URL = data["api_ip_port"] + '/voice/bert-vits2'
+                data_json = {
+                    "text": data["content"],
+                    "id": data["id"],
+                    "format": data["format"],
+                    "lang": "ja",
+                    "length": data["length"],
+                    "noise": data["noise"],
+                    "noisew": data["noisew"],
+                    "max": data["max"],
+                    "sdp_radio": data["sdp_radio"]
+                }
+                
+                if data["lang"] == "中文" or data["lang"] == "汉语":
+                    data_json["lang"] = "zh"
+                elif data["lang"] == "英文" or data["lang"] == "英语":
+                    data_json["lang"] = "en"
+                elif data["lang"] == "韩文" or data["lang"] == "韩语":
+                    data_json["lang"] = "ko"
+                elif data["lang"] == "日文" or data["lang"] == "日语":
+                    data_json["lang"] = "ja"
+                elif data["lang"] == "自动":
+                    data_json["lang"] = "auto"
+                else:
+                    data_json["lang"] = "auto"
 
             # logging.info(f"data_json={data_json}")
             # logging.info(f"data={data}")

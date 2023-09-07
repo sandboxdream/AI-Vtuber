@@ -373,6 +373,7 @@ class Audio:
                 # logging.info("language=" + language)
 
                 data = {
+                    "type": message["data"]["type"],
                     "api_ip_port": message["data"]["api_ip_port"],
                     "id": message["data"]["id"],
                     "format": message["data"]["format"],
@@ -381,6 +382,7 @@ class Audio:
                     "noise": message["data"]["noise"],
                     "noisew": message["data"]["noisew"],
                     "max": message["data"]["max"],
+                    "sdp_radio": message["data"]["sdp_radio"],
                     "content": message["content"]
                 }
 

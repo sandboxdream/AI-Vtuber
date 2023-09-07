@@ -1272,12 +1272,15 @@ cmd运行`npm i docsify-cli -g`
 - [ ] Edge-TTS在合成音频时会出现合成成功但是系统找不到文件的bug
 - [x] 抖音关注事件可以触发关注感谢话术
 - [x] 本地问答文本库支持动态变量功能
-- [ ] 兼容bert vits2
+- [x] 兼容bert vits2
 
 ## 📝更新日志
 
 <details>
 <summary>展开/收起</summary>
+
+- 2023-09-08
+  - VITS下，兼容bert-vits2
 
 - 2023-09-05
   - 修复后置回复没法关闭 念用户名 的bug
