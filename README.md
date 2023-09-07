@@ -837,6 +837,12 @@ Proceed (Y/n)? y
 ```  
 2.重新安装，可以手动安装`Miniconda3\python.exe -m pip install bilibili-api-python bilibili-api`，也可以直接执行`2-2.安装依赖.bat`完成安装。  
 
+#### 9.使用ChatGPT API，报错：error_message='You exceeded your current quota, please check your plan and billing details.'
+可能是API KEY过期了/额度没了，请检查API KEY是否可用。  
+在线测试参考：  
+[chatgpt-html](http://ikaros521.eu.org/chatgpt-html/)  
+[ChatGPT-Next-Web](https://chat-gpt-next-web-ikaros-521.vercel.app/)  
+
 </details>
 
 
@@ -1266,12 +1272,15 @@ cmd运行`npm i docsify-cli -g`
 - [ ] Edge-TTS在合成音频时会出现合成成功但是系统找不到文件的bug
 - [x] 抖音关注事件可以触发关注感谢话术
 - [x] 本地问答文本库支持动态变量功能
-- [ ] 兼容bert vits2
+- [x] 兼容bert vits2
 
 ## 📝更新日志
 
 <details>
 <summary>展开/收起</summary>
+
+- 2023-09-08
+  - VITS下，兼容bert-vits2
 
 - 2023-09-05
   - 修复后置回复没法关闭 念用户名 的bug

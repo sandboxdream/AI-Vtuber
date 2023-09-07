@@ -1421,6 +1421,17 @@ class AI_VTB(QMainWindow):
 
                 vits_config = config.get("vits")
                 tmp_json = {
+                    "label_text": "类型",
+                    "label_tip": "选用的TTS模型",
+                    "widget_type": "combo_box",
+                    "combo_data_list": ["vits", "bert_vits2"],
+                    "data": vits_config["type"],
+                    "main_obj_name": "vits",
+                    "index": 0
+                }
+                data_json.append(tmp_json)
+
+                tmp_json = {
                     "label_text": "配置文件路径",
                     "label_tip": "模型配置文件存储路径",
                     "data": vits_config["config_path"],
@@ -1499,7 +1510,16 @@ class AI_VTB(QMainWindow):
                     "label_tip": "支持wav,ogg,silk,mp3,flac",
                     "data": vits_config["format"],
                     "main_obj_name": "vits",
-                    "index": 3
+                    "index": 9
+                }
+                data_json.append(tmp_json)
+
+                tmp_json = {
+                    "label_text": "SDP/DP混合比",
+                    "label_tip": "SDP/DP混合比：SDP在合成时的占比，理论上此比率越高，合成的语音语调方差越大。",
+                    "data": vits_config["sdp_radio"],
+                    "main_obj_name": "vits",
+                    "index": 10
                 }
                 data_json.append(tmp_json)
 
@@ -2476,15 +2496,17 @@ class AI_VTB(QMainWindow):
                 keys = list(vits_data.keys())
 
                 tmp_json = {
-                    "config_path": vits_data[keys[0]],
-                    "api_ip_port": vits_data[keys[1]],
-                    "id": vits_data[keys[2]],
-                    "format": vits_data[keys[8]],
-                    "lang": vits_data[keys[3]],
-                    "length": vits_data[keys[4]],
-                    "noise": vits_data[keys[5]],
-                    "noisew": vits_data[keys[6]],
-                    "max": vits_data[keys[7]]
+                    "type": vits_data[keys[0]],
+                    "config_path": vits_data[keys[1]],
+                    "api_ip_port": vits_data[keys[2]],
+                    "id": vits_data[keys[3]],
+                    "format": vits_data[keys[9]],
+                    "lang": vits_data[keys[4]],
+                    "length": vits_data[keys[5]],
+                    "noise": vits_data[keys[6]],
+                    "noisew": vits_data[keys[7]],
+                    "max": vits_data[keys[8]],
+                    "sdp_radio": vits_data[keys[10]],
                 }
 
                 logging.debug(f"tmp_json={tmp_json}")
@@ -3152,6 +3174,7 @@ class AI_VTB(QMainWindow):
     '''
         聊天页相关的函数
     '''
+
     # 发送 聊天框内容
     def talk_chat_box_send(self):
         global my_handle
