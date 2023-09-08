@@ -16,6 +16,7 @@
     <img src="https://img.shields.io/badge/python-3.10+-blue.svg" alt="python">
 </a>
 
+fork from ikaros-521/AI-Vtuber
 
 <p>
 AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text-generation-webui/讯飞星火/智谱AI 做为"大脑"驱动的虚拟主播（Live2D/Vtube Studio/UE5+Audio2Face），可以在 Bilibili/抖音/快手/斗鱼 直播中与观众实时互动 或者 直接在本地和您进行聊天。
