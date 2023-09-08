@@ -1044,9 +1044,12 @@ vits-simple-api配置，修改`config.py`，参考配置如下，路径为追加
 # Fill in the model path here
 MODEL_LIST = [
     # VITS
-    [ABS_PATH + "/Model/ikaros/G_95500.pth", ABS_PATH + "/Model/ikaros/config.json"]
+    [ABS_PATH + "/Model/ikaros/G_95500.pth", ABS_PATH + "/Model/ikaros/config.json"],
+    # Bert-VITS2
+    [ABS_PATH + "/bert_vits2/G_0.pth", ABS_PATH + "/bert_vits2/config.json"],
 ```
 
+如果使用`bert_vits2`，需要注意`vits-simple-api\bert_vits2\bert\chinese-roberta-wwm-ext-large`路径下`flax_model.msgpack`等模型文件是否缺失，如果缺失，可以从隔壁`bert_vits2`整合包中拷贝进来。  
 
 另外如果运行闪退、报错  
 ```
