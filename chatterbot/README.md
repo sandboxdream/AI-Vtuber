@@ -24,7 +24,6 @@ pip install spacy ChatterBot
 python train.py
 ```
 - 训练完的模型名叫`db.sqlite3`，直接双击`main.py`即可使用
-- 没有语料？快来加群下载吧！[745682833](https://jq.qq.com/?_wv=1027&k=IO1usMMj)
 
 ## 常见问题
 1. 提示缺少en-core-web-sm，打开终端输入
@@ -35,9 +34,6 @@ python -m spacy download en_core_web_sm
 ```bash
 pip install spacy
 ```
-
-## 许可证
-MIT许可证。详情请参阅LICENSE文件。
 
 ## 补充
 
