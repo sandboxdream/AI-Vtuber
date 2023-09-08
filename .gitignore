@@ -58,7 +58,7 @@ cover/
 # Django stuff:
 *.log
 local_settings.py
-db.sqlite3
+#db.sqlite3
 db.sqlite3-journal
 
 # Flask stuff:
@@ -150,3 +150,65 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
+
+数据备份/
+训练数据集/
+out/*.mp3
+out/*.wav
+log/*.txt
+log.txt
+output.txt
+1.py
+db.sqlite3
+config2.json
+config3.json
+
+bilibili/out/*.mp3
+bilibili/log/*.txt
+bilibili/log.txt
+bilibili/output.txt
+bilibili/1.py
+bilibili/db.sqlite3
+bilibili/config2.json
+bilibili/config3.json
+
+kuaishou.py
+
+douyin/config2.json
+douyin/out/*.mp3
+douyin/log/*.txt
+
+# 测试文件夹
+test/
+game/
+
+dev/
+
+/data/vector_base
+.idea
+
+# 本地chatterbot项目路径
+chatterbot/ChatterBot_update/
+
+# 虚拟环境
+venv/
+
+output/
+
+branch/
+
+data/vector_base
+data/text2vec_models/
+!data/text2vec_models
+
+song/
+
+test.py
+
+# debug输出
+tmp/
+
+cookie/*.json
+
+# 数据库
+data/data.db
