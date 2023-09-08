@@ -1,9 +1,5 @@
-# AI Vtuber
-
-
-
 <div style="text-align: center;">
-<h1>✨ AI Vtuber ✨</h1>
+<h1>✨ Luna AI ✨</h1>
 <a href="https://github.com/Ikaros-521/AI-Vtuber/stargazers">
     <img alt="GitHub stars" src="https://img.shields.io/github/stars/Ikaros-521/AI-Vtuber?color=%09%2300BFFF&style=flat-square">
 </a>
