@@ -1,391 +1,391 @@
 {
-  "platform": "bilibili",
-  "room_display_id": "278333",
-  "chat_type": "reread",
-  "need_lang": "none",
-  "before_prompt": "请简要回复:",
-  "after_prompt": "",
-  "comment_log_type": "回答",
-  "play_audio": {
-    "enable": true
-  },
-  "show_box": {
-    "read_user_name": true,
-    "filter": true,
-    "thanks": true,
-    "live2d": true,
-    "audio_random_speed": true,
-    "so_vits_svc": true,
-    "ddsp_svc": true,
-    "local_qa": true,
-    "choose_song": true,
-    "sd": true,
-    "log": true,
-    "schedule": true,
-    "database": true,
-    "play_audio": true,
-    "web_captions_printer": true
-  },
-  "bilibili": {
-    "login_type": "手机扫码",
-    "cookie": "",
-    "ac_time_value": ""
-  },
-  "read_user_name": {
-    "enable": true,
-    "voice_change": true,
-    "reply_before": [
-      "回复{username}",
-      "{username}",
-      "回{username}"
-    ],
-    "reply_after": [
-      "以上内容回复{username}",
-      "回的{username}",
-      "以上回复{username}"
-    ]
-  },
-  "filter": {
-    "before_must_str": [],
-    "after_must_str": [],
-    "badwords_path": "data/badwords.txt",
-    "bad_pinyin_path": "data/违禁拼音.txt",
-    "max_len": 80,
-    "max_char_len": 200,
-    "comment_forget_duration": 1.0,
-    "comment_forget_reserve_num": 1,
-    "gift_forget_duration": 5.0,
-    "gift_forget_reserve_num": 1,
-    "entrance_forget_duration": 5.0,
-    "entrance_forget_reserve_num": 2,
-    "follow_forget_duration": 3.0,
-    "follow_forget_reserve_num": 1,
-    "talk_forget_duration": 0.1,
-    "talk_forget_reserve_num": 1,
-    "schedule_forget_duration": 0.1,
-    "schedule_forget_reserve_num": 1
-  },
-  "thanks": {
-    "entrance_enable": true,
-    "entrance_copy": "欢迎{username}",
-    "gift_enable": true,
-    "gift_copy": "感谢{username}送的{gift_name}",
-    "follow_enable": true,
-    "follow_copy": "感谢{username}的关注",
-    "lowest_price": 1.0
-  },
-  "live2d": {
-    "enable": true,
-    "port": 12345
-  },
-  "openai": {
-    "api": "https://api.openai.com/v1",
-    "api_key": [
-      "修改为你的api_key"
-    ],
-    "model": "gpt-3.5-turbo"
-  },
-  "claude": {
-    "slack_user_token": "",
-    "bot_user_id": ""
-  },
-  "claude2": {
-    "cookie": "",
-    "use_proxy": false,
-    "proxies": {
-      "http": "http://127.0.0.1:10809",
-      "https": "http://127.0.0.1:10809",
-      "socks5": "socks://127.0.0.1:10808"
-    }
-  },
-  "chatglm": {
-    "api_ip_port": "http://127.0.0.1:8000",
-    "max_length": 2048,
-    "top_p": 0.7,
-    "temperature": 0.95,
-    "max_new_tokens": 250,
-    "history_enable": true,
-    "history_max_len": 500
-  },
-  "sparkdesk": {
-    "type": "web",
-    "cookie": "",
-    "fd": "",
-    "GtToken": "",
-    "app_id": "",
-    "api_secret": "",
-    "api_key": ""
-  },
-  "zhipu": {
-    "api_key": "",
-    "model": "chatglm_lite",
-    "top_p": "0.7",
-    "temperature": "0.9",
-    "history_enable": true,
-    "history_max_len": "300"
-  },
-  "chat_with_file": {
-    "chat_mode": "openai_gpt",
-    "data_path": "data/伊卡洛斯百度百科.zip",
-    "separator": "\n",
-    "chunk_size": 100,
-    "chunk_overlap": 50,
-    "chain_type": "stuff",
-    "show_token_cost": false,
-    "question_prompt": "请根据以上content信息进行归纳总结，并结合question的内容给出一个符合content和question语气、语调、背景的回答。不要出现'概括''综上''感谢'等字样，向朋友直接互相交流即可。如果发现不能content的信息与question不相符，抛弃content的提示，直接回答question即可。任何情况下都要简要地回答!",
-    "local_max_query": 3,
-    "local_vector_embedding_model": "sebastian-hofstaetter/distilbert-dot-tas_b-b256-msmarco"
-  },
-  "langchain_chatglm": {
-    "api_ip_port": "http://127.0.0.1:7861",
-    "chat_type": "模型",
-    "knowledge_base_id": "ikaros",
-    "history_enable": true,
-    "history_max_len": 500
-  },
-  "audio_synthesis_type": "edge-tts",
-  "audio_random_speed": {
-    "normal": {
-      "enable": false,
-      "speed_min": 0.8,
-      "speed_max": 1.2
+    "platform": "bilibili",
+    "room_display_id": "278333",
+    "chat_type": "reread",
+    "need_lang": "none",
+    "before_prompt": "请简要回复:",
+    "after_prompt": "",
+    "comment_log_type": "回答",
+    "play_audio": {
+        "enable": true
+    },
+    "show_box": {
+        "read_user_name": true,
+        "filter": true,
+        "thanks": true,
+        "live2d": true,
+        "audio_random_speed": true,
+        "so_vits_svc": true,
+        "ddsp_svc": true,
+        "local_qa": true,
+        "choose_song": true,
+        "sd": true,
+        "log": true,
+        "schedule": true,
+        "database": true,
+        "play_audio": true,
+        "web_captions_printer": true
+    },
+    "bilibili": {
+        "login_type": "手机扫码",
+        "cookie": "",
+        "ac_time_value": ""
+    },
+    "read_user_name": {
+        "enable": true,
+        "voice_change": true,
+        "reply_before": [
+            "回复{username}",
+            "{username}",
+            "回{username}"
+        ],
+        "reply_after": [
+            "以上内容回复{username}",
+            "回的{username}",
+            "以上回复{username}"
+        ]
+    },
+    "filter": {
+        "before_must_str": [],
+        "after_must_str": [],
+        "badwords_path": "data/badwords.txt",
+        "bad_pinyin_path": "data/违禁拼音.txt",
+        "max_len": 80,
+        "max_char_len": 200,
+        "comment_forget_duration": 1.0,
+        "comment_forget_reserve_num": 1,
+        "gift_forget_duration": 5.0,
+        "gift_forget_reserve_num": 1,
+        "entrance_forget_duration": 5.0,
+        "entrance_forget_reserve_num": 2,
+        "follow_forget_duration": 3.0,
+        "follow_forget_reserve_num": 1,
+        "talk_forget_duration": 0.1,
+        "talk_forget_reserve_num": 1,
+        "schedule_forget_duration": 0.1,
+        "schedule_forget_reserve_num": 1
+    },
+    "thanks": {
+        "entrance_enable": true,
+        "entrance_copy": "欢迎{username}",
+        "gift_enable": true,
+        "gift_copy": "感谢{username}送的{gift_name}",
+        "follow_enable": true,
+        "follow_copy": "感谢{username}的关注",
+        "lowest_price": 1.0
+    },
+    "live2d": {
+        "enable": true,
+        "port": 12345
+    },
+    "openai": {
+        "api": "https://api.openai.com/v1",
+        "api_key": [
+            "修改为你的api_key"
+        ],
+        "model": "gpt-3.5-turbo"
+    },
+    "claude": {
+        "slack_user_token": "",
+        "bot_user_id": ""
+    },
+    "claude2": {
+        "cookie": "",
+        "use_proxy": false,
+        "proxies": {
+            "http": "http://127.0.0.1:10809",
+            "https": "http://127.0.0.1:10809",
+            "socks5": "socks://127.0.0.1:10808"
+        }
+    },
+    "chatglm": {
+        "api_ip_port": "http://127.0.0.1:8000",
+        "max_length": 2048,
+        "top_p": 0.7,
+        "temperature": 0.95,
+        "max_new_tokens": 250,
+        "history_enable": true,
+        "history_max_len": 500
+    },
+    "sparkdesk": {
+        "type": "web",
+        "cookie": "",
+        "fd": "",
+        "GtToken": "",
+        "app_id": "",
+        "api_secret": "",
+        "api_key": ""
+    },
+    "zhipu": {
+        "api_key": "",
+        "model": "chatglm_lite",
+        "top_p": "0.7",
+        "temperature": "0.9",
+        "history_enable": true,
+        "history_max_len": "300"
+    },
+    "chat_with_file": {
+        "chat_mode": "openai_gpt",
+        "data_path": "data/伊卡洛斯百度百科.zip",
+        "separator": "\n",
+        "chunk_size": 100,
+        "chunk_overlap": 50,
+        "chain_type": "stuff",
+        "show_token_cost": false,
+        "question_prompt": "请根据以上content信息进行归纳总结，并结合question的内容给出一个符合content和question语气、语调、背景的回答。不要出现'概括''综上''感谢'等字样，向朋友直接互相交流即可。如果发现不能content的信息与question不相符，抛弃content的提示，直接回答question即可。任何情况下都要简要地回答!",
+        "local_max_query": 3,
+        "local_vector_embedding_model": "sebastian-hofstaetter/distilbert-dot-tas_b-b256-msmarco"
+    },
+    "langchain_chatglm": {
+        "api_ip_port": "http://127.0.0.1:7861",
+        "chat_type": "模型",
+        "knowledge_base_id": "ikaros",
+        "history_enable": true,
+        "history_max_len": 500
+    },
+    "audio_synthesis_type": "edge-tts",
+    "audio_random_speed": {
+        "normal": {
+            "enable": false,
+            "speed_min": 0.8,
+            "speed_max": 1.2
+        },
+        "copywriting": {
+            "enable": false,
+            "speed_min": 0.8,
+            "speed_max": 1.2
+        }
+    },
+    "vits": {
+        "type": "vits",
+        "config_path": "E:\\vits-simple-api\\Model\\ikaros\\config.json",
+        "api_ip_port": "http://127.0.0.1:23456",
+        "id": "0",
+        "format": "wav",
+        "lang": "自动",
+        "length": "1",
+        "noise": "0.33",
+        "noisew": "0.4",
+        "max": "50",
+        "sdp_radio": "0.2"
+    },
+    "vits_fast": {
+        "config_path": "D:\\GitHub_pro\\VITS-fast-fine-tuning\\inference\\finetune_speaker.json",
+        "api_ip_port": "http://127.0.0.1:7860",
+        "character": "ikaros",
+        "speed": 1.0
+    },
+    "ddsp_svc": {
+        "enable": false,
+        "config_path": "E:\\DDSP-SVC-3.0\\exp\\combsub-test\\config.yaml",
+        "api_ip_port": "http://127.0.0.1:6844",
+        "fSafePrefixPadLength": 0.0,
+        "fPitchChange": 0.0,
+        "sSpeakId": 0,
+        "sampleRate": 44100
+    },
+    "so_vits_svc": {
+        "enable": false,
+        "config_path": "E:\\so-vits-svc\\configs\\ikaros_v1.json",
+        "api_ip_port": "http://127.0.0.1:1145",
+        "spk": "ikaros",
+        "tran": 1.0,
+        "wav_format": "wav"
+    },
+    "edge-tts": {
+        "voice": "zh-CN-XiaoyiNeural",
+        "rate": "+0%",
+        "volume": "+0%"
+    },
+    "elevenlabs": {
+        "api_key": "",
+        "voice": "Domi",
+        "model": "eleven_monolingual_v1"
+    },
+    "genshinvoice_top": {
+        "speaker": "神里绫华",
+        "format": "wav",
+        "length": "1.25",
+        "noise": "0.2",
+        "noisew": "0.9"
+    },
+    "bark_gui": {
+        "api_ip_port": "http://127.0.0.1:7860",
+        "spk": "zh_speaker_0",
+        "generation_temperature": 0.6,
+        "waveform_temperature": 0.7,
+        "end_of_sentence_probability": 0.05,
+        "quick_generation": true,
+        "seed": -1.0,
+        "batch_count": 1
+    },
+    "vall_e_x": {
+        "api_ip_port": "http://127.0.0.1:7860",
+        "language": "auto-detect",
+        "accent": "no-accent",
+        "voice_preset": "ikaros",
+        "voice_preset_file_path": "D:\\GitHub_pro\\AI-Vtuber\\tests\\test_VALL-E-X\\ikaros.npz"
+    },
+    "chatterbot": {
+        "name": "bot",
+        "db_path": "db.sqlite3"
+    },
+    "chatgpt": {
+        "model": "gpt-3.5-turbo-0613",
+        "temperature": 0.9,
+        "max_tokens": 2048,
+        "top_p": 1.0,
+        "presence_penalty": 0.0,
+        "frequency_penalty": 0.0,
+        "preset": "请扮演一个AI虚拟主播。不要回答任何敏感问题！不要强调你是主播，只需要回答问题！"
+    },
+    "text_generation_webui": {
+        "api_ip_port": "http://127.0.0.1:5000",
+        "max_new_tokens": 250,
+        "mode": "chat",
+        "character": "Example",
+        "instruction_template": "Vicuna-v1.1",
+        "your_name": "你"
+    },
+    "bard": {
+        "token": ""
+    },
+    "local_qa": {
+        "text": {
+            "enable": true,
+            "type": "json",
+            "file_path": "data/本地问答库.json",
+            "similarity": 0.8
+        },
+        "audio": {
+            "enable": true,
+            "file_path": "out/本地问答音频/",
+            "similarity": 0.5
+        }
+    },
+    "choose_song": {
+        "enable": true,
+        "start_cmd": "点歌 ",
+        "stop_cmd": "取消点歌",
+        "random_cmd": "随机点歌",
+        "song_path": "song",
+        "match_fail_copy": "抱歉，我还没学会唱{content}"
+    },
+    "sd": {
+        "enable": false,
+        "prompt_llm": {
+            "type": "none",
+            "before_prompt": "JMBot是一位有艺术气质的AI助理，帮助人通过将自然语言转化为prompt。JMBot的行动规则如下:\n1.将输入的自然语言组合想象为一幅完整的画面，你需要根据描述自行随机添加合理的，不少于5处的画面细节;\n2.第一部分:((masterpiece)), ((best quality)), 8k, high detailed, ultra-detailed, ;\n3.第二部分:用简短的英文描述画面的主体，如:A girl sitting in a classroom,输出这段英文;\n4.第三部分:用英文单词或者词组描述画面的所有主体元素,元素之间用\"\"隔开，如果有哪个元素比较重要，请给代表这个元素的英文词组\n增加小括号，最多可以增加三层小括号，如: 1gir,(black hair), smiling, (windows in background), sunshine,输出这段英文;\n5.JMBot会将以上生成的三部分文本用英文逗号连接，中间不包含任何换行符的prompt作为最终结果;\n6.JMBot输出时将直接输出prompt，而不包含任何说明和解释。\n接下来你将扮演JMBot，要处理的自然语言为:",
+            "after_prompt": ""
+        },
+        "trigger": "画画：",
+        "ip": "127.0.0.1",
+        "port": 7860,
+        "negative_prompt": "ufsw, longbody, lowres, bad anatomy, bad hands, missing fingers, pubic hair,extra digit, fewer digits, cropped, worst quality, low quality",
+        "seed": -1.0,
+        "styles": [],
+        "cfg_scale": 7,
+        "steps": 30,
+        "enable_hr": false,
+        "hr_scale": 2,
+        "hr_second_pass_steps": 20,
+        "hr_resize_x": 512,
+        "hr_resize_y": 512,
+        "denoising_strength": 0.4
     },
     "copywriting": {
-      "enable": false,
-      "speed_min": 0.8,
-      "speed_max": 1.2
-    }
-  },
-  "vits": {
-    "type": "vits",
-    "config_path": "E:\\vits-simple-api\\Model\\ikaros\\config.json",
-    "api_ip_port": "http://127.0.0.1:23456",
-    "id": "0",
-    "format": "wav",
-    "lang": "自动",
-    "length": "1",
-    "noise": "0.33",
-    "noisew": "0.4",
-    "max": "50",
-    "sdp_radio": "0.2"
-  },
-  "vits_fast": {
-    "config_path": "D:\\GitHub_pro\\VITS-fast-fine-tuning\\inference\\finetune_speaker.json",
-    "api_ip_port": "http://127.0.0.1:7860",
-    "character": "ikaros",
-    "speed": 1.0
-  },
-  "ddsp_svc": {
-    "enable": false,
-    "config_path": "E:\\DDSP-SVC-3.0\\exp\\combsub-test\\config.yaml",
-    "api_ip_port": "http://127.0.0.1:6844",
-    "fSafePrefixPadLength": 0.0,
-    "fPitchChange": 0.0,
-    "sSpeakId": 0,
-    "sampleRate": 44100
-  },
-  "so_vits_svc": {
-    "enable": false,
-    "config_path": "E:\\so-vits-svc\\configs\\ikaros_v1.json",
-    "api_ip_port": "http://127.0.0.1:1145",
-    "spk": "ikaros",
-    "tran": 1.0,
-    "wav_format": "wav"
-  },
-  "edge-tts": {
-    "voice": "zh-CN-XiaoyiNeural",
-    "rate": "+0%",
-    "volume": "+0%"
-  },
-  "elevenlabs": {
-    "api_key": "",
-    "voice": "Domi",
-    "model": "eleven_monolingual_v1"
-  },
-  "genshinvoice_top": {
-    "speaker": "神里绫华",
-    "format": "wav",
-    "length": "1.25",
-    "noise": "0.2",
-    "noisew": "0.9"
-  },
-  "bark_gui": {
-    "api_ip_port": "http://127.0.0.1:7860",
-    "spk": "zh_speaker_0",
-    "generation_temperature": 0.6,
-    "waveform_temperature": 0.7,
-    "end_of_sentence_probability": 0.05,
-    "quick_generation": true,
-    "seed": -1.0,
-    "batch_count": 1
-  },
-  "vall_e_x": {
-    "api_ip_port": "http://127.0.0.1:7860",
-    "language": "auto-detect",
-    "accent": "no-accent",
-    "voice_preset": "ikaros",
-    "voice_preset_file_path": "D:\\GitHub_pro\\AI-Vtuber\\tests\\test_VALL-E-X\\ikaros.npz"
-  },
-  "chatterbot": {
-    "name": "bot",
-    "db_path": "db.sqlite3"
-  },
-  "chatgpt": {
-    "model": "gpt-3.5-turbo-0613",
-    "temperature": 0.9,
-    "max_tokens": 2048,
-    "top_p": 1.0,
-    "presence_penalty": 0.0,
-    "frequency_penalty": 0.0,
-    "preset": "请扮演一个AI虚拟主播。不要回答任何敏感问题！不要强调你是主播，只需要回答问题！"
-  },
-  "text_generation_webui": {
-    "api_ip_port": "http://127.0.0.1:5000",
-    "max_new_tokens": 250,
-    "mode": "chat",
-    "character": "Example",
-    "instruction_template": "Vicuna-v1.1",
-    "your_name": "你"
-  },
-  "bard": {
-    "token": ""
-  },
-  "local_qa": {
-    "text": {
-      "enable": true,
-      "type": "json",
-      "file_path": "data/本地问答库.json",
-      "similarity": 0.8
-    },
-    "audio": {
-      "enable": true,
-      "file_path": "out/本地问答音频/",
-      "similarity": 0.5
-    }
-  },
-  "choose_song": {
-    "enable": true,
-    "start_cmd": "点歌 ",
-    "stop_cmd": "取消点歌",
-    "random_cmd": "随机点歌",
-    "song_path": "song",
-    "match_fail_copy": "抱歉，我还没学会唱{content}"
-  },
-  "sd": {
-    "enable": false,
-    "prompt_llm": {
-      "type": "none",
-      "before_prompt": "JMBot是一位有艺术气质的AI助理，帮助人通过将自然语言转化为prompt。JMBot的行动规则如下:\n1.将输入的自然语言组合想象为一幅完整的画面，你需要根据描述自行随机添加合理的，不少于5处的画面细节;\n2.第一部分:((masterpiece)), ((best quality)), 8k, high detailed, ultra-detailed, ;\n3.第二部分:用简短的英文描述画面的主体，如:A girl sitting in a classroom,输出这段英文;\n4.第三部分:用英文单词或者词组描述画面的所有主体元素,元素之间用\"\"隔开，如果有哪个元素比较重要，请给代表这个元素的英文词组\n增加小括号，最多可以增加三层小括号，如: 1gir,(black hair), smiling, (windows in background), sunshine,输出这段英文;\n5.JMBot会将以上生成的三部分文本用英文逗号连接，中间不包含任何换行符的prompt作为最终结果;\n6.JMBot输出时将直接输出prompt，而不包含任何说明和解释。\n接下来你将扮演JMBot，要处理的自然语言为:",
-      "after_prompt": ""
-    },
-    "trigger": "画画：",
-    "ip": "127.0.0.1",
-    "port": 7860,
-    "negative_prompt": "ufsw, longbody, lowres, bad anatomy, bad hands, missing fingers, pubic hair,extra digit, fewer digits, cropped, worst quality, low quality",
-    "seed": -1.0,
-    "styles": [],
-    "cfg_scale": 7,
-    "steps": 30,
-    "enable_hr": false,
-    "hr_scale": 2,
-    "hr_second_pass_steps": 20,
-    "hr_resize_x": 512,
-    "hr_resize_y": 512,
-    "denoising_strength": 0.4
-  },
-  "copywriting": {
-    "config": [
-      {
-        "file_path": "data/copywriting/",
-        "audio_path": "out/copywriting/",
-        "play_list": [
-          "test.wav",
-          "伊卡日语介绍.wav",
-          "吐槽.wav"
+        "config": [
+            {
+                "file_path": "data/copywriting/",
+                "audio_path": "out/copywriting/",
+                "play_list": [
+                    "test.wav",
+                    "伊卡日语介绍.wav",
+                    "吐槽.wav"
+                ],
+                "continuous_play_num": 2,
+                "max_play_time": 10.0
+            },
+            {
+                "file_path": "data/copywriting2/",
+                "audio_path": "out/copywriting2/",
+                "play_list": [
+                    "test.wav",
+                    "test2.wav"
+                ],
+                "continuous_play_num": 2,
+                "max_play_time": 3.0
+            }
         ],
-        "continuous_play_num": 2,
-        "max_play_time": 10.0
-      },
-      {
-        "file_path": "data/copywriting2/",
-        "audio_path": "out/copywriting2/",
-        "play_list": [
-          "test.wav",
-          "test2.wav"
+        "audio_interval": 5.0,
+        "switching_interval": 5.0,
+        "random_play": true
+    },
+    "header": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.42"
+    },
+    "talk": {
+        "username": "主人",
+        "type": "google",
+        "continuous_talk": false,
+        "trigger_key": "Q",
+        "stop_trigger_key": "S",
+        "volume_threshold": 800.0,
+        "silence_threshold": 15.0,
+        "baidu": {
+            "app_id": "",
+            "api_key": "",
+            "secret_key": ""
+        },
+        "google": {
+            "tgt_lang": "zh-CN"
+        }
+    },
+    "captions": {
+        "enable": true,
+        "file_path": "log/字幕.txt"
+    },
+    "schedule": [
+        {
+            "enable": false,
+            "time": 3600.0,
+            "copy": [
+                "现在是{time}",
+                "当前时间为{time}"
+            ]
+        },
+        {
+            "enable": false,
+            "time": 600.0,
+            "copy": [
+                "感谢还在观看直播的{user_num}位兄弟姐妹们",
+                "感谢{last_username}的支持"
+            ]
+        }
+    ],
+    "database": {
+        "path": "data/data.db",
+        "comment_enable": true,
+        "entrance_enable": true,
+        "gift_enable": true
+    },
+    "game": {
+        "module_name": "game2"
+    },
+    "trends_copywriting": {
+        "enable": false,
+        "copywriting": [
+            {
+                "folder_path": "data/动态文案1",
+                "prompt_change_enable": true,
+                "prompt_change_content": "请根据我发送的内容，重新帮我写一份类似的文案，请不要有多余的文本内容，直接输出新文案："
+            }
         ],
-        "continuous_play_num": 2,
-        "max_play_time": 3.0
-      }
-    ],
-    "audio_interval": 5.0,
-    "switching_interval": 5.0,
-    "random_play": true
-  },
-  "header": {
-    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.42"
-  },
-  "talk": {
-    "username": "主人",
-    "type": "google",
-    "continuous_talk": false,
-    "trigger_key": "Q",
-    "stop_trigger_key": "S",
-    "volume_threshold": 800.0,
-    "silence_threshold": 15.0,
-    "baidu": {
-      "app_id": "",
-      "api_key": "",
-      "secret_key": ""
+        "random_play": true,
+        "play_interval": 30
     },
-    "google": {
-      "tgt_lang": "zh-CN"
+    "web_captions_printer": {
+        "enable": false,
+        "api_ip_port": "http://127.0.0.1:5500"
     }
-  },
-  "captions": {
-    "enable": true,
-    "file_path": "log/字幕.txt"
-  },
-  "schedule": [
-    {
-      "enable": false,
-      "time": 3600.0,
-      "copy": [
-        "现在是{time}",
-        "当前时间为{time}"
-      ]
-    },
-    {
-      "enable": false,
-      "time": 600.0,
-      "copy": [
-        "感谢还在观看直播的{user_num}位兄弟姐妹们",
-        "感谢{last_username}的支持"
-      ]
-    }
-  ],
-  "database": {
-    "path": "data/data.db",
-    "comment_enable": true,
-    "entrance_enable": true,
-    "gift_enable": true
-  },
-  "game": {
-    "module_name": "game2"
-  },
-  "trends_copywriting": {
-    "enable": false,
-    "copywriting": [
-      {
-        "folder_path": "data/动态文案1",
-        "prompt_change_enable": true,
-        "prompt_change_content": "请根据我发送的内容，重新帮我写一份类似的文案，请不要有多余的文本内容，直接输出新文案："
-      }
-    ],
-    "random_play": true,
-    "play_interval": 30
-  },
-  "web_captions_printer": {
-    "enable": false,
-    "api_ip_port": "http://127.0.0.1:5500"
-  }
 }

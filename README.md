@@ -1287,6 +1287,7 @@ cmd运行`npm i docsify-cli -g`
 
 - 2023-09-09
   - 恢复MIT
+  - 格式化json，改4空格缩进
 
 - 2023-09-08
   - VITS下，兼容bert-vits2
