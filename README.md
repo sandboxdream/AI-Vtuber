@@ -1,19 +1,19 @@
 # ✨ Luna AI ✨
 
 <a href="//github.com/Ikaros-521/AI-Vtuber/stargazers">
-    <img alt="GitHub stars" src="//img.shields.io/github/stars/Ikaros-521/AI-Vtuber?color=%09%2300BFFF&style=flat-square">
+    <img alt="GitHub stars" src="https://img.shields.io/github/stars/Ikaros-521/AI-Vtuber?color=%09%2300BFFF&style=flat-square">
 </a>
 <a href="//github.com/Ikaros-521/AI-Vtuber/issues">
-    <img alt="GitHub issues" src="//img.shields.io/github/issues/Ikaros-521/AI-Vtuber?color=Emerald%20green&style=flat-square">
+    <img alt="GitHub issues" src="https://img.shields.io/github/issues/Ikaros-521/AI-Vtuber?color=Emerald%20green&style=flat-square">
 </a>
 <a href="//github.com/Ikaros-521/AI-Vtuber/network">
-    <img alt="GitHub forks" src="//img.shields.io/github/forks/Ikaros-521/AI-Vtuber?color=%2300BFFF&style=flat-square">
+    <img alt="GitHub forks" src="https://img.shields.io/github/forks/Ikaros-521/AI-Vtuber?color=%2300BFFF&style=flat-square">
 </a>
 <a href="/LICENSE">
-    <img src="//img.shields.io/github/license/Ikaros-521/AI-Vtuber.svg" alt="license">
+    <img src="https://img.shields.io/github/license/Ikaros-521/AI-Vtuber.svg" alt="license">
 </a>
 <a href="//www.python.org">
-    <img src="//img.shields.io/badge/python-3.10+-blue.svg" alt="python">
+    <img src="https://img.shields.io/badge/python-3.10+-blue.svg" alt="python">
 </a>
 
 Luna AI 是一个由
