@@ -8,7 +8,7 @@ from utils.config import Config
 
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QLabel, QComboBox, QLineEdit, QTextEdit, QCheckBox, QGroupBox
 from PyQt5.QtGui import QFont, QDesktopServices, QIcon, QPixmap
-from PyQt5.QtCore import QTimer, QThread, QEventLoop, pyqtSignal, QUrl, Qt
+from PyQt5.QtCore import QTimer, QThread, QEventLoop, pyqtSignal, QUrl, Qt, QEvent
 
 import http.server
 import socketserver
@@ -1138,6 +1138,9 @@ class AI_VTB(QMainWindow):
             elif self.talk_config['google']['tgt_lang'] == "ja-JP":
                 talk_google_tgt_lang_index = 2 
             self.ui.comboBox_talk_google_tgt_lang.setCurrentIndex(talk_google_tgt_lang_index)
+
+            # 连接回车按键的信号与槽
+            self.ui.textEdit_talk_chat_box.installEventFilter(self)
             
             """
             GUI部分 动态生成的widget
@@ -3241,7 +3244,24 @@ class AI_VTB(QMainWindow):
         
         # 正义执行 直接复读
         my_handle.reread_handle(data)
-        
+
+
+    # 事件过滤器会监听 QTextEdit 内的按键事件，当按下回车键时，会调用 eventFilter 方法，然后执行 talk_handleEnterKey 方法中的自定义处理代码。
+    def eventFilter(self, source, event):
+        # print(event.type())
+        if (event.type() == QEvent.KeyPress and
+            event.key() == Qt.Key_Return and
+            source is self.ui.textEdit_talk_chat_box):
+            # 在这里执行回车按键事件的处理代码
+            self.talk_handleEnterKey()
+            return True
+        return super().eventFilter(source, event)
+
+
+    def talk_handleEnterKey(self):
+        # 发送 聊天框内容
+        self.talk_chat_box_send()
+ 
     
     def on_pushButton_talk_chat_box_send_clicked(self):
         self.throttled_talk_chat_box_send()
