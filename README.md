@@ -1,5 +1,9 @@
+# AI Vtuber
+
+
+
 <div style="text-align: center;">
-<h1>✨ Luna AI ✨</h1>
+<h1>✨ AI Vtuber ✨</h1>
 <a href="https://github.com/Ikaros-521/AI-Vtuber/stargazers">
     <img alt="GitHub stars" src="https://img.shields.io/github/stars/Ikaros-521/AI-Vtuber?color=%09%2300BFFF&style=flat-square">
 </a>
@@ -16,9 +20,12 @@
     <img src="https://img.shields.io/badge/python-3.10+-blue.svg" alt="python">
 </a>
 
-Luna AI 是一个由 `ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text-generation-webui/讯飞星火/智谱AI` 做为"大脑"驱动的虚拟主播（Live2D/Vtube Studio/UE5+Audio2Face），可以在 Bilibili/抖音/快手/斗鱼 直播中与观众实时互动 或者 直接在本地和您进行聊天。
+
+<p>
+AI Vtuber是一个由 ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text-generation-webui/讯飞星火/智谱AI 做为"大脑"驱动的虚拟主播（Live2D/Vtube Studio/UE5+Audio2Face），可以在 Bilibili/抖音/快手/斗鱼 直播中与观众实时互动 或者 直接在本地和您进行聊天。
 它使用自然语言处理和文本转语音技术(Edge-TTS/VITS-Fast/elevenlabs/bark-gui/VALL-E-X)生成对观众问题的回答并可以通过so-vits-svc/DDSP-SVC变声；另外还可以通过特定指令协同Stable Diffusion进行画图展示。并且可以自定义文案进行循环播放。   
 本项目完全免费，如有发现一模一样的套壳售卖程序，皆为盗版，请及时止损~  
+</p>
 
 
 <a href="https://space.bilibili.com/3709626/channel/collectiondetail?sid=1422512" target="_blank">▶︎ 视频教程合集</span></a>
@@ -33,67 +40,66 @@ Luna AI 是一个由 `ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
 
 ![思维导图](./docs/xmind.png)
 
+
 ## 🕺🏻目录
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [🕺🏻目录](#目录)
-- [📖项目结构](#项目结构)
-- [下载项目](#下载项目)
-- [💿运行环境](#运行环境)
-- [🔧配置](#配置)
-  - [chatgpt代理](#chatgpt代理)
-  - [chat\_with\_file 模式说明](#chat_with_file-模式说明)
-    - [模式简介](#模式简介)
-    - [模式配置](#模式配置)
-      - [注意](#注意)
-- [🎉使用](#使用)
-  - [哔哩哔哩版](#哔哩哔哩版)
-  - [抖音版](#抖音版)
-  - [抖音版\_旧版（不稳定）](#抖音版_旧版不稳定)
-  - [快手版](#快手版)
-  - [斗鱼版](#斗鱼版)
-  - [聊天模式](#聊天模式)
-- [🃏效果图](#效果图)
-  - [GUI界面](#gui界面)
-  - [SD接入](#sd接入)
-- [❓️FAQ 常问问题](#️faq-常问问题)
-  - [部署过程问题](#部署过程问题)
+- [📖项目结构](#%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84)
+- [下载项目](#%E4%B8%8B%E8%BD%BD%E9%A1%B9%E7%9B%AE)
+- [💿运行环境](#%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83)
+- [🔧配置](#%E9%85%8D%E7%BD%AE)
+  - [chatgpt代理](#chatgpt%E4%BB%A3%E7%90%86)
+  - [chat_with_file 模式说明](#chat_with_file-%E6%A8%A1%E5%BC%8F%E8%AF%B4%E6%98%8E)
+    - [模式简介](#%E6%A8%A1%E5%BC%8F%E7%AE%80%E4%BB%8B)
+    - [模式配置](#%E6%A8%A1%E5%BC%8F%E9%85%8D%E7%BD%AE)
+      - [注意](#%E6%B3%A8%E6%84%8F)
+- [🎉使用](#%E4%BD%BF%E7%94%A8)
+  - [哔哩哔哩版](#%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9%E7%89%88)
+  - [抖音版](#%E6%8A%96%E9%9F%B3%E7%89%88)
+  - [抖音版_旧版（不稳定）](#%E6%8A%96%E9%9F%B3%E7%89%88_%E6%97%A7%E7%89%88%E4%B8%8D%E7%A8%B3%E5%AE%9A)
+  - [快手版](#%E5%BF%AB%E6%89%8B%E7%89%88)
+  - [斗鱼版](#%E6%96%97%E9%B1%BC%E7%89%88)
+  - [聊天模式](#%E8%81%8A%E5%A4%A9%E6%A8%A1%E5%BC%8F)
+- [🃏效果图](#%E6%95%88%E6%9E%9C%E5%9B%BE)
+  - [GUI界面](#gui%E7%95%8C%E9%9D%A2)
+  - [SD接入](#sd%E6%8E%A5%E5%85%A5)
+- [❓️FAQ 常问问题](#%EF%B8%8Ffaq-%E5%B8%B8%E9%97%AE%E9%97%AE%E9%A2%98)
+  - [部署过程问题](#%E9%83%A8%E7%BD%B2%E8%BF%87%E7%A8%8B%E9%97%AE%E9%A2%98)
     - [1.CondaSSLError: OpenSSL appears to be unavailable on this machine](#1condasslerror-openssl-appears-to-be-unavailable-on-this-machine)
-    - [2.ModuleNotFoundError: No module named 'xxx' 大同小异](#2modulenotfounderror-no-module-named-xxx-大同小异)
+    - [2.ModuleNotFoundError: No module named 'xxx' 大同小异](#2modulenotfounderror-no-module-named-xxx-%E5%A4%A7%E5%90%8C%E5%B0%8F%E5%BC%82)
       - [ModuleNotFoundError: No module named 'PyQt5'](#modulenotfounderror-no-module-named-pyqt5)
       - [ModuleNotFoundError: No module named 'langid'](#modulenotfounderror-no-module-named-langid)
       - [ModuleNotFoundError: No module named 'profanity'](#modulenotfounderror-no-module-named-profanity)
       - [ModuleNotFoundError: No module named 'ahocorasick'](#modulenotfounderror-no-module-named-ahocorasick)
-  - [使用过程问题](#使用过程问题)
-    - [1.openai 接口报错:《empty message》](#1openai-接口报错empty-message)
-    - [2.ERROR: Cannot install -r requirements\_bilibili.txt (line 23), aiohttp and langchain==0.0.142 because these package versions have conflicting dependencies.](#2error-cannot-install--r-requirements_bilibilitxt-line-23-aiohttp-and-langchain00142-because-these-package-versions-have-conflicting-dependencies)
+  - [使用过程问题](#%E4%BD%BF%E7%94%A8%E8%BF%87%E7%A8%8B%E9%97%AE%E9%A2%98)
+    - [1.openai 接口报错:《empty message》](#1openai-%E6%8E%A5%E5%8F%A3%E6%8A%A5%E9%94%99empty-message)
+    - [2.ERROR: Cannot install -r requirements_bilibili.txt (line 23), aiohttp and langchain==0.0.142 because these package versions have conflicting dependencies.](#2error-cannot-install--r-requirements_bilibilitxt-line-23-aiohttp-and-langchain00142-because-these-package-versions-have-conflicting-dependencies)
     - [3.ERROR: Conmunicate.`__init__`() got an unexpected keyword argument 'text'](#3error-conmunicate__init__-got-an-unexpected-keyword-argument-text)
-    - [4.File ".\\flask\_api\_full\_song.py", line 38, in wav2wav  out\_audio, out\_sr = svc\_model.infer(spk, tran, raw\_path) ValueError: too many values to unpack (expected 2)](#4file-flask_api_full_songpy-line-38-in-wav2wav--out_audio-out_sr--svc_modelinferspk-tran-raw_path-valueerror-too-many-values-to-unpack-expected-2)
+    - [4.File ".\flask_api_full_song.py", line 38, in wav2wav  out_audio, out_sr = svc_model.infer(spk, tran, raw_path) ValueError: too many values to unpack (expected 2)](#4file-%5Cflask_api_full_songpy-line-38-in-wav2wav--out_audio-out_sr--svc_modelinferspk-tran-raw_path-valueerror-too-many-values-to-unpack-expected-2)
     - [5.RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)](#5runtimewarning-couldnt-find-ffmpeg-or-avconv---defaulting-to-ffmpeg-but-may-not-work-warncouldnt-find-ffmpeg-or-avconv---defaulting-to-ffmpeg-but-may-not-work-runtimewarning)
     - [6.qt.qpa.plugin: Could not find the Qt platform plugin "windows" in "" This application failed to start because no Qt platform plugin could be initialized. Reinstalling the application may fix this problem.](#6qtqpaplugin-could-not-find-the-qt-platform-plugin-windows-in--this-application-failed-to-start-because-no-qt-platform-plugin-could-be-initialized-reinstalling-the-application-may-fix-this-problem)
-    - [7.保存配置后没有自动重启，报错 \[Errno 2\] No such file or directory](#7保存配置后没有自动重启报错-errno-2-no-such-file-or-directory)
-    - [8.更新后报错 ImportError: cannot import name 'sync' from 'bilibili\_api'](#8更新后报错-importerror-cannot-import-name-sync-from-bilibili_api)
-    - [9.使用ChatGPT API，报错：error\_message='You exceeded your current quota, please check your plan and billing details.'](#9使用chatgpt-api报错error_messageyou-exceeded-your-current-quota-please-check-your-plan-and-billing-details)
-- [♏️补充](#️补充)
-  - [平台](#平台)
-    - [b站直播监听](#b站直播监听)
-    - [抖音弹幕获取](#抖音弹幕获取)
-    - [快手弹幕获取](#快手弹幕获取)
-    - [斗鱼直播监听](#斗鱼直播监听)
-    - [聊天模式 百度](#聊天模式-百度)
+    - [7.保存配置后没有自动重启，报错 [Errno 2] No such file or directory](#7%E4%BF%9D%E5%AD%98%E9%85%8D%E7%BD%AE%E5%90%8E%E6%B2%A1%E6%9C%89%E8%87%AA%E5%8A%A8%E9%87%8D%E5%90%AF%E6%8A%A5%E9%94%99-errno-2-no-such-file-or-directory)
+    - [8.更新后报错 ImportError: cannot import name 'sync' from 'bilibili_api'](#8%E6%9B%B4%E6%96%B0%E5%90%8E%E6%8A%A5%E9%94%99-importerror-cannot-import-name-sync-from-bilibili_api)
+- [♏️补充](#%E8%A1%A5%E5%85%85)
+  - [平台](#%E5%B9%B3%E5%8F%B0)
+    - [b站直播监听](#b%E7%AB%99%E7%9B%B4%E6%92%AD%E7%9B%91%E5%90%AC)
+    - [<span id="dy">抖音弹幕获取</span>](#span-iddy%E6%8A%96%E9%9F%B3%E5%BC%B9%E5%B9%95%E8%8E%B7%E5%8F%96span)
+    - [快手弹幕获取](#%E5%BF%AB%E6%89%8B%E5%BC%B9%E5%B9%95%E8%8E%B7%E5%8F%96)
+    - [斗鱼直播监听](#%E6%96%97%E9%B1%BC%E7%9B%B4%E6%92%AD%E7%9B%91%E5%90%AC)
+    - [聊天模式 百度](#%E8%81%8A%E5%A4%A9%E6%A8%A1%E5%BC%8F-%E7%99%BE%E5%BA%A6)
   - [LLM](#llm)
     - [ChatGPT](#chatgpt)
     - [Claude](#claude)
     - [Claude2](#claude2)
     - [ChatGLM](#chatglm)
-    - [智谱AI](#智谱ai)
+    - [智谱AI](#%E6%99%BA%E8%B0%B1ai)
     - [langchain-ChatGLM](#langchain-chatglm)
-    - [chat\_with\_file](#chat_with_file)
+    - [chat_with_file](#chat_with_file)
     - [text-generation-webui](#text-generation-webui)
-    - [讯飞星火](#讯飞星火)
-    - [闻达](#闻达)
+    - [讯飞星火](#%E8%AE%AF%E9%A3%9E%E6%98%9F%E7%81%AB)
+    - [闻达](#%E9%97%BB%E8%BE%BE)
     - [ChatterBot](#chatterbot)
     - [Bard](#bard)
   - [TTS](#tts)
@@ -102,39 +108,39 @@ Luna AI 是一个由 `ChatterBot/GPT/Claude/langchain本地or云端/chatglm/text
     - [VITS](#vits)
     - [VITS-fast-fine-tuning](#vits-fast-fine-tuning)
     - [VALL-E-X](#vall-e-x)
-  - [变声](#变声)
+  - [变声](#%E5%8F%98%E5%A3%B0)
     - [DDSP-SVC](#ddsp-svc)
     - [so-vits-svc](#so-vits-svc)
-  - [模型皮套](#模型皮套)
+  - [模型皮套](#%E6%A8%A1%E5%9E%8B%E7%9A%AE%E5%A5%97)
     - [Live2D](#live2d)
     - [NVIDIA Omniverse Audio2Face](#nvidia-omniverse-audio2face)
-  - [其他](#其他)
+  - [其他](#%E5%85%B6%E4%BB%96)
     - [Stable Diffusion](#stable-diffusion)
-    - [web字幕打印机](#web字幕打印机)
-- [🀅开发\&项目相关](#开发项目相关)
-  - [简易流程图](#简易流程图)
-  - [UI设计](#ui设计)
-  - [源码开发](#源码开发)
-    - [新增LLM](#新增llm)
-  - [打包懒人包](#打包懒人包)
-  - [MD目录自动生成](#md目录自动生成)
-    - [安装](#安装)
-    - [使用](#使用-1)
-  - [文档生成](#文档生成)
-    - [安装docsify-cli工具](#安装docsify-cli工具)
-    - [初始化项目](#初始化项目)
-    - [启动服务](#启动服务)
-  - [测试](#测试)
-- [🖹待办事项](#待办事项)
-- [📝更新日志](#更新日志)
-- [🉑许可证](#许可证)
-  - [免责声明](#免责声明)
-- [⭐️Star 经历](#️star-经历)
-- [🤝贡献](#贡献)
-  - [🎉鸣谢](#鸣谢)
-  - [💸投资方](#投资方)
-  - [合作伙伴](#合作伙伴)
-  - [🙌赞助](#赞助)
+    - [web字幕打印机](#web%E5%AD%97%E5%B9%95%E6%89%93%E5%8D%B0%E6%9C%BA)
+- [🀅开发&项目相关](#%F0%9F%80%85%E5%BC%80%E5%8F%91%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3)
+  - [简易流程图](#%E7%AE%80%E6%98%93%E6%B5%81%E7%A8%8B%E5%9B%BE)
+  - [UI设计](#ui%E8%AE%BE%E8%AE%A1)
+  - [源码开发](#%E6%BA%90%E7%A0%81%E5%BC%80%E5%8F%91)
+    - [新增LLM](#%E6%96%B0%E5%A2%9Ellm)
+  - [打包懒人包](#%E6%89%93%E5%8C%85%E6%87%92%E4%BA%BA%E5%8C%85)
+  - [MD目录自动生成](#md%E7%9B%AE%E5%BD%95%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90)
+    - [安装](#%E5%AE%89%E8%A3%85)
+    - [使用](#%E4%BD%BF%E7%94%A8)
+  - [文档生成](#%E6%96%87%E6%A1%A3%E7%94%9F%E6%88%90)
+    - [安装docsify-cli工具](#%E5%AE%89%E8%A3%85docsify-cli%E5%B7%A5%E5%85%B7)
+    - [初始化项目](#%E5%88%9D%E5%A7%8B%E5%8C%96%E9%A1%B9%E7%9B%AE)
+    - [启动服务](#%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1)
+  - [测试](#%E6%B5%8B%E8%AF%95)
+- [🖹待办事项](#%F0%9F%96%B9%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9)
+- [📝更新日志](#%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97)
+- [🉑许可证](#%E8%AE%B8%E5%8F%AF%E8%AF%81)
+  - [免责声明](#%E5%85%8D%E8%B4%A3%E5%A3%B0%E6%98%8E)
+- [⭐️Star 经历](#%EF%B8%8Fstar-%E7%BB%8F%E5%8E%86)
+- [🤝贡献](#%E8%B4%A1%E7%8C%AE)
+  - [🎉鸣谢](#%E9%B8%A3%E8%B0%A2)
+  - [💸投资方](#%E6%8A%95%E8%B5%84%E6%96%B9)
+  - [合作伙伴](#%E5%90%88%E4%BD%9C%E4%BC%99%E4%BC%B4)
+  - [🙌赞助](#%E8%B5%9E%E5%8A%A9)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -1279,6 +1285,11 @@ cmd运行`npm i docsify-cli -g`
 <details>
 <summary>展开/收起</summary>
 
+- 2023-09-09
+  - 恢复MIT
+  - 格式化json，改4空格缩进
+  - 删除过期的bilibili-api库
+
 - 2023-09-08
   - VITS下，兼容bert-vits2
 
@@ -1611,20 +1622,19 @@ cmd运行`npm i docsify-cli -g`
 
 ## 🉑许可证
 
-MIT 许可证。详情请参阅LICENSE文件。
+MIT许可证。详情请参阅LICENSE文件。
 
 ### 免责声明
+本项目遵循 Apache 2.0 开源协议，您可以自由地使用、修改和分发本项目的源代码和二进制文件。但是，在使用本项目时，您需要遵守以下规定：  
+
 本项目遵循 MIT 开源协议，您可以自由地使用、修改和分发本项目的源代码和二进制文件。但是，在使用本项目时，您需要遵守以下规定：  
-
-1.您可以使用本项目的源代码和二进制文件，但是需要遵守 MIT 开源协议，不得修改协议内容。  
-2.您可以使用本项目的源代码和二进制文件，但是需要自行承担使用过程中的风险和责任。本项目的开发者不承担任何法律责任和损失，包括但不限于直接、间接、特殊、惩罚性、意外等损失。  
-3.您在使用本项目时，需要遵守相关法律法规和规范，不得侵犯他人的知识产权和合法权益。  
-4.您在使用本项目时，需要自行评估其安全性和适用性，并采取适当的措施保障自身安全和数据安全。  
-5.您在使用本项目时，需要遵守开源社区的规范和道德准则，不得恶意攻击、诋毁、抄袭其他开源项目。  
-6.您可以将本项目的源代码和二进制文件分发给其他人，但是需要遵守 MIT 开源协议，不得修改协议内容。  
-7.本项目的开发者保留对本项目的最终解释权，并对本项目的任何问题和争议拥有最终决策权。  
-
-注意：在将协议修改为 MIT 后，您需要确保遵循 MIT 协议的其他规定，例如要求在源代码中包含 MIT 协议的版权声明等。  
+1. 您可以使用本项目的源代码和二进制文件，但是需要遵守 MIT 开源协议，不得修改协议内容。  
+2. 您可以使用本项目的源代码和二进制文件，但是需要自行承担使用过程中的风险和责任。本项目的开发者不承担任何法律责任和损失，包括但不限于直接、间接、特殊、惩罚性、意外等损失。  
+3. 您在使用本项目时，需要遵守相关法律法规和规范，不得侵犯他人的知识产权和合法权益。  
+4. 您在使用本项目时，需要自行评估其安全性和适用性，并采取适当的措施保障自身安全和数据安全。  
+5. 您在使用本项目时，需要遵守开源社区的规范和道德准则，不得恶意攻击、诋毁、抄袭其他开源项目。  
+6. 您可以将本项目的源代码和二进制文件分发给其他人，但是需要遵守 MIT 开源协议，不得修改协议内容。  
+7. 本项目的开发者保留对本项目的最终解释权，并对本项目的任何问题和争议拥有最终决策权。  
 
 感谢您使用本项目，祝您使用愉快！  
 

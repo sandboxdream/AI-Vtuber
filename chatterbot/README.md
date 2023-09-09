@@ -35,6 +35,9 @@ python -m spacy download en_core_web_sm
 pip install spacy
 ```
 
+## 许可证
+MIT许可证。详情请参阅LICENSE文件。
+
 ## 补充
 
 ### ChatterBot
