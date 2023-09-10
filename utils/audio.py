@@ -340,6 +340,12 @@ class Audio:
                 if self.config.get("play_audio", "enable"):
                     self.voice_tmp_path_queue.put(data_json)
                     return
+            # 区分消息类型是否是 念弹幕 并且 关闭了变声
+            elif message["type"] == "read_comment" and False == self.config.get("read_comment", "voice_change"):
+                # 是否开启了音频播放，如果没开，则不会传文件路径给播放队列
+                if self.config.get("play_audio", "enable"):
+                    self.voice_tmp_path_queue.put(data_json)
+                    return
 
             voice_tmp_path = await self.voice_change(voice_tmp_path)
             

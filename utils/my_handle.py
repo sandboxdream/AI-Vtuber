@@ -846,6 +846,7 @@ class My_handle():
         """
         用户名也得过滤一下，防止炸弹人
         """
+        # 用户弹幕违禁判断
         if self.prohibitions_handle(user_name):
             return
 
@@ -869,9 +870,32 @@ class My_handle():
         # 输出当前用户发送的弹幕消息
         logging.info(f"[{user_name}]: {content}")
         
-        # 用户弹幕违禁判断
-        if self.prohibitions_handle(content):
-            return
+        try:
+            # 念弹幕
+            if My_handle.config.get("read_comment", "enable"):
+                # 音频合成时需要用到的重要数据
+                message = {
+                    "type": "read_comment",
+                    "tts_type": My_handle.audio_synthesis_type,
+                    "data": My_handle.config.get(My_handle.audio_synthesis_type),
+                    "config": self.filter_config,
+                    "user_name": user_name,
+                    "content": content
+                }
+
+                # 判断是否需要念用户名
+                if My_handle.config.get("read_comment", "read_username_enable"):
+                    # 将用户名中特殊字符替换为空
+                    message['user_name'] = self.common.replace_special_characters(message['user_name'], "！!@#￥$%^&*_-+/——=()（）【】}|{:;<>~`\\")
+                    tmp_content = random.choice(self.config.get("read_comment", "read_username_copywriting"))
+                    if "{username}" in tmp_content:
+                        message['content'] = tmp_content.format(username=message['user_name']) + message['content']
+
+                # 音频合成（edge-tts / vits_fast）并播放
+                My_handle.audio.audio_synthesis(message)
+        except Exception as e:
+            logging.error(traceback.format_exc())
+
         
         data_json = {
             "user_name": user_name,
