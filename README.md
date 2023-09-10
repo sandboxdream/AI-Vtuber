@@ -42,4 +42,4 @@ Luna AI 是一个由
 
 ## License
 
-This project is licensed under the [./LICENSE). Please see the [LICENSE](./LICENSE) file for more details.
+This project is licensed under the [GNU General Public License (GPL)](./LICENSE). Please see the [LICENSE](./LICENSE) file for more details.
