@@ -136,9 +136,9 @@ background-color: rgba(255, 255, 255, 50);
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-5167</y>
+             <y>-268</y>
              <width>984</width>
-             <height>10033</height>
+             <height>10096</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -1357,6 +1357,18 @@ background-color: rgba(255, 255, 255, 50);
                  <layout class="QGridLayout" name="gridLayout_72">
                   <item row="0" column="0">
                    <layout class="QGridLayout" name="gridLayout_bilibili"/>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item row="14" column="0" colspan="2">
+                <widget class="QGroupBox" name="groupBox_read_comment">
+                 <property name="title">
+                  <string>念弹幕</string>
+                 </property>
+                 <layout class="QGridLayout" name="gridLayout_75">
+                  <item row="0" column="0">
+                   <layout class="QGridLayout" name="gridLayout_read_comment"/>
                   </item>
                  </layout>
                 </widget>
