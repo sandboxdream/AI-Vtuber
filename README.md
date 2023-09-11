@@ -32,7 +32,7 @@ Luna AI 是一个由
 
 <a href="//space.bilibili.com/3709626/channel/collectiondetail?sid=1422512" target="_blank">▶︎ 视频教程合集</span></a>
 <span> | </span>
-<a href="//ai.ie.cx">📄 在线文档</span></a>
+<a href="//luna.docs.ie.cx">📄 在线文档</span></a>
 <span> | </span>
 <a href="//github.com/Ikaros-521/AI-Vtuber" target="_blank">🍉 GitHub</span></a>
 <span> | </span>
