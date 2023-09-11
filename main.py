@@ -1191,6 +1191,7 @@ class AI_VTB(QMainWindow):
                 # 定义键和值的映射关系，请和配置文件中的键保持一致
                 # 添加时需要同步给配置文件中的show_box配置项追加你添加的键名
                 key_value_map = {
+                    "read_comment": "念弹幕",
                     "read_user_name": "念用户名",
                     "filter": "过滤",
                     "thanks": "答谢",
@@ -1860,6 +1861,65 @@ class AI_VTB(QMainWindow):
                     row += 1
 
             bard_gui_create()
+
+            # 念弹幕
+            def read_comment_create():
+                data_json = []
+                read_comment_config = config.get("read_comment")
+
+                tmp_json = {
+                    "label_text": "念弹幕",
+                    "label_tip": "是否启用念弹幕的功能",
+                    "data": read_comment_config["enable"],
+                    "widget_text": "",
+                    "click_func": "",
+                    "main_obj_name": "read_comment",
+                    "index": 0
+                }
+                data_json.append(tmp_json)
+
+                tmp_json = {
+                    "label_text": "念用户名",
+                    "label_tip": "是否启用念用户名的功能，就是说在念弹幕的前面顺便把用户名念一下",
+                    "data": read_comment_config["read_username_enable"],
+                    "widget_text": "",
+                    "click_func": "",
+                    "main_obj_name": "read_comment",
+                    "index": 1
+                }
+                data_json.append(tmp_json)
+
+                tmp_json = {
+                    "label_text": "变声",
+                    "label_tip": "是否启用变声功能，会使用已配置的变声内容来进行变声",
+                    "data": read_comment_config["voice_change"],
+                    "widget_text": "",
+                    "click_func": "",
+                    "main_obj_name": "read_comment",
+                    "index": 2
+                }
+                data_json.append(tmp_json)
+
+                tmp_json = {
+                    "label_text": "念用户名文案",
+                    "label_tip": "念用户名时使用的文案，可以自定义编辑多个（换行分隔），实际中会随机一个使用",
+                    "data": read_comment_config["read_username_copywriting"],
+                    "main_obj_name": "read_comment",
+                    "index": 3
+                }
+                data_json.append(tmp_json)
+
+                widgets = self.create_widgets_from_json(data_json)
+
+                # 动态添加widget到对应的gridLayout
+                row = 0
+                # 分2列，左边就是label说明，右边就是输入框等
+                for i in range(0, len(widgets), 2):
+                    self.ui.gridLayout_read_comment.addWidget(widgets[i], row, 0)
+                    self.ui.gridLayout_read_comment.addWidget(widgets[i + 1], row, 1)
+                    row += 1
+
+            read_comment_create()
 
             """
             ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
@@ -2656,6 +2716,25 @@ class AI_VTB(QMainWindow):
             # 写回json
             config_data["bard"] = reorganize_bard_data(bard_data)
 
+            # 念弹幕
+            def reorganize_read_comment_data(read_comment_data):
+                keys = list(read_comment_data.keys())
+
+                tmp_json = {
+                    "enable": read_comment_data[keys[0]],
+                    "read_username_enable": read_comment_data[keys[1]],
+                    "voice_change": read_comment_data[keys[2]],
+                    "read_username_copywriting": read_comment_data[keys[3]],
+                }
+
+                logging.debug(f"tmp_json={tmp_json}")
+
+                return tmp_json
+
+            read_comment_data = self.update_data_from_gridLayout(self.ui.gridLayout_read_comment)
+            # 写回json
+            config_data["read_comment"] = reorganize_read_comment_data(read_comment_data)
+
             """
             ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
             -------------------------------------------------------------------------------------------------------------
@@ -3283,7 +3362,7 @@ class AI_VTB(QMainWindow):
         QDesktopServices.openUrl(url)
 
     def openBrowser_online_doc(self):
-        url = QUrl("http://ikaros521.eu.org/AI-Vtuber")  # 指定要打开的网页地址
+        url = QUrl("https://luna.docs.ie.cx")  # 指定要打开的网页地址
         QDesktopServices.openUrl(url)
 
     # 跳转到官方Q群
@@ -3296,7 +3375,7 @@ class AI_VTB(QMainWindow):
         about_str = """
 项目地址：https://github.com/Ikaros-521/AI-Vtuber
 视频教程：https://space.bilibili.com/3709626/channel/collectiondetail?sid=1422512
-在线文档：http://ikaros521.eu.org/AI-Vtuber
+在线文档：https://luna.docs.ie.cx
 
 项目完全免费，如果您是在第三方平台购买了本项目，均为盗版，请及时止损（可怜的娃呀~）
         """
