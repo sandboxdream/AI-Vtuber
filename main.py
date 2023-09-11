@@ -3362,7 +3362,7 @@ class AI_VTB(QMainWindow):
         QDesktopServices.openUrl(url)
 
     def openBrowser_online_doc(self):
-        url = QUrl("https://ai.ie.cx/")  # 指定要打开的网页地址
+        url = QUrl("https://luna.docs.ie.cx")  # 指定要打开的网页地址
         QDesktopServices.openUrl(url)
 
     # 跳转到官方Q群
@@ -3375,7 +3375,7 @@ class AI_VTB(QMainWindow):
         about_str = """
 项目地址：https://github.com/Ikaros-521/AI-Vtuber
 视频教程：https://space.bilibili.com/3709626/channel/collectiondetail?sid=1422512
-在线文档：https://ai.ie.cx/
+在线文档：https://luna.docs.ie.cx
 
 项目完全免费，如果您是在第三方平台购买了本项目，均为盗版，请及时止损（可怜的娃呀~）
         """
